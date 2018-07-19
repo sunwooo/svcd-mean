@@ -8,6 +8,7 @@ var logger = require('log4js').getLogger(__filename);
 var userCtrl = require("../app/controllers/api/user");
 var incidentCtrl = require("../app/controllers/api/incident");
 var statisticCtrl = require("../app/controllers/api/statistic");
+var companyCtrl = require("../app/controllers/api/company");
 var apiCtrl = require("../app/controllers/api/common");
 
 
@@ -48,6 +49,9 @@ router.post('/upload-file', function (req, res) {
     return res.json(req.file); 
   });
 });
+
+//company route
+router.get('/company/list', companyCtrl.list);
 
 
 module.exports = router;

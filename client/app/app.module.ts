@@ -30,6 +30,7 @@ import { IncidentConditionComponent } from './pages/incident/incident-condition/
 import { IncidentDetailAComponent } from './pages/incident/incident-detail-a/incident-detail-a.component';
 import { ProcessStatusComponent } from './shared/process-status/process-status.component';
 import { EmpInfoComponent } from './shared/emp-info/emp-info.component';
+import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 
 /** Services */
 import { UserService } from './services/user.service';
@@ -47,7 +48,7 @@ import { UserG9Component } from './shared/user-nav/user-g9/user-g9.component';
 import { IncidentValuationComponent } from './pages/incident/incident-valuation/incident-valuation.component';
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { StatisticService } from './services/statistic.service';
-
+import { CompanyService } from './services/company.service';
 
 
 const PAGES = [
@@ -80,7 +81,8 @@ const PAGES = [
         ProcessStatusComponent,
         IncidentValuationComponent,
         EmpInfoComponent,
-        ComHigherComponent
+        ComHigherComponent,
+        CompanyListComponent
     ],
     imports: [
         BrowserModule,
@@ -103,7 +105,8 @@ const PAGES = [
         CommonApiService,
         CookieService,
         EmpInfoComponent,
-        StatisticService
+        StatisticService,
+        CompanyService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]
