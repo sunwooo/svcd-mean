@@ -13,6 +13,7 @@ import { IncidentListComponent } from './pages/incident/incident-list/incident-l
 import { IncidentListMngComponent } from './pages/incident/incident-list-mng/incident-list-mng.component';
 import { IncidentListAllComponent } from './pages/incident/incident-list-all/incident-list-all.component';
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
+import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 
 const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -32,7 +33,11 @@ const routes: Routes = [
             { path: 'statistic',
               children: [
                   { path: 'com-higher', component: ComHigherComponent}
-              ]}
+              ]},
+            { path: 'company',
+              children: [
+                  { path: 'list', component: CompanyListComponent }
+            ]}
         ]
     },
     { path: 'home', component: HomeComponent },
