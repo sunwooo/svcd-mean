@@ -1,0 +1,29 @@
+<!-- 사용자 정보 Modal-->
+<div class="modal-header">
+  <h4 class="modal-title float-left">{{userInfo?.employee_nm}}</h4>
+</div>
+<div class="modal-body">
+  <div class="row" *ngIf="userInfo != null">
+    <div class="col-sm-3">
+      <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
+    </div>
+    <div class="col-sm-9">
+        <p><span>{{userInfo?.company_nm}}</span></p>
+        <p><span>{{userInfo?.dept_nm}}</span></p>
+        <p><span>{{userInfo?.employee_nm}} {{userInfo?.position_nm}}</span></p>
+        <p><span>{{userInfo?.email}}</span></p>
+        <p><span>{{userInfo?.hp_telno}}</span></p>
+        <p><span>{{userInfo?.email}}</span></p>
+    </div>
+  </div>
+  <div class="row" *ngIf="userInfo == null">
+    <div class="col-sm-3">
+      <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
+    </div>
+    <div class="col-sm-9">
+        <div class="card-box" align="center">
+            <p><b>조회된 데이타가 없습니다.</b></p>
+        </div>
+    </div>
+  </div>
+</div>

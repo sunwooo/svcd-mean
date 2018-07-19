@@ -1,0 +1,11 @@
+<mat-form-field>
+        <mat-select ngModel
+                    [required]="required"
+                    (change)="onSelect($event.value)"
+                    [placeholder]="placeholder"
+        ><mat-option value="*">전체</mat-option>
+            <mat-option *ngFor="let opt of processStatus" 
+                         value="{{opt.status_cd}}"
+            >{{opt.status_nm}}</mat-option>
+        </mat-select>
+    </mat-form-field>

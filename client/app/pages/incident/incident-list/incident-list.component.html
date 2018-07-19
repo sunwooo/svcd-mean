@@ -1,0 +1,175 @@
+<app-loading [condition]="isLoading"></app-loading>
+<app-toast></app-toast>
+
+<div class="content">
+    <div class="container">
+        <div class="svcd-body-content">
+            
+            <app-page-header [title]="'처리진행상태'"></app-page-header>
+            
+            <!-- start Search Area-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-box">
+                    <form novalidate #f="ngForm" (ngSubmit)="onSubmit()" class="form-horizontal group-border-dashed">
+                        <div class="form-group  row">
+                            <div class="col-lg-3 col-sm-12">
+                                <app-process-status
+                                                [condition]="'*'" 
+                                                [placeholder]="'진행구분'"
+                                                (outProcessStatus)="onSelected($event)"
+                                ></app-process-status>
+                            </div>
+                            <div class="col-lg-3 col-sm-12">
+                                    <mat-form-field class="example-full-width">
+                                    <input matInput 
+                                        [(ngModel)]="reg_date_from"
+                                        name="reg_date_from"
+                                        [min]="minDate" 
+                                        [max]="maxDate" 
+                                        [matDatepicker]="pickerf"
+                                        (dateChange)="addEvent('change', $event)"
+                                        placeholder="검색시작일">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerf"></mat-datepicker-toggle>
+                                    <mat-datepicker touchUi="true" #pickerf></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-lg-3 col-sm-12">
+                                    <mat-form-field class="example-full-width" color="accent">
+                                    <input matInput 
+                                        [(ngModel)]="reg_date_to" 
+                                        name="reg_date_to"
+                                        [min]="minDate" 
+                                        [max]="maxDate" 
+                                        [matDatepicker]="pickert"
+                                        (dateChange)="addEvent('change', $event)"
+                                        placeholder="검색종료일"
+                                    >
+                                    <mat-datepicker-toggle matSuffix [for]="pickert"></mat-datepicker-toggle>
+                                    <mat-datepicker touchUi="true" #pickert></mat-datepicker>
+                                    </mat-form-field>
+
+                                </div>
+                            <div class="col-lg-3">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-3 col-sm-12">
+                                <mat-form-field>
+                                    <mat-select [(ngModel)]="searchType"
+                                                name="searchType" 
+                                                (change)="onSubmit()"
+                                                placeholder="검색구분">
+                                        <mat-option *ngFor="let obj of searchTypeObj" [value]="obj.value">{{obj.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-9 col-sm-12">
+                                <mat-form-field class="mat-form-field3">
+                                    <input matInput
+                                        [(ngModel)]="searchText"
+                                        name="searchText"
+                                        type="input" 
+                                        placeholder="검색어"
+                                    >
+                                </mat-form-field>&nbsp;&nbsp;
+                                <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
+                                    <span>조회</span>
+                                    <i class="fa fa-search m-r-5"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+            <!-- end Search Area-->  
+            
+
+            <!-- start List Area -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-box">
+                        <div class="forum-container">        
+                                <div class="forum-item" *ngFor="let incident of incidents">
+                                    <div class="row">
+                                        <div class="col-md-1 forum-info"  (click)="setDetail(incidentDetailModal, incident);">
+                                            <span *ngIf="incident.status_cd == 1" class='btn-outline outline-inverse'>{{incident.status_nm}}</span>
+                                            <span *ngIf="incident.status_cd == 2" class='btn-outline outline-primary'>{{incident.status_nm}}</span>
+                                            <span *ngIf="incident.status_cd == 3" class='btn-outline outline-success'>{{incident.status_nm}}</span>
+                                            <span *ngIf="incident.status_cd == 4" class='btn-outline outline-purple'>{{incident.status_nm}}</span>
+                                            <span *ngIf="incident.status_cd == 5" class='btn-outline outline-info'>{{incident.status_nm}}</span>
+                                            <span *ngIf="incident.status_cd == 9" class='btn-outline outline-default'>{{incident.status_nm}}</span>
+                                        </div>
+                                        <div class="col-md-11">
+                                            <div class="forum-sub-title">
+                                                <span (click)="getEmpInfo(empInfoModal,incident.manager_email);"
+                                                    class="text-primary-svc"><b>{{incident.manager_nm}}</b></span>
+                                                <span class="p-w-xs">{{incident.register_date}}</span>
+                                            </div>
+                                            <a  (click)="setDetail(incidentDetailModal, incident);" class="forum-item-title float-left">
+                                                <i class="md md-desktop-windows"></i>{{incident.title}}
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12" (click)="setDetail(incidentDetailModal, incident);">
+                                            <div class="forum-content truncate1 fh-100 " style="word-wrap: break-word;">
+                                                <a [innerHTML]="incident.content | truncate : 500" class="float-left" style="display:inline"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-9"  style="margin-left: -10px;">
+                                            <p class="text-muted font-13 float-left">
+                                                <b>서비스 만족도:</b>
+                                                <span class="m-l-15">
+                                                    <i *ngFor="let i of counter(incident?.valuation)" class="md md-star text-warning"></i>
+                                                    <i *ngFor="let i of counter(5-incident?.valuation)" class="md md-star text-muted"></i>
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2" style="margin-right: 10px;"  (click)="setDetail(incidentDetailModal, incident);">
+                                            <p class="text-muted font-13 float-right">상세보기</p>
+                                        </div>
+                                    </div>
+                                </div>                      
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="card-box" *ngIf="totalCnt == 0" align="center">
+                                    <p><b>조회된 데이타가 없습니다.</b></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-sm-12 float-right">
+                                <p><span (click)="getIncident()" class="text-primary-svc"><b>더보기 >>></b></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end List Area -->
+                        
+        </div>
+    </div>
+</div>
+
+
+<!-- start detail view modal -->
+<ng-template #incidentDetailModal let-c="close" let-d="dismiss">
+    <app-incident-detail-a [cValues]="this.c"
+                           [dValues]="this.d"
+                           [incidentDetail]="incidentDetail"
+    ></app-incident-detail-a>
+</ng-template>
+<!-- end detail view modal -->
+
+<!-- start empInfo modal -->
+<ng-template #empInfoModal let-c="close" let-d="dismiss">
+    <app-emp-info [cValues]="this.c"
+                  [dValues]="this.d"
+                  [email]="empEmail"
+    ></app-emp-info>
+</ng-template>
+<!-- end empInfo modal -->

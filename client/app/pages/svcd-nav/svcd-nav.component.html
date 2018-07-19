@@ -1,0 +1,58 @@
+<mat-sidenav-container style="height:100%" >
+    <mat-sidenav #sidenav mode="over" opened="false">
+        <side-nav-menu title='Service Desk' [sidenav]="sidenav">
+            <app-user-g1 [hidden]="!isView('1')"></app-user-g1>
+            <app-user-g2 [hidden]="!isView('2')"></app-user-g2>
+            <app-user-g3 [hidden]="!isView('3')"></app-user-g3>
+            <app-user-g4 [hidden]="!isView('4')"></app-user-g4>
+            <app-user-g5 [hidden]="!isView('5')"></app-user-g5>
+            <app-user-g9 [hidden]="!isView('9')"></app-user-g9>
+        </side-nav-menu>
+    </mat-sidenav>
+    <mat-toolbar>
+      <div class="topbar">
+        <div class="topbar-left">
+          <div class="text-center">
+            <a [routerLink]="['/svcd/index']" class="logo">
+              <img src="/assets/images/ci_isu_white.png" alt="ISU">
+            </a>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+            <div class="pull-left">
+                <button class="button-menu-mobile open-left waves-effect" (click)="sidenav.toggle()">
+                <i class="md md-menu"></i>
+                </button>
+                <span class="clearfix"></span>
+            </div>
+            <nav class="docs-component-viewer-tabbed-content mat-tab-nav-bar mat-primary" mat-tab-nav-bar="">
+                <div class="mat-tab-links">
+                    <a [routerLink]="['/svcd/incident/new']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted mat-tab-label-active" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
+                        문의하기
+                    </a>
+                    <a [routerLink]="['/svcd/incident/list']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                        처리진행현황
+                    </a>
+                    <a [routerLink]="['/svcd/incident/list-all']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                        자주묻는질문과답
+                    </a>
+                    <div class="mr-auto">
+                        <a [routerLink]="['/usermanage/myPage']" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
+                            <i class="md md-account-circle"></i>&nbsp;마이페이지
+                        </a>
+                        <a [routerLink]="['/logout']" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                            <i class="md md-settings-power"></i>&nbsp;로그아웃
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+      </div>
+    </mat-toolbar>
+  
+    <div style="text-align:center;width:100%">
+        <router-outlet></router-outlet>
+    </div>
+  
+  </mat-sidenav-container>

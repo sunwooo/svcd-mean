@@ -1,0 +1,26 @@
+@import '../../../variables';
+.page-header-c {
+    margin: 24px;
+    text-align: center;
+    font-weight: bold;
+    color: $accentCol;
+    .title {
+        font-size: $font-large;
+        color: #008fd4;
+    }
+}
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    margin-top: 10px;
+}
+.hr {
+    border: 3px solid #b4985a;
+}
+
+ 
+ 

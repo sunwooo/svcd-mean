@@ -1,0 +1,117 @@
+<div class="content-page">
+        <!-- Start content-->
+        <div class="content">
+          <div class="container">
+            <!-- Page-Title-->
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="page-title-box">
+                  <ol class="breadcrumb pull-right">
+                    <li><a href="#">Service Desk</a></li>
+                    <li class="active">Home</li>
+                  </ol>
+                  <h4 class="page-title">Welcome !</h4>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-lg-3">
+                <div class="widget-simple-chart text-right card-box">
+                  <div id="chart1" data-bgcolor="#ebeff2" data-dimension="90" data-fgcolor="#5fbeaa" data-fontsize="14" data-percent="" data-text="" data-width="5" class="circliful-chart"></div>
+                  <h3 id="status1" class="text-success"></h3>
+                  <p class="text-muted text-nowrap">접수대기</p>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="widget-simple-chart text-right card-box">
+                  <div id="chart2" data-bgcolor="#ebeff2" data-dimension="90" data-fgcolor="#3bafda" data-fontsize="14" data-percent="" data-text="" data-width="5" class="circliful-chart"></div>
+                  <h3 id="status2" class="text-primary"></h3>
+                  <p class="text-muted text-nowrap">처리중</p>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="widget-simple-chart text-right card-box">
+                  <div id="chart3" data-bgcolor="#ebeff2" data-dimension="90" data-fgcolor="#f76397" data-fontsize="14" data-percent="" data-text="" data-width="5" class="circliful-chart"></div>
+                  <h3 id="status3" class="text-pink"></h3>
+                  <p class="text-muted text-nowrap">미평가</p>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="widget-simple-chart text-right card-box">
+                  <div id="chart4" data-bgcolor="#ebeff2" data-dimension="90" data-fgcolor="#98a6ad" data-fontsize="14" data-percent="" data-text="" data-width="5" class="circliful-chart"></div>
+                  <h3 id="status4" class="text-inverse"></h3>
+                  <p class="text-muted text-nowrap">처리완료</p>
+                </div>
+              </div>
+            </div>
+            <!-- end row-->
+            <!-- start Chart-->
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="card-box">
+                  <h4 class="text-dark header-title m-t-0 m-b-30">만족도 현황</h4>
+                  <div class="widget-chart text-center">
+                    <div id="sparkline2"></div><br>
+                    <h5 class="text-muted"> &nbsp;1 &nbsp;&nbsp;&nbsp;2 &nbsp;&nbsp;&nbsp;3 &nbsp;&nbsp;&nbsp;4 &nbsp;&nbsp;&nbsp;5 &nbsp;&nbsp;&nbsp;6 &nbsp;&nbsp;&nbsp;7 &nbsp;&nbsp;&nbsp;8 &nbsp;&nbsp;9 &nbsp;&nbsp;10 &nbsp;&nbsp;11 &nbsp;12</h5>
+                    <h4 class="m-b-0">Month</h4>
+                    <!--ul.list-inline.m-t-15
+                    li
+                        h5.text-muted.m-t-20 1
+                        h4.m-b-0 75%
+                    li
+                        h5.text-muted.m-t-20 응답율
+                        h4.m-b-0 100%
+                    li
+                        h5.text-muted.m-t-20 만족율
+                        h4.m-b-0 90%
+                    -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="card-box">
+                  <h4 class="text-dark header-title m-t-0 m-b-30">월별 요청건 현황</h4>
+                  <div class="widget-chart text-center">
+                    <div id="sparkline1"></div>
+                    <ul class="list-inline m-t-15">
+                      <li>
+                        <h5 id="chartPreYear" class="text-primary m-t-20"></h5>
+                        <h4 id="chartPreYearCnt" class="m-b-0"></h4>
+                      </li>
+                      <li>
+                        <h5 id="chartYear" class="text-success m-t-20"></h5>
+                        <h4 id="chartYearCnt" class="m-b-0"></h4>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end Chart-->
+            <!-- start 접수현황-->
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card-box">
+                  <h4 class="text-dark header-title m-t-0">처리현황</h4>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th width="6%" class="text-center">긴급</th>
+                          <th class="text-center">제목</th>
+                          <th width="11%" class="text-center">등록일</th>
+                          <th width="10%" class="text-center">요청경로</th>
+                          <th width="10%" class="text-center">진행구분</th>
+                          <th width="11%" class="text-center">담당자</th>
+                          <th width="13%" class="text-center">완료일</th>
+                        </tr>
+                      </thead>
+                      <tbody id="more_list"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

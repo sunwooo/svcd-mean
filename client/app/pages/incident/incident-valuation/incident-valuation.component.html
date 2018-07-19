@@ -1,0 +1,43 @@
+<div class="modal-header" style="text-align:left">
+    <h5 class="modal-title">
+        서비스 평가
+    </h5>
+  </div>
+<div class="modal-body">
+    <form novalidate #f="ngForm" (ngSubmit)="putValuation(f)" class="form-horizontal group-border-dashed">
+        <div ngModelGroup="incident">
+            <div class="row" >
+                <div class="col-lg-9  float-left">
+                    <h5 class="m-t-30 text-primary-svc">
+                        <i style="font-size:22px" class="md md-sms m-r-10"></i>
+                        <b>만족도</b>
+                    </h5>
+                </div>
+                <div class="col-lg-3 float-right">
+                    <button type="submit" 
+                            [disabled]="!f.valid" 
+                            class="btn btn-sm btn-primary waves-effect waves-light float-right m-t-20">
+                    <i class="fa fa-check"></i> 저장
+                    </button>
+                </div>
+            </div>
+            <div class="row">    
+                <div class="col-lg-12">        
+                        <div class="form-group">
+                            <p class="text-inverse m-b-10 m-t-20"><b>조치내역에 대해 만족하십니까?</b></p>
+                                <mat-radio-group ngModel required name="valuation" class="example-radio-group" >
+                                    <mat-radio-button value="5" class="example-radio-button">매우 만족</mat-radio-button>
+                                    <mat-radio-button value="4" class="example-radio-button">만족</mat-radio-button>
+                                    <mat-radio-button value="3" class="example-radio-button">보통</mat-radio-button>
+                                    <mat-radio-button value="2" class="example-radio-button">불만족</mat-radio-button>
+                                    <mat-radio-button value="1" class="example-radio-button">매우 불만족</mat-radio-button>
+                                </mat-radio-group>
+                        </div>
+                        <p class="text-inverse m-t-20"><b>불편사항이나 개선사항이 있으시다면 입력해주세요.</b></p> 
+                        <textarea ngModel rows="3" name="valuation_content" class="form-control">
+                        </textarea>
+                </div>
+            </div>
+        </div>
+    </form>  
+</div>
