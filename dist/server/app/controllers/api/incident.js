@@ -2,6 +2,7 @@
 
 var async = require('async');
 var Incident = require('../../models/Incident');
+var MyProcess = require('../../models/MyProcess');
 var service = require('../../services/incident');
 var CONFIG = require('../../../config/config.json');
 var logger = require('log4js').getLogger('app');
@@ -156,6 +157,152 @@ module.exports = {
     } catch (err) {} finally {}
 
   },
+
+
+  /**
+   * 문의리스트 조회
+   */
+  incidnetList: (req, res, next) => {
+    try {
+            
+        if (req.session.user_flag == '9') {
+            Incident.find({
+                request_id: req.session.email
+            }, function (err, incident) {
+
+                //logger.debug("======================================");
+                //logger.debug("incident : ", incident);
+                //logger.debug("======================================");
+
+                if (err) {
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                    res.json(incident);
+                }
+            }).sort('-register_date')
+                .limit(10);
+        } else if (req.session.user_flag == '5') {
+
+            Incident.find({
+                request_company_cd: req.session.company_cd
+            }, function (err, incident) {
+                if (err) {
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                    res.json(incident);
+                }
+            }).sort('-register_date')
+                .limit(10);
+
+        } else if (req.session.user_flag == '4') {
+
+            var AndQueries = [];
+            var condition = {};
+            var condition2 = {};
+            condition2.email = req.session.email;
+
+            async.waterfall([function (callback) {
+                MyProcess.find(condition2).distinct('higher_cd').exec(function (err, myHigherProcess) {
+
+                    //logger.debug("======================================");
+                    //logger.debug("condition2 : ", condition2);
+                    //logger.debug("======================================");
+
+                    if (condition.$and == null) {
+                        condition.$and = [{
+                            "higher_cd": {
+                                "$in": myHigherProcess
+                            }
+                        }];
+                    } else {
+                        condition.$and.push({
+                            "higher_cd": {
+                                "$in": myHigherProcess
+                            }
+                        });
+                    }
+
+                    callback(null, myHigherProcess)
+
+                }).sort('-register_date')
+                    .limit(10);
+            }], function (err, myHigherProcess) {
+
+                Incident.find(condition, function (err, incident) {
+
+                    //logger.debug("======================================");
+                    //logger.debug("incident : ", incident);
+                    //logger.debug("======================================");
+
+                    if (err) {
+                        return res.json({
+                            success: false,
+                            message: err
+                        });
+                    } else {
+                        res.json(incident);
+                    }
+                }).sort('-register_date')
+                    .limit(10);
+            });
+        } else if (req.session.user_flag == '3') {
+
+            Incident.find({
+                manager_dept_cd: req.session.dept_cd
+            }, function (err, incident) {
+                if (err) {
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                    res.json(incident);
+                }
+            }).sort('-register_date')
+                .limit(10);
+
+        } else if (req.session.user_flag == '1') {
+
+            Incident.find({}, function (err, incident) {
+                if (err) {
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                    res.json(incident);
+                }
+            }).sort('-register_date')
+                .limit(10);
+
+        } else {
+
+            Incident.find({
+                manager_email: req.session.email
+            }, function (err, incident) {
+                if (err) {
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                    res.json(incident);
+                }
+            }).sort('-register_date')
+                .limit(10);
+
+        }
+    } catch (e) {
+
+    }
+  },
+
 
   /**
    * Incident 상세 JSON 데이타 조회

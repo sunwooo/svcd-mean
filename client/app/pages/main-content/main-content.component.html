@@ -24,8 +24,8 @@
             <ngx-charts-pie-grid [view]="view1" 
                                  [scheme]="colorScheme1" 
                                  [label]="'건수'" 
-                                 [results]="single1" 
-                                 (select)="onSelect($event)"
+                                 [results]="statusChart1" 
+                                 (select)="onSelect(content, $event)"
             >
             </ngx-charts-pie-grid>
           </div>
@@ -34,8 +34,8 @@
             <ngx-charts-pie-grid [view]="view1" 
                                  [scheme]="colorScheme2" 
                                  [label]="'건수'" 
-                                 [results]="single2" 
-                                 (select)="onSelect($event)"
+                                 [results]="statusChart2" 
+                                 (select)="onSelect(content, $event)"
             >
             </ngx-charts-pie-grid>
           </div>
@@ -49,9 +49,9 @@
           <h4 class="text-dark header-title float-left m-l-30">만족도 현황</h4>
           <ngx-charts-advanced-pie-chart [view]="view2" 
                                          [scheme]="colorScheme3" 
-                                         [results]="single3" 
+                                         [results]="valuationChart" 
                                          [gradient]="gradient"
-                                         (select)="onSelect($event)"
+                                         (select)="onSelect(content, $event)"
             >
           </ngx-charts-advanced-pie-chart>
         </div>
@@ -71,7 +71,7 @@
             <h4 class="text-dark header-title float-left m-l-30">월별 요청건 현황</h4>
             <ngx-charts-line-chart [view]="view3" 
                                     [scheme]="colorScheme3" 
-                                    [results]="multi" 
+                                    [results]="monthlyCntChart" 
                                     [gradient]="gradient" 
                                     [xAxis]="showXAxis"
                                     [yAxis]="showYAxis" 
@@ -83,18 +83,18 @@
                                     [yAxisLabel]="yAxisLabel" 
                                     [autoScale]="autoScale" 
                                     [timeline]="timeline" 
-                                    (select)="onSelect($event)"
+                                    (select)="onSelect(content, $event)"
             >
             </ngx-charts-line-chart>
           </div>
           <div class="col-sm-12 col-lg-6 float-left">
             <ngx-charts-pie-chart [view]="view3" 
                 [scheme]="colorScheme3" 
-                [results]="single5" 
+                [results]="higherCntChart" 
                 [explodeSlices]="true" 
                 [gradient]="gradient"
                 [labels]="true"
-                (select)="onSelect($event)" 
+                (select)="onSelect(content, $event)" 
             >
             </ngx-charts-pie-chart>
           </div>
@@ -119,131 +119,30 @@
                 <th width="10%" class="text-center">등록일</th>
                 <th width="15%" class="text-center">요청경로</th>
                 <th width="10%" class="text-center">진행구분</th>
-                <th width="10%" class="text-center">담당자</th>
+                <th width="6%" class="text-center">요청자</th>
+                <th width="6%" class="text-center">담당자</th>
                 <th width="10%" class="text-center">완료일</th>
               </tr>
             </thead>
-            <tbody id="more_list">
-              <tr onclick="window.location='/manager/work_list/'" style="cursor:pointer">
-                <td class="text-center"></td>
-                <td class="text-left">[KBWS]</td>
-                <td class="text-center">2018-07-16 12:07:52</td>
-                <td class="text-center">인사관리</td>
-                <td class="text-center">
-                  <span class="label label-inverse">접수대기</span>
+            <tbody>
+              <tr *ngFor="let incident of incidentList" style="cursor:pointer" >
+                <td (click)="setDetail(incidentDetailModal, incident);" class="text-center"><span *ngIf="incident?.process_speed == 'Y'" class="label label-warning">✔</span></td>
+                <td (click)="setDetail(incidentDetailModal, incident);" class="text-left">{{incident?.title}}</td>
+                <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.register_date}}</td>
+                <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.app_menu}}</td>
+                <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">
+                    <span *ngIf="incident?.status_cd == 1" class="label label-inverse">접수대기</span>
+                    <span *ngIf="incident?.status_cd == 2" class="label label-primary">처리중</span>
+                    <span *ngIf="incident?.status_cd == 3" class="label label-success">미평가</span>
+                    <span *ngIf="incident?.status_cd == 4" class="label label-purple">처리완료</span>
+                    <span *ngIf="incident?.status_cd == 5" class="label label-info">협의필요</span>
+                    <span *ngIf="incident?.status_cd == 6" class="label label-default">미처리</span>
                 </td>
-                <td class="text-center">담당미지정</td>
-                <td class="text-center"></td>
+                <td (click)="getEmpInfo(empInfoModal,incident.request_id);" class="text-center">{{incident?.request_nm}}</td>
+                <td (click)="getEmpInfo(empInfoModal,incident.manager_email);" class="text-center">{{incident?.manager_nm}}</td>
+                <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.complete_date}}</td>
               </tr>
-              <tr onclick="window.location='/manager/work_list/'" style="cursor:pointer">
-                <td class="text-center">
-                  <span class="label label-warning">✔</span>
-                </td>
-                <td class="text-left">(52시간)3조2교대 자들에 대한 오류 근태오류 및 급여오류건</td>
-                <td class="text-center">2018-07-16 11:45:17</td>
-                <td class="text-center">근태관리, 급여관리</td>
-                <td class="text-center">
-                  <span class="label label-inverse">접수대기</span>
-                </td>
-                <td class="text-center">담당미지정</td>
-                <td class="text-center"></td>
-              </tr>
-              <tr onclick="window.location='/manager/work_list/'" style="cursor:pointer">
-                <td class="text-center">
-                  <span class="label label-warning">✔</span>
-                </td>
-                <td class="text-left">1500 플랜트 배치 관련 문제</td>
-                <td class="text-center">2018-07-16 11:35:30</td>
-                <td class="text-center"></td>
-                <td class="text-center">
-                  <span class="label label-primary">처리중</span>
-                </td>
-                <td class="text-center">이민준</td>
-                <td class="text-center"></td>
-              </tr>
-              <tr onclick="window.location='/manager/work_list/'" style="cursor:pointer">
-                <td class="text-center"></td>
-                <td class="text-left">계약사원들 근속, 조정, 생장, 위험 수당 일할계산이 안되는 현상</td>
-                <td class="text-center">2018-07-16 11:33:08</td>
-                <td class="text-center">급여관리&gt;월급여관리</td>
-                <td class="text-center">
-                  <span class="label label-inverse">접수대기</span>
-                </td>
-                <td class="text-center">담당미지정</td>
-                <td class="text-center"></td>
-              </tr>
-              <tr onclick="window.location='/manager/work_list/'" style="cursor:pointer">
-                <td class="text-center">
-                  <span class="label label-warning">✔</span>
-                </td>
-                <td class="text-left">리탠다드 급여계산시 판매사원 식대계산 &gt; 전직원 식대계산 방법으로 변경 요청</td>
-                <td class="text-center">2018-07-16 11:24:21</td>
-                <td class="text-center">급여&gt;식대계산</td>
-                <td class="text-center">
-                  <span class="label label-inverse">접수대기</span>
-                </td>
-                <td class="text-center">담당미지정</td>
-                <td class="text-center"></td>
-              </tr>
-              <tr onclick="window.location='/manager/work_list/'" style="cursor:pointer">
-                <td class="text-center">
-                  <span class="label label-warning">✔</span>
-                </td>
-                <td class="text-left">신규입사자 등록요청</td>
-                <td class="text-center">2018-07-16 11:19:44</td>
-                <td class="text-center"></td>
-                <td class="text-center">
-                  <span class="label label-success">미평가</span>
-                </td>
-                <td class="text-center">박선우</td>
-                <td class="text-center">2018-07-16 11:43:32</td>
-              </tr>
-              <tr onclick="window.location='/manager/work_list/'" style="cursor:pointer">
-                <td class="text-center"></td>
-                <td class="text-left">전자전표시스템에서 세금계산서 처리시 전표정보와 상이하게 저장 </td>
-                <td class="text-center">2018-07-16 11:08:26</td>
-                <td class="text-center"></td>
-                <td class="text-center">
-                  <span class="label label-primary">처리중</span>
-                </td>
-                <td class="text-center">신민정</td>
-                <td class="text-center"></td>
-              </tr>
-              <tr onclick="window.location='/manager/work_list/'" style="cursor:pointer">
-                <td class="text-center"></td>
-                <td class="text-left">신규 평가클래스 요청 및 Auto Posting 연결</td>
-                <td class="text-center">2018-07-16 10:52:55</td>
-                <td class="text-center"></td>
-                <td class="text-center">
-                  <span class="label label-success">미평가</span>
-                </td>
-                <td class="text-center">윤태진</td>
-                <td class="text-center">2018-07-16 10:55:03</td>
-              </tr>
-              <tr onclick="window.location='/manager/work_list/'" style="cursor:pointer">
-                <td class="text-center">
-                  <span class="label label-warning">✔</span>
-                </td>
-                <td class="text-left">리탠다드(주) e-HR 급여계좌 등록 요청의 건</td>
-                <td class="text-center">2018-07-16 10:45:18</td>
-                <td class="text-center">급여&gt;개인급여관리&gt;은행계좌관리</td>
-                <td class="text-center">
-                  <span class="label label-inverse">접수대기</span>
-                </td>
-                <td class="text-center">담당미지정</td>
-                <td class="text-center"></td>
-              </tr>
-              <tr onclick="window.location='/manager/work_list/'" style="cursor:pointer">
-                <td class="text-center"></td>
-                <td class="text-left">그룹웨어 전자결재(대외공문) 양식 추가 요청드립니다. </td>
-                <td class="text-center">2018-07-16 10:25:03</td>
-                <td class="text-center"></td>
-                <td class="text-center">
-                  <span class="label label-primary">처리중</span>
-                </td>
-                <td class="text-center">박선우</td>
-                <td class="text-center"></td>
-              </tr>
+              
             </tbody>
           </table>
         </div>
@@ -255,3 +154,40 @@
   <!-- 처리현황 끝-->
 
 </section>
+
+
+<!-- start detail view modal -->
+<ng-template #incidentDetailModal let-c="close" let-d="dismiss">
+        <app-incident-detail-a [cValues]="this.c"
+                               [dValues]="this.d"
+                               [incidentDetail]="incidentDetail"
+        ></app-incident-detail-a>
+    </ng-template>
+    <!-- end detail view modal -->
+    
+    <!-- start empInfo modal -->
+    <ng-template #empInfoModal let-c="close" let-d="dismiss">
+        <app-emp-info [cValues]="this.c"
+                      [dValues]="this.d"
+                      [email]="empEmail"
+        ></app-emp-info>
+    </ng-template>
+    <!-- end empInfo modal -->
+
+
+
+
+    <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+              <h4 class="modal-title">상세보기 추가??? </h4>
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>One fine body&hellip;</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" (click)="c('Close click')">Close</button>
+            </div>
+          </ng-template>

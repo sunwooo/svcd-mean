@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatisticService } from '../../services/statistic.service';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { IncidentService } from '../../services/incident.service';
 
 @Component({
     selector: 'app-main-content',
@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class MainContentComponent implements OnInit {
 
+    /** being chart setting */
     public view1: any[] = [350, 200];
     public view2: any[] = [700, 223];
     public view3: any[] = [880, 350];
@@ -41,218 +42,87 @@ export class MainContentComponent implements OnInit {
     public colorScheme4 = {
         domain: ['#008fd4', '#b4985a', '#99ca3c', '#a7a9ac', '#f04124']
     };
-
     // line, area
     autoScale = true;
+    /** end chart setting */
 
-    public single1 = [
-        {
-            "name": "접수대기",
-            "value": 10
-        },
-        {
-            "name": "처리중",
-            "value": 20
-        },
-    ];
-    public single2 = [
-        {
-            "name": "처리완료",
-            "value": 2222
-        },
-        {
-            "name": "미평가",
-            "value": 3333
-        },
-    ];
-
-    public single3 = [
-        {
-            "name": "매우 만족",
-            "value": 100
-        },
-        {
-            "name": "만족",
-            "value": 2000
-        },
-        {
-            "name": "보통",
-            "value": 500
-        },
-        {
-            "name": "불만족",
-            "value": 200
-        },
-        {
-            "name": "매우 불만족",
-            "value": 10
-        },
-    ];
-
-
-    public multi = [
-        {
-            "name": "2017",
-            "series": [
-                {
-                    "name": "1월",
-                    "value": 153
-                },
-                {
-                    "name": "2월",
-                    "value": 134
-                },
-                {
-                    "name": "3월",
-                    "value": 454
-                },
-                {
-                    "name": "4월",
-                    "value": 432
-                },
-                {
-                    "name": "5월",
-                    "value": 777
-                },
-                {
-                    "name": "6월",
-                    "value": 689
-                },
-                {
-                    "name": "7월",
-                    "value": 575
-                },
-                {
-                    "name": "8월",
-                    "value": 567
-                },
-                {
-                    "name": "9월",
-                    "value": 453
-                },
-                {
-                    "name": "10월",
-                    "value": 567
-                },
-                {
-                    "name": "11월",
-                    "value": 453
-                },
-                {
-                    "name": "12월",
-                    "value": 567
-                }
-            ]
-        },
-
-        {
-            "name": "2018",
-            "series": [
-                {
-                    "name": "1월",
-                    "value": 453
-                },
-                {
-                    "name": "2월",
-                    "value": 567
-                },
-                {
-                    "name": "3월",
-                    "value": 453
-                },
-                {
-                    "name": "4월",
-                    "value": 567
-                },
-                {
-                    "name": "5월",
-                    "value": 453
-                },
-                {
-                    "name": "6월",
-                    "value": 567
-                },
-                {
-                    "name": "7월",
-                    "value": 453
-                },
-                {
-                    "name": "8월",
-                    "value": 0
-                },
-                {
-                    "name": "9월",
-                    "value": 0
-                },
-                {
-                    "name": "10월",
-                    "value": 0
-                },
-                {
-                    "name": "11월",
-                    "value": 0
-                },
-                {
-                    "name": "12월",
-                    "value": 0
-                }
-            ]
-        }
-    ];
-
-    public single5 = [
-        {
-            "name": "e-HR",
-            "value": 2222
-        },
-        {
-            "name": "그룹웨어",
-            "value": 1700
-        },
-        {
-            "name": "ERP",
-            "value": 900
-        },
-        {
-            "name": "건설ERP",
-            "value": 800
-        },
-        {
-            "name": "SP",
-            "value": 600
-        },
-    ];
-
-    public activeEntries = [{
-        "name": "그룹웨어",
-        "value": 1700
-    }]
+    public statusChart1 = [];
+    public statusChart2 = [];
+    public valuationChart = [];
+    public monthlyCntChart = [];
+    public higherCntChart = [];
+    public incidentList;
+    public incidentDetail: any;                 //선택 인시던트 id
+    public empEmail: string = "";               //팝업 조회용 이메일
 
     constructor(private modalService: NgbModal,
-        private statisticService: StatisticService) {
+        private statisticService: StatisticService,
+        private incidentService: IncidentService){
     }
 
     ngOnInit() {
-        this.getStatusCdCnt();
-    }
 
-    /**
-     * 상태별 건수
-     */
-    getStatusCdCnt(){
-        this.statisticService.getStatusCdCnt().subscribe(
+        //상태별 현황
+        this.statusChart1 = this.statisticService.statusChart1;
+        this.statusChart2 = this.statisticService.statusChart2;
+
+        //만족도현황
+        this.statisticService.valuationCnt().subscribe(
             (res) => {
-                console.log("res : ",res);
+                this.valuationChart = res;
             },
-            (error: HttpErrorResponse) => {
+            (error : HttpErrorResponse) => {
+
             }
-        );
+        )
+
+        //월별 요청 건수
+        this.statisticService.monthlyCnt().subscribe(
+            (res) => {
+                this.monthlyCntChart = res;
+            },
+            (error : HttpErrorResponse) => {
+
+            }
+        )
+
+        //신청건수 상위 업무
+        this.statisticService.higherCnt().subscribe(
+            (res) => {
+                this.higherCntChart = res;
+            },
+            (error : HttpErrorResponse) => {
+
+            }
+        )
+
+        //문의 리스트
+        this.incidentService.incidnetList({}).subscribe(
+            (res) => {
+                console.log("=====> incidentService : ", res);
+                this.incidentList = res;
+            },
+            (error : HttpErrorResponse) => {
+
+            }
+        )
+
     }
 
-    onSelect(data) {
+    onSelect(modalId, data) {
         console.log('Item clicked', data);
+        this.modalService.open(modalId, { size: 'lg' });
     }
 
+    setDetail(modalId, incident){
+        this.incidentDetail = incident;
+        this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
+    }
+
+    getEmpInfo(modalId, email){
+        this.empEmail = email;
+        this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
+    }
     /*
     openBackDropCustomClass(content) {
       this.modalService.open(content, {backdropClass: 'light-blue-backdrop'});

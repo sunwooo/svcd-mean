@@ -12,13 +12,26 @@ export class IncidentService {
         private cookieService: CookieService
     ) { }
 
+    /**
+     * 사용자 본인 문의하기 조회
+     * @param condition 
+     */
     getUserIncident(condition): Observable<any> {
         var httpParams = new HttpParams({ fromObject: condition });
         return this.http.get<any>('/api/incident/userlist', {params: httpParams});
     }
 
     /**
-     * 
+     * 문의내용 조회
+     * @param condition 
+     */
+    incidnetList(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/incident/incidnetList', {params: httpParams});
+    }
+
+    /**
+     * 문의하기 등록
      * @param incident 
      */
     addIncident(incident: NgForm): Observable<any> {
@@ -26,18 +39,25 @@ export class IncidentService {
     }
     
     /**
-     * 
+     * 문의하기 상세보기
      * @param incident_id 
      */
     getIncidentDetail(incident_id: string): Observable<any> {
         return this.http.get<any>('/api/incident/detail', {params: new HttpParams().set('incident_id',incident_id)});
     }
 
-
+    /**
+     * 만족도 평가
+     * @param valuation
+     */
     putValuation(valuation: NgForm): Observable<any>{
         return this.http.put<any>('/api/incident/valuation', valuation.value, {withCredentials:true});
     }
 
+    /**
+     * 삭제하기
+     * @param incidentId
+     */
     delete(incidentId): Observable<any>{
         var body = {id:incidentId};
         var httpOptions = {
