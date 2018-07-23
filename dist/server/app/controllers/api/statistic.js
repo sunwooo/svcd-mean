@@ -366,10 +366,15 @@ module.exports = {
               }
             },
             {
-                $sort: {
-                  register_yyyy:1,
-                  register_mm:1
-                }
+              $project: {
+                "name": 1,
+                "series": 1
+              }
+            },
+            {
+              $sort: {
+                "name": -1,
+              }
             },
           ];
 
@@ -380,8 +385,7 @@ module.exports = {
           });
         }
       });
-    } catch (e) {
-    } finally {}
+    } catch (e) {} finally {}
   },
 
   /**
@@ -390,77 +394,44 @@ module.exports = {
   valuationCnt: (req, res, next) => {
 
     try {
-        async.waterfall([function (callback) {
-  
-          var today = new Date();
-          var thisYear = today.getFullYear();
-  
-          var condition = {};
-          var OrQueries = [];
-          var AndQueries = [];
-  
-          if (req.session.user_flag == 3 || req.session.user_flag == 4) {
-  
-            var condition2 = {};
-            condition2.email = req.session.email;
-            MyProcess.find(condition2).distinct('higher_cd').exec(function (err, myHigherProcess) {
-              if (condition.$and == null) {
-                condition.$and = [{
-                  "higher_cd": {
-                    "$in": myHigherProcess
-                  }
-                }];
-              } else {
-                condition.$and.push({
-                  "higher_cd": {
-                    "$in": myHigherProcess
-                  }
-                });
-              }
-  
-              if (condition.$and == null) {
-                condition.$and = [{
-                  "status_cd": "4"
-                }];
-              } else {
-                condition.$and.push({
-                  "status_cd": "4"
-                });
-              }
-  
-              if (condition.$and == null) {
-                condition.$and = [{
-                  "register_yyyy": thisYear.toString()
-                }];
-              } else {
-                condition.$and.push({
-                  "register_yyyy": thisYear.toString()
-                });
-              }
-              callback(condition);
-            });
-  
-          } else {
-  
-            if (req.session.user_flag == 1) { //전체관리자
-  
-            } else if (req.session.user_flag == 5) { //고객사관리자
-              condition.request_company_cd = req.session.company_cd;
-            } else if (req.session.user_flag == 9) { //일반사용자
-              condition.request_id = req.session.email;
+      async.waterfall([function (callback) {
+
+        var today = new Date();
+        var thisYear = today.getFullYear();
+
+        var condition = {};
+        var OrQueries = [];
+        var AndQueries = [];
+
+        if (req.session.user_flag == 3 || req.session.user_flag == 4) {
+
+          var condition2 = {};
+          condition2.email = req.session.email;
+          MyProcess.find(condition2).distinct('higher_cd').exec(function (err, myHigherProcess) {
+            if (condition.$and == null) {
+              condition.$and = [{
+                "higher_cd": {
+                  "$in": myHigherProcess
+                }
+              }];
+            } else {
+              condition.$and.push({
+                "higher_cd": {
+                  "$in": myHigherProcess
+                }
+              });
             }
-  
+
             if (condition.$and == null) {
               condition.$and = [{
                 "status_cd": "4"
               }];
-
             } else {
               condition.$and.push({
                 "status_cd": "4"
               });
             }
-  
+
             if (condition.$and == null) {
               condition.$and = [{
                 "register_yyyy": thisYear.toString()
@@ -471,63 +442,120 @@ module.exports = {
               });
             }
             callback(condition);
-          }
-  
-        }], function (condition) {  
-          var aggregatorOpts = [{
-              $match: condition
-            }, {
-              $group: { //그룹칼럼
-                _id: {
-                  valuation: "$valuation"
-                },
-                name : {
-                    $first: "$valuation"
-                },
-                value: {
-                    $sum: 1
-                  }
-              }
-            },
-            {
-              $sort: {
-                valuation: 1
-              }
-            },
-            {
-                $project:{
-                    "value":1,
-                    "name" : {
-                        $switch: {
-                           branches: [
-                              { case: { $eq: ["$name", 1] }, then: "매우 불만족" },
-                              { case: { $eq: ["$name", 2] }, then: "불만족" },
-                              { case: { $eq: ["$name", 3] }, then: "보통" },
-                              { case: { $eq: ["$name", 4] }, then: "만족" },
-                              { case: { $eq: ["$name", 5] }, then: "매우 만족" }
-                           ],
-                           default: "보통"
-                        }
-                     }
-                }
-            }
-          ];;
-  
-          Incident.aggregate(aggregatorOpts).exec(function (err, incident) {
-  
-            if (err) {
-              return res.json({
-                success: false,
-                message: err
-              });
-            }
-            res.json(incident);
           });
-  
+
+        } else {
+
+          if (req.session.user_flag == 1) { //전체관리자
+
+          } else if (req.session.user_flag == 5) { //고객사관리자
+            condition.request_company_cd = req.session.company_cd;
+          } else if (req.session.user_flag == 9) { //일반사용자
+            condition.request_id = req.session.email;
+          }
+
+          if (condition.$and == null) {
+            condition.$and = [{
+              "status_cd": "4"
+            }];
+
+          } else {
+            condition.$and.push({
+              "status_cd": "4"
+            });
+          }
+
+          if (condition.$and == null) {
+            condition.$and = [{
+              "register_yyyy": thisYear.toString()
+            }];
+          } else {
+            condition.$and.push({
+              "register_yyyy": thisYear.toString()
+            });
+          }
+          callback(condition);
+        }
+
+      }], function (condition) {
+        var aggregatorOpts = [{
+            $match: condition
+          }, {
+            $group: { //그룹칼럼
+              _id: {
+                valuation: "$valuation"
+              },
+              name: {
+                $first: "$valuation"
+              },
+              value: {
+                $sum: 1
+              }
+            }
+          },
+          {
+            $project: {
+              "value": 1,
+              "valuation": "$_id.valuation",
+              "name": {
+                $switch: {
+                  branches: [{
+                      case: {
+                        $eq: ["$name", 1]
+                      },
+                      then: "매우 불만족"
+                    },
+                    {
+                      case: {
+                        $eq: ["$name", 2]
+                      },
+                      then: "불만족"
+                    },
+                    {
+                      case: {
+                        $eq: ["$name", 3]
+                      },
+                      then: "보통"
+                    },
+                    {
+                      case: {
+                        $eq: ["$name", 4]
+                      },
+                      then: "만족"
+                    },
+                    {
+                      case: {
+                        $eq: ["$name", 5]
+                      },
+                      then: "매우 만족"
+                    }
+                  ],
+                  default: "보통"
+                }
+              }
+            }
+          },
+          {
+            $sort: {
+              valuation: -1
+            }
+          }
+        ];
+
+        Incident.aggregate(aggregatorOpts).exec(function (err, incident) {
+
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          }
+          res.json(incident);
         });
-  
-      } catch (e) {
-      } finally {}
+
+      });
+
+    } catch (e) {} finally {}
   },
 
 
@@ -537,65 +565,64 @@ module.exports = {
   higherCdCnt: (req, res, next) => {
 
     try {
-        async.waterfall([function (callback) {
-  
-          var today = new Date();
-          var thisYear = today.getFullYear();
-  
-          var condition = {};
-          var OrQueries = [];
-          var AndQueries = [];
-  
- 
+      async.waterfall([function (callback) {
+
+        var today = new Date();
+        var thisYear = today.getFullYear();
+
+        var condition = {};
+        var OrQueries = [];
+        var AndQueries = [];
+
+
         if (condition.$and == null) {
-            condition.$and = [{
+          condition.$and = [{
             "register_yyyy": thisYear.toString()
-            }];
+          }];
         } else {
-            condition.$and.push({
+          condition.$and.push({
             "register_yyyy": thisYear.toString()
-            });
+          });
         }
         callback(condition);
-    
-        }], function (condition) {  
-          var aggregatorOpts = [{
-              $match: condition
-            }, {
-              $group: { //그룹칼럼
-                _id: {
-                  higher_nm: "$higher_nm"
-                },
-                name : {
-                    $first: "$higher_nm"
-                },
-                value: {
-                    $sum: 1
-                  }
-              }
-            },
-            {
-              $sort: {
-                value: 1
-              }
-            }
-          ];
-  
 
-          Incident.aggregate(aggregatorOpts).exec(function (err, incident) {
-  
-            if (err) {
-              return res.json({
-                success: false,
-                message: err
-              });
+      }], function (condition) {
+        var aggregatorOpts = [{
+            $match: condition
+          }, {
+            $group: { //그룹칼럼
+              _id: {
+                higher_nm: "$higher_nm"
+              },
+              name: {
+                $first: "$higher_nm"
+              },
+              value: {
+                $sum: 1
+              }
             }
-            res.json(incident);
-          });
-  
+          },
+          {
+            $sort: {
+              value: 1
+            }
+          }
+        ];
+
+
+        Incident.aggregate(aggregatorOpts).exec(function (err, incident) {
+
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          }
+          res.json(incident);
         });
-  
-      } catch (e) {
-      } finally {}
+
+      });
+
+    } catch (e) {} finally {}
   },
 }
