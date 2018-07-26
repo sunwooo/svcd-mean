@@ -3,6 +3,7 @@
 var async = require('async');
 var jwt = require('jsonwebtoken');
 var User = require('../../models/User');
+var service = require('../../services/usermanage');
 var CONFIG = require('../../../config/config.json');
 var logger = require('log4js').getLogger('app');
 
@@ -46,10 +47,10 @@ module.exports = {
       }
       */
 
-      setUser(req, res, user);      
+      setUser(req, res, user);
 
       //삭제필요
-      const token = jwt.sign({ 
+      const token = jwt.sign({
         user: user,
         login: true
       }, CONFIG.cryptoKey); // , { expiresIn: 10 } seconds
@@ -171,6 +172,84 @@ module.exports = {
     }
   },
 
+  list: (req, res, next) => {
+    var search = service.createSearch(req);
+
+    var page = 1;
+    var perPage = 15;
+
+    //console.log("==========================================getusermanage=======================================");
+    //console.log("req.query.page : ", req.query.page);
+    //console.log("req.query.perPage : ", req.query.perPage);
+    //console.log("req.query.searchText : ", req.query.searchText);
+    //console.log("================================================================================================");
+
+    if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
+    if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
+
+
+    async.waterfall([function (callback) {
+        User.find(search.findUsermanage, function (err, usermanage) {
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+            callback(null);
+          }
+        })
+      },
+      function (callback) {
+        User.count(search.findUsermanage, function (err, totalCnt) {
+          if (err) {
+            logger.error("incident : ", err);
+
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+
+            //logger.debug("=============================================");
+            //logger.debug("incidentCnt : ", totalCnt);
+            //logger.debug("=============================================");
+
+            callback(null, totalCnt)
+          }
+        });
+      }
+    ], function (err, totalCnt) {
+
+      User.find(search.findUser, function (err, usermanage) {
+          if (err) {
+
+            //logger.debug("=============================================");
+            //logger.debug("incident : ", err);
+            //logger.debug("=============================================");
+
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+
+            //incident에 페이징 처리를 위한 전체 갯수전달
+            var rtnData = {};
+            rtnData.usermanage = usermanage;
+            rtnData.totalCnt = totalCnt;
+
+            res.json(rtnData);
+          }
+        })
+        .sort({
+          group_flag: -1,
+          company_nm: 1
+        })
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+    });
+  }
 }
 
 function setUser(req, res, userInfo) {
