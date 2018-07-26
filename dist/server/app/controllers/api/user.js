@@ -84,6 +84,9 @@ module.exports = {
 
       User.find(condition).exec(function (err, user) {
 
+
+        //console.log("===============>user : ", user);
+
         if (!user) {
           return res.sendStatus(403);
         } else {
