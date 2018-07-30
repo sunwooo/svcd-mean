@@ -55,7 +55,7 @@ body {
 }
 
 .mat-form-field2 {
-  width: 300px !important;
+  width: 478px !important;
 }
 
 .mat-form-field3 {
@@ -114,4 +114,9 @@ body {
 .content{
     width: 98% !important;
     margin-left: 1% !important;
+}
+
+
+body div.cdk-overlay-container {
+    z-index: 1000000;
 }
