@@ -31,6 +31,7 @@ import { IncidentDetailAComponent } from './pages/incident/incident-detail-a/inc
 import { ProcessStatusComponent } from './shared/process-status/process-status.component';
 import { EmpInfoComponent } from './shared/emp-info/emp-info.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
+import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
 
 /** Services */
 import { UserService } from './services/user.service';
@@ -49,6 +50,7 @@ import { IncidentValuationComponent } from './pages/incident/incident-valuation/
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { StatisticService } from './services/statistic.service';
 import { CompanyService } from './services/company.service';
+import { UsermanageService } from './services/usermanage.service';
 import { CompanyDetailAComponent } from './pages/company/company-detail-a/company-detail-a.component';
 
 
@@ -84,6 +86,12 @@ const PAGES = [
         EmpInfoComponent,
         ComHigherComponent,
         CompanyListComponent,
+<<<<<<< .mine
+        CompanyListComponent,
+=======
+        CompanyListComponent,
+>>>>>>> .theirs
+        UsermanageListComponent,
         CompanyDetailAComponent
     ],
     imports: [
@@ -108,7 +116,8 @@ const PAGES = [
         CookieService,
         EmpInfoComponent,
         StatisticService,
-        CompanyService
+        CompanyService,
+        UsermanageService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]

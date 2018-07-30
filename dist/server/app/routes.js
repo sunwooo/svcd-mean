@@ -20,6 +20,9 @@ router.post('/login', userCtrl.login);    //로그인
 router.post('/addUser', userCtrl.insert);    //사용자 추가등록
 router.get('/empInfo', userCtrl.empInfo);    //사용자 정보
 
+//usermanage route
+router.get('/user/list', userCtrl.list);    //사원정보관리
+
 
 //Common api route
 router.get('/higherProcess', apiCtrl.higherProcess);    //상위업무 조회

@@ -46,8 +46,11 @@ export class MainContentComponent implements OnInit {
     autoScale = true;
     /** end chart setting */
 
-    public statusChart1 = [];
-    public statusChart2 = [];
+    public statusChart1 = [{"name":"접수대기", "value":0},{"name":"처리중", "value":0}];
+    public statusChart2 = [{"name":"미평가", "value":0},{"name":"평가완료", "value":0}];
+
+    public statusCntData;
+
     public valuationChart = [];
     public monthlyCntChart = [];
     public higherCntChart = [];
@@ -62,9 +65,32 @@ export class MainContentComponent implements OnInit {
 
     ngOnInit() {
 
-        //상태별 현황
-        this.statusChart1 = this.statisticService.statusChart1;
-        this.statusChart2 = this.statisticService.statusChart2;
+        //상태별 건수
+        this.statisticService.getStatusCdCnt().subscribe(
+            (res) => {  
+                var statusArray = res;
+                var chart1 = [];
+                var chart2 = [];
+                statusArray.forEach((val, idx) => {
+                    if(val._id.status_cd == "1"){
+                        chart1.push({"name":"접수대기", "value":val.count});
+                    }
+                    if(val._id.status_cd == "2"){
+                        chart1.push({"name":"처리중", "value":val.count});
+                    }
+                    if(val._id.status_cd == "3"){
+                        chart2.push({"name":"미평가", "value":val.count});
+                    }
+                    if(val._id.status_cd == "4"){
+                        chart2.push({"name":"처리완료", "value":val.count});
+                    }
+                });
+                this.statusChart1 = chart1;
+                this.statusChart2 = chart2;
+            },
+            (error: HttpErrorResponse) => {
+            }
+        );
 
         //만족도현황
         this.statisticService.valuationCnt().subscribe(
@@ -79,10 +105,19 @@ export class MainContentComponent implements OnInit {
         //월별 요청 건수
         this.statisticService.monthlyCnt().subscribe(
             (res) => {
-                this.monthlyCntChart = res;
+                var yearArray = res;
+                var yearTmp = [];
+                yearArray.forEach((yyyy, yIdx, result) => {
+                    var tmp = new Array(yyyy.series.length);
+                    yyyy.series.forEach((mm,mIdx) =>{
+                        tmp.splice(Number(mm.name)-1, 1, {name:mm.name, value:mm.value});
+                    });
+                    yearTmp.push({name: yyyy.name,series:tmp});
+                });
+                this.monthlyCntChart = yearTmp;
             },
             (error : HttpErrorResponse) => {
-
+                console.log('error :',error);
             }
         )
 
@@ -99,7 +134,6 @@ export class MainContentComponent implements OnInit {
         //문의 리스트
         this.incidentService.incidnetList({}).subscribe(
             (res) => {
-                console.log("=====> incidentService : ", res);
                 this.incidentList = res;
             },
             (error : HttpErrorResponse) => {

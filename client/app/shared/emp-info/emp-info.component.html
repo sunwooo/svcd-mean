@@ -1,9 +1,10 @@
+<app-loading [condition]="isLoading"></app-loading>
 <!-- 사용자 정보 Modal-->
 <div class="modal-header">
   <h4 class="modal-title float-left">{{userInfo?.employee_nm}}</h4>
 </div>
 <div class="modal-body">
-  <div class="row" *ngIf="userInfo != null">
+  <div class="row"  *ngIf="userInfo != null">
     <div class="col-sm-3">
       <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
     </div>
@@ -16,7 +17,7 @@
         <p><span>{{userInfo?.email}}</span></p>
     </div>
   </div>
-  <div class="row" *ngIf="userInfo == null">
+  <div class="row" *ngIf="userInfo == null && !isLoading">
     <div class="col-sm-3">
       <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
     </div>

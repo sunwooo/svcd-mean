@@ -14,6 +14,7 @@ import { IncidentListMngComponent } from './pages/incident/incident-list-mng/inc
 import { IncidentListAllComponent } from './pages/incident/incident-list-all/incident-list-all.component';
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
+import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
 
 const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -37,6 +38,10 @@ const routes: Routes = [
             { path: 'company',
               children: [
                   { path: 'list', component: CompanyListComponent }
+            ]},
+            { path: 'usermanage',
+              children: [
+                  { path: 'list', component: UsermanageListComponent }
             ]}
         ]
     },

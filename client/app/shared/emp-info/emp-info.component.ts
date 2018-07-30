@@ -15,6 +15,7 @@ export class EmpInfoComponent {
     @Input() cValues;  //모달창 닫기용
     @Input() dValues;  //모달창 무시용
     
+    public isLoading = true;
     public userInfo = null;
 
     constructor(private auth: AuthService,
@@ -22,11 +23,8 @@ export class EmpInfoComponent {
     ) { }
 
     ngOnInit() {
-
         if(this.email != ""){
             this.getEmpInfo(this.email);
-        }else{
-    
         }
     }
 
@@ -35,7 +33,7 @@ export class EmpInfoComponent {
      * @param email 
      */
     getEmpInfo(email: string) {
-        this.getGroupEmpInfo(email);
+        this.getSvcEmpInfo(email);
     }
 
     /**
@@ -45,16 +43,16 @@ export class EmpInfoComponent {
     getGroupEmpInfo(email: string) {
         this.userService.getGroupEmpInfo(email).subscribe(
             (res) => {
-                this.userInfo = res;
+                console.log("gw ",res);
+                if(res.exist){
+                    this.userInfo = res;
+                }
             },
             (error: HttpErrorResponse) => {
                 console.log('error : ', error);
             },
-            () => { //complete 시 처리
-
-                if (!this.userInfo.exist) { //그룹웨서 사용자로 미존재 시 서비스데스크 사용자 조회
-                    this.getSvcEmpInfo(email);
-                }
+            ()=>{
+                this.isLoading = false;
             }
         );
     }
@@ -66,10 +64,17 @@ export class EmpInfoComponent {
     getSvcEmpInfo(email: string) {
         this.userService.getEmpInfo(email).subscribe(
             (res) => {
-                this.userInfo = res;
-                
+                if(res.length > 0){
+                    this.userInfo = res[0];
+                    this.isLoading = false;
+                }
             },
             (error: HttpErrorResponse) => {
+            },
+            () => { //complete 시 처리
+                if (this.userInfo == null || this.userInfo.group_flag == "in") { //그룹웨서 사용자로 미존재 시 서비스데스크 사용자 조회
+                    this.getGroupEmpInfo(email);
+                }
             }
         );
     }
