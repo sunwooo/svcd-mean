@@ -115,3 +115,8 @@ body {
     width: 98% !important;
     margin-left: 1% !important;
 }
+
+
+body div.cdk-overlay-container {
+    z-index: 1000000;
+}

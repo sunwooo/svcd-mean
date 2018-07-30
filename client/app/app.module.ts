@@ -49,6 +49,7 @@ import { IncidentValuationComponent } from './pages/incident/incident-valuation/
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { StatisticService } from './services/statistic.service';
 import { CompanyService } from './services/company.service';
+import { CompanyDetailAComponent } from './pages/company/company-detail-a/company-detail-a.component';
 
 
 const PAGES = [
@@ -82,7 +83,8 @@ const PAGES = [
         IncidentValuationComponent,
         EmpInfoComponent,
         ComHigherComponent,
-        CompanyListComponent
+        CompanyListComponent,
+        CompanyDetailAComponent
     ],
     imports: [
         BrowserModule,
