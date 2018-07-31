@@ -3,6 +3,7 @@
 var async = require('async');
 var jwt = require('jsonwebtoken');
 var User = require('../../models/User');
+var service = require('../../services/usermanage');
 var request = require("request");
 var CONFIG = require('../../../config/config.json');
 var logger = require('log4js').getLogger('app');
@@ -181,42 +182,123 @@ module.exports = {
   findEmp: (req, res) => {
     try {
 
-        var searchText = req.query.empName;
-        request({
-            uri: CONFIG.groupware.uri + "/CoviWeb/api/UserList.aspx?searchName=" + encodeURIComponent(searchText),
-            headers: {
-                'Content-type': 'application/json'
-            },
-            method: "GET",
-        }, function (err, response, usermanage) {
+      var searchText = req.query.empName;
+      request({
+        uri: CONFIG.groupware.uri + "/CoviWeb/api/UserList.aspx?searchName=" + encodeURIComponent(searchText),
+        headers: {
+          'Content-type': 'application/json'
+        },
+        method: "GET",
+      }, function (err, response, usermanage) {
 
-            User.find({
-                employee_nm: {
-                    $regex: new RegExp(searchText, "i")
-                }
-                , group_flag: "out"
-            })
-            .limit(10)
-            .exec(function (err, usermanageData) {
-                if (err) {
-                    return res.json({
-                        success: false,
-                        message: err
-                    });
-                } else {
-                    if (usermanage != null) {
-                        usermanage = JSON.parse(usermanage);
-                    }
-                    res.json(mergeUser(usermanage, usermanageData));
-                }
-            }); //usermanage.find End
-        }); //request End
+        User.find({
+            employee_nm: {
+              $regex: new RegExp(searchText, "i")
+            },
+            group_flag: "out"
+          })
+          .limit(10)
+          .exec(function (err, usermanageData) {
+            if (err) {
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+              if (usermanage != null) {
+                usermanage = JSON.parse(usermanage);
+              }
+              res.json(mergeUser(usermanage, usermanageData));
+            }
+          }); //usermanage.find End
+      }); //request End
     } catch (e) {
-        logger.debug("===control usermanager.js userJSON : ", e);
+      logger.debug("===control usermanager.js userJSON : ", e);
     }
   },
 
+  list: (req, res, next) => {
+    var search = service.createSearch(req);
+
+    var page = 1;
+    var perPage = 15;
+
+    //console.log("==========================================getusermanage=======================================");
+    //console.log("req.query.page : ", req.query.page);
+    //console.log("req.query.perPage : ", req.query.perPage);
+    //console.log("req.query.searchText : ", req.query.searchText);
+    //console.log("================================================================================================");
+
+    if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
+    if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
+
+
+    async.waterfall([function (callback) {
+        User.find(search.findUsermanage, function (err, usermanage) {
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+            callback(null);
+          }
+        })
+      },
+      function (callback) {
+        User.count(search.findUsermanage, function (err, totalCnt) {
+          if (err) {
+            logger.error("incident : ", err);
+
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+
+            //logger.debug("=============================================");
+            //logger.debug("incidentCnt : ", totalCnt);
+            //logger.debug("=============================================");
+
+            callback(null, totalCnt)
+          }
+        });
+      }
+    ], function (err, totalCnt) {
+
+      User.find(search.findUser, function (err, usermanage) {
+          if (err) {
+
+            //logger.debug("=============================================");
+            //logger.debug("incident : ", err);
+            //logger.debug("=============================================");
+
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+
+            //incident에 페이징 처리를 위한 전체 갯수전달
+            var rtnData = {};
+            rtnData.usermanage = usermanage;
+            rtnData.totalCnt = totalCnt;
+
+            res.json(rtnData);
+          }
+        })
+        .sort({
+          group_flag: -1,
+          company_nm: 1
+        })
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+    });
+  },
+
+
 }
+
 
 /**
  * 배열합치기
@@ -224,22 +306,22 @@ module.exports = {
  * @param {*} trg2 
  */
 function mergeUser(trg1, trg2) {
-    var rtnJSON = [];
-    try {
-        if (trg1 != null) {
-            for (var i = 0; i < trg1.length; i++) {
-                rtnJSON.push(trg1[i]);
-            }
-        }
-        if (trg2 != null) {
-            for (var i = 0; i < trg2.length; i++) {
-                rtnJSON.push(trg2[i]);
-            }
-        }
-        return rtnJSON;
-    } catch (e) {
-        logger.error("control useremanage mergeUser : ", e);
+  var rtnJSON = [];
+  try {
+    if (trg1 != null) {
+      for (var i = 0; i < trg1.length; i++) {
+        rtnJSON.push(trg1[i]);
+      }
     }
+    if (trg2 != null) {
+      for (var i = 0; i < trg2.length; i++) {
+        rtnJSON.push(trg2[i]);
+      }
+    }
+    return rtnJSON;
+  } catch (e) {
+    logger.error("control useremanage mergeUser : ", e);
+  }
 }
 
 /**

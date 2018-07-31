@@ -5,6 +5,8 @@ const logger = require('log4js').getLogger('app');
 module.exports = {
 
     createSearch: (req) => {
+        console.log("usermanage createSearch start !");
+        console.log('searchText          ' + req.query.searchText);
 
         var findUsermanage = {},
             highlight = {};
@@ -52,15 +54,17 @@ module.exports = {
                 findUsermanage.$and = AndQueries
             }
 
-            /*
+
             console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+            console.log('req                 ' + req);
+            console.log('req.query           ' + req.query);
             console.log('using_yn            ' + req.query.using_yn);
             console.log('searchType          ' + req.query.searchType);
             console.log('searchText          ' + req.query.searchText);
             console.log('company_cd          ' + req.query.company_cd);
             console.log('findUsermanage      ' + JSON.stringify(findUsermanage));
             console.log('highlight           ' + JSON.stringify(highlight));
-            */
+
 
             return {
                 using_yn: req.query.using_yn,

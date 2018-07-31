@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CompanyService } from '../../../services/company.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-company-list',
@@ -10,11 +11,22 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class CompanyListComponent implements OnInit {
 
   public isLoading = true;
-  public company: any = [];                 //조회 company
-  public searchText: string ="";            //검색어
+
+  public companyDetail: any;                   //선택 인시던트 id
+
+  public company: any = [];                   //조회 company
+
+  public searchType: string = "company_nm";  //검색구분
+  public searchText: string ="";              //검색어
+
   private formData: any = {};               //전송용 formData
 
-  constructor(private companyService: CompanyService) { }
+  public searchTypeObj: { name: string; value: string; }[] = [
+        { name: '회사명', value: 'company_nm' }
+  ];  
+
+  constructor(private companyService: CompanyService
+              ,private modalService: NgbModal) { }
 
   public maxSize: number = 10;      // 한 화면에 나타낼 페이지 수
   public page: number = 0;          // 현재 페이지
@@ -41,9 +53,12 @@ export class CompanyListComponent implements OnInit {
     //    this.formData.reg_date_to = this.reg_date_to.format('YYYY-MM-DD');
     //this.formData.searchType = this.searchType;
 
+    //this.formData.searchText = this.searchText;
+    this.formData.searchType = this.searchType;
     this.formData.searchText = this.searchText;
 
     console.log("================================");
+    console.log(this.searchType);
     console.log(this.searchText);
     console.log("================================");
 
@@ -87,4 +102,11 @@ export class CompanyListComponent implements OnInit {
     this.getCompany();
     
   }
+
+  setDetail(modalId, company){
+        this.companyDetail = company;
+        this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
+    }
+
+
 }
