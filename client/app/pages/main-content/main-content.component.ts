@@ -95,13 +95,14 @@ export class MainContentComponent implements OnInit {
         //만족도현황
         this.statisticService.valuationCnt().subscribe(
             (res) => {
+                console.log("xxxxxxxxx",res);
                 this.valuationChart = res;
             },
             (error : HttpErrorResponse) => {
 
             }
         )
-
+   
         //월별 요청 건수
         this.statisticService.monthlyCnt().subscribe(
             (res) => {
@@ -132,9 +133,13 @@ export class MainContentComponent implements OnInit {
         )
 
         //문의 리스트
-        this.incidentService.incidnetList({}).subscribe(
+        var condition: any = {};
+        condition.page = 1;
+        condition.perPage = 10;
+
+        this.incidentService.getIncident(condition).subscribe(
             (res) => {
-                this.incidentList = res;
+                this.incidentList = res.incident;
             },
             (error : HttpErrorResponse) => {
 
@@ -177,7 +182,6 @@ export class MainContentComponent implements OnInit {
     }
   
     openVerticallyCentered(content) {
-      alert(1);
       this.modalService.open(content, { centered: true });
     }
     */

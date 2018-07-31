@@ -15,7 +15,8 @@
                         <div class="form-group  row">
                             <div class="col-lg-3 col-sm-12">
                                 <app-process-status
-                                                [condition]="'*'" 
+                                                [condition]="'*'"
+                                                [initValue]="'*'"
                                                 [placeholder]="'진행구분'"
                                                 (outProcessStatus)="onSelected($event)"
                                 ></app-process-status>
@@ -58,7 +59,7 @@
                                 <mat-form-field>
                                     <mat-select [(ngModel)]="searchType"
                                                 name="searchType" 
-                                                (change)="onSubmit()"
+                                                (selectionChange)="onSubmit()"
                                                 placeholder="검색구분">
                                         <mat-option *ngFor="let obj of searchTypeObj" [value]="obj.value">{{obj.name}}</mat-option>
                                     </mat-select>
@@ -91,9 +92,9 @@
                 <div class="col-lg-12">
                     <div class="card-box">
                         <div class="forum-container">        
-                                <div class="forum-item" *ngFor="let incident of incidents">
+                                <div class="forum-item" *ngFor="let incident of incidents; let idx = index;">
                                     <div class="row">
-                                        <div class="col-md-1 forum-info"  (click)="setDetail(incidentDetailModal, incident);">
+                                        <div class="col-md-1 forum-info"  (click)="setDetail(incidentDetailModal, incident, idx);">
                                             <span *ngIf="incident.status_cd == 1" class='btn-outline outline-inverse'>{{incident.status_nm}}</span>
                                             <span *ngIf="incident.status_cd == 2" class='btn-outline outline-primary'>{{incident.status_nm}}</span>
                                             <span *ngIf="incident.status_cd == 3" class='btn-outline outline-success'>{{incident.status_nm}}</span>
@@ -107,11 +108,11 @@
                                                     class="text-primary-svc"><b>{{incident.manager_nm}}</b></span>
                                                 <span class="p-w-xs">{{incident.register_date}}</span>
                                             </div>
-                                            <a  (click)="setDetail(incidentDetailModal, incident);" class="forum-item-title float-left">
+                                            <a  (click)="setDetail(incidentDetailModal, incident, idx);" class="forum-item-title float-left">
                                                 <i class="md md-desktop-windows"></i>{{incident.title}}
                                             </a>
                                         </div>
-                                        <div class="col-md-12" (click)="setDetail(incidentDetailModal, incident);">
+                                        <div class="col-md-12" (click)="setDetail(incidentDetailModal, incident, idx);">
                                             <div class="forum-content truncate1 fh-100 " style="word-wrap: break-word;">
                                                 <a [innerHTML]="incident.content | truncate : 500" class="float-left" style="display:inline"></a>
                                             </div>
@@ -128,7 +129,7 @@
                                                 </span>
                                             </p>
                                         </div>
-                                        <div class="col-md-2" style="margin-right: 10px;"  (click)="setDetail(incidentDetailModal, incident);">
+                                        <div class="col-md-2" style="margin-right: 10px;"  (click)="setDetail(incidentDetailModal, incident, idx);">
                                             <p class="text-muted font-13 float-right">상세보기</p>
                                         </div>
                                     </div>
@@ -143,7 +144,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 float-right">
-                                <p><span (click)="getIncident()" class="text-primary-svc"><b>더보기 >>></b></span></p>
+                                <p><span (click)="getIncident()" class="text-primary-svc"  style="cursor: pointer"><b>더보기 >>></b></span></p>
                             </div>
                         </div>
                     </div>
@@ -161,6 +162,7 @@
     <app-incident-detail-a [cValues]="this.c"
                            [dValues]="this.d"
                            [incidentDetail]="incidentDetail"
+                           (afterDelete) = "afterDelete()" 
     ></app-incident-detail-a>
 </ng-template>
 <!-- end detail view modal -->

@@ -3,25 +3,342 @@
 var async = require('async');
 var Incident = require('../../models/Incident');
 var MyProcess = require('../../models/MyProcess');
+var User = require('../../models/User');
 var service = require('../../services/incident');
+var mailer = require('../../util/nodemailer');
+var alimi = require('../../util/alimi');
 var CONFIG = require('../../../config/config.json');
+var moment = require('moment');
 var logger = require('log4js').getLogger('app');
 var path = require('path');
 
 module.exports = {
 
   /**
+   * 상위업무 변경
+   */
+  setChangeHigher: (req, res, next) => {
+    try {
+        async.waterfall([function (callback) {
+
+            var upIncident = req.body.incident;
+
+            var m = moment();
+            var date = m.format("YYYY-MM-DD HH:mm:ss");
+
+            upIncident.receipt_content = "* 상/하위업무변경 : " + req.session.user_nm + "-" + date;
+            //업무변경 시, 상태값 다시 업데이트 (최예화과장 요청)
+            upIncident.status_cd = "1";
+            upIncident.status_nm = '접수대기';
+
+            upIncident.manager_company_cd = '';//담당자 회사코드
+            upIncident.manager_company_nm = '';//담당자 회사명
+            upIncident.manager_nm = '';//담당자 명
+            upIncident.manager_dept_cd = '';//담당자 부서코드
+            upIncident.manager_dept_nm = '';//담당자 부서명
+            upIncident.manager_position = '';//담당자 직위명
+            upIncident.manager_email = ''; //담당자 이메일
+            upIncident.manager_phone = '';//담당자 전화
+            upIncident.receipt_date = ''; //접수일
+            upIncident.complete_reserve_date = '';//완료예정일
+
+            if(!upIncident.lower_cd){
+                upIncident.lower_cd = "";
+                upIncident.lower_nm = "";
+            }
+
+
+            callback(null, upIncident);
+
+        }], function (err, upIncident) {
+
+            if (err) {
+                res.json({
+                    success: false,
+                    message: "No data found to update"
+                });
+            } else {
+
+                Incident.findOneAndUpdate({
+                    _id: req.body.incident.id
+                }, upIncident, function (err, Incident) {
+                    if (err) {
+
+                        return res.json({
+                            success: false,
+                            message: err
+                        });
+                    } else {
+
+                        //******************************* */
+                        // SD 업무담당자 사내메신저 호출
+                        alimi.sendAlimi(req.body.incident.higher_cd);
+                        //******************************* */
+
+                        return res.json({
+                            success: true,
+                            message: "update successed"
+                        });
+
+                    }
+                });
+            }
+        });
+    } catch (err) {
+        logger.error("manager control saveReceipt : ", e);
+        return res.json({
+            success: false,
+            message: err
+        });
+    }
+  },
+
+  /**
+   * 접수 처리
+   */
+  setReceipt: (req, res, next) => {
+
+    try {
+      async.waterfall([function (callback) {
+        var upIncident = req.body.incident;
+
+        ////logger.debug("=========>1 ", dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate() + " " + dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds());
+        ////logger.debug("=========>2 ", new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''));
+
+        var m = moment();
+        var date = m.format("YYYY-MM-DD HH:mm:ss");
+
+        //접수일자 표기 통일하기 위해 수정 (등록일자 형태)
+
+        upIncident.receipt_date = date;
+        upIncident.complete_reserve_date = upIncident.complete_reserve_date + " " + upIncident.complete_hh + ":" + upIncident.complete_mi + ":" + "00"
+        upIncident.status_cd = '2';
+        upIncident.status_nm = '처리중';
+
+        //접수자 세션체크 후 데이타 맵핑
+        upIncident.manager_email = req.session.email;
+        upIncident.manager_nm = req.session.user_nm;
+        upIncident.manager_company_nm = req.session.company_nm;
+        upIncident.manager_dept_nm = req.session.dept_nm;
+        upIncident.manager_position = req.session.position_nm;
+        upIncident.manager_phone = req.session.office_tel_no;
+
+        callback(null, upIncident);
+      }], function (err, upIncident) {
+        if (err) {
+          res.json({
+            success: false,
+            message: "No data found to update"
+          });
+        } else {
+          Incident.findOneAndUpdate({
+            _id: req.body.incident.id
+          }, upIncident, function (err, Incident) {
+            if (err) {
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+              //접수 업데이트 성공 시 메일 전송
+              User.findOne({
+                email: Incident.request_id
+              }, function (err, usermanage) {
+                if (err) {
+                  return res.json({
+                    success: false,
+                    message: err
+                  });
+                } else {
+                  if (usermanage != null) {
+                    if (usermanage.email_send_yn == 'Y') {
+                      mailer.receiveSend(Incident, upIncident);
+                    }
+                  }
+                }
+              });
+              return res.json({
+                success: true,
+                message: "update successed"
+              });
+            }
+          });
+        }
+      });
+    } catch (err) {
+      logger.error("manager control saveReceipt : ", e);
+      return res.json({
+        success: false,
+        message: err
+      });
+    }
+  },
+
+  /**
+   * 완료 처리
+   */
+  setComplete: (req, res, next) => {
+    try {
+      async.waterfall([function (callback) {
+        var upIncident = req.body.incident;
+
+        var m = moment();
+        var date = m.format("YYYY-MM-DD HH:mm:ss");
+
+        //upIncident.complete_date = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate() + " " + dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        upIncident.complete_date = date;
+        upIncident.status_cd = '3';
+        upIncident.status_nm = '미평가';
+
+        callback(null, upIncident);
+      }], function (err, upIncident) {
+        if (err) {
+          res.json({
+            success: false,
+            message: "No data found to update"
+          });
+        } else {
+          Incident.findOneAndUpdate({
+            _id: req.body.incident.id
+          }, upIncident, function (err, Incident) {
+            if (err) return res.json({
+              success: false,
+              message: err
+            });
+            if (!Incident) {
+              return res.json({
+                success: false,
+                message: "No data found to update"
+              });
+            } else {
+              //완료 업데이트 성공 시 메일 전송
+              User.findOne({
+                email: Incident.request_id
+              }, function (err, usermanage) {
+                if (err) {
+                  return res.json({
+                    success: false,
+                    message: err
+                  });
+                } else {
+                  if (usermanage != null) {
+                    if (usermanage.email_send_yn == 'Y') {
+                      mailer.finishSend(Incident, upIncident);
+                    }
+                  }
+                }
+              });
+              return res.json({
+                success: true,
+                message: "update successed"
+              });
+            }
+          });
+        }
+      });
+
+    } catch (err) {
+      logger.error("manager control saveComplete : ", e);
+      return res.json({
+        success: false,
+        message: err
+      });
+    }
+  },
+
+  /**
+   * 미완료 처리
+   */
+  setNComplete: (req, res, next) => {
+    try {
+      async.waterfall([function (callback) {
+        var upIncident = req.body.incident;
+
+        var m = moment();
+        var date = m.format("YYYY-MM-DD HH:mm:ss");
+
+        //upIncident.complete_date = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate() + " " + dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        upIncident.nc_date = date;
+        upIncident.status_cd = '9';
+        upIncident.status_nm = '미처리';
+
+        callback(null, upIncident);
+      }], function (err, upIncident) {
+
+        Incident.findOneAndUpdate({
+          _id: req.body.incident.id
+        }, upIncident, function (err, Incident) {
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+            return res.json({
+              success: true,
+              message: "update successed"
+            });
+          }
+        });
+      });
+    } catch (err) {
+      logger.error("manager control saveNComplete : ", e);
+      return res.json({
+        success: false,
+        message: err
+      });
+    }
+  },
+
+  /**
+   * 협의처리 처리
+   */
+  setHold: (req, res, next) => {
+    try {
+      async.waterfall([function (callback) {
+        var upIncident = req.body.incident;
+
+        var m = moment();
+        var date = m.format("YYYY-MM-DD HH:mm:ss");
+
+        //upIncident.complete_date = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate() + " " + dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+        upIncident.hold_date = date;
+        upIncident.status_cd = '5';
+        upIncident.status_nm = '협의필요';
+
+        callback(null, upIncident);
+      }], function (err, upIncident) {
+
+        Incident.findOneAndUpdate({
+          _id: req.body.incident.id
+        }, upIncident, function (err, Incident) {
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+            return res.json({
+              success: true,
+              message: "update successed"
+            });
+          }
+        });
+      });
+
+    } catch (err) {
+      logger.error("manager control saveHold : ", e);
+      return res.json({
+        success: false,
+        message: err
+      });
+    }
+  },
+
+  /**
    * 평가점수 업데이트
    */
-  putValuation: (req, res, next) => {
-
-    console.log("putValuation ======================================================");
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.query : ", req.query);
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.params : ", req.params);
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.body : ", req.body);
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.body : ", req.body.incident.id);
-    console.log("==================================================================");
-
+  setValuation: (req, res, next) => {
     try {
       async.waterfall([function (callback) {
         var upIncident = req.body.incident;
@@ -51,8 +368,7 @@ module.exports = {
               });
             } else {
               //평가 완료 업데이트 성공 시 담당자에게 메일 전송
-              /*
-              Usermanage.findOne({
+              User.findOne({
                   email: Incident.manager_email
               }, function (err, usermanage) {
                   if (err) {
@@ -68,7 +384,6 @@ module.exports = {
                       }
                   }
               });
-              */
               return res.json({
                 success: true,
                 message: "update successed"
@@ -77,7 +392,7 @@ module.exports = {
           });
         }
       });
-    } catch (e) {
+    } catch (err) {
       logger.error("incident control valuationSave : ", e);
       return res.json({
         success: false,
@@ -88,51 +403,87 @@ module.exports = {
 
 
   /**
-   * 사용자 본인 Incident 조회
+   * Incident 리스트 조회
    */
-  userlist: (req, res, next) => {
+  list: (req, res, next) => {
+
+    //세션이 존재하지 않으면
+    //if(req.session != null || req.session.user_flag != null){
+    //    return res.json({
+    //        success: false,
+    //        message: '세션이 존재하지 않습니다.'
+    //      });
+    //}
 
     var search = service.createSearch(req);
 
-    if (search.findIncident.$and == null) {
-      search.findIncident.$and = [{
-        "request_id": req.session.email
-      }];
-    } else {
-      search.findIncident.$and.push({
-        "request_id": req.session.email
-      });
-    }
+    //console.log("req.query.searchType : ", req.query.searchType);
+    //console.log("req.query.searchText : ", req.query.searchText);
+    //console.log("search : ", JSON.stringify(search));
 
     var page = 1;
-    var perPage = 3;
-
-    //console.log("=============================================");
-    //console.log("req.query.page : ", req.query.page);
-    //console.log("req.query.perPage : ", req.query.perPage);
-    //console.log("=============================================");
+    var perPage = 15;
 
     if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
     if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
 
-    //console.log("=============================================");
-    //console.log("search.findIncident : ", JSON.stringify(search.findIncident));
-    //console.log("=============================================");
-
     try {
       async.waterfall([function (callback) {
-        Incident.count(search.findIncident, function (err, totalCnt) {
 
-          if (err) {
-            return res.json({
-              success: false,
-              message: err
+          //callback을 이용한 higher_cd를 가져오기 때문에 service에서 생성 않음
+          //전체담당자, 팀장, 업무담당자이고 구분값에 manager로 넘어왔을 시 
+          if ((req.session.user_flag == "1" && req.query.user == "manager") || req.session.user_flag == "3" || req.session.user_flag == "4") {
+
+            var condition = {};
+            condition.email = req.session.email;
+
+            MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
+              if (search.findIncident.$and == null) {
+                search.findIncident.$and = [{
+                  "higher_cd": {
+                    "$in": myHigherProcess
+                  }
+                }];
+                if (req.query.status_cd != "1" && req.query.status_cd != "5") {
+                  search.findIncident.$and.push({
+                    "manager_email": req.session.email
+                  });
+                }
+              } else {
+                search.findIncident.$and.push({
+                  "higher_cd": {
+                    "$in": myHigherProcess
+                  }
+                });
+                if (req.query.status_cd != "1" && req.query.status_cd != "5") {
+                  search.findIncident.$and.push({
+                    "manager_email": req.session.email
+                  });
+                }
+              }
+              callback(err);
             });
           } else {
-            callback(null, totalCnt);
+            callback(null);
           }
-        })
-      }], function (err, totalCnt) {
+
+        },
+        function (callback) {
+
+          Incident.count(search.findIncident, function (err, totalCnt) {
+            if (err) {
+              logger.error("incident : ", err);
+
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+              callback(null, totalCnt);
+            }
+          });
+        }
+      ], function (err, totalCnt) {
 
         Incident.find(search.findIncident, function (err, incident) {
             if (err) {
@@ -157,152 +508,6 @@ module.exports = {
     } catch (err) {} finally {}
 
   },
-
-
-  /**
-   * 문의리스트 조회
-   */
-  incidnetList: (req, res, next) => {
-    try {
-            
-        if (req.session.user_flag == '9') {
-            Incident.find({
-                request_id: req.session.email
-            }, function (err, incident) {
-
-                //logger.debug("======================================");
-                //logger.debug("incident : ", incident);
-                //logger.debug("======================================");
-
-                if (err) {
-                    return res.json({
-                        success: false,
-                        message: err
-                    });
-                } else {
-                    res.json(incident);
-                }
-            }).sort('-register_date')
-                .limit(10);
-        } else if (req.session.user_flag == '5') {
-
-            Incident.find({
-                request_company_cd: req.session.company_cd
-            }, function (err, incident) {
-                if (err) {
-                    return res.json({
-                        success: false,
-                        message: err
-                    });
-                } else {
-                    res.json(incident);
-                }
-            }).sort('-register_date')
-                .limit(10);
-
-        } else if (req.session.user_flag == '4') {
-
-            var AndQueries = [];
-            var condition = {};
-            var condition2 = {};
-            condition2.email = req.session.email;
-
-            async.waterfall([function (callback) {
-                MyProcess.find(condition2).distinct('higher_cd').exec(function (err, myHigherProcess) {
-
-                    //logger.debug("======================================");
-                    //logger.debug("condition2 : ", condition2);
-                    //logger.debug("======================================");
-
-                    if (condition.$and == null) {
-                        condition.$and = [{
-                            "higher_cd": {
-                                "$in": myHigherProcess
-                            }
-                        }];
-                    } else {
-                        condition.$and.push({
-                            "higher_cd": {
-                                "$in": myHigherProcess
-                            }
-                        });
-                    }
-
-                    callback(null, myHigherProcess)
-
-                }).sort('-register_date')
-                    .limit(10);
-            }], function (err, myHigherProcess) {
-
-                Incident.find(condition, function (err, incident) {
-
-                    //logger.debug("======================================");
-                    //logger.debug("incident : ", incident);
-                    //logger.debug("======================================");
-
-                    if (err) {
-                        return res.json({
-                            success: false,
-                            message: err
-                        });
-                    } else {
-                        res.json(incident);
-                    }
-                }).sort('-register_date')
-                    .limit(10);
-            });
-        } else if (req.session.user_flag == '3') {
-
-            Incident.find({
-                manager_dept_cd: req.session.dept_cd
-            }, function (err, incident) {
-                if (err) {
-                    return res.json({
-                        success: false,
-                        message: err
-                    });
-                } else {
-                    res.json(incident);
-                }
-            }).sort('-register_date')
-                .limit(10);
-
-        } else if (req.session.user_flag == '1') {
-
-            Incident.find({}, function (err, incident) {
-                if (err) {
-                    return res.json({
-                        success: false,
-                        message: err
-                    });
-                } else {
-                    res.json(incident);
-                }
-            }).sort('-register_date')
-                .limit(10);
-
-        } else {
-
-            Incident.find({
-                manager_email: req.session.email
-            }, function (err, incident) {
-                if (err) {
-                    return res.json({
-                        success: false,
-                        message: err
-                    });
-                } else {
-                    res.json(incident);
-                }
-            }).sort('-register_date')
-                .limit(10);
-
-        }
-    } catch (e) {
-
-    }
-  },
-
 
   /**
    * Incident 상세 JSON 데이타 조회
@@ -350,28 +555,40 @@ module.exports = {
     }
   },
 
+
+  /**
+   * 문의하기 등록
+   */
   insert: (req, res) => {
 
-    console.log("================== insert = (req, res) ======================");
-    console.log("xxxx req.session : ", req.session);
+    //console.log("================== insert = (req, res) ======================");
+    //console.log("xxxx req.session : ", req.session);
     //console.log("req.body.incident : ", req.body.incident);
-    console.log("=============================================================");
+    //console.log("=============================================================");
 
     async.waterfall([function (callback) {
 
       var newincident = req.body.incident;
+      var request_info = req.body.request_info;
 
-      //const a = JSON.parse(req.query.aa);
-      //console.log("zzzzzzzz ",a.a);
-      //console.log("zzzzzzzz ",req.query.aa);
+      //console.log("newincident ", newincident);
+      //console.log("req.body.request_info ", req.body.request_info);
 
       //TODO
       //추가수정
-      newincident.request_company_cd = req.session.company_cd;
-      newincident.request_company_nm = req.session.company_nm;
-      newincident.request_dept_nm = req.session.dept_nm;
-      newincident.request_nm = req.session.user_nm;
-      newincident.request_id = req.session.email;
+      if (request_info == null) {
+        newincident.request_company_cd = req.session.company_cd;
+        newincident.request_company_nm = req.session.company_nm;
+        newincident.request_dept_nm = req.session.dept_nm;
+        newincident.request_nm = req.session.user_nm;
+        newincident.request_id = req.session.email;
+      } else {
+        newincident.request_company_cd = request_info.company_cd;
+        newincident.request_company_nm = request_info.company_nm;
+        newincident.request_dept_nm = request_info.dept_nm;
+        newincident.request_nm = request_info.employee_nm;
+        newincident.request_id = request_info.email;
+      }
 
       //추가수정
       newincident.register_company_cd = req.session.company_cd;
@@ -384,7 +601,7 @@ module.exports = {
       //}
       Incident.create(newincident, function (err, newincident) {
         if (err) {
-          console.log("trace err ", err);
+          //console.log("trace err ", err);
           res.send({
             gubun: err
           });
@@ -392,25 +609,23 @@ module.exports = {
 
         //////////////////////////////////////
         // SD 업무담당자 사내메신저 호출
-        //alimi.sendAlimi(req.body.incident.higher_cd);
+        alimi.sendAlimi(req.body.incident.higher_cd);
         //////////////////////////////////////
 
         callback(null);
       });
     }], function (err) {
-      console.log("trace 111");
-      res.send({
+      res.json({
         gubun: 'Y'
       });
     });
   },
 
+
   /**
    * incident 삭제 
    */
   delete: (req, res, next) => {
-
-    console.log("xxxxxxxxxxxxxxxxx",req.body.id);
 
     Incident.findOneAndRemove({
       _id: req.body.id
@@ -429,160 +644,16 @@ module.exports = {
   },
 
 
-  /*
-  list : (req, res) => {
-
-      console.log("================== list = (req, res) ======================");
-      console.log("xxxx req.session : ",req.session);
-      //console.log("req.body.incident : ", req.body.incident);
-      console.log("=============================================================");
-
-      var search = service.createSearch(req);
-      var page = 1;
-      var perPage = 15;
-
-      if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
-      if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
-
-      //logger.debug("===============search control================");
-      //logger.debug("req.query.higher_cd : ", req.query.higher_cd);
-      //logger.debug("req.query.lower_cd : ", req.query.lower_cd);
-      //logger.debug("search.findIncident : ", JSON.stringify(search.findIncident));
-      //logger.debug("=============================================");
-
-      try {
-
-          async.waterfall([function (callback) {
-
-              //상위업무가 전체이고, SD 담당자일때만 나의 상위 업무만 조회
-              if (req.session.user_flag == "1" || req.session.user_flag == "4" || (req.query.user == "manager" && req.session.user_flag == "3")) {
-
-                  var condition = {};
-                  condition.email = req.session.email;
-
-                  MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
-
-                      if (search.findIncident.$and == null) {
-
-                          //logger.debug("=============================================");
-                          //logger.debug("search.findIncident.$and is null : ", myHigherProcess);
-                          //logger.debug("=============================================");
-
-                          search.findIncident.$and = [{
-                              "higher_cd": {
-                                  "$in": myHigherProcess
-                              }
-                          }];
-                          //{"$and":[{"higher_cd":{"$in":["H004","H006","H012","H024","H001"]}}]}
-                          
-                          if(req.query.status_cd != "1" && req.query.status_cd != "5"){
-                              search.findIncident.$and.push({"manager_email":req.session.email})
-                          }
-
-
-                      } else {
-
-                          //logger.debug("=============================================");
-                          //logger.debug("search.findIncident.$and is not null : ", myHigherProcess);
-                          //logger.debug("=============================================");
-
-                          search.findIncident.$and.push({
-                              "higher_cd": {
-                                  "$in": myHigherProcess
-                              }
-                          });
-                          
-                          if(req.query.status_cd != "1" && req.query.status_cd != "5"){
-                              search.findIncident.$and.push({"manager_email":req.session.email})
-                          }
-
-                          //'$and': [ { lower_cd: 'L004' } ] }
-                      }
-
-                      logger.debug("getIncident =============================================");
-                      logger.debug("page : ", page);
-                      logger.debug("perPage : ", perPage);
-                      logger.debug("req.query.perPage : ", req.query.perPage);
-                      logger.debug("search.findIncident : ", JSON.stringify(search.findIncident));
-                      logger.debug("getIncident =============================================");
-
-                      callback(err);
-                  });
-              } else {
-                  callback(null);
-              }
-
-          },
-          function (callback) {
-
-              Incident.count(search.findIncident, function (err, totalCnt) {
-                  if (err) {
-                      logger.error("incident : ", err);
-
-                      return res.json({
-                          success: false,
-                          message: err
-                      });
-                  } else {
-
-                      //logger.debug("=============================================");
-                      //logger.debug("incidentCnt : ", totalCnt);
-                      //logger.debug("=============================================");
-
-                      callback(null, totalCnt)
-                  }
-              });
-          }
-      ], function (err, totalCnt) {
-
-          Incident.find(search.findIncident, function (err, incident) {
-                  if (err) {
-
-                      //logger.debug("=============================================");
-                      //logger.debug("incident : ", err);
-                      //logger.debug("=============================================");
-
-                      return res.json({
-                          success: false,
-                          message: err
-                      });
-                  } else {
-
-                      //incident에 페이징 처리를 위한 전체 갯수전달
-                      var rtnData = {};
-                      rtnData.incident = incident;
-                      rtnData.totalCnt = totalCnt
-
-                      //logger.debug("=============================================");
-                      //logger.debug("rtnData.totalCnt : ", rtnData.totalCnt);
-                      //logger.debug("rtnData : ", JSON.stringify(rtnData));
-                      //logger.debug("=============================================");
-
-                      res.json(rtnData);
-
-                  }
-              })
-              .sort('-register_date')
-              .skip((page - 1) * perPage)
-              .limit(perPage);
-          });
-      } catch (err) {
-
-          //logger.debug("===============search control================");
-          //logger.debug("search list error : ", err);
-          //logger.debug("=============================================");
-
-      } finally {}
-  },
-  */
-
+  /**
+   * 첨부파일 다운로드
+   */
   download: (req, res, next) => {
 
     var tmpPath = req.body.filepath;
     tmpPath = tmpPath.substring(tmpPath.indexOf(CONFIG.fileUpload.directory) + CONFIG.fileUpload.directory.length + 1);
 
     var filepath = path.join(__dirname, '../../../../../', CONFIG.fileUpload.directory, tmpPath);
-    res.download(filepath, req.params.filename);
+    res.download(filepath, req.body.filename);
 
   },
 

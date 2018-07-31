@@ -26,6 +26,7 @@ export class EmpInfoComponent {
         if(this.email != ""){
             this.getEmpInfo(this.email);
         }
+        this.isLoading = false;
     }
 
     /**

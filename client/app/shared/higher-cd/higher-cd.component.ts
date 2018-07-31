@@ -9,18 +9,37 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class HigherCdComponent implements OnInit {
 
-    @Input() condition: string;
+    @Input() scope: string; //상위업무 전체 조회면 '*', 
     @Input() required: boolean = false;
     @Input() placeholder: string;
+    @Input() company: string;
     @Output() outHigherCd = new EventEmitter<string>();
 
     public higherCd: any;
+    public condition: any = {};
 
     constructor(private commonApi: CommonApiService) { }
 
-    ngOnInit() {
+    ngOnInit() {       
+        this.getHigherCd(this.company);
+    }
 
-        this.commonApi.getHigherCd(this.condition).subscribe(
+    /**
+     * 선택된 상위코드 전달
+     * @param idx 
+     */
+    onSelect(idx){   
+        this.outHigherCd.emit(this.higherCd[idx]);
+    }
+
+    /**
+     * 상위코드 조회
+     */
+    getHigherCd(company_cd){
+        this.condition.scope = this.scope;
+        this.condition.company_cd = company_cd;
+
+        this.commonApi.getHigher(this.condition).subscribe(
             (res) => {
                 //console.log('============= higher-cd.commonApi.getHigherCd(this.condition).subscribe ===============');
                 //console.log(res);
@@ -31,9 +50,5 @@ export class HigherCdComponent implements OnInit {
                 console.log('error : ',error);
             }
         );
-    }
-
-    onSelect(higherCd:string){
-        this.outHigherCd.emit(higherCd);
     }
 }

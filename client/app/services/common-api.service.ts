@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
 
@@ -13,8 +13,36 @@ export class CommonApiService {
      * 상위업무 JSON 조회
      * @param condition 조건
      */
-    getHigherCd(condition): Observable<any> {
-        return this.http.get<any>('/api/higherProcess', condition);
+    getHigher(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/higherProcess', {params: httpParams});
+    }
+
+    /**
+     * 하위업무 JSON 조회
+     * @param condition 조건
+     */
+    getLower(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/lowerProcess', {params: httpParams});
+    }
+
+    /**
+     * 본인업무 JSON 조회
+     * @param condition 조건
+     */
+    myProcess(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/myProcess', {params: httpParams});
+    }
+
+    /**
+     * 회사리스트 JSON 조회
+     * @param condition 조건
+     */
+    getCompany(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/company', {params: httpParams});
     }
 
     /**
@@ -22,6 +50,7 @@ export class CommonApiService {
      * @param condition 조건
      */
     getProcessStatus(condition): Observable<any> {
-        return this.http.get<any>('/api/processStatus', condition);
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/processStatus', {params: httpParams});
     }
 }

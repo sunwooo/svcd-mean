@@ -10,6 +10,8 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class SvcdNavComponent implements OnInit {
 
+    public user_flag = '9';
+
     constructor(private cookieService: CookieService,
                 private router: Router, 
                 private activatedRoute: ActivatedRoute) {
@@ -20,6 +22,8 @@ export class SvcdNavComponent implements OnInit {
         //this.router.navigate(['svcd/content']);
         //this.router.navigate(['svcd']);
         //console.log("yyyyyyyyyyyyyyyyyy");
+        if(this.cookieService.get("user_flag"))
+            this.user_flag = this.cookieService.get("user_flag");
     }
 
     isView(user_flag : string) : boolean{

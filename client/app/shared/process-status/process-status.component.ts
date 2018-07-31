@@ -11,11 +11,13 @@ import { HttpErrorResponse } from '@angular/common/http';
   export class ProcessStatusComponent implements OnInit {
 
     @Input() condition: string;
+    @Input() initValue: string;
     @Input() required: boolean = false;
     @Input() placeholder: string;
     @Output() outProcessStatus = new EventEmitter<string>();
 
     public processStatus: any;
+    public status_cd: string = "*";
 
     constructor(private commonApi: CommonApiService) { }
 
@@ -32,6 +34,9 @@ import { HttpErrorResponse } from '@angular/common/http';
             },
             (error: HttpErrorResponse) => {
                 console.log('error : ',error);
+            },
+            () => {
+                this.status_cd = this.initValue;
             }
         );
 

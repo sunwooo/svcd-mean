@@ -13,9 +13,10 @@ export class IncidentValuationComponent implements OnInit {
     @Input() incident_id_valuation:any;
     @Input() cValues;  //모달창 닫기용
     @Input() dValues;  //모달창 무시용
-    @Output() outputStatusCd = new EventEmitter<string>(); //부모에게 이벤트 전달용
+    @Output() output = new EventEmitter<any>(); //부모에게 이벤트 전달용
 
     private status_cd : string = "4"; //진행상태 처리완료
+    private status_nm : string = "처리완료"; //진행상태명 처리완료
 
     constructor(private incidentService: IncidentService
 
@@ -24,19 +25,21 @@ export class IncidentValuationComponent implements OnInit {
     ngOnInit() {
     }
 
-    putValuation(formData: NgForm) {
+    setValuation(formData: NgForm) {
 
         //console.log("===============================");
         //console.log(formData.value);
         //console.log("===============================");
         
         formData.value.incident.id = this.incident_id_valuation;
-        
-        this.incidentService.putValuation(formData).subscribe(
+        formData.value.incident.status_cd = this.status_cd;
+        formData.value.incident.status_nm = this.status_nm;
+
+        this.incidentService.setValuation(formData).subscribe(
             (res) => {
                 //업데이트가 성공하면 진행 상태값 변경
                 if(res.success){
-                    this.outputStatusCd.emit(this.status_cd);
+                    this.output.emit(formData.value.incident);
                 }
             },
             (error: HttpErrorResponse) => {
