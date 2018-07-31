@@ -1,0 +1,276 @@
+<app-loading [condition]="isLoading"></app-loading>
+<app-toast></app-toast>
+
+<div class="content">
+    <div class="container">
+        <div class="svcd-body-content">
+            
+            <app-page-header [title]="'나의 업무처리현황'"></app-page-header>
+            
+            <!-- start Search Area-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-box">
+                    <form novalidate #f="ngForm" (ngSubmit)="getIncident()" class="form-horizontal group-border-dashed">
+                        
+                        <div class="form-group  row">
+                            <div class="col-lg-3 col-sm-12">
+                                <app-process-status
+                                                [condition]="'*'"
+                                                [initValue]="'1'"
+                                                [placeholder]="'진행구분'"
+                                                (outProcessStatus)="onSelected($event)"
+                                ></app-process-status>
+                            </div>
+                            <div class="col-lg-6 col-sm-12">
+                                <mat-form-field class="mat-form-field2">
+                                    <mat-select [(ngModel)]="company_cd"
+                                                name="company_cd" 
+                                                (selectionChange)="getIncident()"
+                                                placeholder="회사명">
+                                        <mat-option value="*">전체</mat-option>
+                                        <mat-option *ngFor="let obj of companyObj" [value]="obj.company_cd">{{obj.company_nm}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>    
+                            </div>
+                            <div class="col-lg-3">
+                            </div>
+                        </div>
+
+                        <div class="form-group  row">
+                            <div class="col-lg-6 col-sm-12">
+                                <mat-form-field class="mat-form-field2">
+                                    <mat-select [(ngModel)]="lower_cd"
+                                                name="lower_cd" 
+                                                (selectionChange)="getIncident()"
+                                                placeholder="하위업무">
+                                        <mat-option value="*">전체</mat-option>
+                                        <mat-option *ngFor="let obj of lowerObj" [value]="obj.lower_cd">{{obj.higher_nm}}/{{obj.lower_nm}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>  
+                            </div>
+                            <div class="col-lg-3 col-sm-12">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput 
+                                        [(ngModel)]="reg_date_from"
+                                        name="reg_date_from"
+                                        [min]="minDate" 
+                                        [max]="maxDate" 
+                                        [matDatepicker]="pickerf"
+                                        (dateChange)="addEvent('change', $event)"
+                                        placeholder="검색시작일">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerf"></mat-datepicker-toggle>
+                                    <mat-datepicker touchUi="true" #pickerf></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-sm-12">
+                                <mat-form-field class="example-full-width" color="accent">
+                                    <input matInput 
+                                        [(ngModel)]="reg_date_to" 
+                                        name="reg_date_to"
+                                        [min]="minDate" 
+                                        [max]="maxDate" 
+                                        [matDatepicker]="pickert"
+                                        (dateChange)="addEvent('change', $event)"
+                                        placeholder="검색종료일"
+                                    >
+                                    <mat-datepicker-toggle matSuffix [for]="pickert"></mat-datepicker-toggle>
+                                    <mat-datepicker touchUi="true" #pickert></mat-datepicker>
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-lg-3 col-sm-12">
+                                <mat-form-field>
+                                    <mat-select [(ngModel)]="searchType"
+                                                name="searchType" 
+                                                (selectionChange)="getIncident()"
+                                                placeholder="검색구분">
+                                        <mat-option *ngFor="let obj of searchTypeObj" [value]="obj.value">{{obj.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-9 col-sm-12">
+                                <mat-form-field class="mat-form-field3">
+                                    <input matInput
+                                        [(ngModel)]="searchText"
+                                        name="searchText"
+                                        type="input" 
+                                        placeholder="검색어"
+                                    >
+                                </mat-form-field>&nbsp;&nbsp;
+                                <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
+                                    <span>조회</span>
+                                    <i class="fa fa-search m-r-5"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                    </div>
+                </div>
+            </div>
+            <!-- end Search Area-->  
+            
+            <!-- 처리현황 시작-->
+            
+            <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                        <div class="card-box">
+                            <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th width="50px" class="text-center">긴급</th>
+                                    <th width="60px" class="text-center">진행<br>구분</th>
+                                    <th class="text-center">제목</th>
+                                    <th width="150px" class="text-center">회사명/요청자</th>
+                                    <th width="100px" class="text-center">등록일</th>
+                                    <th width="100px" class="text-center">접수완료일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let incident of incidents" style="cursor:pointer" >
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center"><span *ngIf="incident?.process_speed == 'Y'" class="label label-warning">✔</span></td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">
+                                        <span *ngIf="incident?.status_cd == 1" class="label label-inverse">접수대기</span>
+                                        <span *ngIf="incident?.status_cd == 2" class="label label-primary">처리중</span>
+                                        <span *ngIf="incident?.status_cd == 3" class="label label-success">미평가</span>
+                                        <span *ngIf="incident?.status_cd == 4" class="label label-purple">처리완료</span>
+                                        <span *ngIf="incident?.status_cd == 5" class="label label-info">협의필요</span>
+                                        <span *ngIf="incident?.status_cd == 6" class="label label-default">미처리</span>
+                                    </td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-left">{{incident?.title}}</td>
+                                    <td (click)="getEmpInfo(empInfoModal,incident.request_id);" class="text-center">{{incident?.request_company_nm}}/{{incident?.request_nm}}</td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.register_date}}</td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.receipt_date}}</td>
+                                </tr>
+                                    <td *ngIf="incidents.length == 0" colspan='6' class='text-center'>조회된 데이타가 없습니다.</td>
+                                </tbody>
+                            </table>
+                            </div>
+                    
+                        </div>
+                    </div>
+    
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="dataTables_info">Showing 1 to 15 of {{totlaPageCnt}} pages
+                            /
+                            총 <span>{{totalDataCnt}}</span>개
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <ngb-pagination [collectionSize]="totalDataCnt" pageChange 
+                                        [(page)]="page" 
+                                        [maxSize]="maxSize" 
+                                        [pageSize]="pageDataSize"
+                                        [rotate]="true" 
+                                        [ellipses]="false" 
+                                        [boundaryLinks]="true"
+                                        (pageChange)="pageChange($event)"
+                                        class="float-right"
+                        ></ngb-pagination>
+                    </div>
+                </div>                
+                
+                <!-- 처리현황 끝-->
+
+            
+                        
+        </div>
+    </div>
+</div>
+
+
+
+<section class="content">
+            <!-- 처리현황 시작-->
+            <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                        <div class="card-box">
+                            <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th width="5%" class="text-center">긴급</th>
+                                    <th width="10%" class="text-center">진행구분</th>
+                                    <th class="text-center">제목</th>
+                                    <th width="15%" class="text-center">요청경로</th>
+                                    <th width="12%" class="text-center">회사명/요청자</th>
+                                    <th width="10%" class="text-center">등록일</th>
+                                    <th width="10%" class="text-center">접수완료일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let incident of incidents" style="cursor:pointer" >
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center"><span *ngIf="incident?.process_speed == 'Y'" class="label label-warning">✔</span></td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">
+                                        <span *ngIf="incident?.status_cd == 1" class="label label-inverse">접수대기</span>
+                                        <span *ngIf="incident?.status_cd == 2" class="label label-primary">처리중</span>
+                                        <span *ngIf="incident?.status_cd == 3" class="label label-success">미평가</span>
+                                        <span *ngIf="incident?.status_cd == 4" class="label label-purple">처리완료</span>
+                                        <span *ngIf="incident?.status_cd == 5" class="label label-info">협의필요</span>
+                                        <span *ngIf="incident?.status_cd == 6" class="label label-default">미처리</span>
+                                    </td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-left">{{incident?.title}}</td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.app_menu}}</td>
+                                    <td (click)="getEmpInfo(empInfoModal,incident.request_id);" class="text-center">{{incident?.request_company_nm}}/{{incident?.request_nm}}</td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.register_date}}</td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.receipt_date}}</td>
+                                </tr>
+                                <td *ngIf="incidents.length == 0" colspan='7' class='text-center'>조회된 데이타가 없습니다.</td>
+                                </tbody>
+                            </table>
+                            </div>
+                    
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="dataTables_info">Showing 1 to 15 of <span id="totalPage"></span> pages
+                            /
+                            총 <span id="totalCnt"></span>개
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <ngb-pagination [collectionSize]="totalDataCnt" pageChange 
+                                        [(page)]="page" 
+                                        [maxSize]="maxSize" 
+                                        [pageSize]="pageDataSize"
+                                        [rotate]="true" 
+                                        [ellipses]="false" 
+                                        [boundaryLinks]="true"
+                                        (pageChange)="pageChange($event)"
+                                        class="float-right"
+                        ></ngb-pagination>
+                    </div>
+                </div>        
+                <!-- 처리현황 끝-->
+</section>
+
+
+<!-- start detail view modal -->
+<ng-template #incidentDetailModal let-c="close" let-d="dismiss">
+    <app-incident-detail-m [cValues]="this.c"
+                           [dValues]="this.d"
+                           [incidentDetail]="incidentDetail"
+                           (openerReload) = "reload()" 
+    ></app-incident-detail-m>
+</ng-template>
+<!-- end detail view modal -->
+
+<!-- start empInfo modal -->
+<ng-template #empInfoModal let-c="close" let-d="dismiss">
+    <app-emp-info [cValues]="this.c"
+                  [dValues]="this.d"
+                  [email]="empEmail"
+    ></app-emp-info>
+</ng-template>
+<!-- end empInfo modal -->

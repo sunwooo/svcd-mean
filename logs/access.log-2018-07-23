@@ -1,6 +1,0 @@
-[2018-07-23 13:19:36.707] [INFO] http - ::ffff:127.0.0.1 - - "POST /api/login HTTP/1.1" 200 969 "http://localhost:4200/login" "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"
-[2018-07-23 13:19:37.029] [INFO] http - ::ffff:127.0.0.1 - - "GET /api/statistic/statusCdCnt HTTP/1.1" 200 154 "http://localhost:4200/svcd/index" "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"
-[2018-07-23 13:19:37.030] [INFO] http - ::ffff:127.0.0.1 - - "GET /api/statistic/valuationCnt HTTP/1.1" 200 280 "http://localhost:4200/svcd/index" "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"
-[2018-07-23 13:19:37.033] [INFO] http - ::ffff:127.0.0.1 - - "GET /api/statistic/higherCnt HTTP/1.1" 200 - "http://localhost:4200/svcd/index" "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"
-[2018-07-23 13:19:37.136] [INFO] http - ::ffff:127.0.0.1 - - "GET /api/incident/incidnetList HTTP/1.1" 200 - "http://localhost:4200/svcd/index" "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"
-[2018-07-23 13:19:37.221] [INFO] http - ::ffff:127.0.0.1 - - "GET /api/statistic/monthlyCnt HTTP/1.1" 200 577 "http://localhost:4200/svcd/index" "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; rv:11.0) like Gecko"

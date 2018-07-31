@@ -1,0 +1,98 @@
+<div class="row">
+<div class="col-lg-12">
+    <div class="card-box">
+    <form novalidate #areaSelectForm="ngForm" class="form-horizontal group-border-dashed">
+        <div class="form-group row">
+        <div class="col-lg-3 col-sm-12">
+            <!-- <mat-selection-list #list [(ngModel)]="selectedOptions" (ngModelChange)="onNgModelChange($event)"> -->
+            <mat-form-field>
+            <mat-select placeholder="회사명">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let state of taskTypeAreas" [value]="state">{{state}}</mat-option>
+            </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-lg-3 col-sm-12">
+            <mat-form-field>
+            <mat-select placeholder="진행상태">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let state of taskTypeAreas" [value]="state">{{state}}</mat-option>
+            </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-lg-3 col-sm-12">
+            <mat-form-field>
+            <mat-select placeholder="상위업무">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let state of taskTypeAreas" [value]="state">{{state}}</mat-option>
+            </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-lg-3 col-sm-12">
+            <!-- <mat-selection-list #list [(ngModel)]="selectedOptions" (ngModelChange)="onNgModelChange($event)"> -->
+            <mat-form-field>
+            <mat-select placeholder="하위업무">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let state of taskTypeAreas" [value]="state">{{state}}</mat-option>
+            </mat-select>
+            </mat-form-field>
+
+
+        </div>
+        </div>
+        <div class="form-group row">
+
+        <div class="col-lg-3 col-sm-12">
+            <mat-form-field class="example-full-width">
+            <input matInput 
+                   [min]="minDate" 
+                   [max]="maxDate" 
+                   [matDatepicker]="pickerf"
+                   (dateInput)="addEvent('input', $event)" 
+                   (dateChange)="addEvent('change', $event)"
+                    placeholder="검색시작일">
+            <mat-datepicker-toggle matSuffix [for]="pickerf"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" #pickerf></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-lg-3 col-sm-12">
+            <mat-form-field class="example-full-width" color="accent">
+            <input matInput 
+                   [min]="minDate" 
+                   [max]="maxDate" 
+                   [matDatepicker]="pickert"
+                   (dateInput)="addEvent('input', $event)" 
+                   (dateChange)="addEvent('change', $event)"
+                   [value]="date.value" 
+                   placeholder="검색종료일"
+            >
+            <mat-datepicker-toggle matSuffix [for]="pickert"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" #pickert></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-lg-3 col-sm-12">
+        </div>
+        <div class="col-lg-3 col-sm-12">
+        </div>
+        </div>
+        <div class="form-group row">
+        <div class="col-lg-3 col-sm-12">
+            <!-- <mat-selection-list #list [(ngModel)]="selectedOptions" (ngModelChange)="onNgModelChange($event)"> -->
+            <mat-form-field>
+            <mat-select placeholder="검색구분">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let state of taskTypeAreas" [value]="state">{{state}}</mat-option>
+            </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-lg-9 col-sm-12">
+            <mat-form-field class="mat-form-field3">
+            <input matInput name="search_aaa" type="input" placeholder="검색어">
+            </mat-form-field>
+        </div>
+        </div>
+    </form>
+    </div>
+</div>
+</div>
+
