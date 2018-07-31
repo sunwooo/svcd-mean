@@ -1,0 +1,100 @@
+<app-toast></app-toast>
+<div class="modal-header" style="text-align:left">
+  <h5 class="modal-title">
+    접수처리
+  </h5>
+  <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
+</div>
+<div class="modal-body">
+  <form novalidate #f="ngForm" (ngSubmit)="receipt(f)" class="form-horizontal group-border-dashed">
+        <div ngModelGroup="incident">
+            <div class="row" >
+                <div class="col-lg-9  float-left">
+                    <h5 class="m-t-30 text-primary-svc">
+                        <i style="font-size:22px" class="md md-sms m-r-10"></i>
+                        <span style="font-size:14px"><b>상담하신 접수내용을 아래 사항에 차례로 입력하여 주시기 바랍니다.</b></span>
+                    </h5>
+                </div>
+                <div class="col-lg-3 float-right">
+                    <button type="submit" 
+                            [disabled]="!f.valid" 
+                            class="btn btn-sm btn-primary waves-effect waves-light float-right m-t-20">
+                    <i class="fa fa-check"></i> 저장
+                    </button>
+                </div>
+            </div>
+            <div class="card-box m-r-5">
+                <div class="row">
+                    <div class="col-lg-12">        
+                        <div class="form-group">
+                            <textarea [(ngModel)]="receipt_content" rows="6" name="receipt_content" class="form-control" placeholder="상담내용">
+                                문의하신 내용이 접수되었습니다.
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-sm-12">
+                        <mat-form-field class="example-full-width" color="accent">
+                            <input matInput 
+                                [(ngModel)]="complete_reserve_date.value" 
+                                name="complete_reserve_date" 
+                                [min]="minDate" 
+                                [max]="maxDate" 
+                                [matDatepicker]="picker"
+                                (dateInput)="addEvent('input', $event)" 
+                                (dateChange)="addEvent('change', $event)" 
+                                placeholder="완료요청일"
+                            >
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker touchUi="true" #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-4">
+                        <mat-form-field>
+                            <mat-select [(ngModel)]="init_hh"
+                                        name="complete_hh" 
+                                        placeholder="시">
+                                <mat-option *ngFor="let obj of hhObj" [value]="obj.value">{{obj.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-4">
+                        <mat-form-field>
+                            <mat-select [(ngModel)]="init_mi"
+                                        name="complete_mi" 
+                                        placeholder="분">
+                                <mat-option *ngFor="let obj of miObj" [value]="obj.value">{{obj.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="col-lg-12">        
+                        <div class="form-group">
+                            <app-lower-cd 
+                                [required]="true"
+                                [higher_cd]="incidentDetail?.higher_cd"
+                                [placeholder]="'하위업무'"
+                                (outLowerCd)="setLower($event)"
+                            ></app-lower-cd>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="col-lg-12">        
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-select [(ngModel)]="bLevel"
+                                            name="business_level" 
+                                            placeholder="검색구분">
+                                    <mat-option *ngFor="let obj of bLevelObj" [value]="obj.value">{{obj.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>  
+</div>
