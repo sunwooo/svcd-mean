@@ -8,13 +8,17 @@ import { LogoutComponent } from './pages/logout/logout.component';
 import { AccountComponent } from './pages/account/account.component';
 import { MainContentComponent } from './pages/main-content/main-content.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+
 import { IncidentNewComponent } from './pages/incident/incident-new/incident-new.component';
+import { IncidentNewMngComponent } from './pages/incident/incident-new-mng/incident-new-mng.component';
 import { IncidentListComponent } from './pages/incident/incident-list/incident-list.component';
 import { IncidentListMngComponent } from './pages/incident/incident-list-mng/incident-list-mng.component';
 import { IncidentListAllComponent } from './pages/incident/incident-list-all/incident-list-all.component';
+
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
+
 
 const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -26,6 +30,7 @@ const routes: Routes = [
             { path: 'incident', 
             children: [
                 { path: 'new', component: IncidentNewComponent },
+                { path: 'new-mng', component: IncidentNewMngComponent },
                 { path: 'list', component: IncidentListComponent },
                 { path: 'list-mng', component: IncidentListMngComponent },
                 { path: 'list-all', component: IncidentListAllComponent }

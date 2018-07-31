@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Input } from "@angular/core";
 import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS, MatDatepickerInputEvent } from '@angular/material';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { NgForm } from "@angular/forms";
+import { HttpErrorResponse } from "@angular/common/http";
+import { CompanyService } from '../../../services/company.service';
 
 @Component({
   selector: 'app-company-detail-a',
@@ -31,6 +34,7 @@ export class CompanyDetailAComponent implements OnInit {
   public addr;
   public addr2;
   public bigo;
+  public id;
   
 
   public today = new Date();
@@ -44,7 +48,7 @@ export class CompanyDetailAComponent implements OnInit {
     ];  
   
 
-  constructor() { }
+  constructor( private companyService: CompanyService) { }
 
   ngOnInit() {
     this.group_flag = this.companyDetail.group_flag;
@@ -57,11 +61,40 @@ export class CompanyDetailAComponent implements OnInit {
     this.addr       = this.companyDetail.addr;
     this.addr2      = this.companyDetail.addr2;
     this.bigo       = this.companyDetail.bigo;
+    this.id         = this.companyDetail._id;
+
+
+
+
     
-
-
     console.log("companyDetail", this.companyDetail);
+    console.log("companyDetail.id", this.companyDetail._id);
   }
+
+  saveCompany(form: NgForm) {
+
+        console.log('=======================================save(form : NgForm)=======================================');
+        console.log(form.value);
+        console.log('=================================================================================================');
+        
+        
+        this.companyService.putCompany(form).subscribe(
+            res => {
+                
+                //console.log('=============saveUser(form : NgForm) this.companyService.putCompany(form).subscribe( =========');
+                //console.log(res);
+                //console.log('========================================================================================');
+
+            }
+            ,
+            (error: HttpErrorResponse) => {
+
+            }
+        );
+        
+        
+
+    }
 
   addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
 

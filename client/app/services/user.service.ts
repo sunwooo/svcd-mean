@@ -6,7 +6,10 @@ import { NgForm } from '@angular/forms';
 @Injectable()
 export class UserService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+
+
+    }
 
     login(credentials): Observable<any> {
 
@@ -33,7 +36,7 @@ export class UserService {
 
 
     /**
-     * 그룹 직원정보 
+     * 그룹 사용자 정보 
      * @param user 
      */
     getGroupEmpInfo(email: string): Observable<any> {
@@ -54,7 +57,7 @@ export class UserService {
     * 
     * @param user 
     */
-    getEmpInfo(email: string): Observable < any > {
+    getEmpInfo(email: string): Observable <any> {
 
         console.log("========getEmpInfo(email : string): Observable<any>========");
         console.log("email : ", email);
@@ -64,10 +67,13 @@ export class UserService {
     }
 
 
-    /*
-    getUser(user: User): Observable<User> {
-      return this.http.get<User>(`/api/user/${user._id}`);
+    /**
+     * 사용자 찾기
+     * @param empName 
+     */
+    findEmp(empName: string): Observable<any> {
+        return this.http.get<any>('/api/findEmp', { params: new HttpParams().set('empName', empName) });
     }
-    */
+    
 
 }

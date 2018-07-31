@@ -3,6 +3,8 @@
 var async = require('async');
 
 var Company = require('../../models/Company');
+var Incident = require('../../models/Incident');
+var User = require('../../models/User');
 var service = require('../../services/company');
 var CONFIG = require('../../../config/config.json');
 var logger = require('log4js').getLogger('app');
@@ -109,6 +111,75 @@ module.exports = {
                 .limit(perPage);
         });
     
+    },
+
+    update: (req, res, next) => {
+        try{
+            console.log("=================================");
+            console.log("company update.....");
+            console.log("=================================");
+
+            //logger.debug("=================================")
+            //logger.debug("req.body.company ",JSON.stringify(req.body.company));
+            //logger.debug("=================================")
+
+            async.waterfall([function (callback) {
+                Company.findOneAndUpdate({
+                    _id: req.body.company.id
+                }, req.body.company, function (err, company) {
+                    if (err) {
+                        res.render("http/500", {
+                            cache : true,
+                            err: err
+                        });
+                    } else {
+                        callback(null);
+                    }
+                });
+            }, function (callback){
+                var condition = {};
+                var setQuery = {};
+                var option = {};
+                condition.request_company_cd = req.body.company.company_cd;
+                setQuery.$set = { "request_company_nm" : req.body.company.company_nm };
+                option.multi = true;
+                //incident 회사명 수정
+                Incident.update(condition, setQuery, option, function(err, tasks){                        
+                    if(err){
+                        res.render("http/500", {
+                            cache : true,
+                            err: err
+                        });
+                    }else{
+                        callback(null);
+                    }
+                });
+            }], function(){
+                var condition = {};
+                var setQuery = {};
+                var option = {};
+                condition.company_cd = req.body.company.company_cd;
+                setQuery.$set = { "company_nm" : req.body.company.company_nm };
+                option.multi = true;
+                //사용자 회사명 수정
+                User.update(condition, setQuery, option, function(err, tasks){                        
+                    if(err){
+                        res.render("http/500", {
+                            cache : true,
+                            err: err
+                        });
+                    }else{
+                        res.redirect('/company/');
+                    }
+                });
+            });
+        }catch(e){
+
+            logger.error("=================================");
+            logger.error("company update error : ",e);
+            logger.error("=================================");
+
+        }finally{}
     }
 }
 

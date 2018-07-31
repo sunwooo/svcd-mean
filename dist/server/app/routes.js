@@ -19,6 +19,7 @@ router.post('/login', userCtrl.login);    //로그인
 //Users route
 router.post('/addUser', userCtrl.insert);    //사용자 추가등록
 router.get('/empInfo', userCtrl.empInfo);    //사용자 정보
+router.get('/findEmp', userCtrl.findEmp);    //사용자 찾기
 
 //usermanage route
 router.get('/user/list', userCtrl.list);    //사원정보관리
@@ -26,17 +27,24 @@ router.get('/user/list', userCtrl.list);    //사원정보관리
 
 //Common api route
 router.get('/higherProcess', apiCtrl.higherProcess);    //상위업무 조회
+router.get('/lowerProcess', apiCtrl.lowerProcess);      //하위업무 조회
+router.get('/myProcess', apiCtrl.myProcess);            //본인업무 조회
+router.get('/company', apiCtrl.companyList);            //회사 조회
 router.get('/processStatus', apiCtrl.processStatus);    //진행상태 조회
 
 
 //incident route
-router.get('/incident/userlist', incidentCtrl.userlist);    //처리진행현황(본인데이타)
-router.get('/incident/incidnetList', incidentCtrl.incidnetList);    //문의 리스트 조회
+router.get('/incident/list', incidentCtrl.list);    //인시던트 조회
 router.get('/incident/detail', incidentCtrl.detail);    //상세조회
 router.post('/incident/new', incidentCtrl.insert);     //문의하기 등록
-router.put('/incident/valuation', incidentCtrl.putValuation); //만족도 평가
-router.delete('/incident/delete', incidentCtrl.delete);  //삭제
 router.post('/incident/download', incidentCtrl.download);  //첨부파일 다운로드
+router.put('/incident/valuation', incidentCtrl.setValuation); //만족도 평가
+router.put('/incident/changeHigher', incidentCtrl.setChangeHigher); //상위업무 변경
+router.put('/incident/receipt', incidentCtrl.setReceipt); //업무 접수
+router.put('/incident/complete', incidentCtrl.setComplete); //업무 완료
+router.put('/incident/n_complete', incidentCtrl.setNComplete); //업무 미완료
+router.put('/incident/hold', incidentCtrl.setHold); //업무 협의
+router.delete('/incident/delete', incidentCtrl.delete);  //삭제
 
 
 //statistic route

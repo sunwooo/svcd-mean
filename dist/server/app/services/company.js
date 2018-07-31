@@ -26,7 +26,7 @@ module.exports = {
             highlight.content = req.query.searchText;
 
             if (OrQueries.length > 0){
-                findCompany.$or = OrQueries
+                findCompany.$or = OrQueries;
             }
         }
 

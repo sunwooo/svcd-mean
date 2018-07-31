@@ -28,6 +28,7 @@ export class IncidentListComponent implements OnInit {
     public isLoading = true;
 
     public incidentDetail: any;                 //선택 인시던트 id
+    public selectedIdx: number = -1;            //삭제를 위한 인덱스, 상세보기 시 값변경
     private page: number = 1;                   //출력 시작 인덱스
     private perPage: number = 3;                //한번에 화면에 조회되는 리스트 수
     private formData: any = {};                 //전송용 formData
@@ -68,6 +69,9 @@ export class IncidentListComponent implements OnInit {
         this.getIncident();
     }
 
+    /**
+     * 조회클릭 시
+     */
     onSubmit(){
         
         //1페이지로 초기화
@@ -96,8 +100,9 @@ export class IncidentListComponent implements OnInit {
         
         this.formData.page = this.page++;
         this.formData.perPage = this.perPage;
+        this.formData.user = "general";
 
-        this.incidentService.getUserIncident(this.formData).subscribe(
+        this.incidentService.getIncident(this.formData).subscribe(
             (res) => {
 
                 var tmp = this.incidents.concat(res.incident);
@@ -115,6 +120,11 @@ export class IncidentListComponent implements OnInit {
     
     }
 
+    /**
+     * 달력 이벤트 처리
+     * @param type
+     * @param event 
+     */
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
 
         console.log("================================");
@@ -130,8 +140,15 @@ export class IncidentListComponent implements OnInit {
         //console.log("================================");
     }
 
-    setDetail(modalId, incident){
+    /**
+     * 상세보기창 호출
+     * @param modalId 모달창 id
+     * @param incident 조회할 incident 객체
+     * @param idx  삭제를 위한 인덱스
+     */
+    setDetail(modalId, incident, idx){
         this.incidentDetail = incident;
+        this.selectedIdx = idx;
         this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
     }
 
@@ -143,14 +160,31 @@ export class IncidentListComponent implements OnInit {
         return new Array(i);
     }
 
+    /**
+     * 진행구분 선택 시
+     */
     onSelected(processStatus: string) {
         this.status_cd = processStatus;
         this.onSubmit();
     }
 
+    /**
+     * 직원 정보 모달창 호출
+     * @param modalId 모달창 id
+     * @param email 
+     */
     getEmpInfo(modalId, email){
         this.empEmail = email;
         this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
+    }
+
+    /**
+     * 삭제된 후 처리
+     * @param event 
+     */
+    afterDelete(){
+        //상세에서 삭제된 데이타를 배열에서도 삭제
+        this.incidents.splice(this.selectedIdx,1);
     }
     
 }

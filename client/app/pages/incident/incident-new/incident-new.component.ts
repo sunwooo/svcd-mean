@@ -27,10 +27,11 @@ declare var $: any;
 })
 export class IncidentNewComponent implements OnInit {
 
-    public higherCd: string;    
+    public higher: any;    
     public initPrcSpd: string = "N";
     public request_info: string = this.cookieService.get("employee_nm");
-    public real_contact: string = this.cookieService.get("hp_telno"); 
+    public real_contact: string = this.cookieService.get("hp_telno");
+    public request_company: string = this.cookieService.get("company_cd");
     
     private formData: any = {}; //전송용 formData
     private attach_file: any = []; //mongodb 저장용 첨부파일 배열
@@ -125,9 +126,11 @@ export class IncidentNewComponent implements OnInit {
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
         form.value.incident.content = text;
-        form.value.incident.higher_cd = this.higherCd;
+        form.value.incident.higher_cd = this.higher.higher_cd;
+        form.value.incident.higher_nm = this.higher.higher_nm;
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
+
         //form.onReset();
 
         //console.log('============= saveIncident ===============');
@@ -170,14 +173,14 @@ export class IncidentNewComponent implements OnInit {
 
     /**
      * 업무요청 선택 시
-     * @param higherCd 
+     * @param higher 
      */
-    onSelected(higherCd: string) {
-        console.log('higherCd', higherCd);
+    onSelected(higher) {
+        console.log('higherCd : ', higher);
         //this.higherCd = higherCd;
 
         //////////////////////////////////
-        this.higherCd = higherCd;
+        this.higher = higher;
         //////////////////////////////////  
 
     }

@@ -11,19 +11,23 @@ export class CompanyService {
         private cookieService: CookieService
     ) { }
 
-    /*
+    /**
+     * 회사리스트 가져오기 
+    */
+    
     getCompanyList(condition): Observable<any> {
+        console.log("===========================getCompanyList", condition);
         var httpParams = new HttpParams({ fromObject: condition });
         return this.http.get<any>('/api/company/list', {params: httpParams});
     }
+
+    /**
+     * 회사정보 수정
+     * @param form 
     */
-
-   getCompanyList(condition): Observable<any> {
-
-
-    console.log("===========================getCompanyList", condition);
-    var httpParams = new HttpParams({ fromObject: condition });
-    return this.http.get<any>('/api/company/list', {params: httpParams});
-  }
+    putCompany(form: NgForm): Observable<any> {
+        console.log("putCompany function!!");
+        return this.http.post<any>('/api/company/update', form, {withCredentials:true});
+    }
 
 }

@@ -4,6 +4,7 @@ var async = require('async');
 var jwt = require('jsonwebtoken');
 var User = require('../../models/User');
 var service = require('../../services/usermanage');
+var request = require("request");
 var CONFIG = require('../../../config/config.json');
 var logger = require('log4js').getLogger('app');
 
@@ -175,6 +176,47 @@ module.exports = {
     }
   },
 
+  /**
+   * 사용자정보
+   */
+  findEmp: (req, res) => {
+    try {
+
+      var searchText = req.query.empName;
+      request({
+        uri: CONFIG.groupware.uri + "/CoviWeb/api/UserList.aspx?searchName=" + encodeURIComponent(searchText),
+        headers: {
+          'Content-type': 'application/json'
+        },
+        method: "GET",
+      }, function (err, response, usermanage) {
+
+        User.find({
+            employee_nm: {
+              $regex: new RegExp(searchText, "i")
+            },
+            group_flag: "out"
+          })
+          .limit(10)
+          .exec(function (err, usermanageData) {
+            if (err) {
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+              if (usermanage != null) {
+                usermanage = JSON.parse(usermanage);
+              }
+              res.json(mergeUser(usermanage, usermanageData));
+            }
+          }); //usermanage.find End
+      }); //request End
+    } catch (e) {
+      logger.debug("===control usermanager.js userJSON : ", e);
+    }
+  },
+
   list: (req, res, next) => {
     var search = service.createSearch(req);
 
@@ -252,15 +294,43 @@ module.exports = {
         .skip((page - 1) * perPage)
         .limit(perPage);
     });
+  },
+
+
+}
+
+
+/**
+ * 배열합치기
+ * @param {} trg1 
+ * @param {*} trg2 
+ */
+function mergeUser(trg1, trg2) {
+  var rtnJSON = [];
+  try {
+    if (trg1 != null) {
+      for (var i = 0; i < trg1.length; i++) {
+        rtnJSON.push(trg1[i]);
+      }
+    }
+    if (trg2 != null) {
+      for (var i = 0; i < trg2.length; i++) {
+        rtnJSON.push(trg2[i]);
+      }
+    }
+    return rtnJSON;
+  } catch (e) {
+    logger.error("control useremanage mergeUser : ", e);
   }
 }
 
+/**
+ * 세션 처리
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} userInfo 
+ */
 function setUser(req, res, userInfo) {
-
-  //console.log("===============================")
-  //console.log("setUser ", userInfo);
-  //console.log("===============================");
-
   req.session.email = userInfo.email;
   req.session.user_id = userInfo.user_id;
   req.session.sabun = userInfo.sabun;

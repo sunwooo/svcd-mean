@@ -13,21 +13,12 @@ export class IncidentService {
     ) { }
 
     /**
-     * 사용자 본인 문의하기 조회
+     * 문의내역 조회
      * @param condition 
      */
-    getUserIncident(condition): Observable<any> {
+    getIncident(condition): Observable<any> {
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/incident/userlist', {params: httpParams});
-    }
-
-    /**
-     * 문의내용 조회
-     * @param condition 
-     */
-    incidnetList(condition): Observable<any> {
-        var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/incident/incidnetList', {params: httpParams});
+        return this.http.get<any>('/api/incident/list', {params: httpParams});
     }
 
     /**
@@ -47,11 +38,51 @@ export class IncidentService {
     }
 
     /**
+     * 상위업무 변경
+     * @param incident
+     */
+    setChangeHigher(incident: NgForm): Observable<any>{
+        return this.http.put<any>('/api/incident/changeHigher', incident.value, {withCredentials:true});
+    }
+
+    /**
+     * 업무 접수
+     * @param incident
+     */
+    setReceipt(incident: NgForm): Observable<any>{
+        return this.http.put<any>('/api/incident/receipt', incident.value, {withCredentials:true});
+    }
+
+    /**
+     * 업무 완료
+     * @param incident
+     */
+    setComplete(incident: NgForm): Observable<any>{
+        return this.http.put<any>('/api/incident/complete', incident.value, {withCredentials:true});
+    }
+
+    /**
+     * 업무 미완료
+     * @param incident
+     */
+    setNComplete(incident: NgForm): Observable<any>{
+        return this.http.put<any>('/api/incident/n_complete', incident.value, {withCredentials:true});
+    }    
+
+    /**
+     * 업무 협의
+     * @param incident
+     */
+    setHold(incident: NgForm): Observable<any>{
+        return this.http.put<any>('/api/incident/hold', incident.value, {withCredentials:true});
+    } 
+
+    /**
      * 만족도 평가
      * @param valuation
      */
-    putValuation(valuation: NgForm): Observable<any>{
-        return this.http.put<any>('/api/incident/valuation', valuation.value, {withCredentials:true});
+    setValuation(incident: NgForm): Observable<any>{
+        return this.http.put<any>('/api/incident/valuation', incident.value, {withCredentials:true});
     }
 
     /**

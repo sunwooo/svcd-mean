@@ -28,14 +28,23 @@
             </div>
             <nav class="docs-component-viewer-tabbed-content mat-tab-nav-bar mat-primary" mat-tab-nav-bar="">
                 <div class="mat-tab-links">
-                    <a [routerLink]="['/svcd/incident/new']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted mat-tab-label-active" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
+                    <a *ngIf="(user_flag == '9' || user_flag =='5')" [routerLink]="['/svcd/incident/new']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted mat-tab-label-active" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
                         문의하기
                     </a>
-                    <a [routerLink]="['/svcd/incident/list']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                    <a *ngIf="(user_flag != '9' && user_flag !='5')" [routerLink]="['/svcd/incident/new-mng']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted mat-tab-label-active" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
+                        상담접수(전화)
+                    </a>
+                    <a *ngIf="(user_flag == '9' || user_flag =='5')" [routerLink]="['/svcd/incident/list']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
                         처리진행현황
                     </a>
-                    <a [routerLink]="['/svcd/incident/list-all']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                    <a *ngIf="(user_flag != '9' && user_flag !='5')" [routerLink]="['/svcd/incident/list-mng']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                        나의 업무처리현황
+                    </a>
+                    <a *ngIf="(user_flag == '9' || user_flag =='5')" [routerLink]="['/svcd/incident/list-all']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
                         자주묻는질문과답
+                    </a>
+                    <a *ngIf="(user_flag != '9' && user_flag !='5')" [routerLink]="['/svcd/incident/list-all']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                        월별 처리내역
                     </a>
                     <div class="mr-auto">
                         <a [routerLink]="['/usermanage/myPage']" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
