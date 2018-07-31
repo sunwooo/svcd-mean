@@ -1,0 +1,262 @@
+<div class="modal-header" style="text-align:left">
+  <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
+</div>
+<div class="modal-body">
+  <!-- Start Page-Title-->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="page-title-box">
+        <ol class="breadcrumb float-right">
+          <li class="breadcrumb-item m-t-5">HOME</li>
+          <li class="breadcrumb-item m-t-5">문의 및 담당자</li>
+          <li class="breadcrumb-item m-t-5">처리된 내용검색</li>
+        </ol>
+        <h5 class="page-title">처리된 내용검색</h5>
+      </div>
+    </div>
+  </div>
+  <!-- End Page Title-->
+
+  <!-- Start Button Area-->
+  <div class="row">
+    <div class="col-lg-12">
+      <div role="toolbar" class="btn-toolbar m-t-10">
+        <div class="float-left">
+          <button type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+            <i class="fa fa-bars"></i>목록</button>
+          <button (click)="openModal(higherCngModal)" class="btn btn-warning waves-effect waves-light m-l-5 btn-sm">
+            <i class="fa fa-exchange"></i>업무변경</button>
+          <button  (click)="openModalLg(receipModal)" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
+            <i class="fa fa-edit"></i>접수</button>
+          <button  (click)="openModal(holdModal)" type="button" data-toggle="modal" data-target="#hold_modal" class="btn btn btn-pink waves-effect waves-light m-l-5 btn-sm">
+            <i class="fa fa-thumb-tack"></i>협의필요 </button>
+          <button  (click)="openModal(completeModal)" type="button" data-toggle="modal" data-target="#complete_modal" class="btn btn-purple waves-effect waves-light m-l-5 btn-sm">
+            <i class="fa fa-check"></i>완료</button>
+          <button  (click)="openModal(n_completeModal)" type="button" data-toggle="modal" data-target="#n_complete_modal" class="btn btn-default waves-effect waves-light m-l-5 btn-sm">
+            <i class="fa fa-check"></i>미처리 </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Button Area-->
+
+  <!-- start 접수내용-->
+  <div class="row">
+    <div class="col-sm-12 m-t-20">
+      <div class="card-box">
+        <h5>
+          <b>접수 내용</b>
+        </h5>
+        <hr class="m-0">
+        <table class="table table-bordered">
+          <colgroup>
+            <col width="20%">
+            <col width="30%">
+            <col width="20%">
+            <col width="30%">
+          </colgroup>
+          <tbody></tbody>
+          <tbody>
+            <tr>
+              <th class="bg-muted">진행상태
+              </th>
+              <td>
+                <span *ngIf="incidentDetail?.status_cd == '1'" class="label label-inverse">{{incidentDetail?.status_nm}}</span>
+                <span *ngIf="incidentDetail?.status_cd == '2'" class="label label-primary">{{incidentDetail?.status_nm}}</span>
+                <span *ngIf="incidentDetail?.status_cd == '3'" class="label label-success">{{incidentDetail?.status_nm}}</span>
+                <span *ngIf="incidentDetail?.status_cd == '4'" class="label label-purple">{{incidentDetail?.status_nm}}</span>
+                <span *ngIf="incidentDetail?.status_cd == '5'" class="label label-info">{{incidentDetail?.status_nm}}</span>
+                <span *ngIf="incidentDetail?.status_cd == '9'" class="label label-default">{{incidentDetail?.status_nm}}</span>
+              </td>
+
+              <th class="bg-muted">긴급구분
+              </th>
+              <td><span *ngIf="incidentDetail?.process_speed == 'Y'" class="label label-warning">✔</span></td>
+
+            </tr>
+            <tr>
+              <th class="bg-muted">상위업무</th>
+              <td>{{incidentDetail?.higher_nm}}</td>
+              <th class="bg-muted">하위업무</th>
+              <td>{{incidentDetail?.lower_nm}}</td>
+            </tr>
+            <tr>
+              <th class="bg-muted">요청자</th>
+              <td>{{incidentDetail?.request_company_nm}} / {{incidentDetail?.request_nm}}</td>
+              <th class="bg-muted">완료요청일</th>
+              <td>{{incidentDetail?.request_complete_date}}</td>
+            </tr>
+            <tr>
+              <th class="bg-muted">요청경로</th>
+              <td>{{incidentDetail?.app_menu}}</td>
+              <th class="bg-muted">등록자/등록일</th>
+              <td>{{incidentDetail?.register_nm}} / {{incidentDetail?.register_date}}</td>
+            </tr>
+            <tr>
+              <th class="bg-muted">제목</th>
+              <td colspan="3">{{incidentDetail?.title}}</td>
+            </tr>
+            <tr>
+              <th class="bg-muted">요청내용</th>
+              <td colspan="3">
+                <p [innerHTML]=incidentDetail?.content></p>
+              </td>
+            </tr>
+            <tr  *ngIf="incidentDetail?.attach_file.length > 0">
+              <th class="bg-muted">첨부파일</th>
+              <td colspan="3">
+                <div *ngFor="let file of incidentDetail?.attach_file" class="i fa fa-paperclip m-r-10 m-b-10">
+                    <a (click)="fileDownLoad(file?.path, file?.originalname)" style="cursor: pointer">
+                        <span class="text-pink">&nbsp;{{file?.originalname}}</span> <span class="text-primary.m-l-10">({{file?.size | number: '2.'}} Bytes)</span>
+                    </a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th class="bg-muted">접수상담내용</th>
+              <td colspan="3">{{incidentDetail?.receipt_content}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- End 접수내용-->
+
+  <!-- Start 처리내용 -->
+  <div *ngIf="incidentDetail?.status_cd != '1' && incidentDetail?.status_cd != '2' " class="row">
+    <div class="col-sm-12 m-t-20">
+      <div class="card-box">
+        <h5>
+          <!--h5.m-t-30-->
+          <b>처리 내용</b>
+        </h5>
+        <hr class="m-0">
+        <table class="table table-bordered m-t-0">
+          <colgroup>
+            <col width="20%">
+            <col width="30%">
+            <col width="20%">
+            <col width="30%">
+          </colgroup>
+          <tbody>
+            <tr>
+              <th class="bg-muted">처리담당자</th>
+              <td>{{incidentDetail?.manager_nm}}</td>
+              <th class="bg-muted">접수일</th>
+              <td>{{incidentDetail?.receipt_date}}</td>
+            </tr>
+            <tr>
+              <th class="bg-muted">완료예정일</th>
+              <td>{{incidentDetail?.complete_reserve_date}}</td>
+              <th class="bg-muted">난이도</th>
+              <td>
+                <span class="badge badge-danger">{{incidentDetail?.business_level}}</span>
+              </td>
+            </tr>
+            <tr>
+              <th class="bg-muted">처리구분</th>
+              <td colspan="3">
+                <span>{{incidentDetail?.process_nm}}</span>
+              </td>
+            </tr>
+            <tr>
+              <th class="bg-muted">처리내용</th>
+              <td>{{incidentDetail?.complete_content}}</td>
+            </tr>
+            <tr>
+              <th class="bg-muted">처리완료일</th>
+              <td>{{incidentDetail?.complete_date}}</td>
+              <th class="bg-muted">처리소요시간</th>
+              <td>{{incidentDetail?.need_minute}}</td>
+            </tr>
+            <tr>
+              <th class="bg-muted">지연사유</th>
+              <td colspan="3">{{incidentDetail?.delay_reason}}</td>
+            </tr>
+            <tr>
+              <th class="bg-muted">평가</th>
+              <td>
+                <span class="m-l-15">
+                    <i *ngFor="let i of counter(incidentDetail?.valuation)" class="md md-star text-warning"></i>
+                    <i *ngFor="let i of counter(5-incidentDetail?.valuation)" class="md md-star text-muted"></i>
+                </span>
+              </td>
+              <!--th.bg-muted 공개여부 / 조회수-->
+              <th class="bg-muted">공개여부</th>
+              <td>{{incidentDetail?.complete_open_flag}}</td>
+            </tr>
+            <tr>
+              <th class="bg-muted text-danger">Program ID</th>
+              <td colspan="3">{{incidentDetail?.program_id}}</td>
+            </tr>
+            <tr>
+              <th class="bg-muted text-danger">내부공유사항</th>
+              <td colspan="3">{{incidentDetail?.sharing_content}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- start higherCngModal -->
+<ng-template #higherCngModal let-c="close" let-d="dismiss">
+    <app-incident-higher-change [cValues]="this.c" 
+                            [dValues]="this.d"
+                            [incidentDetail]="incidentDetail"
+                            (output)="changeHigherCd($event)"
+    ></app-incident-higher-change>
+</ng-template>
+<!-- end higherCngModal -->
+
+<!-- start receipModal -->
+<ng-template #receipModal let-c="close" let-d="dismiss">
+    <app-incident-receipt [cValues]="this.c" 
+                            [dValues]="this.d"
+                            [incidentDetail]="incidentDetail"
+                            (outputStatusCd)="setReceipt($event)"
+    ></app-incident-receipt>
+</ng-template>
+<!-- end receipModal -->
+
+<!-- start holdModal -->
+<ng-template #holdModal let-c="close" let-d="dismiss">
+    <app-incident-valuation [cValues]="this.c" 
+                            [dValues]="this.d"
+                            [incident_id_valuation]="incidentDetail?._id"
+                            (outputStatusCd)="setStatusCd($event)"
+    ></app-incident-valuation>
+</ng-template>
+<!-- end holdModal -->
+
+<!-- start completeModal -->
+<ng-template #completeModal let-c="close" let-d="dismiss">
+    <app-incident-valuation [cValues]="this.c" 
+                            [dValues]="this.d"
+                            [incident_id_valuation]="incidentDetail?._id"
+                            (outputStatusCd)="setStatusCd($event)"
+    ></app-incident-valuation>
+</ng-template>
+<!-- end completeModal -->
+
+<!-- start n_completeModal -->
+<ng-template #n_completeModal let-c="close" let-d="dismiss">
+    <app-incident-valuation [cValues]="this.c" 
+                            [dValues]="this.d"
+                            [incident_id_valuation]="incidentDetail?._id"
+                            (outputStatusCd)="setStatusCd($event)"
+    ></app-incident-valuation>
+</ng-template>
+<!-- end n_completeModal -->
+
+<!-- start empInfo modal -->
+<ng-template #empInfoModal let-c="close" let-d="dismiss">
+    <app-emp-info [cValues]="this.c" 
+                [dValues]="this.d"
+                [email]="empEmail"
+    ></app-emp-info>
+</ng-template>
+<!-- end empInfo modal -->

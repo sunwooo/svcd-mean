@@ -31,7 +31,7 @@ import { IncidentDetailAComponent } from './pages/incident/incident-detail-a/inc
 import { ProcessStatusComponent } from './shared/process-status/process-status.component';
 import { EmpInfoComponent } from './shared/emp-info/emp-info.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
-import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
+import { CompanyDetailAComponent } from './pages/company/company-detail-a/company-detail-a.component';
 
 /** Services */
 import { UserService } from './services/user.service';
@@ -50,14 +50,11 @@ import { IncidentValuationComponent } from './pages/incident/incident-valuation/
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { StatisticService } from './services/statistic.service';
 import { CompanyService } from './services/company.service';
-import { UsermanageService } from './services/usermanage.service';import { CompanyDetailAComponent } from './pages/company/company-detail-a/company-detail-a.component';
 import { IncidentNewMngComponent } from './pages/incident/incident-new-mng/incident-new-mng.component';
 import { MatchCharCssPipe } from './match-char-css.pipe';
 import { IncidentDetailMComponent } from './pages/incident/incident-detail-m/incident-detail-m.component';
-import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
-import { IncidentHigherChangeComponent } from './pages/incident/incident-higher-change/incident-higher-change.component';
-import { IncidentReceiptComponent } from './pages/incident/incident-receipt/incident-receipt.component';
-import { IncidentNCompleteComponent } from './pages/incident/incident-n-complete/incident-n-complete.component';
+import { UsermanageService } from './services/usermanage.service';
+import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
 
 
 const PAGES = [
@@ -96,11 +93,7 @@ const PAGES = [
         CompanyListComponent,
         IncidentNewMngComponent,
         MatchCharCssPipe,
-        IncidentDetailMComponent,
-        LowerCdComponent,
-        IncidentHigherChangeComponent,
-        IncidentReceiptComponent,
-        IncidentNCompleteComponent
+        IncidentDetailMComponent
     ],
     imports: [
         BrowserModule,
@@ -123,7 +116,7 @@ const PAGES = [
         CommonApiService,
         CookieService,
         EmpInfoComponent,
-        StatisticService,        
+        StatisticService,
         CompanyService,
         UsermanageService
     ],
