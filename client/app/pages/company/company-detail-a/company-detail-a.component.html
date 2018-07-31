@@ -52,7 +52,7 @@
                                            <span matPrefix style ="width:10px">
                                                 <i class="prefix fa fa-group"></i>
                                             </span>
-                                          <mat-select [(ngModel)]="group_flag"
+                                          <mat-select [ngModel]="companyDetail?.group_flag"
                                                 name="group_flag" 
                                                 (change)="onSubmit()"
                                                 placeholder="그룹사여부">
@@ -66,7 +66,7 @@
                                                 <i class="prefix fa fa-key"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="company_cd"
+                                                    [ngModel]="companyDetail?.company_cd"
                                                     id="company_cd"
                                                     type="text" 
                                                     maxlength="30" 
@@ -84,7 +84,7 @@
                                                 <i class="prefix fa fa-institution"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="company_nm"
+                                                    [ngModel]="companyDetail?.company_nm"
                                                     id="company_nm"
                                                     type="text"
                                                     name="company_nm" 
@@ -107,7 +107,7 @@
                                                 <i class="prefix fa fa-info-circle"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="type"
+                                                    [ngModel]="companyDetail?.type"
                                                     id="type"
                                                     type="text" 
                                                     name="type" 
@@ -128,7 +128,7 @@
                                                 <i class="prefix fa fa-smile-o"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="ceo_nm"
+                                                    [ngModel]="companyDetail?.ceo_nm"
                                                     id="ceo_nm"
                                                     type="text" 
                                                     name="ceo_nm" 
@@ -149,7 +149,7 @@
                                                 <i class="prefix fa fa-phone"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="tel_no"
+                                                    [ngModel]="companyDetail?.tel_no"
                                                     id="tel_no"
                                                     type="text" 
                                                     name="tel_no" 
@@ -165,7 +165,7 @@
                                                 <i class="prefix fa fa-fax"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="fax_no"
+                                                    [ngModel]="companyDetail?.fax_no"
                                                     id="fax_no"
                                                     type="text" 
                                                     name="fax_no" 
@@ -181,7 +181,7 @@
                                                 <i class="prefix fa fa-adn"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="addr"
+                                                    [ngModel]="companyDetail?.addr"
                                                     id="addr"
                                                     type="text" 
                                                     name="addr" 
@@ -198,7 +198,7 @@
                                                 <i class="prefix fa fa-adn"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="addr2"
+                                                    [ngModel]="companyDetail?.addr2"
                                                     id="addr2"
                                                     type="text" 
                                                     name="addr2" 
@@ -213,7 +213,7 @@
                                                 <i class="prefix fa fa-comment-o"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="bigo"
+                                                    [ngModel]="companyDetail?.bigo"
                                                     id="bigo"
                                                     type="text" 
                                                     name="bigo" 
@@ -228,7 +228,7 @@
                                                 <i class="prefix fa fa-calendar"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="date_from" 
+                                                    [ngModel]="companyDetail?.date_from" 
                                                     name="date_from" 
                                                     [min]="minDate" 
                                                     [max]="maxDate" 
@@ -245,7 +245,7 @@
                                                 <i class="prefix fa fa-calendar"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="date_to" 
+                                                    [ngModel]="companyDetail?.date_to" 
                                                     name="date_to" 
                                                     [min]="minDate" 
                                                     [max]="maxDate" 
@@ -264,7 +264,7 @@
                                                 <i class="prefix fa fa-comment-o"></i>
                                             </span>
                                             <input matInput 
-                                                    [(ngModel)]="id"
+                                                    [ngModel]="companyDetail?.id"
                                                     id="id"
                                                     type="id" 
                                                     name="id" 

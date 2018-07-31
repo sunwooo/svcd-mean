@@ -103,7 +103,6 @@ export class IncidentDetailMComponent implements OnInit {
      * @param reload
      */
     changeHigherCd(reload){
-        console.log("changerHigherCd reload : ", reload);
         this.openerReload.emit();
         this.cValues('Close click');
     }
