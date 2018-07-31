@@ -13,6 +13,19 @@ import { RoutingModule } from './routing.module';
 import { SharedModule } from './shared/shared.module';
 import { SideNavMenuModule } from './side-nav-menu/module';
 
+/** pipe */
+import { MatchCharCssPipe } from './match-char-css.pipe';
+
+/** Services */
+import { UserService } from './services/user.service';
+import { IncidentService } from './services/incident.service';
+import { CommonApiService } from './services/common-api.service';
+import { AuthService } from './services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
+import { StatisticService } from './services/statistic.service';
+import { CompanyService } from './services/company.service';
+import { UsermanageService } from './services/usermanage.service';
+
 /** Components */
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -32,13 +45,8 @@ import { ProcessStatusComponent } from './shared/process-status/process-status.c
 import { EmpInfoComponent } from './shared/emp-info/emp-info.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { CompanyDetailAComponent } from './pages/company/company-detail-a/company-detail-a.component';
-
-/** Services */
-import { UserService } from './services/user.service';
-import { IncidentService } from './services/incident.service';
-import { CommonApiService } from './services/common-api.service';
-import { AuthService } from './services/auth.service';
-import { CookieService } from 'ngx-cookie-service';
+import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
+import { IncidentDetailMComponent } from './pages/incident/incident-detail-m/incident-detail-m.component';
 import { HigherCdComponent } from './shared/higher-cd/higher-cd.component';
 import { UserG1Component } from './shared/user-nav/user-g1/user-g1.component';
 import { UserG2Component } from './shared/user-nav/user-g2/user-g2.component';
@@ -47,15 +55,12 @@ import { UserG4Component } from './shared/user-nav/user-g4/user-g4.component';
 import { UserG5Component } from './shared/user-nav/user-g5/user-g5.component';
 import { UserG9Component } from './shared/user-nav/user-g9/user-g9.component';
 import { IncidentValuationComponent } from './pages/incident/incident-valuation/incident-valuation.component';
-import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
-import { StatisticService } from './services/statistic.service';
-import { CompanyService } from './services/company.service';
 import { IncidentNewMngComponent } from './pages/incident/incident-new-mng/incident-new-mng.component';
-import { MatchCharCssPipe } from './match-char-css.pipe';
-import { IncidentDetailMComponent } from './pages/incident/incident-detail-m/incident-detail-m.component';
-import { UsermanageService } from './services/usermanage.service';
-import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
-
+import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
+import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
+import { IncidentHigherChangeComponent } from './pages/incident/incident-higher-change/incident-higher-change.component';
+import { IncidentNCompleteComponent } from './pages/incident/incident-n-complete/incident-n-complete.component';
+import { IncidentReceiptComponent } from './pages/incident/incident-receipt/incident-receipt.component';
 
 const PAGES = [
     HomeComponent,
@@ -93,7 +98,11 @@ const PAGES = [
         CompanyListComponent,
         IncidentNewMngComponent,
         MatchCharCssPipe,
-        IncidentDetailMComponent
+        IncidentDetailMComponent,
+        LowerCdComponent,
+        IncidentHigherChangeComponent,
+        IncidentNCompleteComponent,
+        IncidentReceiptComponent
     ],
     imports: [
         BrowserModule,
