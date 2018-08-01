@@ -42,7 +42,7 @@ export class CompanyDetailAComponent implements OnInit {
      * 화사정보 수정
      * @param form 
      */
-    updataCompany(form: NgForm) {
+    updateCompany(form: NgForm) {
 
         form.value.company.id = this.companyDetail._id;
         console.log('=======================================save(form : NgForm)=======================================');
