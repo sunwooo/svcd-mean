@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatisticService } from '../../services/statistic.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IncidentService } from '../../services/incident.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-main-content',
@@ -58,7 +59,8 @@ export class MainContentComponent implements OnInit {
     public incidentDetail: any;                 //선택 인시던트 id
     public empEmail: string = "";               //팝업 조회용 이메일
 
-    constructor(private modalService: NgbModal,
+    constructor(private auth: AuthService,
+        private modalService: NgbModal,
         private statisticService: StatisticService,
         private incidentService: IncidentService){
     }
@@ -155,7 +157,18 @@ export class MainContentComponent implements OnInit {
 
     setDetail(modalId, incident){
         this.incidentDetail = incident;
-        this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
+
+        //console.log("user_flag ",this.auth.user_flag);
+        //console.log("email ",this.auth.email);
+        //console.log("incidentDetail.manager_email ",this.incidentDetail.manager_email);
+        //if(this.auth.user_flag == '5' 
+        //   && this.auth.email != this.incidentDetail.manager_email
+        //   && this.incidentDetail.status_cd != 1
+        //   && this.incidentDetail.o){
+        //    alert("조회 권한이 없습니다.");
+        //}else{
+            this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
+        //}
     }
 
     getEmpInfo(modalId, email){

@@ -32,6 +32,9 @@ export class IncidentCompleteComponent implements OnInit {
 
     public complete_content: string = "처리되었습니다.";
     public processGubunObj: any = []; //처리구분
+    public init_work_time: number = 1; //처리시간
+    public process_cd = "";
+    public process_nm = "";
     public checked = true;  //체크박스 체크여부
  
     constructor(private incidentService: IncidentService,
@@ -75,8 +78,6 @@ export class IncidentCompleteComponent implements OnInit {
      */
     setComplete() {
 
-        console.log("this.formData : ", this.formData);
-
         this.incidentService.setComplete(this.formData).subscribe(
             (res) => {
                 //업데이트가 성공하면 진행 상태값 변경
@@ -103,6 +104,8 @@ export class IncidentCompleteComponent implements OnInit {
     complete(form: NgForm) {
 
         form.value.incident.id = this.incidentDetail._id;
+        form.value.incident.process_cd = this.process_cd;
+        form.value.incident.process_nm = this.process_nm;
 
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
@@ -129,6 +132,14 @@ export class IncidentCompleteComponent implements OnInit {
                 console.log('error : ');
             }
         );
+    }
+
+    /**
+     * 처리구분 선택
+     */
+    onSelect(idx){   
+        this.process_cd = this.processGubunObj[idx].process_cd;
+        this.process_nm = this.processGubunObj[idx].process_nm;
     }
 
     /**

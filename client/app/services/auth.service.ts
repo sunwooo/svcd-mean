@@ -10,6 +10,8 @@ import { CookieService } from 'ngx-cookie-service';
 export class AuthService {
 
     public loggedIn = false;
+    public user_flag = '9';
+    public email = '';
 
     private jwtHelper: JwtHelperService = new JwtHelperService();
 
@@ -86,6 +88,8 @@ export class AuthService {
         expiredDate.setDate( expiredDate.getDate() + 0.5 );
 
         this.loggedIn = true;
+        this.user_flag = decodedUser.user_flag;
+        this.email = decodedUser.email;
         //this.cookieService.deleteAll();
 
         console.log("this.cookieService : ", this.cookieService);

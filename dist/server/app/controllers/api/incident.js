@@ -19,77 +19,77 @@ module.exports = {
    */
   setChangeHigher: (req, res, next) => {
     try {
-        async.waterfall([function (callback) {
+      async.waterfall([function (callback) {
 
-            var upIncident = req.body.incident;
+        var upIncident = req.body.incident;
 
-            var m = moment();
-            var date = m.format("YYYY-MM-DD HH:mm:ss");
+        var m = moment();
+        var date = m.format("YYYY-MM-DD HH:mm:ss");
 
-            upIncident.receipt_content = "* 상/하위업무변경 : " + req.session.user_nm + "-" + date;
-            //업무변경 시, 상태값 다시 업데이트 (최예화과장 요청)
-            upIncident.status_cd = "1";
-            upIncident.status_nm = '접수대기';
+        upIncident.receipt_content = "* 상/하위업무변경 : " + req.session.user_nm + "-" + date;
+        //업무변경 시, 상태값 다시 업데이트 (최예화과장 요청)
+        upIncident.status_cd = "1";
+        upIncident.status_nm = '접수대기';
 
-            upIncident.manager_company_cd = '';//담당자 회사코드
-            upIncident.manager_company_nm = '';//담당자 회사명
-            upIncident.manager_nm = '';//담당자 명
-            upIncident.manager_dept_cd = '';//담당자 부서코드
-            upIncident.manager_dept_nm = '';//담당자 부서명
-            upIncident.manager_position = '';//담당자 직위명
-            upIncident.manager_email = ''; //담당자 이메일
-            upIncident.manager_phone = '';//담당자 전화
-            upIncident.receipt_date = ''; //접수일
-            upIncident.complete_reserve_date = '';//완료예정일
+        upIncident.manager_company_cd = ''; //담당자 회사코드
+        upIncident.manager_company_nm = ''; //담당자 회사명
+        upIncident.manager_nm = ''; //담당자 명
+        upIncident.manager_dept_cd = ''; //담당자 부서코드
+        upIncident.manager_dept_nm = ''; //담당자 부서명
+        upIncident.manager_position = ''; //담당자 직위명
+        upIncident.manager_email = ''; //담당자 이메일
+        upIncident.manager_phone = ''; //담당자 전화
+        upIncident.receipt_date = ''; //접수일
+        upIncident.complete_reserve_date = ''; //완료예정일
 
-            if(!upIncident.lower_cd){
-                upIncident.lower_cd = "";
-                upIncident.lower_nm = "";
-            }
+        if (!upIncident.lower_cd) {
+          upIncident.lower_cd = "";
+          upIncident.lower_nm = "";
+        }
 
 
-            callback(null, upIncident);
+        callback(null, upIncident);
 
-        }], function (err, upIncident) {
+      }], function (err, upIncident) {
 
+        if (err) {
+          res.json({
+            success: false,
+            message: "No data found to update"
+          });
+        } else {
+
+          Incident.findOneAndUpdate({
+            _id: req.body.incident.id
+          }, upIncident, function (err, Incident) {
             if (err) {
-                res.json({
-                    success: false,
-                    message: "No data found to update"
-                });
+
+              return res.json({
+                success: false,
+                message: err
+              });
             } else {
 
-                Incident.findOneAndUpdate({
-                    _id: req.body.incident.id
-                }, upIncident, function (err, Incident) {
-                    if (err) {
+              //******************************* */
+              // SD 업무담당자 사내메신저 호출
+              alimi.sendAlimi(req.body.incident.higher_cd);
+              //******************************* */
 
-                        return res.json({
-                            success: false,
-                            message: err
-                        });
-                    } else {
+              return res.json({
+                success: true,
+                message: "update successed"
+              });
 
-                        //******************************* */
-                        // SD 업무담당자 사내메신저 호출
-                        alimi.sendAlimi(req.body.incident.higher_cd);
-                        //******************************* */
-
-                        return res.json({
-                            success: true,
-                            message: "update successed"
-                        });
-
-                    }
-                });
             }
-        });
+          });
+        }
+      });
     } catch (err) {
-        logger.error("manager control saveReceipt : ", err);
-        return res.json({
-            success: false,
-            message: err
-        });
+      logger.error("manager control saveReceipt : ", err);
+      return res.json({
+        success: false,
+        message: err
+      });
     }
   },
 
@@ -108,7 +108,7 @@ module.exports = {
         //접수일자 표기 통일하기 위해 수정 (등록일자 형태)
 
         upIncident.receipt_date = date;
-        if(upIncident.complete_reserve_date.length > 10) upIncident.complete_reserve_date = upIncident.complete_reserve_date.substring(0,10);
+        if (upIncident.complete_reserve_date.length > 10) upIncident.complete_reserve_date = upIncident.complete_reserve_date.substring(0, 10);
         upIncident.complete_reserve_date = upIncident.complete_reserve_date + " " + upIncident.complete_hh + ":" + upIncident.complete_mi + ":" + "00"
         upIncident.status_cd = '2';
         upIncident.status_nm = '처리중';
@@ -187,11 +187,11 @@ module.exports = {
         upIncident.complete_date = date;
         upIncident.status_cd = '3';
         upIncident.status_nm = '미평가';
-       
-        if(upIncident.complete_open_flag) upIncident.complete_open_flag = "Y";
+
+        if (upIncident.complete_open_flag) upIncident.complete_open_flag = "Y";
         else upIncident.complete_open_flag = "N";
 
-        if(upIncident.solution_flag) upIncident.solution_flag = "Y";
+        if (upIncident.solution_flag) upIncident.solution_flag = "Y";
         else upIncident.solution_flag = "N";
 
         callback(null, upIncident);
@@ -373,20 +373,20 @@ module.exports = {
             } else {
               //평가 완료 업데이트 성공 시 담당자에게 메일 전송
               User.findOne({
-                  email: Incident.manager_email
+                email: Incident.manager_email
               }, function (err, usermanage) {
-                  if (err) {
-                      return res.json({
-                          success: false,
-                          message: err
-                      });
-                  } else {
-                      if(usermanage != null){
-                          if (usermanage.email_send_yn == 'Y') {
-                              mailer.evaluationSend(Incident, upIncident);
-                          }
-                      }
+                if (err) {
+                  return res.json({
+                    success: false,
+                    message: err
+                  });
+                } else {
+                  if (usermanage != null) {
+                    if (usermanage.email_send_yn == 'Y') {
+                      mailer.evaluationSend(Incident, upIncident);
+                    }
                   }
+                }
               });
               return res.json({
                 success: true,
@@ -431,6 +431,16 @@ module.exports = {
     if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
     if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
 
+    if (search.findIncident.$and == null) {
+      search.findIncident.$and = [{
+        'delete_flag': {$ne: 'Y'}
+      }];
+    } else {
+      search.findIncident.$and.push({
+        'delete_flag': {$ne: 'Y'}
+      });
+    }
+
     try {
       async.waterfall([function (callback) {
 
@@ -473,7 +483,6 @@ module.exports = {
 
         },
         function (callback) {
-
           Incident.count(search.findIncident, function (err, totalCnt) {
             if (err) {
               logger.error("incident : ", err);
@@ -631,6 +640,45 @@ module.exports = {
    */
   delete: (req, res, next) => {
 
+    try {
+      async.waterfall([function (callback) {
+
+        var upIncident = {};
+        var m = moment();
+        var date = m.format("YYYY-MM-DD HH:mm:ss");
+
+        upIncident.deleted_at = date;
+        upIncident.delete_flag = 'Y';
+
+        callback(null, upIncident);
+      }], function (err, upIncident) {
+        Incident.findOneAndUpdate({
+          _id: req.body.id
+        }, upIncident, function (err, Incident) {
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+            return res.json({
+              success: true,
+              message: "delete successed"
+            });
+          }
+        });
+      });
+
+    } catch (err) {
+      logger.error("incident deleted err : ", err);
+      return res.json({
+        success: false,
+        message: err
+      });
+    }
+
+
+    /*
     Incident.findOneAndRemove({
       _id: req.body.id
       //,author: req.user._id
@@ -645,6 +693,7 @@ module.exports = {
       });
       res.json(incident);
     });
+    */
   },
 
 
