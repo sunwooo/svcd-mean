@@ -197,12 +197,16 @@
               <td>{{incidentDetail?.complete_open_flag}}</td>
             </tr>
             <tr>
-              <th class="bg-muted text-danger">Program ID</th>
-              <td colspan="3">{{incidentDetail?.program_id}}</td>
+                <th class="bg-muted">평가내역</th>
+                <td colspan="3" [innerHTML]="incidentDetail?.valuation_content | nl2br"></td>
+            </tr>            
+            <tr>
+              <th class="bg-muted">Program ID</th>
+              <td colspan="3" [innerHTML]="incidentDetail?.program_id | nl2br"></td>
             </tr>
             <tr>
-              <th class="bg-muted text-danger">내부공유사항</th>
-              <td colspan="3">{{incidentDetail?.sharing_content}}</td>
+              <th class="bg-muted text-danger">처리공유사항</th>
+              <td colspan="3" [innerHTML]="incidentDetail?.sharing_content | nl2br"></td>
             </tr>
           </tbody>
         </table>
