@@ -7,278 +7,279 @@
 <div class="modal-body">
   <div class="row">
     <div class="col-sm-12">
-    <form #f="ngForm" (ngSubmit)="saveCompany(f)" novalidate>
+    <form #f="ngForm" (ngSubmit)="updataCompany(f)" novalidate>
       <!--<form #f="ngForm" (ngSubmit)="saveUser(f)" novalidate>-->
-        <div class="row">
-            <div class="col-sm-12">
-                <div role="toolbar" class="btn-toolbar m-b-10">
-                  <div class="float-left">
-                    <button type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5">
-                      <i class="fa fa-bars"></i>목록</button>
-                    <button type="button" class="btn btn-inverse waves-effect waves-light m-l-5">
-                      <i class="fa fa-remove"></i>삭제</button>
-                    <button type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-l-5">
-                      <i class="fa fa-send-o"></i>저장</button>
-                  </div>
+        <div ngModelGroup="company">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div role="toolbar" class="btn-toolbar m-b-10">
+                    <div class="float-right">
+                        <button type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+                        <i class="fa fa-bars"></i>목록</button>
+                        <button type="button" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
+                        <i class="fa fa-remove"></i>삭제</button>
+                        <button type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+                        <i class="fa fa-send-o"></i>저장</button>
+                    </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card-box m-r-5">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-8 col-sm-12 col-centered">
-                                <div class="form-wrap">
-                                    <div class="input-wrap">
-                                        <!--
-                                        <mat-form-field>
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-group"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [(ngModel)]="group_flag"
-                                                    id="group_flag"
-                                                    type="text" 
-                                                    maxlength="20" 
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card-box m-r-5">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-8 col-sm-12 col-centered">
+                                    <div class="form-wrap">
+                                        <div class="input-wrap">
+                                            <!--
+                                            <mat-form-field>
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-group"></i>
+                                                </span>
+                                                <input matInput 
+                                                        [(ngModel)]="group_flag"
+                                                        id="group_flag"
+                                                        type="text" 
+                                                        maxlength="20" 
+                                                        name="group_flag" 
+                                                        placeholder="그룹사여부" 
+                                                        style="ime-mode:active;" 
+                                                        required
+                                                >
+                                            </mat-form-field>
+                                            -->
+                                            <mat-form-field class="mat-form-field2">
+                                            <span matPrefix style ="width:10px">
+                                                    <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                            <mat-select [ngModel]="companyDetail?.group_flag"
                                                     name="group_flag" 
-                                                    placeholder="그룹사여부" 
-                                                    style="ime-mode:active;" 
-                                                    required
-                                            >
-                                        </mat-form-field>
-                                        -->
-                                        <mat-form-field class="mat-form-field2">
-                                           <span matPrefix style ="width:10px">
-                                                <i class="prefix fa fa-group"></i>
-                                            </span>
-                                          <mat-select [ngModel]="companyDetail?.group_flag"
-                                                name="group_flag" 
-                                                (change)="onSubmit()"
-                                                placeholder="그룹사여부">
-                                            <mat-option *ngFor="let obj of groupFlagObj" [value]="obj.value">{{obj.name}}</mat-option>
-                                          </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="input-wrap">
-                                        <mat-form-field class="mat-form-field2">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-key"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.company_cd"
-                                                    id="company_cd"
-                                                    type="text" 
-                                                    maxlength="30" 
-                                                    name="company_cd" 
-                                                    placeholder="회사코드" 
-                                                    style="ime-mode:active;" 
-                                                    required
-                                                    readonly
-                                            >
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="input-wrap">
-                                        <mat-form-field  class="mat-form-field2">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-institution"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.company_nm"
-                                                    id="company_nm"
-                                                    type="text"
-                                                    name="company_nm" 
-                                                    placeholder="회사명"
-                                                    style="ime-mode:active;" 
-                                                    required 
-                                                    readonly
-                                            >
-                                            <!--
-                                            <mat-hint *ngIf="(email.invalid ) && (email.dirty) && (!f.submitted)">
-                                                Email 형식에 맞게 입력하세요.
-                                            </mat-hint>
-                                            -->
-                                        </mat-form-field>
-                                    </div>
+                                                    placeholder="그룹사여부">
+                                                <mat-option *ngFor="let obj of groupFlagObj" [value]="obj.value">{{obj.name}}</mat-option>
+                                            </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-key">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.company_cd"
+                                                        id="company_cd"
+                                                        type="text" 
+                                                        maxlength="30" 
+                                                        name="company_cd" 
+                                                        placeholder="회사코드" 
+                                                        style="ime-mode:active;" 
+                                                        required
+                                                        readonly
+                                                >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field  class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.company_nm"
+                                                        id="company_nm"
+                                                        type="text"
+                                                        name="company_nm" 
+                                                        placeholder="회사명"
+                                                        style="ime-mode:active;" 
+                                                        required 
+                                                        readonly
+                                                >
+                                                <!--
+                                                <mat-hint *ngIf="(email.invalid ) && (email.dirty) && (!f.submitted)">
+                                                    Email 형식에 맞게 입력하세요.
+                                                </mat-hint>
+                                                -->
+                                            </mat-form-field>
+                                        </div>
 
-                                    <div class="input-wrap">
-                                        <mat-form-field class="mat-form-field2">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-info-circle"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.type"
-                                                    id="type"
-                                                    type="text" 
-                                                    name="type" 
-                                                    placeholder="업태" 
-                                                    style="ime-mode:active;" 
-                                                    
-                                            >
-                                            <!--
-                                            <mat-hint align="end" *ngIf="(pwd.invalid ) && (!f.submitted)">
-                                                {{pwd.value?.length || 0}}/최소 6자 이상
-                                            </mat-hint>
-                                            -->
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="input-wrap">
-                                        <mat-form-field class="mat-form-field2">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-smile-o"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.ceo_nm"
-                                                    id="ceo_nm"
-                                                    type="text" 
-                                                    name="ceo_nm" 
-                                                    placeholder="대표이사명"
-                                                    style="ime-mode:active;" 
-                                            >
-                                            <!--
-                                            <mat-hint *ngIf="(pwd?.value != pwdCfm?.value) && (pwdCfm.dirty) && (!f.submitted)">
-                                                Passwords가 일치하지 않습니다.
-                                            </mat-hint>
-                                            -->
-                                        </mat-form-field>
-                                    </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-info-circle">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.type"
+                                                        id="type"
+                                                        type="text" 
+                                                        name="type" 
+                                                        placeholder="업태" 
+                                                        style="ime-mode:active;" 
+                                                        
+                                                >
+                                                <!--
+                                                <mat-hint align="end" *ngIf="(pwd.invalid ) && (!f.submitted)">
+                                                    {{pwd.value?.length || 0}}/최소 6자 이상
+                                                </mat-hint>
+                                                -->
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-smile-o">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.ceo_nm"
+                                                        id="ceo_nm"
+                                                        type="text" 
+                                                        name="ceo_nm" 
+                                                        placeholder="대표이사명"
+                                                        style="ime-mode:active;" 
+                                                >
+                                                <!--
+                                                <mat-hint *ngIf="(pwd?.value != pwdCfm?.value) && (pwdCfm.dirty) && (!f.submitted)">
+                                                    Passwords가 일치하지 않습니다.
+                                                </mat-hint>
+                                                -->
+                                            </mat-form-field>
+                                        </div>
 
-                                    <div class="input-wrap">
-                                        <mat-form-field class="mat-form-field2">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-phone"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.tel_no"
-                                                    id="tel_no"
-                                                    type="text" 
-                                                    name="tel_no" 
-                                                    placeholder="전화번호" 
-                                                    style="ime-mode:active;"
-                                            >
-                                        </mat-form-field>
-                                    </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-phone">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.tel_no"
+                                                        id="tel_no"
+                                                        type="text" 
+                                                        name="tel_no" 
+                                                        placeholder="전화번호" 
+                                                        style="ime-mode:active;"
+                                                >
+                                            </mat-form-field>
+                                        </div>
 
-                                    <div class="input-wrap">
-                                        <mat-form-field class="mat-form-field2">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-fax"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.fax_no"
-                                                    id="fax_no"
-                                                    type="text" 
-                                                    name="fax_no" 
-                                                    placeholder="팩스번호" 
-                                                    style="ime-mode:active;"
-                                            >
-                                        </mat-form-field>
-                                    </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-fax">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.fax_no"
+                                                        id="fax_no"
+                                                        type="text" 
+                                                        name="fax_no" 
+                                                        placeholder="팩스번호" 
+                                                        style="ime-mode:active;"
+                                                >
+                                            </mat-form-field>
+                                        </div>
 
-                                    <div class="input-wrap">
-                                        <mat-form-field class="mat-form-field2">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-adn"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.addr"
-                                                    id="addr"
-                                                    type="text" 
-                                                    name="addr" 
-                                                    placeholder="회사주소1" 
-                                            >
-                                            
-                                        </mat-form-field>
-                                        <button mat-Stroked-Buttons>우편번호찾기</button>
-                                    </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-adn">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.addr"
+                                                        id="addr"
+                                                        type="text" 
+                                                        name="addr" 
+                                                        placeholder="회사주소1" 
+                                                >
+                                                
+                                            </mat-form-field>
+                                            <button mat-Stroked-Buttons>우편번호찾기</button>
+                                        </div>
 
-                                    <div class="input-wrap">
-                                        <mat-form-field  class="mat-form-field2">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-adn"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.addr2"
-                                                    id="addr2"
-                                                    type="text" 
-                                                    name="addr2" 
-                                                    placeholder="회사주소2" 
-                                            >
-                                        </mat-form-field>
-                                    </div>
-                                    
-                                    <div class="input-wrap">
-                                        <mat-form-field  class="mat-form-field2">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-comment-o"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.bigo"
-                                                    id="bigo"
-                                                    type="text" 
-                                                    name="bigo" 
-                                                    placeholder="비고" 
-                                            >
-                                        </mat-form-field>
-                                    </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field  class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-adn">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.addr2"
+                                                        id="addr2"
+                                                        type="text" 
+                                                        name="addr2" 
+                                                        placeholder="회사주소2" 
+                                                >
+                                            </mat-form-field>
+                                        </div>
+                                        
+                                        <div class="input-wrap">
+                                            <mat-form-field  class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-comment-o">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.bigo"
+                                                        id="bigo"
+                                                        type="text" 
+                                                        name="bigo" 
+                                                        placeholder="비고" 
+                                                >
+                                            </mat-form-field>
+                                        </div>
 
-                                    <div class="input-wrap">
-                                        <mat-form-field class="example-full-width">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-calendar"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.date_from" 
-                                                    name="date_from" 
-                                                    [min]="minDate" 
-                                                    [max]="maxDate" 
-                                                    [matDatepicker]="pickerf"
-                                                    (dateChange)="addEvent('change', $event)"
-                                                    placeholder="유지보수 시작일"
-                                            >
-                                            <mat-datepicker-toggle matSuffix [for]="pickerf"></mat-datepicker-toggle>
-                                            <mat-datepicker touchUi="true" #pickerf></mat-datepicker>
-                                        </mat-form-field>
-                                        <span> ~ </span>
-                                        <mat-form-field class="example-full-width">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-calendar"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.date_to" 
-                                                    name="date_to" 
-                                                    [min]="minDate" 
-                                                    [max]="maxDate" 
-                                                    [matDatepicker]="pickert"
-                                                    (dateChange)="addEvent('change', $event)"
-                                                    placeholder="유지보수 종료일"
-                                            >
-                                            <mat-datepicker-toggle matSuffix [for]="pickert"></mat-datepicker-toggle>
-                                            <mat-datepicker touchUi="true" #pickert></mat-datepicker>
-                                        </mat-form-field>
-                                    </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field class="example-full-width">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-calendar">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.date_from" 
+                                                        name="date_from" 
+                                                        [min]="minDate" 
+                                                        [max]="maxDate" 
+                                                        [matDatepicker]="pickerf"
+                                                        (dateChange)="addEvent('change', $event)"
+                                                        placeholder="유지보수 시작일"
+                                                >
+                                                <mat-datepicker-toggle matSuffix [for]="pickerf"></mat-datepicker-toggle>
+                                                <mat-datepicker touchUi="true" #pickerf></mat-datepicker>
+                                            </mat-form-field>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                            <mat-form-field class="example-full-width">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-calendar">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.date_to" 
+                                                        name="date_to" 
+                                                        [min]="minDate" 
+                                                        [max]="maxDate" 
+                                                        [matDatepicker]="pickert"
+                                                        (dateChange)="addEvent('change', $event)"
+                                                        placeholder="유지보수 종료일"
+                                                >
+                                                <mat-datepicker-toggle matSuffix [for]="pickert"></mat-datepicker-toggle>
+                                                <mat-datepicker touchUi="true" #pickert></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
 
-                                    <div class="input-wrap" style="display:none">
-                                        <mat-form-field  class="mat-form-field2">
-                                            <span matPrefix>
-                                                <i class="prefix fa fa-comment-o"></i>
-                                            </span>
-                                            <input matInput 
-                                                    [ngModel]="companyDetail?.id"
-                                                    id="id"
-                                                    type="id" 
-                                                    name="id" 
-                                                    placeholder="objectId" 
-                                            >
-                                        </mat-form-field>
+                                        <div class="input-wrap" style="display:none">
+                                            <mat-form-field  class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-comment-o">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="companyDetail?.id"
+                                                        id="id"
+                                                        type="id" 
+                                                        name="id" 
+                                                        placeholder="objectId" 
+                                                >
+                                            </mat-form-field>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
+                    <!-- card-box m-r-5 -->
                 </div>
-                <!-- card-box m-r-5 -->
             </div>
         </div>
       </form>

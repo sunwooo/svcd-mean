@@ -21,6 +21,7 @@ router.post('/addUser', userCtrl.insert);    //사용자 추가등록
 router.get('/empInfo', userCtrl.empInfo);    //사용자 정보
 router.get('/findEmp', userCtrl.findEmp);    //사용자 찾기
 
+
 //usermanage route
 router.get('/user/list', userCtrl.list);    //사원정보관리
 
@@ -57,6 +58,7 @@ router.get('/statistic/higherCnt', statisticCtrl.higherCdCnt);  //신청건수 �
 
 //company route
 router.get('/company/list', companyCtrl.list); //회사 조회
+router.put('/company/update', companyCtrl.update); //회사 수정
 
 
 //upload incident attach file 

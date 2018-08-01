@@ -4,12 +4,12 @@
     업무변경
   </h5>
   <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
-</div>
+</div> 
 <div class="modal-body">
   <form novalidate #f="ngForm" (ngSubmit)="changeHigher(f)" class="form-horizontal group-border-dashed">
         <div ngModelGroup="incident">
             <div class="row" >
-                <div class="col-lg-9  float-left">
+                <div class="col-lg-9  float-right">
                     <h5 class="m-t-30 text-primary-svc">
                         <i style="font-size:22px" class="md md-sms m-r-10"></i>
                         <b>변경될 업무를 선택하세요.</b>

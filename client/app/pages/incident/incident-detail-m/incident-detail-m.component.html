@@ -32,7 +32,7 @@
             <i class="fa fa-thumb-tack"></i>협의필요 </button>
           <button  (click)="openModal(completeModal)" type="button" data-toggle="modal" data-target="#complete_modal" class="btn btn-purple waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-check"></i>완료</button>
-          <button  (click)="openModal(n_completeModal)" type="button" data-toggle="modal" data-target="#n_complete_modal" class="btn btn-default waves-effect waves-light m-l-5 btn-sm">
+          <button  (click)="openModal(ncompleteModal)" type="button" data-toggle="modal" data-target="#n_complete_modal" class="btn btn-default waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-check"></i>미처리 </button>
         </div>
       </div>
@@ -224,31 +224,31 @@
 
 <!-- start holdModal -->
 <ng-template #holdModal let-c="close" let-d="dismiss">
-    <app-incident-valuation [cValues]="this.c" 
+    <app-incident-hold [cValues]="this.c" 
                             [dValues]="this.d"
                             [incident_id_valuation]="incidentDetail?._id"
                             (outputStatusCd)="setStatusCd($event)"
-    ></app-incident-valuation>
+    ></app-incident-hold>
 </ng-template>
 <!-- end holdModal -->
 
 <!-- start completeModal -->
 <ng-template #completeModal let-c="close" let-d="dismiss">
-    <app-incident-valuation [cValues]="this.c" 
+    <app-incident-complete [cValues]="this.c" 
                             [dValues]="this.d"
                             [incident_id_valuation]="incidentDetail?._id"
                             (outputStatusCd)="setStatusCd($event)"
-    ></app-incident-valuation>
+    ></app-incident-complete>
 </ng-template>
 <!-- end completeModal -->
 
 <!-- start n_completeModal -->
-<ng-template #n_completeModal let-c="close" let-d="dismiss">
-    <app-incident-valuation [cValues]="this.c" 
+<ng-template #ncompleteModal let-c="close" let-d="dismiss">
+    <app-incident-n-completeModal [cValues]="this.c" 
                             [dValues]="this.d"
                             [incident_id_valuation]="incidentDetail?._id"
                             (outputStatusCd)="setStatusCd($event)"
-    ></app-incident-valuation>
+    ></app-incident-n-completeModal>
 </ng-template>
 <!-- end n_completeModal -->
 

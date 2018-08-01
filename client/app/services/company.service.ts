@@ -26,8 +26,7 @@ export class CompanyService {
      * @param form 
     */
     putCompany(form: NgForm): Observable<any> {
-        console.log("putCompany function!!");
-        return this.http.post<any>('/api/company/update', form, {withCredentials:true});
+        return this.http.put<any>('/api/company/update', form.value, {withCredentials:true});
     }
 
 }

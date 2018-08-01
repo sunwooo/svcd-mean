@@ -92,11 +92,11 @@ module.exports = {
                     //incident에 페이징 처리를 위한 전체 갯수전달
                     var rtnData = {};
                     rtnData.company = company;
-                    rtnData.totalCnt = totalCnt
+                    rtnData.totalCnt = totalCnt;
 
                     //logger.debug("=============================================");
                     //logger.debug("rtnData.totalCnt : ", rtnData.totalCnt);
-                    console.log("rtnData : ", JSON.stringify(rtnData));
+                    //console.log("rtnData : ", JSON.stringify(rtnData));
                     //logger.debug("=============================================");
 
                     res.json(rtnData);
@@ -113,10 +113,13 @@ module.exports = {
     
     },
 
+    /**
+     * 회사정보 수정
+     */
     update: (req, res, next) => {
         try{
             console.log("=================================");
-            console.log("company update.....");
+            console.log("company update.....req ",req);
             console.log("=================================");
 
             //logger.debug("=================================")
@@ -127,12 +130,7 @@ module.exports = {
                 Company.findOneAndUpdate({
                     _id: req.body.company.id
                 }, req.body.company, function (err, company) {
-                    if (err) {
-                        res.render("http/500", {
-                            cache : true,
-                            err: err
-                        });
-                    } else {
+                    if (!err) {
                         callback(null);
                     }
                 });
@@ -145,12 +143,7 @@ module.exports = {
                 option.multi = true;
                 //incident 회사명 수정
                 Incident.update(condition, setQuery, option, function(err, tasks){                        
-                    if(err){
-                        res.render("http/500", {
-                            cache : true,
-                            err: err
-                        });
-                    }else{
+                    if(!err){
                         callback(null);
                     }
                 });
@@ -163,13 +156,11 @@ module.exports = {
                 option.multi = true;
                 //사용자 회사명 수정
                 User.update(condition, setQuery, option, function(err, tasks){                        
-                    if(err){
-                        res.render("http/500", {
-                            cache : true,
-                            err: err
+                    if(!err){
+                        return res.json({
+                            success: true,
+                            message: "update successed"
                         });
-                    }else{
-                        res.redirect('/company/');
                     }
                 });
             });
