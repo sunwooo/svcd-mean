@@ -6,6 +6,7 @@ import { TruncateModule  } from 'ng2-truncate'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {Nl2BrPipeModule} from 'nl2br-pipe';
 
 /** Modules */
 import { MaterialModule } from './material/material.module';
@@ -122,7 +123,8 @@ const PAGES = [
         NgbModule.forRoot(),
         FileUploadModule,
         TruncateModule,
-        NgxChartsModule 
+        NgxChartsModule,
+        Nl2BrPipeModule
     ],
     providers: [
         AuthService,

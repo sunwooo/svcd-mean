@@ -58,7 +58,7 @@ export class IncidentService {
      * @param incident
      */
     setComplete(incident: NgForm): Observable<any>{
-        return this.http.put<any>('/api/incident/complete', incident.value, {withCredentials:true});
+        return this.http.put<any>('/api/incident/complete', incident, {withCredentials:true});
     }
 
     /**

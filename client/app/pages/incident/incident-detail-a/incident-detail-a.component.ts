@@ -19,7 +19,6 @@ export class IncidentDetailAComponent implements OnInit {
     @Output() afterDelete = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
 
     public empEmail: string = "";               //팝업 조회용 이메일
-    public valuation_content;
 
     constructor(private auth: AuthService,
         private modalService: NgbModal,
@@ -29,7 +28,6 @@ export class IncidentDetailAComponent implements OnInit {
     ngOnInit() {
         //console.log("incidentDetail",JSON.stringify(this.incidentDetail));
         //console.log("incidentDetail",this.incidentDetail.attach_file.length);
-        this.valuation_content = this.incidentDetail.valuation_content.replace(/(?:\r\n|\r|\n)/g, '<br>');
     }
 
     /**
@@ -39,12 +37,12 @@ export class IncidentDetailAComponent implements OnInit {
     counter(i: number) {
         return new Array(i);
     }
-    
+
     /**
      * 만족도 평가창 팝업
      * @param modalId 
      */
-    setValuation(modalId){
+    setValuation(modalId) {
         this.modalService.open(modalId, { size: 'lg', backdropClass: 'light-blue-backdrop' });
     }
 
@@ -53,16 +51,16 @@ export class IncidentDetailAComponent implements OnInit {
      * @param modalId 
      * @param email 
      */
-    getEmpInfo(modalId, email){
+    getEmpInfo(modalId, email) {
         this.empEmail = email;
-        this.modalService.open(modalId, { windowClass: 'mdModal', centered: true});
+        this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
     }
 
     /**
      * 진행상태가 접수전이면 삭제
      * @param incidentId
      */
-    deleteIncident(incidentId){
+    deleteIncident(incidentId) {
         this.incidentService.delete(incidentId).subscribe(
             (res) => {
                 this.afterDelete.emit();
@@ -81,7 +79,7 @@ export class IncidentDetailAComponent implements OnInit {
      * @param path 
      * @param filename 
      */
-    fileDownLoad(path, filename){
+    fileDownLoad(path, filename) {
         this.incidentService.fileDownLoad(path).subscribe(
             (res) => {
                 saveAs(res, filename);
@@ -96,12 +94,18 @@ export class IncidentDetailAComponent implements OnInit {
      * 진행상태 수정
      * @param incident 
      */
-    setIncident(incident){
+    setIncident(incident) {
         this.incidentDetail.status_cd = incident.status_cd;
         this.incidentDetail.status_nm = incident.status_nm;
         this.incidentDetail.valuation = incident.valuation;
         this.incidentDetail.valuation_content = incident.valuation_content;
-        this.valuation_content = this.incidentDetail.valuation_content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    }
+
+    /**
+     * 모달 닫기
+    */
+    closeModal($event) {
+        this.cValues('Close click');
     }
 
 }

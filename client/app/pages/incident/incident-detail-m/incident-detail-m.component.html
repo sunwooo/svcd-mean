@@ -114,7 +114,7 @@
             </tr>
             <tr>
               <th class="bg-muted">접수상담내용</th>
-              <td colspan="3">{{incidentDetail?.receipt_content}}</td>
+              <td colspan="3" [innerHTML]="incidentDetail?.receipt_content | nl2br"></td>
             </tr>
           </tbody>
         </table>
@@ -162,8 +162,18 @@
             </tr>
             <tr>
               <th class="bg-muted">처리내용</th>
-              <td>{{incidentDetail?.complete_content}}</td>
+              <td  colspan="3" [innerHTML]="incidentDetail?.complete_content | nl2br"></td>
             </tr>
+            <tr  *ngIf="incidentDetail?.complete_attach_file.length > 0">
+                <th class="bg-muted">완료첨부파일</th>
+                <td colspan="3">
+                    <div *ngFor="let file of incidentDetail?.complete_attach_file" class="i fa fa-paperclip m-r-10 m-b-10">
+                        <a (click)="fileDownLoad(file?.path, file?.originalname)" style="cursor: pointer">
+                            <span class="text-success">&nbsp;{{file?.originalname}}</span> <span class="text-primary.m-l-10">({{file?.size | number: '2.'}} Bytes)</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>            
             <tr>
               <th class="bg-muted">처리완료일</th>
               <td>{{incidentDetail?.complete_date}}</td>
@@ -172,7 +182,7 @@
             </tr>
             <tr>
               <th class="bg-muted">지연사유</th>
-              <td colspan="3">{{incidentDetail?.delay_reason}}</td>
+              <td colspan="3" [innerHTML]="incidentDetail?.delay_reason | nl2br"></td>
             </tr>
             <tr>
               <th class="bg-muted">평가</th>

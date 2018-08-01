@@ -74,7 +74,15 @@ var IncidentSchema = new Schema({
                                     path            : {type : String},
                                     size            : {type : Number}
                                 }], //첨부이미지
-
+    complete_attach_file    : [{    fieldname       : {type : String},
+                                    originalname    : {type : String},
+                                    encoding        : {type : String},
+                                    mimetype        : {type : String},
+                                    destination     : {type : String},
+                                    filename        : {type : String},
+                                    path            : {type : String},
+                                    size            : {type : Number}
+                                }], //완료 첨부이미지
     hold_content        : {type : String},  //협의필요 코멘트
     hold_date           : {type : String, default : ''},  //협의필요 코멘트일 
     nc_content        : {type : String},  //미처리 코멘트
@@ -82,7 +90,7 @@ var IncidentSchema = new Schema({
 
     created_at              : {type : String},
     updated_at              : {type : Date},
-    deleted_att             : {type : Date}
+    deleted_at             : {type : Date}
 });
 
 IncidentSchema.pre("save", setCreateAt);
