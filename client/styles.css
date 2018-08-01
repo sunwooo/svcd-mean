@@ -54,6 +54,10 @@ body {
   width: 200px !important;
 }
 
+.mat-form-field1 {
+    width: 300px !important;
+}
+
 .mat-form-field2 {
   width: 478px !important;
 }

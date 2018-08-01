@@ -32,6 +32,7 @@ router.get('/lowerProcess', apiCtrl.lowerProcess);      //하위업무 조회
 router.get('/myProcess', apiCtrl.myProcess);            //본인업무 조회
 router.get('/company', apiCtrl.companyList);            //회사 조회
 router.get('/processStatus', apiCtrl.processStatus);    //진행상태 조회
+router.get('/processGubun', apiCtrl.processGubun);      //처리구분 조회
 
 
 //incident route

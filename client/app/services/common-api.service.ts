@@ -53,4 +53,13 @@ export class CommonApiService {
         var httpParams = new HttpParams({ fromObject: condition });
         return this.http.get<any>('/api/processStatus', {params: httpParams});
     }
+
+    /**
+     * 진행상태 JSON 조회
+     * @param condition 조건
+     */
+    getProcessGubun(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/processGubun', {params: httpParams});
+    }
 }

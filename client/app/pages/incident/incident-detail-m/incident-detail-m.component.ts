@@ -99,11 +99,10 @@ export class IncidentDetailMComponent implements OnInit {
     }
 
     /**
-     * 상위업무 변경
+     * 리스트 reload
      * @param reload
      */
-    changeHigherCd(reload){
-        console.log("changerHigherCd reload : ", reload);
+    listReload(reload){
         this.openerReload.emit();
         this.cValues('Close click');
     }

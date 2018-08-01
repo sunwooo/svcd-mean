@@ -85,7 +85,7 @@ module.exports = {
             }
         });
     } catch (err) {
-        logger.error("manager control saveReceipt : ", e);
+        logger.error("manager control saveReceipt : ", err);
         return res.json({
             success: false,
             message: err
@@ -102,15 +102,13 @@ module.exports = {
       async.waterfall([function (callback) {
         var upIncident = req.body.incident;
 
-        ////logger.debug("=========>1 ", dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate() + " " + dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds());
-        ////logger.debug("=========>2 ", new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''));
-
         var m = moment();
         var date = m.format("YYYY-MM-DD HH:mm:ss");
 
         //접수일자 표기 통일하기 위해 수정 (등록일자 형태)
 
         upIncident.receipt_date = date;
+        if(upIncident.complete_reserve_date.length > 10) upIncident.complete_reserve_date = upIncident.complete_reserve_date.substring(0,10);
         upIncident.complete_reserve_date = upIncident.complete_reserve_date + " " + upIncident.complete_hh + ":" + upIncident.complete_mi + ":" + "00"
         upIncident.status_cd = '2';
         upIncident.status_nm = '처리중';
@@ -166,7 +164,7 @@ module.exports = {
         }
       });
     } catch (err) {
-      logger.error("manager control saveReceipt : ", e);
+      logger.error("manager control saveReceipt : ", err);
       return res.json({
         success: false,
         message: err
@@ -189,6 +187,12 @@ module.exports = {
         upIncident.complete_date = date;
         upIncident.status_cd = '3';
         upIncident.status_nm = '미평가';
+       
+        if(upIncident.complete_open_flag) upIncident.complete_open_flag = "Y";
+        else upIncident.complete_open_flag = "N";
+
+        if(upIncident.solution_flag) upIncident.solution_flag = "Y";
+        else upIncident.solution_flag = "N";
 
         callback(null, upIncident);
       }], function (err, upIncident) {
@@ -238,7 +242,7 @@ module.exports = {
       });
 
     } catch (err) {
-      logger.error("manager control saveComplete : ", e);
+      logger.error("manager control saveComplete : ", err);
       return res.json({
         success: false,
         message: err
@@ -282,7 +286,7 @@ module.exports = {
         });
       });
     } catch (err) {
-      logger.error("manager control saveNComplete : ", e);
+      logger.error("manager control saveNComplete : ", err);
       return res.json({
         success: false,
         message: err
@@ -327,7 +331,7 @@ module.exports = {
       });
 
     } catch (err) {
-      logger.error("manager control saveHold : ", e);
+      logger.error("manager control saveHold : ", err);
       return res.json({
         success: false,
         message: err
@@ -393,7 +397,7 @@ module.exports = {
         }
       });
     } catch (err) {
-      logger.error("incident control valuationSave : ", e);
+      logger.error("incident control valuationSave : ", err);
       return res.json({
         success: false,
         message: err

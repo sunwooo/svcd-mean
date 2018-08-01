@@ -28,11 +28,11 @@
             <i class="fa fa-exchange"></i>업무변경</button>
           <button  (click)="openModalLg(receipModal)" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-edit"></i>접수</button>
-          <button  (click)="openModal(holdModal)" type="button" data-toggle="modal" data-target="#hold_modal" class="btn btn btn-pink waves-effect waves-light m-l-5 btn-sm">
+          <button  (click)="openModalLg(holdModal)" type="button" data-toggle="modal" data-target="#hold_modal" class="btn btn btn-pink waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-thumb-tack"></i>협의필요 </button>
-          <button  (click)="openModal(completeModal)" type="button" data-toggle="modal" data-target="#complete_modal" class="btn btn-purple waves-effect waves-light m-l-5 btn-sm">
+          <button  (click)="openModalLg(completeModal)" type="button" data-toggle="modal" data-target="#complete_modal" class="btn btn-purple waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-check"></i>완료</button>
-          <button  (click)="openModal(ncompleteModal)" type="button" data-toggle="modal" data-target="#n_complete_modal" class="btn btn-default waves-effect waves-light m-l-5 btn-sm">
+          <button  (click)="openModalLg(ncompleteModal)" type="button" data-toggle="modal" data-target="#n_complete_modal" class="btn btn-default waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-check"></i>미처리 </button>
         </div>
       </div>
@@ -207,7 +207,7 @@
     <app-incident-higher-change [cValues]="this.c" 
                             [dValues]="this.d"
                             [incidentDetail]="incidentDetail"
-                            (output)="changeHigherCd($event)"
+                            (output)="listReload($event)"
     ></app-incident-higher-change>
 </ng-template>
 <!-- end higherCngModal -->
@@ -217,7 +217,7 @@
     <app-incident-receipt [cValues]="this.c" 
                             [dValues]="this.d"
                             [incidentDetail]="incidentDetail"
-                            (outputStatusCd)="setReceipt($event)"
+                            (output)="listReload($event)"
     ></app-incident-receipt>
 </ng-template>
 <!-- end receipModal -->
@@ -226,8 +226,8 @@
 <ng-template #holdModal let-c="close" let-d="dismiss">
     <app-incident-hold [cValues]="this.c" 
                             [dValues]="this.d"
-                            [incident_id_valuation]="incidentDetail?._id"
-                            (outputStatusCd)="setStatusCd($event)"
+                            [incidentDetail]="incidentDetail"
+                            (output)="listReload($event)"
     ></app-incident-hold>
 </ng-template>
 <!-- end holdModal -->
@@ -236,19 +236,19 @@
 <ng-template #completeModal let-c="close" let-d="dismiss">
     <app-incident-complete [cValues]="this.c" 
                             [dValues]="this.d"
-                            [incident_id_valuation]="incidentDetail?._id"
-                            (outputStatusCd)="setStatusCd($event)"
+                            [incidentDetail]="incidentDetail"
+                            (output)="listReload($event)"
     ></app-incident-complete>
 </ng-template>
 <!-- end completeModal -->
 
 <!-- start n_completeModal -->
 <ng-template #ncompleteModal let-c="close" let-d="dismiss">
-    <app-incident-n-completeModal [cValues]="this.c" 
+    <app-incident-n-complete [cValues]="this.c" 
                             [dValues]="this.d"
-                            [incident_id_valuation]="incidentDetail?._id"
-                            (outputStatusCd)="setStatusCd($event)"
-    ></app-incident-n-completeModal>
+                            [incidentDetail]="incidentDetail"
+                            (output)="listReload($event)"
+    ></app-incident-n-complete>
 </ng-template>
 <!-- end n_completeModal -->
 

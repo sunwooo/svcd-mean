@@ -62,6 +62,7 @@ import { CompanyListComponent } from './pages/company/company-list/company-list.
 import { CompanyDetailAComponent } from './pages/company/company-detail-a/company-detail-a.component';
 import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
+import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
 
 
 const PAGES = [
@@ -90,7 +91,10 @@ const PAGES = [
         IncidentReceiptComponent,
         IncidentNCompleteComponent,
         IncidentValuationComponent,
+        IncidentCompleteComponent,
+        IncidentHoldComponent,
         HigherCdComponent,
+        LowerCdComponent,
         UserG1Component,
         UserG2Component,
         UserG3Component,
@@ -103,9 +107,8 @@ const PAGES = [
         UsermanageListComponent,
         CompanyDetailAComponent,
         CompanyListComponent,
-        MatchCharCssPipe,
-        IncidentCompleteComponent,
-        IncidentHoldComponent
+        MatchCharCssPipe
+
     ],
     imports: [
         BrowserModule,

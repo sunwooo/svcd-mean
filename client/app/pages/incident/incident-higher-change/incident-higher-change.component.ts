@@ -56,12 +56,12 @@ export class IncidentHigherChangeComponent implements OnInit {
             (res) => {
                 //업데이트가 성공하면 진행 상태값 변경
                 if (res.success) {
-                    this.incidentDetail.higher_cd = this.higher.higher_cd;
-                    this.incidentDetail.higher_nm = this.higher.higher_nm;
-                    this.incidentDetail.lower_cd = this.lower.lower_cd;
-                    this.incidentDetail.lower_nm = this.lower.lower_nm;
-                    this.incidentDetail.status_cd = this.status_cd;
-                    this.incidentDetail.status_nm = this.status_nm;
+                    //this.incidentDetail.higher_cd = this.higher.higher_cd;
+                    //this.incidentDetail.higher_nm = this.higher.higher_nm;
+                    //this.incidentDetail.lower_cd = this.lower.lower_cd;
+                    //this.incidentDetail.lower_nm = this.lower.lower_nm;
+                    //this.incidentDetail.status_cd = this.status_cd;
+                    //this.incidentDetail.status_nm = this.status_nm;
                     this.output.emit(true);
                 }
             },

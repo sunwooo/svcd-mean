@@ -6,6 +6,7 @@ var IncidentModel = require('../../models/Incident');
 var HigherProcess = require('../../models/HigherProcess');
 var LowerProcess = require('../../models/LowerProcess');
 var ProcessStatus = require('../../models/ProcessStatus');
+var ProcessGubun = require('../../models/ProcessGubun');
 var Company = require('../../models/Company');
 var MyProcess = require('../../models/MyProcess');
 var CompanyProcess = require('../../models/CompanyProcess');
@@ -220,5 +221,43 @@ module.exports = {
     } finally {}
   },
 
+
+   /**
+   * 처리구분 조회
+   */
+  processGubun: (req, res, next) => {
+
+    try {
+        async.waterfall([function (callback) {
+            //상위코드용 업무처리 개수 조회
+            ProcessGubun.count({ "higher_cd": req.query.higher_cd, "use_yn":"사용" }, function (err, count) {
+                if (err) return res.json({
+                    success: false,
+                    message: err
+                });
+                callback(null, count)
+            });
+        }], function (err, count) {
+            var higher_cd = req.query.higher_cd;
+            if (count == 0) higher_cd = '000'; //상위코드용 업무처리가 없으면 공통으로 조회
+            ProcessGubun.find({ "higher_cd": higher_cd, "use_yn":"사용" }, function (err, processGubun) {
+                if (err) {
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                    res.json(processGubun);
+                }
+            }).sort('-process_nm');
+        });
+    } catch (err) {
+        logger.error("manager control saveReceipt : ", err);
+        return res.json({
+            success: false,
+            message: err
+        });
+    }
+  }, 
 
 };
