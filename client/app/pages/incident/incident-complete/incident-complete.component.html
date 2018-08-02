@@ -31,10 +31,11 @@
                     <div class="col-lg-8">
                         <mat-form-field class="mat-form-field1">
                             <mat-select ngModel
-                                        name="process_cd"
+                                        (selectionChange)="onSelect($event.value)"
                                         required
+                                        [ngModelOptions]="{standalone: true}"
                                         placeholder="처리구분">
-                                <mat-option *ngFor="let obj of processGubunObj" [value]="obj.process_cd">{{obj.process_nm}}</mat-option>
+                                <mat-option *ngFor="let obj of processGubunObj;  let i = index" value="{{i}}">{{obj.process_nm}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -55,9 +56,11 @@
                     <div class="col-lg-4" >
                         <mat-form-field>
                             <input matInput 
-                                    ngModel 
+                                    [ngModel] = "init_work_time" 
                                     type="text" 
-                                    name="work_time" 
+                                    name="work_time"
+                                    required
+                                    style = "text-align:right;"
                                     placeholder="처리시간" 
                             >
                         </mat-form-field>
