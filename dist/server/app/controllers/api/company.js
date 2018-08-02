@@ -8,6 +8,7 @@ var User = require('../../models/User');
 var service = require('../../services/company');
 var CONFIG = require('../../../config/config.json');
 var logger = require('log4js').getLogger('app');
+var moment = require('moment');
 
 module.exports = {
  
@@ -115,21 +116,23 @@ module.exports = {
 
     /**
      * 회사정보 수정
-     */
+    */
     update: (req, res, next) => {
         try{
-            console.log("=================================");
-            console.log("company update.....req ",req);
-            console.log("=================================");
-
-            //logger.debug("=================================")
-            //logger.debug("req.body.company ",JSON.stringify(req.body.company));
-            //logger.debug("=================================")
+            
+            req.body.company.date_from = req.body.company.date_from.substring(0,10);
+            req.body.company.date_to = req.body.company.date_to.substring(0,10);
 
             async.waterfall([function (callback) {
                 Company.findOneAndUpdate({
                     _id: req.body.company.id
                 }, req.body.company, function (err, company) {
+
+                    console.log("===============================================================================");
+                    console.log("company update.....req.body.company ",  req.body.company);
+                    console.log("company update.....req.body.company.date_from ",  req.body.company.date_from);
+                    console.log("===============================================================================");
+                    
                     if (!err) {
                         callback(null);
                     }

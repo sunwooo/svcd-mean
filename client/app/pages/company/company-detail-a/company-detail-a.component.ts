@@ -70,6 +70,9 @@ export class CompanyDetailAComponent implements OnInit {
                     this.companyDetail.type         = form.value.type;
                     this.companyDetail.zip_cd       = form.value.zip_cd;
                     this.companyDetail.use_yn       = form.value.use_yn;
+                    this.companyDetail.date_from    = form.value.date_from;
+                    this.companyDetail.date_to      = form.value.date_to;
+
                     //모달창 닫기
                     this.cValues('Close click');
                 }
@@ -92,8 +95,8 @@ export class CompanyDetailAComponent implements OnInit {
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
 
         console.log("================================");
-        console.log("this.date_from : ");
-        console.log("this.date_to : ");
+        console.log("type: ", type);
+        console.log("event: ", event);
 
         console.log("================================");
 
