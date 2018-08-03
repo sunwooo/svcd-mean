@@ -224,6 +224,7 @@ module.exports = {
     var perPage = 15;
 
     //console.log("==========================================getusermanage=======================================");
+    //console.log("search : ", JSON.stringify(search));
     //console.log("req.query.page : ", req.query.page);
     //console.log("req.query.perPage : ", req.query.perPage);
     //console.log("req.query.searchText : ", req.query.searchText);
@@ -232,41 +233,27 @@ module.exports = {
     if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
     if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
 
-
     async.waterfall([function (callback) {
-        User.find(search.findUsermanage, function (err, usermanage) {
-          if (err) {
-            return res.json({
-              success: false,
-              message: err
-            });
-          } else {
-            callback(null);
-          }
-        })
-      },
-      function (callback) {
-        User.count(search.findUsermanage, function (err, totalCnt) {
-          if (err) {
-            logger.error("incident : ", err);
+      User.count(search.findUsermanage, function (err, totalCnt) {
+        if (err) {
+          logger.error("incident : ", err);
 
-            return res.json({
-              success: false,
-              message: err
-            });
-          } else {
+          return res.json({
+            success: false,
+            message: err
+          });
+        } else {
 
-            //logger.debug("=============================================");
-            //logger.debug("incidentCnt : ", totalCnt);
-            //logger.debug("=============================================");
+          //console.log("=============================================");
+          //console.log("incidentCnt : ", totalCnt);
+          //console.log("=============================================");
 
-            callback(null, totalCnt)
-          }
-        });
-      }
-    ], function (err, totalCnt) {
+          callback(null, totalCnt);
+        }
+      });
+    }], function (err, totalCnt) {
 
-      User.find(search.findUser, function (err, usermanage) {
+      User.find(search.findUsermanage, function (err, usermanage) {
           if (err) {
 
             //logger.debug("=============================================");
@@ -295,8 +282,6 @@ module.exports = {
         .limit(perPage);
     });
   },
-
-
 }
 
 
