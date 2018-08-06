@@ -52,6 +52,7 @@ const routes: Routes = [
     },
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'login/:email/:password', component: LoginComponent },
     { path: 'logout', component: LogoutComponent },
     { path: 'account', component: AccountComponent },
     { path: 'notfound', component: NotFoundComponent },

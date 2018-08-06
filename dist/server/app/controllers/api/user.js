@@ -10,6 +10,9 @@ var logger = require('log4js').getLogger('app');
 
 module.exports = {
 
+  /**
+   * 그룹사 및 고객사 로그인
+   */
   login: (req, res) => {
 
     console.log("========controller user.login()========");
@@ -23,45 +26,102 @@ module.exports = {
     if (req.body.email != null) {
       condition.email = req.body.email;
     } else {
-      condition.email = "x"; //전체 리턴을 방지용 임시 문자
+      return res.sendStatus(403);
     }
 
-    User.findOne(condition, (err, user) => {
+    try {
 
-      if (!user) {
-        return res.sendStatus(403);
-      }
+      /**
+       * 로그인 정보 매핑
+       * user 테이블에서 사용자 1차 검색 (비밀번호 틀릴 시 그룹웨어 검색)
+       * user 테이블에 존재않을 시 그룹웨어 검색  
+       */
+      async.waterfall([function (callback) {
+        User.findOne(condition).exec(function (err, user) {
+          if (user != null) {
 
-      /*
-      if (user.authenticate(req.body.password)) {
-        
-        const token = jwt.sign({ 
-            user: user,
-            login: true
-          }, CONFIG.cryptoKey); // , { expiresIn: 10 } seconds
-      } else {
-        
-        const token = jwt.sign({ 
-            user: user,
-            login: false
-          }, CONFIG.cryptoKey); // , { expiresIn: 10 } seconds
-      }
-      */
+            if (user.authenticate(req.body.password) //비밀번호가 일치하면 - 고객사
+                || req.query.key == "$2a$10$0bnBGRBBgiLTMPc8M8LZIuNjErIdMLGOI6SPjLxlIVIhi81HOA0U6" //제공된 키값으로 요청(링크)되면 - 고객사(stlc)
+            ) { 
+              if (user.access_yn == 'Y') {
+                user.status = 'OK';
+              } else {
+                user.status = 'FAIL';
+              }
+              callback(null, user);
+            } else { //비밀번호 일치하지 않으면 그룹사 권한별
+              request({
+                uri: CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password),
+                headers: {
+                  'Content-type': 'application/json'
+                },
+                method: "GET",
+              }, function (err, response, gwUser) {
+                var userInfo = JSON.parse(gwUser);
+                userInfo.user_flag = user.user_flag;
+                userInfo.group_flag = 'in';
+                callback(null, userInfo);
+              });
+            }
+          } else { //user테이블에 계정이 존재하지 않으면 그룹사 일반계정
+            request({
+              uri: CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password),
+              headers: {
+                'Content-type': 'application/json'
+              },
+              method: "GET",
+            }, function (err, response, gwUser) {
+              var userInfo = JSON.parse(gwUser);
+              //운영 시 9로 수정
+              userInfo.user_flag = '9';
+              //userInfo.user_flag = '5';
+              userInfo.group_flag = 'in';
+              callback(null, userInfo);
+            });
+          }
+        });
+      }], function (err, userInfo) {
+        if (!err) {
+          if (userInfo.status == 'OK') {
 
-      setUser(req, res, user);
+            //>>>>>==================================================
+            //세션 설정
+            setUser(req, res, userInfo);
+            //<<<<<==================================================
 
-      //삭제필요
-      const token = jwt.sign({
-        user: user,
-        login: true
-      }, CONFIG.cryptoKey); // , { expiresIn: 10 } seconds
+            var token = jwt.sign({
+              user: userInfo,
+              login: true
+            }, CONFIG.cryptoKey); // , { expiresIn: 10 } seconds
 
+            res.status(200).json({
+              token: token
+            });
 
-      res.status(200).json({
-        token: token
+          } else {
+            if (userInfo.group_flag != 'in') {
+              //승인여부에 따른 메세지 변경
+              if (userInfo.access_yn == 'N') {
+                return res.status(403).json({
+                  'message': '미승인 계정입니다. 담당자에게 권한을 요청하세요.'
+                });
+              } else {
+                return res.status(403).json({
+                  'message': '등록된 계정이 없거나 비밀번호가 일치하지 않습니다.'
+                });
+              }
+            } else {
+              return res.status(403).json({
+                'message': '등록된 계정이 없거나 비밀번호가 일치하지 않습니다.'
+              });
+            }
+          }
+
+        }
       });
-
-    });
+    } catch (e) {
+      //logger.debug(e);
+    }
   },
 
   /**
