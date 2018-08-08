@@ -18,10 +18,6 @@ export class SvcdNavComponent implements OnInit {
     }
 
     ngOnInit() {
-        //console.log("XXXXXXXXXXXXXXXXXXXX", this.router);
-        //this.router.navigate(['svcd/content']);
-        //this.router.navigate(['svcd']);
-        //console.log("yyyyyyyyyyyyyyyyyy");
         if(this.cookieService.get("user_flag"))
             this.user_flag = this.cookieService.get("user_flag");
     }

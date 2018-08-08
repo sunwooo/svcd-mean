@@ -64,6 +64,7 @@ import { CompanyDetailAComponent } from './pages/company/company-detail-a/compan
 import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
+import { PageInfoComponent } from './pages/page-info/page-info.component';
 
 
 const PAGES = [
@@ -108,7 +109,8 @@ const PAGES = [
         UsermanageListComponent,
         CompanyDetailAComponent,
         CompanyListComponent,
-        MatchCharCssPipe
+        MatchCharCssPipe,
+        PageInfoComponent
 
     ],
     imports: [

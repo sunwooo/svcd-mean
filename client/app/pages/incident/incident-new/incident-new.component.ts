@@ -157,7 +157,7 @@ export class IncidentNewComponent implements OnInit {
                 //console.log('===================================================================================');
 
                 this.toast.open('등록되었습니다.', 'success');
-                this.router.navigate(['/svcd/incident/list']);
+                this.router.navigate(['/svcd/1200']);
             },
             (error: HttpErrorResponse) => {
                 //if (error.status == 400) {

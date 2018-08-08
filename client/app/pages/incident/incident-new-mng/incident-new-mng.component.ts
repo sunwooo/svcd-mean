@@ -187,7 +187,7 @@ export class IncidentNewMngComponent implements OnInit {
                 //console.log('===================================================================================');
 
                 this.toast.open('등록되었습니다.', 'success');
-                this.router.navigate(['/svcd/incident/list-mng']);
+                this.router.navigate(['/svcd/2200']);
             },
             (error: HttpErrorResponse) => {
                 //if (error.status == 400) {

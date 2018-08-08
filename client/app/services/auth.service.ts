@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from './user.service';
 
@@ -17,7 +17,18 @@ export class AuthService {
 
     constructor(private userService: UserService,
         public cookieService: CookieService,
+        public activatedRoute: ActivatedRoute,
         private router: Router) {
+
+        
+
+        this.activatedRoute.params.subscribe(params =>{
+            console.log("==========> params : ", params);
+        });
+
+        this.activatedRoute.queryParamMap.subscribe(queryParamMap => {
+            console.log("==========> queryParamMap : ", queryParamMap);
+        });
 
         const token = this.cookieService.get('_id');
         
@@ -31,18 +42,15 @@ export class AuthService {
         if (token) {
 
             console.log("================================================");
-            console.log("================= cookie(login) ================");
+            console.log("================= token true ================");
             console.log("================================================");
 
             this.loggedIn = true;
 
         }else{
-            
             console.log("=================================================");
-            console.log("================= cookie(logout) ================");
-            console.log("=================================================");
-
-            this.router.navigate(['login']);
+            console.log("================= token false ================");
+            console.log("=================================================");         
         }
 
 
@@ -75,7 +83,7 @@ export class AuthService {
 
         this.cookieService.deleteAll();
         this.loggedIn = false;
-        this.router.navigate(['login']);
+        this.router.navigate(['']);
     }
 
     decodeUserFromToken(token) {
