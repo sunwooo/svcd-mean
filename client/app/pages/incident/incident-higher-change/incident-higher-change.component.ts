@@ -4,6 +4,7 @@ import { IncidentService } from '../../../services/incident.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LowerCdComponent } from '../../../shared/lower-cd/lower-cd.component';
 import { ToastComponent } from '../../../shared/toast/toast.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-incident-higher-change',
@@ -24,7 +25,8 @@ export class IncidentHigherChangeComponent implements OnInit {
     private higher: any = {}; //상위업무
     private lower: any = {}; //하위업무
 
-    constructor(private incidentService: IncidentService,
+    constructor(private auth: AuthService,
+        private incidentService: IncidentService,
         public toast: ToastComponent,
     ) { }
 

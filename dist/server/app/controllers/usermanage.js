@@ -348,7 +348,14 @@ module.exports = {
     //ajax list 데이타 처리
     list: (req, res, next) => {
         var search = service.createSearch(req);
-
+        
+        console.log("==========================================getusermanage=======================================");
+        console.log("search : ", JSON.stringify(search));
+        //console.log("req.query.page : ", req.query.page);
+        //console.log("req.query.perPage : ", req.query.perPage);
+        //console.log("req.query.searchText : ", req.query.searchText);
+        //console.log("================================================================================================");
+    
         //logger.debug("=====================> " + JSON.stringify(search));
 
         try {

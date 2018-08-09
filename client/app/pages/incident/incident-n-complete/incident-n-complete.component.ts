@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LowerCdComponent } from '../../../shared/lower-cd/lower-cd.component';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { MatDatepickerInputEvent } from '@angular/material';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-incident-n-complete',
@@ -21,7 +22,8 @@ export class IncidentNCompleteComponent implements OnInit {
     private status_cd: string = "9"; //진행상태 미처리
     private status_nm: string = "미처리"; //진행상태명 미처리
 
-    constructor(private incidentService: IncidentService,
+    constructor(private auth: AuthService,
+        private incidentService: IncidentService,
         public toast: ToastComponent,
     ) { }
 

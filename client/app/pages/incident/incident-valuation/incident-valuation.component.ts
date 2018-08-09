@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import { IncidentService } from '../../../services/incident.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
     selector: 'app-incident-valuation',
@@ -18,8 +19,8 @@ export class IncidentValuationComponent implements OnInit {
     private status_cd : string = "4"; //진행상태 처리완료
     private status_nm : string = "처리완료"; //진행상태명 처리완료
 
-    constructor(private incidentService: IncidentService
-
+    constructor(private auth: AuthService,
+        private incidentService: IncidentService
     ) { }
 
     ngOnInit() {

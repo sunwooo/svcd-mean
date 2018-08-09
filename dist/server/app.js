@@ -37,13 +37,27 @@ app.settings.env = 'production';
  * replace this with the log4js connect-logger
  * app.use(logger('dev'));
  */
-app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'auto' }));
+app.use(log4js.connectLogger(log4js.getLogger("http"), {
+  level: 'auto'
+}));
 app.use(flash());
 app.use(cookieParser());
-app.use(bodyParser.json({limit:'50mb'}));
-app.use(bodyParser.urlencoded({limit:'50mb',extended: true}));
+app.use(bodyParser.json({
+  limit: '50mb'
+}));
+app.use(bodyParser.urlencoded({
+  limit: '50mb',
+  extended: true
+}));
 //app.use(session({secret: CONFIG.cryptoKey, resave: false, saveUninitialized: true}));
-app.use(session({secret: CONFIG.cryptoKey, resave: false, saveUninitialized: true, cookie:{maxAge:3600000}}));
+app.use(session({
+  secret: CONFIG.cryptoKey,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 3600000
+  }
+}));
 //app.use(cors({origin:[process.env.angularUrl],
 //app.use(cors({origin:CONFIG.corsOrigin,credentials:true}));   
 
@@ -98,6 +112,18 @@ app.use(require('serve-static')(path.join(__dirname, 'upload-file')));
 //app.use(routes);
 app.use('/', express.static(path.join(__dirname, '../public')));
 app.use('/api', routes);
+
+/// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  res.status(404);
+  res.redirect(CONFIG.corsOrigin);
+});
+
+app.use(function (err, req, res, next) {
+  res.status(500);
+  res.redirect(CONFIG.corsOrigin+"/page-info?errMsg="+err);
+});
+
 
 /**
  * database

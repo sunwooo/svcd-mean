@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-incident-list-all',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IncidentListAllComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit() {
   }

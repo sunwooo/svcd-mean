@@ -15,6 +15,7 @@ var apiCtrl = require("../app/controllers/api/common");
 
 // Login route
 router.post('/login', userCtrl.login);    //로그인
+//router.post('/logout', userCtrl.logout);    //로그아웃
 
 
 //Users route
@@ -78,6 +79,5 @@ router.post('/upload-file', function (req, res) {
     return res.json(req.file); 
   });
 });
-
 
 module.exports = router;

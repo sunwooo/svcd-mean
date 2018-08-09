@@ -13,7 +13,7 @@
       <div class="topbar">
         <div class="topbar-left">
           <div class="text-center">
-            <a [routerLink]="['/svcd/index']" class="logo">
+            <a [routerLink]="['/svcd/0001']" class="logo">
               <img src="/assets/images/ci_isu_white.png" alt="ISU">
             </a>
           </div>
@@ -28,26 +28,26 @@
             </div>
             <nav class="docs-component-viewer-tabbed-content mat-tab-nav-bar mat-primary" mat-tab-nav-bar="">
                 <div class="mat-tab-links">
-                    <a *ngIf="(user_flag == '9' || user_flag =='5')" [routerLink]="['/svcd/incident/new']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted mat-tab-label-active" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
+                    <a *ngIf="(user_flag == '9' || user_flag =='5')" [routerLink]="['/svcd/1100']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted mat-tab-label-active" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
                         문의하기
                     </a>
-                    <a *ngIf="(user_flag != '9' && user_flag !='5')" [routerLink]="['/svcd/incident/new-mng']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted mat-tab-label-active" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
+                    <a *ngIf="(user_flag != '9' && user_flag !='5')" [routerLink]="['/svcd/2100']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted mat-tab-label-active" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
                         상담접수(전화)
                     </a>
-                    <a *ngIf="(user_flag == '9' || user_flag =='5')" [routerLink]="['/svcd/incident/list']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                    <a *ngIf="(user_flag == '9' || user_flag =='5')" [routerLink]="['/svcd/1200']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
                         처리진행현황
                     </a>
-                    <a *ngIf="(user_flag != '9' && user_flag !='5')" [routerLink]="['/svcd/incident/list-mng']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                    <a *ngIf="(user_flag != '9' && user_flag !='5')" [routerLink]="['/svcd/2200']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
                         나의 업무처리현황
                     </a>
-                    <a *ngIf="(user_flag == '9' || user_flag =='5')" [routerLink]="['/svcd/incident/list-all']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                    <a *ngIf="(user_flag == '9' || user_flag =='5')" [routerLink]="['/svcd/4930']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
                         자주묻는질문과답
                     </a>
-                    <a *ngIf="(user_flag != '9' && user_flag !='5')" [routerLink]="['/svcd/incident/list-all']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                    <a *ngIf="(user_flag != '9' && user_flag !='5')" [routerLink]="['/svcd/2400']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
                         월별 처리내역
                     </a>
                     <div class="mr-auto">
-                        <a [routerLink]="['/usermanage/myPage']" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
+                        <a [routerLink]="['svcd/1500']" mat-tab-link="" routerlinkactive="" aria-current="true" aria-disabled="false" tabindex="0" >
                             <i class="md md-account-circle"></i>&nbsp;마이페이지
                         </a>
                         <a [routerLink]="['/logout']" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">

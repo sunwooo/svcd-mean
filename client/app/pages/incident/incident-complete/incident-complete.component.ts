@@ -7,6 +7,7 @@ import { ToastComponent } from '../../../shared/toast/toast.component';
 import { MatDatepickerInputEvent } from '@angular/material';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload'
 import { CommonApiService } from '../../../services/common-api.service';
+import { AuthService } from '../../../services/auth.service';
 
 const URL = '/api/upload-file';
 
@@ -37,7 +38,8 @@ export class IncidentCompleteComponent implements OnInit {
     public process_nm = "";
     public checked = true;  //체크박스 체크여부
  
-    constructor(private incidentService: IncidentService,
+    constructor(private auth: AuthService,
+        private incidentService: IncidentService,
         private commonApiService: CommonApiService,
         public toast: ToastComponent,
     ) { }

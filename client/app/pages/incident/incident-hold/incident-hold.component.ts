@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LowerCdComponent } from '../../../shared/lower-cd/lower-cd.component';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { MatDatepickerInputEvent } from '@angular/material';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-incident-hold',
@@ -21,7 +22,8 @@ export class IncidentHoldComponent implements OnInit {
     private status_cd: string = "5"; //진행상태 협의필요
     private status_nm: string = "협의필요"; //진행상태명 협의필요
 
-    constructor(private incidentService: IncidentService,
+    constructor(private auth: AuthService,
+        private incidentService: IncidentService,
         public toast: ToastComponent,
     ) { }
 

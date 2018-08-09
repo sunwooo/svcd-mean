@@ -22,6 +22,33 @@ import { HigherProcessListComponent } from './pages/higherProcess/higher-process
 
 
 const routes: Routes = [
+
+    { path: '', component: LoginComponent },
+    {
+        path: 'svcd', component: SvcdNavComponent,
+        children: [
+            { path: '0001', component: MainContentComponent },
+            { path: '0003', component: AccountComponent },
+            { path: '1100', component: IncidentNewComponent },
+            { path: '1200', component: IncidentListComponent },
+
+            { path: '2100', component: IncidentNewMngComponent },
+            { path: '2200', component: IncidentListMngComponent },
+
+            { path: '3100', component: IncidentListAllComponent },
+            { path: '3200', component: ComHigherComponent },
+
+            { path: '4300', component: CompanyListComponent },
+            { path: '4400', component: UsermanageListComponent },
+        ]
+    },
+
+    { path: 'login', component: LoginComponent },
+    { path: 'logout', component: LogoutComponent },
+    { path: 'notfound', component: NotFoundComponent },
+    { path: '**', redirectTo: '/notfound' },
+
+    /*
     { path: '', component: LoginComponent },
     {
         path: 'svcd', component: SvcdNavComponent,
@@ -57,10 +84,12 @@ const routes: Routes = [
     },
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'login/:email/:password', component: LoginComponent },
     { path: 'logout', component: LogoutComponent },
     { path: 'account', component: AccountComponent },
     { path: 'notfound', component: NotFoundComponent },
     { path: '**', redirectTo: '/notfound' },
+    */
 ];
 
 @NgModule({

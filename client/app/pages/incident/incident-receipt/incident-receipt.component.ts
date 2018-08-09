@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LowerCdComponent } from '../../../shared/lower-cd/lower-cd.component';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { MatDatepickerInputEvent } from '@angular/material';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-incident-receipt',
@@ -57,7 +58,8 @@ export class IncidentReceiptComponent implements OnInit {
         { name: 'D', value: 'D' },
         { name: 'E', value: 'E' }];
 
-    constructor(private incidentService: IncidentService,
+    constructor(private auth: AuthService,
+        private incidentService: IncidentService,
         public toast: ToastComponent,
     ) { }
 

@@ -13,7 +13,7 @@ export class UsermanageService {
 
     getUsermanageList(condition): Observable<any> {
 
-    console.log("==================services getUsermanageList", condition);
+    //console.log("==================services getUsermanageList", condition);
     var httpParams = new HttpParams({ fromObject: condition });
     return this.http.get<any>('/api/user/list', {params: httpParams});
   }

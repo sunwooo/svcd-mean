@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer, ViewChild, ChangeDetectorRef, ElementRef, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -19,15 +19,15 @@ const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA
 })
 export class LoginComponent implements OnInit {
 
-    email;
-    password;
-    remember_me;
-
-    closeResult: string;
+    public email;
+    public password;
+    public remember_me;
+    private formValue: any = {}; //전송용 데이타
 
     constructor(
         private auth: AuthService,
         private router: Router,
+        public activatedRoute: ActivatedRoute,
         public toast: ToastComponent,
         private cookieService: CookieService,
         private renderer: Renderer,
@@ -35,45 +35,45 @@ export class LoginComponent implements OnInit {
         private modalService: NgbModal
     ) { }
 
-    toggleModal(isVisible: boolean) {
-        if (!isVisible) {
-            //this.ngxSmartModalService.closeLatestModal();
-        }
-    }
-
     ngOnInit() {
 
         this.getLocalStorage();
 
         if (this.auth.loggedIn) {
-            this.router.navigate(['svcd/index']);
+            
+            this.router.navigate(['/svcd/0001']);
+        
+        }else{
+
+            this.activatedRoute.queryParams.subscribe(queryParams => {
+
+                this.formValue.email = queryParams.email;
+                this.formValue.password = queryParams.password;
+                this.formValue.key = queryParams.key;
+
+                if(this.formValue.email && (this.formValue.password || this.formValue.key)){
+                    this.login(); 
+                }
+            });   
         }
     }
 
-    ngAfterViewInit() {
-        console.log("====== login.c ngAfterViewInit() ======");
-    }
-
-    setFocus() {
-        let onElement = this.renderer.selectRootElement('#company_nm');
-        console.log(onElement);
-        onElement.focus();
-    }
-
-    login(form: NgForm) {
+    /**
+     * login 실행
+     */
+    login() {
 
         console.log('===================================================================================');
         console.log('this.auth.loggedIn : ', this.auth.loggedIn);
-        console.log('this.email : ', form.value);
+        console.log('this.email : ', this.formValue);
         console.log('===================================================================================');
 
         //form.value 대신 {'email': this.mail, 'password': this.password} 사용가능
-        this.auth.login(form.value).subscribe(
+        this.auth.login(this.formValue).subscribe(
             res => {
                 this.setLocalStorage();
-                this.router.navigate(['svcd/index'])
+                this.router.navigate(['/svcd/0001'])
             },
-
             error => {
                 this.toast.open('등록된 계정이 없거나 비밀번호가 틀립니다.', 'danger');
                 console.log("=========>", this.toast);
@@ -82,10 +82,18 @@ export class LoginComponent implements OnInit {
     }
 
     /**
+     * 로그인 체크
+     * @param form 
+     */
+    loginCheck(form: NgForm){
+        this.formValue = form.value;
+        this.login();
+    }
+
+    /**
      * set localStorage
      */
     setLocalStorage() {
-
         if (this.remember_me) {
             localStorage.setItem('email', this.email);
             localStorage.setItem('remember_me', 'checked');
@@ -124,6 +132,10 @@ export class LoginComponent implements OnInit {
         }
     }
 
+    /**
+     * 계정신청 모달 호출
+     * @param modalId 
+     */
     openAddUser(modalId) {
         this.modalService.open(modalId, { size: 'lg', centered: true });
     }

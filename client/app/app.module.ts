@@ -66,9 +66,8 @@ import { CompanyDetailAComponent } from './pages/company/company-detail-a/compan
 import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
-import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
+import { PageInfoComponent } from './pages/page-info/page-info.component';import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
 import { HigherProcessDetailComponent } from './pages/higherProcess/higher-process-detail/higher-process-detail.component';
-
 
 const PAGES = [
     HomeComponent,
@@ -113,7 +112,8 @@ const PAGES = [
         CompanyDetailAComponent,
         CompanyListComponent,
         MatchCharCssPipe,
-        HigherProcessListComponent,
+        PageInfoComponent,
+		HigherProcessListComponent,
         HigherProcessDetailComponent
 
     ],
