@@ -15,14 +15,14 @@ import { CommonApiService } from '../../../services/common-api.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-incident-list-mng',
-  templateUrl: './incident-list-mng.component.html',
-  styleUrls: ['./incident-list-mng.component.scss'],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-],
+    selector: 'app-incident-list-mng',
+    templateUrl: './incident-list-mng.component.html',
+    styleUrls: ['./incident-list-mng.component.scss'],
+    providers: [
+        { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
+        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+        { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    ],
 })
 
 export class IncidentListMngComponent implements OnInit {
@@ -41,17 +41,17 @@ export class IncidentListMngComponent implements OnInit {
     public reg_date_from;                       //검색시작일
     public reg_date_to;                         //검색종료일
     public searchType: string = "title,content";//검색구분
-    public searchText: string ="";              //검색어
+    public searchText: string = "";              //검색어
 
     public empEmail: string = "";               //팝업 조회용 이메일
-    
+
     public companyObj: any = [];                //회사리스트
     public lowerObj: any = [];                //하위업무리스트
     public searchTypeObj: { name: string; value: string; }[] = [
         { name: '제목+내용', value: 'title,content' },
         { name: '제목', value: 'title' },
         { name: '내용', value: 'content' }
-    ];  
+    ];
     public today = new Date();
     public minDate = new Date(2015, 0, 1);
     public maxDate = new Date(2030, 0, 1);
@@ -61,7 +61,7 @@ export class IncidentListMngComponent implements OnInit {
     public page: number = 0;          // 현재 페이지
     public totalDataCnt: number = 0;  // 총 데이타 수
     public totlaPageCnt: number = 0;  // 총페이지 수 
-    public pageDataSize:number =15;   // 페이지당 출력 개수  
+    public pageDataSize: number = 15;   // 페이지당 출력 개수  
 
     constructor(private auth: AuthService,
         private toast: ToastComponent,
@@ -74,7 +74,7 @@ export class IncidentListMngComponent implements OnInit {
 
     ngOnInit() {
         this.isLoading = false;
-        
+
         //this.reg_date_to = new FormControl(new Date()).value;
         this.getIncident();
         this.getCompanyList();
@@ -84,7 +84,7 @@ export class IncidentListMngComponent implements OnInit {
     /**
      * 회사리스트 조회
      */
-    getCompanyList(){
+    getCompanyList() {
         this.commonApi.getCompany(this.formData).subscribe(
             (res) => {
                 this.companyObj = res;
@@ -97,8 +97,8 @@ export class IncidentListMngComponent implements OnInit {
     /**
      * 나의업무리스트 조회
      */
-    getMyProcess(){
-        this.commonApi.myProcess(this.formData).subscribe(
+    getMyProcess() {
+        this.commonApi.myProcess().subscribe(
             (res) => {
                 this.lowerObj = res;
             },
@@ -116,23 +116,26 @@ export class IncidentListMngComponent implements OnInit {
         //this.page = 1;
         //this.incidents = [];
 
+        this.formData.page = this.page;
+        this.formData.perPage = this.pageDataSize;
         this.formData.user = "manager";
         this.formData.status_cd = this.status_cd;
         this.formData.company_cd = this.company_cd;
         this.formData.lower_cd = this.lower_cd;
-        if(this.reg_date_from != null)
+        if (this.reg_date_from != null)
             this.formData.reg_date_from = this.reg_date_from.format('YYYY-MM-DD');
-        if(this.reg_date_to != null)
+        if (this.reg_date_to != null)
             this.formData.reg_date_to = this.reg_date_to.format('YYYY-MM-DD');
         this.formData.searchType = this.searchType;
         this.formData.searchText = this.searchText;
 
         this.incidentService.getIncident(this.formData).subscribe(
             (res) => {
-
+                console.log("getIncident1",res.incident);
                 this.incidents = res.incident;
                 this.totalDataCnt = res.totalCnt;
-                if(res.incident.length == 0){
+                console.log("getIncident2",this.incidents, this.totalDataCnt);
+                if (this.incidents.length == 0) {
                     this.toast.open('조회데이타가 없습니다..', 'success');
                 }
 
@@ -140,10 +143,10 @@ export class IncidentListMngComponent implements OnInit {
             (error: HttpErrorResponse) => {
             },
             () => {
-                this.totlaPageCnt = Math.ceil(this.totalDataCnt/this.pageDataSize);
+                this.totlaPageCnt = Math.ceil(this.totalDataCnt / this.pageDataSize);
             }
         );
-    
+
     }
 
     /**
@@ -172,10 +175,10 @@ export class IncidentListMngComponent implements OnInit {
      * @param incident 조회할 incident 객체
      * @param idx  삭제를 위한 인덱스
      */
-    setDetail(modalId, incident, idx){
+    setDetail(modalId, incident, idx) {
         this.incidentDetail = incident;
         this.selectedIdx = idx;
-        this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});
+        this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true });
     }
 
     /**
@@ -199,7 +202,7 @@ export class IncidentListMngComponent implements OnInit {
      * @param modalId 모달창 id
      * @param email 
      */
-    getEmpInfo(modalId, email){
+    getEmpInfo(modalId, email) {
         this.empEmail = email;
         this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
     }
@@ -208,10 +211,7 @@ export class IncidentListMngComponent implements OnInit {
      * 삭제된 후 처리
      * @param event 
      */
-    reload(){
-        this.formData.page = this.page;
-        this.formData.perPage = this.pageDataSize;
-        
+    reload() {
         this.getIncident();
     }
 
@@ -219,12 +219,10 @@ export class IncidentListMngComponent implements OnInit {
      * 페이징 처리
      * @param selectedPage
      */
-    pageChange(selectedPage){
-        this.formData.page = selectedPage;
-        this.formData.perPage = this.pageDataSize;
-        
+    pageChange(selectedPage) {
+        this.page = selectedPage;
         this.getIncident();
-      }
-    
+    }
+
 }
 

@@ -147,7 +147,7 @@
                                     <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.register_date}}</td>
                                     <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.receipt_date}}</td>
                                 </tr>
-                                    <td *ngIf="incidents.length == 0" colspan='6' class='text-center'>조회된 데이타가 없습니다.</td>
+                                    <td *ngIf="incidents?.length == 0" colspan='6' class='text-center'>조회된 데이타가 없습니다.</td>
                                 </tbody>
                             </table>
                             </div>
@@ -223,7 +223,7 @@
                                     <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.register_date}}</td>
                                     <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.receipt_date}}</td>
                                 </tr>
-                                <td *ngIf="incidents.length == 0" colspan='7' class='text-center'>조회된 데이타가 없습니다.</td>
+                                <td *ngIf="incidents?.length == 0" colspan='7' class='text-center'>조회된 데이타가 없습니다.</td>
                                 </tbody>
                             </table>
                             </div>
