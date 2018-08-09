@@ -530,7 +530,7 @@ module.exports = {
                       then: "매우 만족"
                     }
                   ],
-                  default: "보통"
+                  default: "기타"
                 }
               }
             }
