@@ -119,10 +119,13 @@ module.exports = {
     */
     update: (req, res, next) => {
         try{
+            if(req.body.company.date_from != null && req.body.company.date_from.length >10){
+                req.body.company.date_from = req.body.company.date_from.substring(0,10);
+            }
+            if(req.body.company.date_to != null && req.body.company.date_to.length >10){
+                req.body.company.date_to = req.body.company.date_to.substring(0,10); 
+            }
             
-            req.body.company.date_from = req.body.company.date_from.substring(0,10);
-            req.body.company.date_to = req.body.company.date_to.substring(0,10);
-
             async.waterfall([function (callback) {
                 Company.findOneAndUpdate({
                     _id: req.body.company.id
