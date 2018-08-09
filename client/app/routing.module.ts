@@ -37,9 +37,12 @@ const routes: Routes = [
 
             { path: '3100', component: IncidentListAllComponent },
             { path: '3200', component: ComHigherComponent },
-
+            
+            { path: '4100', component: HigherProcessListComponent },
             { path: '4300', component: CompanyListComponent },
             { path: '4400', component: UsermanageListComponent },
+
+            
         ]
     },
 
