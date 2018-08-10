@@ -239,7 +239,6 @@ export class IncidentListAllComponent implements OnInit {
      */
     setHigher(higher) {
         this.higher_cd = higher.higher_cd;
-        console.log("============= this.higher_cd : ", this.higher_cd);
         this.child.getLowerCd(this.higher_cd);
     }
 

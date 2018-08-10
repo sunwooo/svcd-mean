@@ -22,6 +22,15 @@ export class HigherCdComponent implements OnInit {
 
     ngOnInit() {       
         this.getHigherCd(this.company);
+
+        if(this.required){
+
+        }
+
+        if(this.scope == "*"){
+            
+        }
+
     }
 
     /**

@@ -4,8 +4,6 @@
                 (selectionChange)="onSelect($event.value)"
                 [placeholder]="placeholder"
     >
-        <mat-option *ngIf="scope != '*' || company == ''">선택하세요</mat-option>
-        <mat-option *ngIf="scope == '*' && company != ''" value="*">전체</mat-option>
         <mat-option *ngFor="let opt of higherCd; let i = index;" 
                      value="{{i}}"
         >{{opt.higher_nm}}</mat-option>
