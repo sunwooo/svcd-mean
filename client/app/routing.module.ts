@@ -18,7 +18,7 @@ import { IncidentListAllComponent } from './pages/incident/incident-list-all/inc
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
-import { HigherProcessListComponent } from "client/app/pages/higherProcess/higher-process-list/higher-process-list.component";
+import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
 
 
 const routes: Routes = [
