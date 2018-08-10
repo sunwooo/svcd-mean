@@ -9,6 +9,7 @@ var userCtrl = require("../app/controllers/api/user");
 var incidentCtrl = require("../app/controllers/api/incident");
 var statisticCtrl = require("../app/controllers/api/statistic");
 var companyCtrl = require("../app/controllers/api/company");
+var higherProcessCtrl = require("../app/controllers/api/higherProcess");
 var apiCtrl = require("../app/controllers/api/common");
 
 
@@ -62,6 +63,9 @@ router.get('/statistic/higherCnt', statisticCtrl.higherCdCnt);  //신청건수 �
 router.get('/company/list', companyCtrl.list); //회사 조회
 router.put('/company/update', companyCtrl.update); //회사 수정
 
+//higherProcess route
+router.get('/higherProcess/list', higherProcessCtrl.list); //상위업무 조회
+router.put('/higherProcess/update', higherProcessCtrl.update); //상위업무 수정
 
 //upload incident attach file 
 router.post('/upload-file', function (req, res) {
