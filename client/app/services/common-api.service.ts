@@ -31,8 +31,8 @@ export class CommonApiService {
      * 본인업무 JSON 조회
      * @param condition 조건
      */
-    myProcess(condition): Observable<any> {
-        var httpParams = new HttpParams({ fromObject: condition });
+    myProcess(): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: {}});
         return this.http.get<any>('/api/myProcess', {params: httpParams});
     }
 

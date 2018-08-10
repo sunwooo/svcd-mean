@@ -1,382 +1,305 @@
-<div class="svcd-body-content">
-<app-page-header [title]="'전체조회'"></app-page-header>
-<app-incident-condition></app-incident-condition>
-<div class="row">
-  <div class="col-lg-12">
-    <div class="form-group">
-      <!--button.btn.btn-warning.waves-effect.waves-light.m-l-5(id='btnExport' onclick="fnTableToExcel(document.getElementById('dvData'));") 
-              i.fa.fa-download
-              |  엑셀다운로드  
-              
-              -->
-      <button id="btnExport" onclick="fnTableToExcel(document.getElementById('dvData'));" class="btn btn-primary waves-effect waves-light m-l-5  pull-right">
-        <i class="fa fa-download"></i> 현재페이지 다운로드</button>
-      <button onclick="getJsonData();" class="btn btn-success waves-effect waves-light m-l-5  pull-right">
-        <i class="fa fa-arrow-circle-o-down"></i> 전체 다운로드 </button>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-lg-12">
-    <div class="card-box">
-      <!--table.table.table-bordered(id='dvData')-->
-      <iframe id="txtArea1" style="display:none"></iframe>
-      <table id="dvData" class="table table-hover">
-        <thead>
-          <tr>
-            <th width="23%" class="text-center">업무구분</th>
-            <th class="text-center">제목</th>
-            <th width="8%" class="text-center">요청자</th>
-            <th width="13%" class="text-center">등록일</th>
-            <th width="8%" class="text-center">담당자</th>
-            <th width="9%" class="text-center">진행상태</th>
-            <th width="16%" class="text-center">만족도</th>
-            <!--th(class='text-center' width='14%') 접수(완료일)-->
-          </tr>
-        </thead>
-        <tbody id="more_list">
-          <tr onclick="detailShow('5b026d83d7b4d113a019fc38')" style="cursor:pointer">
-            <td class="text-left">오라클ERP / </td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;[INV]전산 수불화면 주문번호 상태 초기화 및 수정요청</td>
-            <td class="text-center">황부관</td>
-            <td class="text-center">2018-05-21 15:56:03</td>
-            <td class="text-center">담당미지정</td>
-            <td class="text-center">
-              <span class="label label-inverse">접수대기</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b026d83d7b4d113a019fc38" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b025b08d7b4d113a019fc36')" style="cursor:pointer">
-            <td class="text-left">SAP ERP / SAP PP</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;생산오더 삭제 오류 건 </td>
-            <td class="text-center">PP PI(S)</td>
-            <td class="text-center">2018-05-21 14:37:12</td>
-            <td class="text-center">이민준</td>
-            <td class="text-center">
-              <span class="label label-success">미평가</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b025b08d7b4d113a019fc36" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b0259c8d7b4d113a019fc35')" style="cursor:pointer">
-            <td class="text-left">OPTI-HR / 근태관리</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;근태 재 상신 건.</td>
-            <td class="text-center">차현정</td>
-            <td class="text-center">2018-05-21 14:31:52</td>
-            <td class="text-center">서지혜</td>
-            <td class="text-center">
-              <span class="label label-success">미평가</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b0259c8d7b4d113a019fc35" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b025585d7b4d113a019fc33')" style="cursor:pointer">
-            <td class="text-left">OPTI-HR / 근태관리</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;근태신청(대체휴가 신청) 문의</td>
-            <td class="text-center">김슬기</td>
-            <td class="text-center">2018-05-21 14:13:41</td>
-            <td class="text-center">서지혜</td>
-            <td class="text-center">
-              <span class="label label-primary">처리중</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b025585d7b4d113a019fc33" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b024facd7b4d113a019fc32')" style="cursor:pointer">
-            <td class="text-left">그룹웨어 / 전자결재</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;기밀문서 조회 지원</td>
-            <td class="text-center">송기원</td>
-            <td class="text-center">2018-05-21 13:48:44</td>
-            <td class="text-center">박선우</td>
-            <td class="text-center">
-              <span class="label label-success">미평가</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b024facd7b4d113a019fc32" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b023578d7b4d113a019fc30')" style="cursor:pointer">
-            <td class="text-left">OPTI-HR / HRI</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;데이터 업로드 오류</td>
-            <td class="text-center">양희준</td>
-            <td class="text-center">2018-05-21 11:56:56</td>
-            <td class="text-center">피지훈</td>
-            <td class="text-center">
-              <span class="label label-primary">처리중</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b023578d7b4d113a019fc30" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b022dd7d7b4d113a019fc2f')" style="cursor:pointer">
-            <td class="text-left">오라클ERP / ERP-매출관리(OE)</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;오더번호 삭제요청</td>
-            <td class="text-center">권정현</td>
-            <td class="text-center">2018-05-21 11:24:23</td>
-            <td class="text-center">박신환</td>
-            <td class="text-center">
-              <span class="label label-primary">처리중</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b022dd7d7b4d113a019fc2f" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b022857d7b4d113a019fc2e')" style="cursor:pointer">
-            <td class="text-left">오라클ERP / ERP-공정관리(WIP)</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;WIP 작업지시서 오류 확인 요청건</td>
-            <td class="text-center">장기태</td>
-            <td class="text-center">2018-05-21 11:00:55</td>
-            <td class="text-center">박신환</td>
-            <td class="text-center">
-              <span class="label label-primary">처리중</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b022857d7b4d113a019fc2e" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b0224add7b4d113a019fc2d')" style="cursor:pointer">
-            <td class="text-left">그룹웨어 / 전자결재</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;결재문서 의견 삭제</td>
-            <td class="text-center">장민주</td>
-            <td class="text-center">2018-05-21 10:45:17</td>
-            <td class="text-center">박선우</td>
-            <td class="text-center">
-              <span class="label label-success">미평가</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b0224add7b4d113a019fc2d" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b02244dd7b4d113a019fc2c')" style="cursor:pointer">
-            <td class="text-left">오라클ERP / </td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;기간별 구매요청 현황 개발요청</td>
-            <td class="text-center">진홍혁</td>
-            <td class="text-center">2018-05-21 10:43:41</td>
-            <td class="text-center">담당미지정</td>
-            <td class="text-center">
-              <span class="label label-inverse">접수대기</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b02244dd7b4d113a019fc2c" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b0222efd7b4d113a019fc2b')" style="cursor:pointer">
-            <td class="text-left">OPTI-HR / 급여관리</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;휴직자들 일할계산 로직 수정요청의 건</td>
-            <td class="text-center">김슬기</td>
-            <td class="text-center">2018-05-21 10:37:51</td>
-            <td class="text-center">서지혜</td>
-            <td class="text-center">
-              <span class="label label-primary">처리중</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b0222efd7b4d113a019fc2b" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b0221fbd7b4d113a019fc2a')" style="cursor:pointer">
-            <td class="text-left">OPTI-HR / HRI</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;출산휴가에 근로자의 날 포함여부</td>
-            <td class="text-center">강승연</td>
-            <td class="text-center">2018-05-21 10:33:47</td>
-            <td class="text-center">문경준</td>
-            <td class="text-center">
-              <span class="label label-success">미평가</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b0221fbd7b4d113a019fc2a" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b021e4bd7b4d113a019fc29')" style="cursor:pointer">
-            <td class="text-left">OPTI-HR / 인력운영</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;휴직현황 검색 관련 요청</td>
-            <td class="text-center">하민정</td>
-            <td class="text-center">2018-05-21 10:18:03</td>
-            <td class="text-center">서지혜</td>
-            <td class="text-center">
-              <span class="label label-success">미평가</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b021e4bd7b4d113a019fc29" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b021b3fd7b4d113a019fc28')" style="cursor:pointer">
-            <td class="text-left">OPTI-HR / HRI</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;급여계산시 재직상태가 외부인 인원 급여 미계산(피지훈대리님)</td>
-            <td class="text-center">강승연</td>
-            <td class="text-center">2018-05-21 10:05:03</td>
-            <td class="text-center">피지훈</td>
-            <td class="text-center">
-              <span class="label label-success">미평가</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b021b3fd7b4d113a019fc28" class="m-l-15"> </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-          <tr onclick="detailShow('5b021a4ad7b4d113a019fc27')" style="cursor:pointer">
-            <td class="text-left">OPTI-HR / HRI</td>
-            <td class="text-left">
-              <i class="fa fa-lock m-r-5" style="color:darkblue"></i>&nbsp;&nbsp;인베스트먼트(HSIL), 스타오토홀딩스(SAHL) 원천징수영수증 출력 오류 건</td>
-            <td class="text-center">방영진</td>
-            <td class="text-center">2018-05-21 10:00:58</td>
-            <td class="text-center">문경준</td>
-            <td class="text-center">
-              <span class="label label-purple">처리완료</span>
-            </td>
-            <td class="text-center">
-              <div class="forum-level">
-                <p class="text-muted font-13">
-                  <span name="5b021a4ad7b4d113a019fc27" class="m-l-15">
-                    <i class="md md-star text-warning"></i>
-                    <i class="md md-star text-warning"></i>
-                    <i class="md md-star text-warning"></i>
-                    <i class="md md-star text-warning"></i>
-                    <i class="md md-star text-muted"></i>
-                  </span>
-                </p>
-                <p></p>
-              </div>
-            </td>
-          </tr>
-        </tbody>
+<app-loading [condition]="isLoading"></app-loading>
+<app-toast></app-toast>
 
-      </table>
-    </div>
-    <div class="row">
-      <div class="col-sm-4">
-        <div class="dataTables_info pull">Showing 1 to 15 of
-          <span id="totalPage">1599</span> pages / 총
-          <span id="totalCnt">23983</span>건
+<div class="content">
+    <div class="container">
+        <div class="svcd-body-content">
+            
+            <app-page-header [title]="'전체내용검색'"></app-page-header>
+            
+            <!-- start Search Area-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-box">
+                    <form novalidate #f="ngForm" (ngSubmit)="getIncident()" class="form-horizontal group-border-dashed">
+                        
+                        <div class="form-group  row">
+                            <div class="col-lg-6 col-sm-12">
+                                <mat-form-field class="mat-form-field2">
+                                    <mat-select [(ngModel)]="company_cd"
+                                                name="company_cd" 
+                                                (selectionChange)="getIncident()"
+                                                placeholder="회사명">
+                                        <mat-option value="*">전체</mat-option>
+                                        <mat-option *ngFor="let obj of companyObj" [value]="obj.company_cd">{{obj.company_nm}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>    
+                            </div>
+                            <div class="col-lg-3 col-sm-12">
+                                <app-process-status
+                                                [condition]="'*'"
+                                                [initValue]="'1'"
+                                                [placeholder]="'진행구분'"
+                                                (outProcessStatus)="onSelected($event)"
+                                ></app-process-status>
+                            </div>
+                            <div class="col-lg-3">
+                            </div>
+                        </div>
+
+                        <div class="form-group  row">
+                            <div class="col-lg-3 col-sm-12">
+                                <app-higher-cd 
+                                    [scope]="user_flag"
+                                    [required]="true"
+                                    [company]="company_cd"
+                                    [placeholder]="'상위업무'"
+                                    (outHigherCd)="setHigher($event)"
+                                ></app-higher-cd>  
+                            </div>
+                            <div class="col-lg-3 col-sm-12">
+                                <app-lower-cd 
+                                    [required]="false"
+                                    [placeholder]="'하위업무'"
+                                    (outLowerCd)="setLower($event)"
+                                ></app-lower-cd>
+                            </div>
+                            <div class="col-lg-3 col-sm-12">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput 
+                                        [(ngModel)]="reg_date_from"
+                                        name="reg_date_from"
+                                        [min]="minDate" 
+                                        [max]="maxDate" 
+                                        [matDatepicker]="pickerf"
+                                        (dateChange)="addEvent('change', $event)"
+                                        placeholder="검색시작일">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerf"></mat-datepicker-toggle>
+                                    <mat-datepicker touchUi="true" #pickerf></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-3 col-sm-12">
+                                <mat-form-field class="example-full-width" color="accent">
+                                    <input matInput 
+                                        [(ngModel)]="reg_date_to" 
+                                        name="reg_date_to"
+                                        [min]="minDate" 
+                                        [max]="maxDate" 
+                                        [matDatepicker]="pickert"
+                                        (dateChange)="addEvent('change', $event)"
+                                        placeholder="검색종료일"
+                                    >
+                                    <mat-datepicker-toggle matSuffix [for]="pickert"></mat-datepicker-toggle>
+                                    <mat-datepicker touchUi="true" #pickert></mat-datepicker>
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-lg-3 col-sm-12">
+                                <mat-form-field>
+                                    <mat-select [(ngModel)]="searchType"
+                                                name="searchType" 
+                                                (selectionChange)="getIncident()"
+                                                placeholder="검색구분">
+                                        <mat-option *ngFor="let obj of searchTypeObj" [value]="obj.value">{{obj.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-9 col-sm-12">
+                                <mat-form-field class="mat-form-field3">
+                                    <input matInput
+                                        [(ngModel)]="searchText"
+                                        name="searchText"
+                                        type="input" 
+                                        placeholder="검색어"
+                                    >
+                                </mat-form-field>&nbsp;&nbsp;
+                                <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
+                                    <span>조회</span>
+                                    <i class="fa fa-search m-r-5"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                    </div>
+                </div>
+            </div>
+            <!-- end Search Area-->  
+            
+            <!-- 처리현황 시작-->
+            <!--
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div role="toolbar" class="btn-toolbar m-t-10 float-right">
+                        <button (click)="excelDownloadCurrent();" class="btn btn-primary waves-effect waves-light m-l-5">
+                            <i class="fa fa-download"></i> 현재페이지 다운로드
+                        </button>
+                        <button  (click)="excelDownloadAll();" class="btn btn-success waves-effect waves-light m-l-5"> 
+                            <i class="fa fa-arrow-circle-o-down"></i> 전체 다운로드   
+                        </button>
+                    </div>        
+                </div>
+            </div>    
+            <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                        <div class="card-box">
+                            <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th width="50px" class="text-center">긴급</th>
+                                    <th width="60px" class="text-center">진행<br>구분</th>
+                                    <th class="text-center">제목</th>
+                                    <th width="150px" class="text-center">회사명/요청자</th>
+                                    <th width="100px" class="text-center">등록일</th>
+                                    <th width="100px" class="text-center">접수완료일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let incident of incidents" style="cursor:pointer" >
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center"><span *ngIf="incident?.process_speed == 'Y'" class="label label-warning">✔</span></td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">
+                                        <span *ngIf="incident?.status_cd == 1" class="label label-inverse">접수대기</span>
+                                        <span *ngIf="incident?.status_cd == 2" class="label label-primary">처리중</span>
+                                        <span *ngIf="incident?.status_cd == 3" class="label label-success">미평가</span>
+                                        <span *ngIf="incident?.status_cd == 4" class="label label-purple">처리완료</span>
+                                        <span *ngIf="incident?.status_cd == 5" class="label label-info">협의필요</span>
+                                        <span *ngIf="incident?.status_cd == 9" class="label label-danger">미처리</span>
+                                    </td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-left">{{incident?.title}}</td>
+                                    <td (click)="getEmpInfo(empInfoModal,incident.request_id);" class="text-center">{{incident?.request_company_nm}}/{{incident?.request_nm}}</td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.register_date}}</td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.receipt_date}}</td>
+                                </tr>
+                                    <td *ngIf="incidents?.length == 0" colspan='6' class='text-center'>조회된 데이타가 없습니다.</td>
+                                </tbody>
+                            </table>
+                            </div>
+                    
+                        </div>
+                    </div>
+    
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="dataTables_info">Showing 1 to 15 of {{totlaPageCnt}} pages
+                            /
+                            총 <span>{{totalDataCnt}}</span>개
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <ngb-pagination [collectionSize]="totalDataCnt" pageChange 
+                                        [(page)]="page" 
+                                        [maxSize]="maxSize" 
+                                        [pageSize]="pageDataSize"
+                                        [rotate]="true" 
+                                        [ellipses]="false" 
+                                        [boundaryLinks]="true"
+                                        (pageChange)="pageChange($event)"
+                                        class="float-right"
+                        ></ngb-pagination>
+                    </div>
+                </div>                
+                -->
+                <!-- 처리현황 끝-->
+
+            
+                        
         </div>
-      </div>
-      <div class="col-sm-8">
-        <div class="dataTables_paginate paging_simple_numbers pull-right">
-          <ul id="paging" class="pagination">
-            <li class="cpaginate_button active">
-              <a href="#" id="1">1</a>
-            </li>
-            <li class="cpaginate_button">
-              <a href="#" id="2">2</a>
-            </li>
-            <li class="cpaginate_button">
-              <a href="#" id="3">3</a>
-            </li>
-            <li class="cpaginate_button">
-              <a href="#" id="4">4</a>
-            </li>
-            <li class="cpaginate_button">
-              <a href="#" id="5">5</a>
-            </li>
-            <li class="cpaginate_button">
-              <a href="#" id="6">6</a>
-            </li>
-            <li class="cpaginate_button">
-              <a href="#" id="7">7</a>
-            </li>
-            <li class="cpaginate_button">
-              <a href="#" id="8">8</a>
-            </li>
-            <li class="cpaginate_button">
-              <a href="#" id="9">9</a>
-            </li>
-            <li class="cpaginate_button">
-              <a href="#" id="10">10</a>
-            </li>
-            <li class="cpaginate_button next">
-              <a href="#" id="next">Next</a>
-            </li>
-          </ul>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
-</div>
+
+
+
+<section class="content">
+            <!-- 처리현황 시작-->
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div role="toolbar" class="btn-toolbar m-t-10 float-right">
+                        <button (click)="excelDownloadCurrent();" class="btn btn-primary waves-effect waves-light m-l-5">
+                            <i class="fa fa-download"></i> 현재페이지 다운로드
+                        </button>
+                        <button  (click)="excelDownloadAll();" class="btn btn-success waves-effect waves-light m-l-5"> 
+                            <i class="fa fa-arrow-circle-o-down"></i> 전체 다운로드   
+                        </button>
+                    </div>        
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                        <div class="card-box">
+                            <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th width="5%" class="text-center">긴급</th>
+                                    <th width="10%" class="text-center">진행구분</th>
+                                    <th class="text-center">제목</th>
+                                    <th width="15%" class="text-center">요청경로</th>
+                                    <th width="12%" class="text-center">회사명/요청자</th>
+                                    <th width="10%" class="text-center">등록일</th>
+                                    <th width="10%" class="text-center">접수완료일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let incident of incidents" style="cursor:pointer" >
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center"><span *ngIf="incident?.process_speed == 'Y'" class="label label-warning">✔</span></td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">
+                                        <span *ngIf="incident?.status_cd == 1" class="label label-inverse">접수대기</span>
+                                        <span *ngIf="incident?.status_cd == 2" class="label label-primary">처리중</span>
+                                        <span *ngIf="incident?.status_cd == 3" class="label label-success">미평가</span>
+                                        <span *ngIf="incident?.status_cd == 4" class="label label-purple">처리완료</span>
+                                        <span *ngIf="incident?.status_cd == 5" class="label label-info">협의필요</span>
+                                        <span *ngIf="incident?.status_cd == 6" class="label label-default">미처리</span>
+                                    </td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-left">{{incident?.title}}</td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.app_menu}}</td>
+                                    <td (click)="getEmpInfo(empInfoModal,incident.request_id);" class="text-center">{{incident?.request_company_nm}}/{{incident?.request_nm}}</td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.register_date}}</td>
+                                    <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.receipt_date}}</td>
+                                </tr>
+                                <td *ngIf="incidents?.length == 0" colspan='7' class='text-center'>조회된 데이타가 없습니다.</td>
+                                </tbody>
+                            </table>
+                            </div>
+                    
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="dataTables_info">Showing 1 to 15 of <span id="totalPage"></span> pages
+                            /
+                            총 <span id="totalCnt"></span>개
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <ngb-pagination [collectionSize]="totalDataCnt" pageChange 
+                                        [(page)]="page" 
+                                        [maxSize]="maxSize" 
+                                        [pageSize]="pageDataSize"
+                                        [rotate]="true" 
+                                        [ellipses]="false" 
+                                        [boundaryLinks]="true"
+                                        (pageChange)="pageChange($event)"
+                                        class="float-right"
+                        ></ngb-pagination>
+                    </div>
+                </div>        
+                <!-- 처리현황 끝-->
+</section>
+
+
+<!-- start detail view modal -->
+<ng-template #incidentDetailModal let-c="close" let-d="dismiss">
+    <app-incident-detail-m [cValues]="this.c"
+                           [dValues]="this.d"
+                           [incidentDetail]="incidentDetail"
+                           (openerReload) = "reload()" 
+    ></app-incident-detail-m>
+</ng-template>
+<!-- end detail view modal -->
+
+<!-- start empInfo modal -->
+<ng-template #empInfoModal let-c="close" let-d="dismiss">
+    <app-emp-info [cValues]="this.c"
+                  [dValues]="this.d"
+                  [email]="empEmail"
+    ></app-emp-info>
+</ng-template>
+<!-- end empInfo modal -->

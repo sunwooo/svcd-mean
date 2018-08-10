@@ -10,16 +10,21 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class LowerCdComponent implements OnInit {
 
     @Input() higher_cd: string;
+    @Input() scope: string;
     @Input() required: boolean = false;
     @Input() placeholder: string;
     @Output() outLowerCd = new EventEmitter<string>();
 
     public lowerCd: any;
+    public allCheck: boolean = false;
     public condition: any = {};
 
     constructor(private commonApi: CommonApiService) { }
 
     ngOnInit() {
+        if(this.scope == "*"){
+            this.allCheck = true;
+        }
         this.getLowerCd(this.higher_cd);
     }
 

@@ -89,44 +89,44 @@ module.exports = {
    */
   lowerProcess: (req, res, next) => {
     try {
-        var condition ={};
-        
-        if(req.query.higher_cd != null && req.query.higher_cd != ''){
-            condition.higher_cd = req.query.higher_cd;
-        }
+      var condition = {};
 
-        async.waterfall([function (callback) {
-            //상위코드용 업무처리 개수 조회
-            LowerProcess.count(condition, function (err, count) {
-                if (err) return res.json({
-                    success: false,
-                    message: err
-                });
-                callback(null, count);
-            });
-        }], function (err, count) {
-            //var higher_cd = req.query.higher_cd;
-            //if (count == 0) higher_cd = '000'; //상위코드용 업무처리가 없으면 공통으로 조회
+      if (req.query.higher_cd != null && req.query.higher_cd != '') {
+        condition.higher_cd = req.query.higher_cd;
+      }
 
-            condition.use_yn = "사용";
-
-            LowerProcess.find(condition, function (err, lowerprocess) {
-                if (err) {
-                    return res.json({
-                        success: false,
-                        message: err
-                    });
-                } else {
-                    res.json(lowerprocess);
-                }
-            }).sort('lower_nm');
-        });
-    } catch (e) {
-        logger.error("manager control saveReceipt : ", e);
-        return res.json({
+      async.waterfall([function (callback) {
+        //상위코드용 업무처리 개수 조회
+        LowerProcess.count(condition, function (err, count) {
+          if (err) return res.json({
             success: false,
             message: err
+          });
+          callback(null, count);
         });
+      }], function (err, count) {
+        //var higher_cd = req.query.higher_cd;
+        //if (count == 0) higher_cd = '000'; //상위코드용 업무처리가 없으면 공통으로 조회
+
+        condition.use_yn = "사용";
+
+        LowerProcess.find(condition, function (err, lowerprocess) {
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+            res.json(lowerprocess);
+          }
+        }).sort('lower_nm');
+      });
+    } catch (err) {
+      logger.error("manager control saveReceipt : ", err);
+      return res.json({
+        success: false,
+        message: err
+      });
     }
   },
 
@@ -136,31 +136,24 @@ module.exports = {
    */
   myProcess: (req, res, next) => {
     try {
-        var condition ={};
-        
-        condition.email = req.session.email;
-      
-        MyProcess.find(condition).sort('higher_cd').sort('lower_nm').exec(function (err, lowerprocess) {
-            if (err) {
-                res.render("http/500", {
-                    cache : true,
-                    err: err
-                });
-            }
-            res.json(lowerprocess);
-        });
+      var condition = {};
 
-    } catch (e) {
-        logger.error("manager control saveReceipt : ", e);
-        return res.json({
-            success: false,
-            message: err
-        });
+      condition.email = req.session.email;
+
+      MyProcess.find(condition).sort('higher_cd').sort('lower_nm').exec(function (err, lowerprocess) {
+        if (!err) {
+          res.json(lowerprocess);
+        }
+      });
+
+    } catch (err) {
+      logger.error("manager control saveReceipt : ", err);
+      return res.json({
+        success: false,
+        message: err
+      });
     }
   },
-
-
-
 
 
   /**
@@ -169,30 +162,30 @@ module.exports = {
   companyList: (req, res, next) => {
     try {
 
-        var condition ={};
-        
-        if(req.session.user_flag == "5"){
-            condition.company_cd = req.session.company_cd;
-        }
+      var condition = {};
 
-        Company.find(condition, function (err, companyJsonData) {
-            if (err) {
-                return res.json({
-                    success: false,
-                    message: err
-                });
-            } else {
-                res.json(companyJsonData);
-            };
+      if (req.session.user_flag == "5") {
+        condition.company_cd = req.session.company_cd;
+      }
+
+      Company.find(condition, function (err, companyJsonData) {
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+            res.json(companyJsonData);
+          };
 
         })
         .sort({
-            group_flag: -1,
-            company_nm: 1
+          group_flag: -1,
+          company_nm: 1
         });
-        
+
     } catch (e) {
-        logger.error("CompanyModel error : ", e);
+      logger.error("CompanyModel error : ", e);
     } finally {}
   },
 
@@ -222,42 +215,48 @@ module.exports = {
   },
 
 
-   /**
+  /**
    * 처리구분 조회
    */
   processGubun: (req, res, next) => {
 
     try {
-        async.waterfall([function (callback) {
-            //상위코드용 업무처리 개수 조회
-            ProcessGubun.count({ "higher_cd": req.query.higher_cd, "use_yn":"사용" }, function (err, count) {
-                if (err) return res.json({
-                    success: false,
-                    message: err
-                });
-                callback(null, count)
-            });
-        }], function (err, count) {
-            var higher_cd = req.query.higher_cd;
-            if (count == 0) higher_cd = '000'; //상위코드용 업무처리가 없으면 공통으로 조회
-            ProcessGubun.find({ "higher_cd": higher_cd, "use_yn":"사용" }, function (err, processGubun) {
-                if (err) {
-                    return res.json({
-                        success: false,
-                        message: err
-                    });
-                } else {
-                    res.json(processGubun);
-                }
-            }).sort('-process_nm');
-        });
-    } catch (err) {
-        logger.error("manager control saveReceipt : ", err);
-        return res.json({
+      async.waterfall([function (callback) {
+        //상위코드용 업무처리 개수 조회
+        ProcessGubun.count({
+          "higher_cd": req.query.higher_cd,
+          "use_yn": "사용"
+        }, function (err, count) {
+          if (err) return res.json({
             success: false,
             message: err
+          });
+          callback(null, count)
         });
+      }], function (err, count) {
+        var higher_cd = req.query.higher_cd;
+        if (count == 0) higher_cd = '000'; //상위코드용 업무처리가 없으면 공통으로 조회
+        ProcessGubun.find({
+          "higher_cd": higher_cd,
+          "use_yn": "사용"
+        }, function (err, processGubun) {
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+            res.json(processGubun);
+          }
+        }).sort('-process_nm');
+      });
+    } catch (err) {
+      logger.error("manager control saveReceipt : ", err);
+      return res.json({
+        success: false,
+        message: err
+      });
     }
-  }, 
+  },
 
 };

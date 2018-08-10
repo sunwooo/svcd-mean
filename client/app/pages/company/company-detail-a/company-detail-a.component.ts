@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Input, Output } from "@angular/core";
+import { Input } from "@angular/core";
 import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS, MatDatepickerInputEvent } from '@angular/material';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { CompanyService } from '../../../services/company.service';
-import { EventEmitter } from "@angular/core";
 
 @Component({
     selector: 'app-company-detail-a',
@@ -22,32 +21,21 @@ export class CompanyDetailAComponent implements OnInit {
     @Input() companyDetail: any; //조회 company
     @Input() cValues;  //모달창 닫기용
     @Input() dValues;  //모달창 무시용
-    @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
 
     public today = new Date();
     public minDate = new Date(2015, 0, 1);
     public maxDate = new Date(2030, 0, 1);
     public events: string[] = [];
-    public show_addr: string;
-    public zip_cd: string;
-    public addr: string;
-
 
     public groupFlagObj: { name: string; value: string; }[] = [
         { name: '외부고객사', value: 'out' },
         { name: '그룹사', value: 'in' }
     ];
 
-    public daumAddressOptions =  {
-        class: ['btn', 'btn-success btn-sm']
-    };
 
     constructor(private companyService: CompanyService) { }
 
     ngOnInit() {
-        this.zip_cd = this.companyDetail.zip_cd;
-        this.addr = this.companyDetail.addr;
-        this.show_addr = this.companyDetail.zip_cd + '    ' + this.companyDetail.addr;
     }
 
     /**
@@ -66,6 +54,7 @@ export class CompanyDetailAComponent implements OnInit {
 
         this.companyService.putCompany(form).subscribe(
             res => {
+
                 //업데이트가 성공하면 진행 상태값 변경
                 if(res.success){
                     //리스트와 공유된 companyDetail 수정
@@ -84,12 +73,8 @@ export class CompanyDetailAComponent implements OnInit {
                     this.companyDetail.date_from    = form.value.date_from;
                     this.companyDetail.date_to      = form.value.date_to;
 
-                    this.openerReload.emit();
-                    
                     //모달창 닫기
                     this.cValues('Close click');
-
-                    
                 }
             }
             ,
@@ -117,19 +102,6 @@ export class CompanyDetailAComponent implements OnInit {
 
         //this.onSubmit();
 
-    }
-
-    /**
-     * 우편번호 주소 세팅
-     * @param data 
-     */
-    setDaumAddressApi(data){
-        // 여기로 주소값이 반환
-        console.log("daum addr : ", data);
-        this.zip_cd = data.zip;
-        this.addr = data.addr;
-        this.show_addr = this.zip_cd + '    ' + this.addr;
-        console.log("================>this.show_addr : ", this.show_addr);
     }
 
     /**

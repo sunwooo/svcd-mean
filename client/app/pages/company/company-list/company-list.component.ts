@@ -17,7 +17,7 @@ export class CompanyListComponent implements OnInit {
   public company: any = [];                   //조회 company
 
   public searchType: string = "company_nm";  //검색구분
-  public searchText: string = "";              //검색어
+  public searchText: string ="";              //검색어
 
   private formData: any = {};               //전송용 formData
 
@@ -104,20 +104,9 @@ export class CompanyListComponent implements OnInit {
   }
 
   setDetail(modalId, company){
-    this.companyDetail = company;
-    this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
-  }
-  
-  /**
-   * 수정된 후 처리
-   * @param event 
-   */
-  reload(){
-      this.formData.page = this.page;
-      this.formData.perPage = this.pageDataSize;
-      
-      this.getCompany();
-  }
+        this.companyDetail = company;
+        this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
+    }
 
 
 }
