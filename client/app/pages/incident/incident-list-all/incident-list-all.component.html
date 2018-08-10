@@ -41,7 +41,7 @@
                             <div class="col-lg-3 col-sm-12">
                                 <app-higher-cd 
                                     [scope]="user_flag"
-                                    [required]="true"
+                                    [required]="false"
                                     [company]="company_cd"
                                     [placeholder]="'상위업무'"
                                     (outHigherCd)="setHigher($event)"
@@ -49,6 +49,7 @@
                             </div>
                             <div class="col-lg-3 col-sm-12">
                                 <app-lower-cd 
+                                    [scope]="'*'"
                                     [required]="false"
                                     [placeholder]="'하위업무'"
                                     (outLowerCd)="setLower($event)"
