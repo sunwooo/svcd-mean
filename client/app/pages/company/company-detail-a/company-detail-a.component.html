@@ -176,20 +176,25 @@
                                         </div>
 
                                         <div class="input-wrap">
-                                            <mat-form-field class="mat-form-field2">
-                                                <span matPrefix>
-                                                    <i class="prefix fa fa-adn">&nbsp;&nbsp;&nbsp;</i>
-                                                </span>
-                                                <input matInput 
-                                                        [ngModel]="companyDetail?.addr"
-                                                        id="addr"
-                                                        type="text" 
-                                                        name="addr" 
-                                                        placeholder="회사주소1" 
-                                                >
-                                                
-                                            </mat-form-field>
-                                            <button mat-Stroked-Buttons>우편번호찾기</button>
+                                            <div class="row">
+                                                <div class="col-lg-9">
+                                                    <mat-form-field class="mat-form-field2">
+                                                        <span matPrefix>
+                                                            <i class="prefix fa fa-adn">&nbsp;&nbsp;&nbsp;</i>
+                                                        </span>
+                                                        <input matInput 
+                                                                [ngModel]="show_addr"
+                                                                id="addr"
+                                                                type="text" 
+                                                                name="addr" 
+                                                                placeholder="회사주소1" 
+                                                        >
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-lg-3"  >
+                                                    <btn-daum-address (result)="setDaumAddressApi($event)" [options]="daumAddressOptions"  class="float-left"></btn-daum-address>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="input-wrap">
