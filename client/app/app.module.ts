@@ -27,6 +27,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { StatisticService } from './services/statistic.service';
 import { CompanyService } from './services/company.service';
 import { UsermanageService } from './services/usermanage.service';
+import { HigherProcessService } from './services/higherProcess.service';
 
 /** Components */
 import { AppComponent } from './app.component';
@@ -66,7 +67,10 @@ import { UsermanageListComponent } from './pages/usermanage/usermanage-list/user
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
 import { PageInfoComponent } from './pages/page-info/page-info.component';
-import { HigherProcessListComponent } from "./pages/higherProcess/higher-process-list/higher-process-list.component";
+import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
+import { HigherProcessDetailComponent } from './pages/higherProcess/higher-process-detail/higher-process-detail.component';
+
+
 
 
 
@@ -115,7 +119,8 @@ const PAGES = [
         CompanyListComponent,
         MatchCharCssPipe,
         PageInfoComponent,
-        HigherProcessListComponent
+        HigherProcessListComponent,
+        HigherProcessDetailComponent
 
     ],
     imports: [
@@ -143,7 +148,8 @@ const PAGES = [
         EmpInfoComponent,
         StatisticService,
         CompanyService,
-        UsermanageService
+        UsermanageService,
+        HigherProcessService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]
