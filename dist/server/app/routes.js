@@ -11,6 +11,7 @@ var statisticCtrl = require("../app/controllers/api/statistic");
 var companyCtrl = require("../app/controllers/api/company");
 var higherProcessCtrl = require("../app/controllers/api/higherProcess");
 var apiCtrl = require("../app/controllers/api/common");
+var oftenQnaCtrl = require("../app/controllers/api/oftenqna");
 
 
 // Login route
@@ -67,6 +68,11 @@ router.put('/company/update', companyCtrl.update); //회사 수정
 //higherProcess route
 router.get('/higherProcess/list', higherProcessCtrl.list); //상위업무 조회
 router.put('/higherProcess/update', higherProcessCtrl.update); //상위업무 수정
+
+//oftenqna route
+router.get('/oftenqna/list', oftenQnaCtrl.list); //자주묻는질문과답 조회
+
+
 
 //upload incident attach file 
 router.post('/upload-file', function (req, res) {

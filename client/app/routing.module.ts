@@ -19,6 +19,7 @@ import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.comp
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
 import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
+import { OftenqnaListComponent } from './pages/oftenqna/oftenqna-list/oftenqna-list.component';
 
 
 const routes: Routes = [
@@ -41,6 +42,7 @@ const routes: Routes = [
             { path: '4100', component: HigherProcessListComponent },
             { path: '4300', component: CompanyListComponent },
             { path: '4400', component: UsermanageListComponent },
+            { path: '4800', component: OftenqnaListComponent}
 
             
         ]
