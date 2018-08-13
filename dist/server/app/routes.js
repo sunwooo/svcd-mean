@@ -49,6 +49,7 @@ router.put('/incident/complete', incidentCtrl.setComplete); //업무 완료
 router.put('/incident/n_complete', incidentCtrl.setNComplete); //업무 미완료
 router.put('/incident/hold', incidentCtrl.setHold); //업무 협의
 router.delete('/incident/delete', incidentCtrl.delete);  //삭제
+router.get('/incident/excelData', incidentCtrl.excelData);    //엑셀데이타 조회
 
 
 //statistic route

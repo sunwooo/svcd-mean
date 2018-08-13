@@ -11,6 +11,7 @@ import { EmpInfoComponent } from '../../../shared/emp-info/emp-info.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonApiService } from '../../../services/common-api.service';
 import { LowerCdComponent } from '../../../shared/lower-cd/lower-cd.component';
+import { ExcelService } from '../../../services/excel.service';
 
 // Jquery declaration
 declare var $: any;
@@ -36,7 +37,7 @@ export class IncidentListAllComponent implements OnInit {
     private formData: any = {};                 //전송용 formData
     public incidents: any = [];                 //조회 incident
 
-    public status_cd: string = "1";             //진행상태 
+    public status_cd: string = "*";             //진행상태 
     public company_cd: string = "*";             //회사코드
     public higher_cd: string = "*";              //상위코드
     public lower_cd: string = "*";              //하위코드
@@ -71,6 +72,7 @@ export class IncidentListAllComponent implements OnInit {
         private commonApi: CommonApiService,
         private empInfo: EmpInfoComponent,
         private modalService: NgbModal,
+        private excelService:ExcelService,
         private router: Router) {
     }
 
@@ -141,11 +143,11 @@ export class IncidentListAllComponent implements OnInit {
         this.incidentService.getIncident(this.formData).subscribe(
             (res) => {
 
-                console.log("xxxxxxxxxxxxxxxxx",res.incident);
-
-                this.incidents = res.incident;
+                this.incidents = [];
+                var tmp = this.incidents.concat(res.incident);
+                this.incidents = tmp;
                 this.totalDataCnt = res.totalCnt;
-                if (this.incidents.length == 0) {
+                if (this.totalDataCnt == 0) {
                     this.toast.open('조회데이타가 없습니다..', 'success');
                 }
 
@@ -239,7 +241,9 @@ export class IncidentListAllComponent implements OnInit {
      */
     setHigher(higher) {
         this.higher_cd = higher.higher_cd;
+        this.lower_cd = "*";
         this.child.getLowerCd(this.higher_cd);
+        this.getIncident();
     }
 
     /**
@@ -253,15 +257,39 @@ export class IncidentListAllComponent implements OnInit {
     /**
      * 현재 페이지 excelDownload
      */
-    excelDownloadCurrent(){
-        console.log("excelDownloadCurrent......");
-    }
-
-    /**
-     * 현재 페이지 excelDownload
-     */
     excelDownloadAll(){
-        console.log("excelDownloadAll......");
+        if(this.totalDataCnt <= 10000){
+            //1페이지로 초기화
+            this.formData.page = 1;
+            this.formData.perPage = 10000;
+            this.formData.user = "managerall";
+            this.formData.status_cd = this.status_cd;
+            this.formData.company_cd = this.company_cd;
+            this.formData.higher_cd = this.higher_cd;
+            this.formData.lower_cd = this.lower_cd;
+            if (this.reg_date_from != null)
+                this.formData.reg_date_from = this.reg_date_from.format('YYYY-MM-DD');
+            if (this.reg_date_to != null)
+                this.formData.reg_date_to = this.reg_date_to.format('YYYY-MM-DD');
+            this.formData.searchType = this.searchType;
+            this.formData.searchText = this.searchText;
+
+            this.incidentService.getExcelData(this.formData).subscribe(
+                (res) => {
+                    if(res.totalDataCnt != 0){
+                        this.excelService.exportAsExcelFile(res.incident, '문의내용');
+                    }else{
+                        this.toast.open('조회데이타가 없습니다.', 'danger');
+                    }
+
+                },
+                (error: HttpErrorResponse) => {
+                }
+            );
+        }else{
+            this.toast.open('10000건 이하로 다운로드하세요.', 'primary');
+        }  
+        
     }
 
 }

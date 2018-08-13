@@ -1,5 +1,5 @@
 <mat-form-field>
-    <mat-select ngModel
+    <mat-select [(ngModel)]="initLowerCd"
                 [required]="required"
                 (selectionChange)="onSelect($event.value)"
                 [placeholder]="placeholder"

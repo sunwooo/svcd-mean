@@ -131,10 +131,12 @@ export class IncidentListMngComponent implements OnInit {
 
         this.incidentService.getIncident(this.formData).subscribe(
             (res) => {
-                console.log("getIncident1",res.incident);
-                this.incidents = res.incident;
+
+                this.incidents = [];
+                var tmp = this.incidents.concat(res.incident);
+                this.incidents = tmp;
                 this.totalDataCnt = res.totalCnt;
-                console.log("getIncident2",this.incidents, this.totalDataCnt);
+                
                 if (this.incidents.length == 0) {
                     this.toast.open('조회데이타가 없습니다..', 'success');
                 }

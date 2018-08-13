@@ -69,6 +69,7 @@ import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
 import { PageInfoComponent } from './pages/page-info/page-info.component';
 import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
 import { HigherProcessDetailComponent } from './pages/higherProcess/higher-process-detail/higher-process-detail.component';
+import { ExcelService } from './services/excel.service';
 
 
 
@@ -149,7 +150,8 @@ const PAGES = [
         StatisticService,
         CompanyService,
         UsermanageService,
-        HigherProcessService
+        HigherProcessService,
+        ExcelService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]

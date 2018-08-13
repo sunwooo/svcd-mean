@@ -16,11 +16,13 @@ export class LowerCdComponent implements OnInit {
     @Output() outLowerCd = new EventEmitter<string>();
 
     public lowerCd: any;
+    public initLowerCd: string = "";
     public condition: any = {};
 
     constructor(private commonApi: CommonApiService) { }
 
     ngOnInit() {
+        if(this.scope == "*") this.initLowerCd = "*";
         this.getLowerCd(this.higher_cd);
     }
 
@@ -36,9 +38,8 @@ export class LowerCdComponent implements OnInit {
      * 하위코드 조회
      */
     getLowerCd(higher_cd) {
-        console.log("xxxxxxxxxxxxxxxxxx higher_cd",higher_cd);
         if(higher_cd == "*"){
-            console.log("xxxxxxxxxxxxxxxxxx");
+            this.initLowerCd = "*";
             this.lowerCd = [];
         }else{
             this.condition.higher_cd = higher_cd;

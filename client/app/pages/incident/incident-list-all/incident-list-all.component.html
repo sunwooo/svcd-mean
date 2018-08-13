@@ -28,12 +28,13 @@
                             <div class="col-lg-3 col-sm-12">
                                 <app-process-status
                                                 [condition]="'*'"
-                                                [initValue]="'1'"
+                                                [initValue]="'*'"
                                                 [placeholder]="'진행구분'"
                                                 (outProcessStatus)="onSelected($event)"
                                 ></app-process-status>
                             </div>
                             <div class="col-lg-3">
+                                   
                             </div>
                         </div>
 
@@ -42,6 +43,8 @@
                                 <app-higher-cd 
                                     [scope]="user_flag"
                                     [required]="false"
+                                    [choiceElement]="false"
+                                    [allElement]="true"
                                     [company]="company_cd"
                                     [placeholder]="'상위업무'"
                                     (outHigherCd)="setHigher($event)"
@@ -98,8 +101,8 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-lg-9 col-sm-12">
-                                <mat-form-field class="mat-form-field3">
+                            <div class="col-lg-6 col-sm-12">
+                                <mat-form-field class="mat-form-field2">
                                     <input matInput
                                         [(ngModel)]="searchText"
                                         name="searchText"
@@ -107,9 +110,14 @@
                                         placeholder="검색어"
                                     >
                                 </mat-form-field>&nbsp;&nbsp;
+                            </div>
+                            <div class="col-lg-3 col-sm-12">
                                 <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
                                     <span>조회</span>
                                     <i class="fa fa-search m-r-5"></i>
+                                </button>
+                                <button type="button" (click)="excelDownloadAll();" class="btn btn-success waves-effect waves-light m-l-5"> 
+                                    <i class="fa fa-arrow-circle-o-down"></i> 전체 다운로드   
                                 </button>
                             </div>
                         </div>
@@ -165,7 +173,7 @@
                                     <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.register_date}}</td>
                                     <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.receipt_date}}</td>
                                 </tr>
-                                    <td *ngIf="incidents?.length == 0" colspan='6' class='text-center'>조회된 데이타가 없습니다.</td>
+                                    <td *ngIf="totalDataCnt == 0" colspan='7' class='text-center'>조회된 데이타가 없습니다.</td>
                                 </tbody>
                             </table>
                             </div>
@@ -209,18 +217,6 @@
 <section class="content">
             <!-- 처리현황 시작-->
             <div class="row">
-                <div class="col-lg-12 col-sm-12">
-                    <div role="toolbar" class="btn-toolbar m-t-10 float-right">
-                        <button (click)="excelDownloadCurrent();" class="btn btn-primary waves-effect waves-light m-l-5">
-                            <i class="fa fa-download"></i> 현재페이지 다운로드
-                        </button>
-                        <button  (click)="excelDownloadAll();" class="btn btn-success waves-effect waves-light m-l-5"> 
-                            <i class="fa fa-arrow-circle-o-down"></i> 전체 다운로드   
-                        </button>
-                    </div>        
-                </div>
-            </div>
-            <div class="row">
                     <div class="col-lg-12 col-sm-12">
                         <div class="card-box">
                             <div class="table-responsive">
@@ -253,7 +249,7 @@
                                     <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.register_date}}</td>
                                     <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.receipt_date}}</td>
                                 </tr>
-                                <td *ngIf="incidents?.length == 0" colspan='7' class='text-center'>조회된 데이타가 없습니다.</td>
+                                <td *ngIf="totalDataCnt == 0" colspan='7' class='text-center'>조회된 데이타가 없습니다.</td>
                                 </tbody>
                             </table>
                             </div>
@@ -264,9 +260,9 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        <div class="dataTables_info">Showing 1 to 15 of <span id="totalPage"></span> pages
+                        <div class="dataTables_info">Showing 1 to 15 of {{totlaPageCnt}} pages
                             /
-                            총 <span id="totalCnt"></span>개
+                            총 <span>{{totalDataCnt}}</span>개
                         </div>
                     </div>
                     <div class="col-sm-8">

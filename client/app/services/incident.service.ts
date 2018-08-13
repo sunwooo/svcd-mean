@@ -22,6 +22,15 @@ export class IncidentService {
     }
 
     /**
+     * 문의내역 excel data 조회
+     * @param condition 
+     */
+    getExcelData(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/incident/excelData', {params: httpParams});
+    }
+
+    /**
      * 문의하기 등록
      * @param incident 
      */

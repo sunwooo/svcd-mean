@@ -16,12 +16,12 @@ module.exports = {
 
     var svc = service.com_higher(req);
 
-    console.log("putValuation ======================================================");
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.query : ", req.query);
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.params : ", req.params);
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.body : ", req.body);
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  svc.aggregatorOpts : ", JSON.stringify(svc.aggregatorOpts));
-    console.log("==================================================================");
+    //console.log("putValuation ======================================================");
+    //console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.query : ", req.query);
+    //console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.params : ", req.params);
+    //console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.body : ", req.body);
+    //console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  svc.aggregatorOpts : ", JSON.stringify(svc.aggregatorOpts));
+    //console.log("==================================================================");
 
     Incident.aggregate(svc.aggregatorOpts)
       .exec(function (err, incident) {

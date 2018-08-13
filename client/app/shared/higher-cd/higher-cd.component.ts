@@ -16,21 +16,16 @@ export class HigherCdComponent implements OnInit {
     @Output() outHigherCd = new EventEmitter<string>();
 
     public higherCd: any;
+    public initHigherCd: string = "";
     public condition: any = {};
 
     constructor(private commonApi: CommonApiService) { }
 
     ngOnInit() {       
+        //console.log("xxxxxxxxxxx this.scope ",this.scope);
+        if(this.scope == "*") this.initHigherCd = "*";
+        //console.log("xxxxxxxxxxx this.initHigherCd ",this.initHigherCd);
         this.getHigherCd(this.company);
-
-        if(this.required){
-
-        }
-
-        if(this.scope == "*"){
-            
-        }
-
     }
 
     /**
@@ -38,7 +33,14 @@ export class HigherCdComponent implements OnInit {
      * @param idx 
      */
     onSelect(idx){   
-        this.outHigherCd.emit(this.higherCd[idx]);
+        if(idx != '-1'){
+            if(idx == '*'){
+                var higherCd: any = {'higher_cd':'*','higher_nm':'전체'};
+                this.outHigherCd.emit(higherCd);
+            }else{
+                this.outHigherCd.emit(this.higherCd[idx]);
+            }
+        }        
     }
 
     /**

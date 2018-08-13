@@ -421,8 +421,7 @@ module.exports = {
 
     var search = service.createSearch(req);
 
-    //console.log("req.query.searchType : ", req.query.searchType);
-    //console.log("req.query.searchText : ", req.query.searchText);
+    //console.log("req.query : ", req.query);
     //console.log("search : ", JSON.stringify(search));
 
     var page = 1;
@@ -446,10 +445,12 @@ module.exports = {
 
           //callback을 이용한 higher_cd를 가져오기 때문에 service에서 생성 않음
           //전체담당자, 팀장, 업무담당자이고 구분값에 manager로 넘어왔을 시 
-          if ((req.session.user_flag == "1" && req.query.user == "manager") || req.session.user_flag == "3" || req.session.user_flag == "4") {
+          if ((req.session.user_flag == "1" && (req.query.user == "manager" || req.query.user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
 
             var condition = {};
-            condition.email = req.session.email;
+            if(req.query.user != "managerall"){
+                condition.email = req.session.email;
+            }
 
             MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
               if (search.findIncident.$and == null) {
@@ -458,7 +459,7 @@ module.exports = {
                     "$in": myHigherProcess
                   }
                 }];
-                if (req.query.status_cd != "1" && req.query.status_cd != "5") {
+                if (req.query.status_cd != "1" && req.query.status_cd != "5" && req.query.user != "managerall") {
                   search.findIncident.$and.push({
                     "manager_email": req.session.email
                   });
@@ -469,7 +470,7 @@ module.exports = {
                     "$in": myHigherProcess
                   }
                 });
-                if (req.query.status_cd != "1" && req.query.status_cd != "5") {
+                if (req.query.status_cd != "1" && req.query.status_cd != "5" && req.query.user != "managerall") {
                   search.findIncident.$and.push({
                     "manager_email": req.session.email
                   });
@@ -521,6 +522,133 @@ module.exports = {
     } catch (err) {} finally {}
 
   },
+
+  /**
+   * Incident 엑셀데이타 조회
+   */
+  excelData: (req, res, next) => {
+
+    var search = service.createSearch(req);
+
+    var page = 1;
+    var perPage = 10000;
+
+    if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
+    if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
+
+    if (search.findIncident.$and == null) {
+      search.findIncident.$and = [{
+        'delete_flag': {$ne: 'Y'}
+      }];
+    } else {
+      search.findIncident.$and.push({
+        'delete_flag': {$ne: 'Y'}
+      });
+    }
+
+    try {
+      async.waterfall([function (callback) {
+
+          //callback을 이용한 higher_cd를 가져오기 때문에 service에서 생성 않음
+          //전체담당자, 팀장, 업무담당자이고 구분값에 manager로 넘어왔을 시 
+          if ((req.session.user_flag == "1" && (req.query.user == "manager" || req.query.user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
+
+            var condition = {};
+
+            if(req.query.user != "managerall"){
+                condition.email = req.session.email;
+            }
+
+            MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
+              if (search.findIncident.$and == null) {
+                search.findIncident.$and = [{
+                  "higher_cd": {
+                    "$in": myHigherProcess
+                  }
+                }];
+                if (req.query.status_cd != "1" && req.query.status_cd != "5" && req.query.user != "managerall") {
+                  search.findIncident.$and.push({
+                    "manager_email": req.session.email
+                  });
+                }
+              } else {
+                search.findIncident.$and.push({
+                  "higher_cd": {
+                    "$in": myHigherProcess
+                  }
+                });
+                if (req.query.status_cd != "1" && req.query.status_cd != "5" && req.query.user != "managerall") {
+                  search.findIncident.$and.push({
+                    "manager_email": req.session.email
+                  });
+                }
+              }
+              callback(err);
+            });
+          } else {
+            callback(null);
+          }
+
+        },
+        function (callback) {
+          Incident.count(search.findIncident, function (err, totalCnt) {
+            if (err) {
+              logger.error("incident : ", err);
+
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+              callback(null, totalCnt);
+            }
+          });
+        }
+      ], function (err, totalCnt) {
+
+        var aggregatorOpts = [{
+            $match:search.findIncident
+        }, {
+            $project: {
+                _id : 0,
+                진행상태 : '$status_nm',
+                상위업무 : '$higher_nm',
+                하위업무 : '$lower_nm',
+                요청자이름 : '$request_nm',
+                요청자회사 : '$request_company_nm',
+                요청자부서 : '$request_dept_nm',
+                등록일자 : '$register_date',
+                완료일자 : '$complete_date',
+                요청제목 : '$title',
+                고객요청내용 : '$content',
+                담당자이름 : '$manager_nm',
+                처리내용 : '$complete_content',
+                처리소요시간 : '$work_time'
+            }
+        }, {
+            $sort: {
+                register_date: -1
+            }
+        }];
+        Incident.aggregate(aggregatorOpts).exec(function (err, incident) {
+            if (err) {
+                return res.json({
+                success: false,
+                message: err
+                });
+            } else {
+                //incident에 페이징 처리를 위한 전체 갯수전달
+                var rtnData = {};
+                rtnData.incident = incident;
+                rtnData.totalCnt = totalCnt;
+                res.json(rtnData);
+            }
+        });
+      });
+    }catch (err) {} finally {}
+
+  },
+
 
   /**
    * Incident 상세 JSON 데이타 조회

@@ -19,9 +19,9 @@ module.exports = {
    */
   higherProcess: (req, res, next) => {
 
-    console.log("=====================");
-    console.log("req.query : ", req.query);
-    console.log("=====================");
+    //console.log("=====================");
+    //console.log("req.query : ", req.query);
+    //console.log("=====================");
 
     var scope = req.query.scope;
 
