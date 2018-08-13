@@ -34,7 +34,12 @@
                                 ></app-process-status>
                             </div>
                             <div class="col-lg-3">
-                                   
+                                    <mat-select [(ngModel)]="register_yyyy"
+                                                name="register_yyyy" 
+                                                (selectionChange)="getIncident()"
+                                                placeholder="조회년도">
+                                        <mat-option *ngFor="let obj of register_yyyyObj" [value]="obj.company_cd">{{obj.company_nm}}</mat-option>
+                                    </mat-select>
                             </div>
                         </div>
 
