@@ -81,6 +81,8 @@ export class IncidentNewMngComponent implements OnInit {
 
     ngOnInit() {
 
+        this.auth.checkCookies();
+
         this.today.setDate(this.today.getDate() + 3);
         this.request_complete_date = new FormControl(this.today);
 
