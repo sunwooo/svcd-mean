@@ -72,6 +72,7 @@ import { HigherProcessListComponent } from './pages/higherProcess/higher-process
 import { HigherProcessDetailComponent } from './pages/higherProcess/higher-process-detail/higher-process-detail.component';
 import { ExcelService } from './services/excel.service';
 import { OftenqnaListComponent } from './pages/oftenqna/oftenqna-list/oftenqna-list.component';
+import { OftenqnaDetailComponent } from './pages/oftenqna/oftenqna-detail/oftenqna-detail.component';
 
 
 
@@ -124,7 +125,8 @@ const PAGES = [
         PageInfoComponent,
         HigherProcessListComponent,
         HigherProcessDetailComponent,
-        OftenqnaListComponent
+        OftenqnaListComponent,
+        OftenqnaDetailComponent
 
     ],
     imports: [
