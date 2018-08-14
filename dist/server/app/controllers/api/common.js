@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 var async = require('async');
-var IncidentModel = require('../../models/Incident');
+var Incident = require('../../models/Incident');
 var HigherProcess = require('../../models/HigherProcess');
 var LowerProcess = require('../../models/LowerProcess');
 var ProcessStatus = require('../../models/ProcessStatus');
@@ -257,6 +257,24 @@ module.exports = {
         message: err
       });
     }
+  },
+
+  /**
+   * 문의요청 등록된 년도 조회
+   */
+  registerYyyy: (req, res, next) => {
+    try {
+       Incident.find({}).distinct('register_yyyy', function (err, registerYyyy) {
+            if (err) {
+                return res.json({
+                success: false,
+                message: err
+                });
+            } else {
+                res.json(registerYyyy.sort().reverse());
+            }
+        });
+      }catch (err) {} finally {}
   },
 
 };

@@ -37,6 +37,14 @@ export class CommonApiService {
     }
 
     /**
+     * 등록요청 년도 조회
+     */
+    getRegisterYyyy(): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: {}});
+        return this.http.get<any>('/api/registerYyyy', {params: httpParams});
+    }
+
+    /**
      * 회사리스트 JSON 조회
      * @param condition 조건
      */
