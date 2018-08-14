@@ -79,12 +79,25 @@ function createAndCondition(req){
     var AndQueries = [];
 
     var user = req.query.user == null ? "*" : req.query.user;
+    var register_yyyy = req.query.register_yyyy == null ? "*" : req.query.register_yyyy;
     var company_cd = req.query.company_cd == null ? "*" : req.query.company_cd;
     var higher_cd = req.query.higher_cd == null ? "*" : req.query.higher_cd;
     var lower_cd = req.query.lower_cd == null ? "*" : req.query.lower_cd;
     var status_cd = req.query.status_cd == null ? "*" : req.query.status_cd;
     var reg_date_from = req.query.reg_date_from;
     var reg_date_to = req.query.reg_date_to;
+
+    // 삭제되지 않은 데이타 조회
+    AndQueries.push({
+        delete_flag: {$ne: 'Y'}
+    });
+
+    //등록년도 조건 추가
+    if (register_yyyy != '*') {
+        AndQueries.push({
+            register_yyyy: req.query.register_yyyy
+        });
+    }
 
     /**
      * 일반사용자 본인데이타만 조회 조건 추가

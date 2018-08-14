@@ -41,6 +41,7 @@ export class IncidentListAllComponent implements OnInit {
     public company_cd: string = "*";             //회사코드
     public higher_cd: string = "*";              //상위코드
     public lower_cd: string = "*";              //하위코드
+    public register_yyyy: string = "";          //검색년도
     public reg_date_from;                       //검색시작일
     public reg_date_to;                         //검색종료일
     public searchType: string = "title,content";//검색구분
@@ -49,6 +50,7 @@ export class IncidentListAllComponent implements OnInit {
     public empEmail: string = "";               //팝업 조회용 이메일
 
     public companyObj: any = [];                //회사리스트
+    public registerYyyyObj: any = [];           //문의년도 리스트
     public lowerObj: any = [];                //하위업무리스트
     public searchTypeObj: { name: string; value: string; }[] = [
         { name: '제목+내용', value: 'title,content' },
@@ -84,8 +86,12 @@ export class IncidentListAllComponent implements OnInit {
         }else if(this.auth.user_flag == "5"){//고객사 담당자
             this.user_flag = "company";
         }
+        
+        var today = new Date();
+        this.register_yyyy = today.getFullYear().toString();
 
         //this.reg_date_to = new FormControl(new Date()).value;
+        this.getRegisterYyyy();
         this.getCompanyList();
         this.getMyProcess();
         this.getIncident();
@@ -98,6 +104,19 @@ export class IncidentListAllComponent implements OnInit {
         this.commonApi.getCompany(this.formData).subscribe(
             (res) => {
                 this.companyObj = res;
+            },
+            (error: HttpErrorResponse) => {
+            }
+        );
+    }
+
+    /**
+     * 등록요청 년도 조회
+     */
+    getRegisterYyyy() {
+        this.commonApi.getRegisterYyyy().subscribe(
+            (res) => {
+                this.registerYyyyObj = res;
             },
             (error: HttpErrorResponse) => {
             }
@@ -122,23 +141,10 @@ export class IncidentListAllComponent implements OnInit {
      */
     getIncident() {
 
-        //1페이지로 초기화
-        //this.page = 1;
-        //this.incidents = [];
- 
+        this.setTransForm();
+
         this.formData.page = this.page;
         this.formData.perPage = this.pageDataSize;
-        this.formData.user = "managerall";
-        this.formData.status_cd = this.status_cd;
-        this.formData.company_cd = this.company_cd;
-        this.formData.higher_cd = this.higher_cd;
-        this.formData.lower_cd = this.lower_cd;
-        if (this.reg_date_from != null)
-            this.formData.reg_date_from = this.reg_date_from.format('YYYY-MM-DD');
-        if (this.reg_date_to != null)
-            this.formData.reg_date_to = this.reg_date_to.format('YYYY-MM-DD');
-        this.formData.searchType = this.searchType;
-        this.formData.searchText = this.searchText;
 
         this.incidentService.getIncident(this.formData).subscribe(
             (res) => {
@@ -259,21 +265,13 @@ export class IncidentListAllComponent implements OnInit {
      */
     excelDownloadAll(){
         if(this.totalDataCnt <= 10000){
+
+            this.setTransForm();
+
             //1페이지로 초기화
             this.formData.page = 1;
             this.formData.perPage = 10000;
-            this.formData.user = "managerall";
-            this.formData.status_cd = this.status_cd;
-            this.formData.company_cd = this.company_cd;
-            this.formData.higher_cd = this.higher_cd;
-            this.formData.lower_cd = this.lower_cd;
-            if (this.reg_date_from != null)
-                this.formData.reg_date_from = this.reg_date_from.format('YYYY-MM-DD');
-            if (this.reg_date_to != null)
-                this.formData.reg_date_to = this.reg_date_to.format('YYYY-MM-DD');
-            this.formData.searchType = this.searchType;
-            this.formData.searchText = this.searchText;
-
+          
             this.incidentService.getExcelData(this.formData).subscribe(
                 (res) => {
                     if(res.totalDataCnt != 0){
@@ -289,6 +287,27 @@ export class IncidentListAllComponent implements OnInit {
         }else{
             this.toast.open('10000건 이하로 다운로드하세요.', 'primary');
         }  
+        
+    }
+
+    /**
+     * 전송용 폼 세팅
+     */
+    setTransForm(){
+        this.formData.page = 1;
+        this.formData.perPage = 10000;
+        this.formData.user = "managerall";
+        this.formData.status_cd = this.status_cd;
+        this.formData.company_cd = this.company_cd;
+        this.formData.register_yyyy = this.register_yyyy;
+        this.formData.higher_cd = this.higher_cd;
+        this.formData.lower_cd = this.lower_cd;
+        if (this.reg_date_from != null)
+            this.formData.reg_date_from = this.reg_date_from.format('YYYY-MM-DD');
+        if (this.reg_date_to != null)
+            this.formData.reg_date_to = this.reg_date_to.format('YYYY-MM-DD');
+        this.formData.searchType = this.searchType;
+        this.formData.searchText = this.searchText;
         
     }
 

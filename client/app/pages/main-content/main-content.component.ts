@@ -97,7 +97,6 @@ export class MainContentComponent implements OnInit {
         //만족도현황
         this.statisticService.valuationCnt().subscribe(
             (res) => {
-                console.log("xxxxxxxxx",res);
                 this.valuationChart = res;
             },
             (error : HttpErrorResponse) => {

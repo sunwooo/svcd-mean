@@ -430,16 +430,6 @@ module.exports = {
     if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
     if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
 
-    if (search.findIncident.$and == null) {
-      search.findIncident.$and = [{
-        'delete_flag': {$ne: 'Y'}
-      }];
-    } else {
-      search.findIncident.$and.push({
-        'delete_flag': {$ne: 'Y'}
-      });
-    }
-
     try {
       async.waterfall([function (callback) {
 
@@ -535,16 +525,6 @@ module.exports = {
 
     if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
     if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
-
-    if (search.findIncident.$and == null) {
-      search.findIncident.$and = [{
-        'delete_flag': {$ne: 'Y'}
-      }];
-    } else {
-      search.findIncident.$and.push({
-        'delete_flag': {$ne: 'Y'}
-      });
-    }
 
     try {
       async.waterfall([function (callback) {
