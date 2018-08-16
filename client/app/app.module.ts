@@ -70,6 +70,7 @@ import { PageInfoComponent } from './pages/page-info/page-info.component';
 import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
 import { HigherProcessDetailComponent } from './pages/higherProcess/higher-process-detail/higher-process-detail.component';
 import { ExcelService } from './services/excel.service';
+import { UsermanageDetailAComponent } from './pages/usermanage/usermanage-detail-a/usermanage-detail-a.component';
 
 
 
@@ -121,7 +122,8 @@ const PAGES = [
         MatchCharCssPipe,
         PageInfoComponent,
         HigherProcessListComponent,
-        HigherProcessDetailComponent
+        HigherProcessDetailComponent,
+        UsermanageDetailAComponent
 
     ],
     imports: [
