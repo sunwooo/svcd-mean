@@ -20,7 +20,6 @@ export class AuthService {
         public activatedRoute: ActivatedRoute,
         private router: Router) {
 
-        
         this.activatedRoute.params.subscribe(params =>{
             console.log("==========> params : ", params);
         });
@@ -86,6 +85,35 @@ export class AuthService {
         this.cookieService.deleteAll();
         this.loggedIn = false;
         this.router.navigate(['']);
+    }
+
+    checkCookies(){
+        const token = this.cookieService.get('email');
+        
+        console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+        console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxx',this.cookieService.getAll());
+        console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxx',this.cookieService.get('email'));
+        console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+
+        console.log("checkCookies ======== AuthService constructor ========");
+        console.log("checkCookies token... cookie.email : ", token);
+        console.log("checkCookies =========================================");
+
+        if (token) {
+
+            console.log("checkCookies ================================================");
+            console.log("checkCookies ================= token true ================");
+            console.log("checkCookies ================================================");
+
+            this.loggedIn = true;
+
+        }else{
+            console.log("checkCookies =================================================");
+            console.log("checkCookies ================= token false ================");
+            console.log("checkCookies ================================================="); 
+            this.logout();        
+        }
+
     }
 
     decodeUserFromToken(token) {

@@ -28,6 +28,7 @@ import { StatisticService } from './services/statistic.service';
 import { CompanyService } from './services/company.service';
 import { UsermanageService } from './services/usermanage.service';
 import { HigherProcessService } from './services/higherProcess.service';
+import { OftenqnaService } from './services/oftenqna.service';
 
 /** Components */
 import { AppComponent } from './app.component';
@@ -69,13 +70,8 @@ import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
 import { PageInfoComponent } from './pages/page-info/page-info.component';
 import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
 import { HigherProcessDetailComponent } from './pages/higherProcess/higher-process-detail/higher-process-detail.component';
-import { ExcelService } from './services/excel.service';
-import { UsermanageDetailAComponent } from './pages/usermanage/usermanage-detail-a/usermanage-detail-a.component';
-
-
-
-
-
+import { ExcelService } from './services/excel.service';import { OftenqnaListComponent } from './pages/oftenqna/oftenqna-list/oftenqna-list.component';
+import { OftenqnaDetailComponent } from './pages/oftenqna/oftenqna-detail/oftenqna-detail.component';import { UsermanageDetailAComponent } from './pages/usermanage/usermanage-detail-a/usermanage-detail-a.component';
 
 const PAGES = [
     HomeComponent,
@@ -122,9 +118,9 @@ const PAGES = [
         MatchCharCssPipe,
         PageInfoComponent,
         HigherProcessListComponent,
-        HigherProcessDetailComponent,
-        UsermanageDetailAComponent
-
+		OftenqnaListComponent,
+        OftenqnaDetailComponent,
+		UsermanageDetailAComponent
     ],
     imports: [
         BrowserModule,
@@ -153,7 +149,9 @@ const PAGES = [
         CompanyService,
         UsermanageService,
         HigherProcessService,
-        ExcelService
+        ExcelService,
+        OftenqnaService
+
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]

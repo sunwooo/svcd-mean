@@ -42,25 +42,13 @@ export class CompanyListComponent implements OnInit {
 
   onSubmit(){
         
-    //1페이지로 초기화
-    //this.page = 1;
-    //this.incidents = [];
-
-    //this.formData.status_cd = this.status_cd;
-    //if(this.reg_date_from != null)
-    //    this.formData.reg_date_from = this.reg_date_from.format('YYYY-MM-DD');
-    //if(this.reg_date_to != null)
-    //    this.formData.reg_date_to = this.reg_date_to.format('YYYY-MM-DD');
-    //this.formData.searchType = this.searchType;
-
-    //this.formData.searchText = this.searchText;
     this.formData.searchType = this.searchType;
     this.formData.searchText = this.searchText;
 
-    console.log("================================");
-    console.log(this.searchType);
-    console.log(this.searchText);
-    console.log("================================");
+    //console.log("================================");
+    //console.log(this.searchType);
+    //console.log(this.searchText);
+    //console.log("================================");
 
     this.getCompany() ;
 }
