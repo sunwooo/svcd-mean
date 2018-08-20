@@ -13,11 +13,11 @@ import { Observable } from 'rxjs/Observable';
 import { UserService } from '../../../services/user.service';
 import { catchError, map, tap,startWith, switchMap, debounceTime, distinctUntilChanged, takeWhile, first } from 'rxjs/operators';
 import { HigherCdComponent } from '../../../shared/higher-cd/higher-cd.component';
+import { Input, Output } from "@angular/core";
 const URL = '/api/upload-file';
 
 // Jquery declaration
 declare var $: any;
-
 
 
 @Component({
@@ -26,9 +26,12 @@ declare var $: any;
   styleUrls: ['./oftenqna-detail.component.css']
 })
 export class OftenqnaDetailComponent implements OnInit {
+    @Input() oftenqnaDetail: any;  //조회 oftenqna
+    @Input() cValues;              //모달창 닫기용
+    @Input() dValues;              //모달창 무시용
+    @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
 
-
-    private formData: any = {}; //전송용 formData
+    private formData: any = {};    //전송용 formData
     private attach_file: any = []; //mongodb 저장용 첨부파일 배열
 
     public uploader: FileUploader = new FileUploader({ url: URL }); //file upload용 객체
@@ -80,24 +83,47 @@ export class OftenqnaDetailComponent implements OnInit {
          */
         this.uploader.onCompleteAll = () => {
             this.formData.oftenqna.attach_file = this.attach_file;
-            this.saveOftenqna();
+            this.saveOftenqna(this.formData);
         }
   }
 
   /**
      * mongodb 저장용 서비스 호출
      */
-    saveOftenqna() {
-        /*
-        this.incidentService.addIncident(this.formData).subscribe(
+    saveOftenqna(form: NgForm) {
+        form.value.oftenqna.id = this.oftenqnaDetail._id;
+
+        console.log('=======================================saveOftenqna(form : NgForm)===============================');
+        console.log("form.value",form.value);
+        console.log("form",form);
+        console.log('=================================================================================================');
+        
+        this.oftenqnaService.putOftenqna(form).subscribe(
             (res) => {
 
-                //console.log('============= incidentService.addIncident(this.formData).subscribe ===============');
-                //console.log(res);
-                //console.log('===================================================================================');
+                console.log('============= oftenqnaService.putOftenqna(this.formData).subscribe ===============');
+                console.log(res);
+                console.log('===================================================================================');
 
-                this.toast.open('등록되었습니다.', 'success');
-                this.router.navigate(['/svcd/2200']);
+                //this.toast.open('저장되었습니다.', 'success');
+                //this.router.navigate(['/svcd/4800']);
+                //this.cValues('Close click');
+
+
+                if(res.success){
+                    //리스트와 공유된 oftenqnaDetail 수정
+                    this.oftenqnaDetail.title   = form.value.title;
+                    this.oftenqnaDetail.content   = form.value.content;
+                    //this.higherProcessDetail.description = form.value.description;
+                    //this.higherProcessDetail.use_yn      = form.value.use_yn;
+
+                     this.openerReload.emit();
+
+                    //모달창 닫기
+                    this.cValues('Close click');
+                }
+
+
             },
             (error: HttpErrorResponse) => {
                 //if (error.status == 400) {
@@ -109,7 +135,7 @@ export class OftenqnaDetailComponent implements OnInit {
                 //}
             }
         );
-        */
+        
 
     }
 
@@ -122,7 +148,8 @@ export class OftenqnaDetailComponent implements OnInit {
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
         form.value.oftenqna.content = text;
-        //form.value.oftenqna.higher_cd = this.higher.higher_cd;
+
+        
 
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
@@ -136,7 +163,7 @@ export class OftenqnaDetailComponent implements OnInit {
         if (this.uploader.queue.length > 0) {
             this.uploader.uploadAll(); //uploader 완료(this.uploader.onCompleteAll) 후 oftenqna저장
         } else {
-            this.saveOftenqna();
+            this.saveOftenqna(this.formData);
         }
 
     }

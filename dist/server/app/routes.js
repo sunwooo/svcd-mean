@@ -72,7 +72,7 @@ router.put('/higherProcess/update', higherProcessCtrl.update); //상위업무 �
 
 //oftenqna route
 router.get('/oftenqna/list', oftenQnaCtrl.list); //자주묻는질문과답 조회
-
+router.put('/oftenqna/update', oftenQnaCtrl.update); //자주묻는질문과답 수정
 
 
 //upload incident attach file 
