@@ -18,7 +18,7 @@ export class OftenqnaService {
     getOftenqnaList(condition): Observable<any> {
         console.log("===========================getOftenqnaList", condition);
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/oftenqna/list', {params: httpParams});
+        return this.http.get<any>('/api/c/list', {params: httpParams});
     }
 
     /**
@@ -28,5 +28,14 @@ export class OftenqnaService {
     //putCompany(form: NgForm): Observable<any> {
     //    return this.http.put<any>('/api/company/update', form.value, {withCredentials:true});
     //}
+
+    /**
+     * oftenqna 수정
+     * @param form 
+    */
+    putOftenqna(form: NgForm): Observable<any> {
+        return this.http.put<any>('/api/oftenqna/update', form.value, {withCredentials:true});
+    }
+
 
 }
