@@ -7,7 +7,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Nl2BrPipeModule} from 'nl2br-pipe';
-import { NgDaumAddressModule } from 'ng2-daum-address'; 
 
 /** Modules */
 import { MaterialModule } from './material/material.module';
@@ -75,10 +74,6 @@ import { OftenqnaListComponent } from './pages/oftenqna/oftenqna-list/oftenqna-l
 import { OftenqnaDetailComponent } from './pages/oftenqna/oftenqna-detail/oftenqna-detail.component';
 
 
-
-
-
-
 const PAGES = [
     HomeComponent,
     LoginComponent,
@@ -142,8 +137,7 @@ const PAGES = [
         FileUploadModule,
         TruncateModule,
         NgxChartsModule,
-        Nl2BrPipeModule,
-        NgDaumAddressModule
+        Nl2BrPipeModule
     ],
     providers: [
         AuthService,
