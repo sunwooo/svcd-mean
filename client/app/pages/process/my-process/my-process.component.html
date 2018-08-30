@@ -1,0 +1,51 @@
+<div class="content">
+    <div class="container">
+        <div class="svcd-body-content">
+
+            <app-page-header [title]="'나의업무지정'"></app-page-header>
+
+            <!-- start Search Area-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-box">
+                        <form novalidate #f="ngForm" (ngSubmit)="onSubmit()" class="form-horizontal group-border-dashed">
+                            <div class="form-group row">
+                                <div class="col-lg-3 col-sm-12">
+                                    <app-higher-cd 
+                                        [scope]="'*'"
+                                        [required]="false"
+                                        [choiceElement]="false"
+                                        [allElement]="true"
+                                        [company]="''"
+                                        [placeholder]="'상위업무'"
+                                        (outHigherCd)="setHigher($event)"
+                                    ></app-higher-cd>
+                                </div>
+                                <div class="col-lg-2 col-sm-12 float-left">
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
+                                        <span>조회</span>
+                                        <i class="fa fa-search m-r-5"></i>
+                                    </button>
+                                </div>
+                                <div class="col-lg-7 col-sm-12"></div>
+                            </div>  
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- end Search Area-->  
+            <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card-box">
+                            <ngx-treeview [config]="config"
+                                        [items]="items"
+                                        (selectedChange)="onSelectedChange($event)"
+                                        (filterChange)="onFilterChange($event)">
+                            </ngx-treeview>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>

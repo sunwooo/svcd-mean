@@ -1,13 +1,11 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { FileUploadModule } from 'ng2-file-upload';
 import { TruncateModule  } from 'ng2-truncate'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Nl2BrPipeModule} from 'nl2br-pipe';
-import { NgDaumAddressModule } from 'ng2-daum-address'; 
 
 /** Modules */
 import { MaterialModule } from './material/material.module';
@@ -70,8 +68,24 @@ import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
 import { PageInfoComponent } from './pages/page-info/page-info.component';
 import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
 import { HigherProcessDetailComponent } from './pages/higherProcess/higher-process-detail/higher-process-detail.component';
-import { ExcelService } from './services/excel.service';import { OftenqnaListComponent } from './pages/oftenqna/oftenqna-list/oftenqna-list.component';
-import { OftenqnaDetailComponent } from './pages/oftenqna/oftenqna-detail/oftenqna-detail.component';import { UsermanageDetailAComponent } from './pages/usermanage/usermanage-detail-a/usermanage-detail-a.component';
+import { ExcelService } from './services/excel.service';
+import { OftenqnaListComponent } from './pages/oftenqna/oftenqna-list/oftenqna-list.component';
+import { OftenqnaDetailComponent } from './pages/oftenqna/oftenqna-detail/oftenqna-detail.component';
+import { MyProcessComponent } from './pages/process/my-process/my-process.component';
+import { IncidentUserCompleteComponent } from './pages/incident/incident-user-complete/incident-user-complete.component';
+import { HigherProcessComponent } from './pages/process/higher-process/higher-process.component';
+import { LowerProcessComponent } from './pages/process/lower-process/lower-process.component';
+import { OftenQnaComponent } from './pages/qna/often-qna/often-qna.component';
+import { QnaMngComponent } from './pages/qna/qna-mng/qna-mng.component';
+import { QnaListComponent } from './pages/qna/qna-list/qna-list.component';
+import { QnaDetailComponent } from './pages/qna/qna-detail/qna-detail.component';
+import { UserListComponent } from './pages/user/user-list/user-list.component';
+import { UserAccessComponent } from './pages/user/user-access/user-access.component';
+import { CompanyProcessComponent } from './pages/process/company-process/company-process.component';
+import { ProcessGubunCodeComponent } from './pages/process/process-gubun-code/process-gubun-code.component';
+import { ProcessGubunCodeDetailComponent } from './pages/process/process-gubun-code-detail/process-gubun-code-detail.component';
+import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboard-main.component';
+import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
 
 const PAGES = [
     HomeComponent,
@@ -118,9 +132,23 @@ const PAGES = [
         MatchCharCssPipe,
         PageInfoComponent,
         HigherProcessListComponent,
-		OftenqnaListComponent,
+        OftenqnaListComponent,
         OftenqnaDetailComponent,
-		UsermanageDetailAComponent
+        MyProcessComponent,
+        IncidentUserCompleteComponent,
+        HigherProcessComponent,
+        LowerProcessComponent,
+        OftenQnaComponent,
+        QnaMngComponent,
+        QnaListComponent,
+        QnaDetailComponent,
+        UserListComponent,
+        UserAccessComponent,
+        CompanyProcessComponent,
+        ProcessGubunCodeComponent,
+        ProcessGubunCodeDetailComponent,
+        DashboardMainComponent,
+        ManagerDashboardComponent
     ],
     imports: [
         BrowserModule,
@@ -129,14 +157,11 @@ const PAGES = [
         BrowserAnimationsModule,
         MaterialModule,
         SideNavMenuModule,
-        FroalaEditorModule.forRoot(), 
-        FroalaViewModule.forRoot(), 
         NgbModule.forRoot(),
         FileUploadModule,
         TruncateModule,
         NgxChartsModule,
-        Nl2BrPipeModule,
-        NgDaumAddressModule
+        Nl2BrPipeModule
     ],
     providers: [
         AuthService,
@@ -151,7 +176,6 @@ const PAGES = [
         HigherProcessService,
         ExcelService,
         OftenqnaService
-
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]

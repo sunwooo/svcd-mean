@@ -20,7 +20,14 @@ import { CompanyListComponent } from './pages/company/company-list/company-list.
 import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
 import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
 import { OftenqnaListComponent } from './pages/oftenqna/oftenqna-list/oftenqna-list.component';
-
+import { MyProcessComponent } from './pages/process/my-process/my-process.component';
+import { LowerProcessComponent } from './pages/process/lower-process/lower-process.component';
+import { HigherProcessComponent } from './pages/process/higher-process/higher-process.component';
+import { UserAccessComponent } from './pages/user/user-access/user-access.component';
+import { CompanyProcessComponent } from './pages/process/company-process/company-process.component';
+import { ProcessGubunCodeComponent } from './pages/process/process-gubun-code/process-gubun-code.component';
+import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboard-main.component';
+import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
 
 const routes: Routes = [
 
@@ -30,21 +37,28 @@ const routes: Routes = [
         children: [
             { path: '0001', component: MainContentComponent },
             { path: '0003', component: AccountComponent },
+            
             { path: '1100', component: IncidentNewComponent },
             { path: '1200', component: IncidentListComponent },
 
             { path: '2100', component: IncidentNewMngComponent },
             { path: '2200', component: IncidentListMngComponent },
+            { path: '2300', component: MyProcessComponent },
+            { path: '2400', component: ManagerDashboardComponent },
 
             { path: '3100', component: IncidentListAllComponent },
             { path: '3200', component: ComHigherComponent },
             
-            { path: '4100', component: HigherProcessListComponent },
+            { path: '4100', component: HigherProcessComponent },
+            { path: '4200', component: LowerProcessComponent },
             { path: '4300', component: CompanyListComponent },
             { path: '4400', component: UsermanageListComponent },
-            { path: '4800', component: OftenqnaListComponent}
+            { path: '4500', component: UserAccessComponent },
+            { path: '4600', component: CompanyProcessComponent },
+            { path: '4700', component: ProcessGubunCodeComponent },
+            { path: '4800', component: OftenqnaListComponent},
 
-            
+            { path: '9100', component: DashboardMainComponent}
         ]
     },
 
