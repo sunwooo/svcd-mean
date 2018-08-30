@@ -18,7 +18,6 @@ import { IncidentListAllComponent } from './pages/incident/incident-list-all/inc
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
-import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
 import { OftenqnaListComponent } from './pages/oftenqna/oftenqna-list/oftenqna-list.component';
 import { MyProcessComponent } from './pages/process/my-process/my-process.component';
 import { LowerProcessComponent } from './pages/process/lower-process/lower-process.component';
@@ -65,46 +64,8 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'logout', component: LogoutComponent },
     { path: 'notfound', component: NotFoundComponent },
-    { path: '**', redirectTo: '/notfound' },
+    { path: '**', redirectTo: '/notfound' }
 
-    /*
-    { path: '', component: LoginComponent },
-    {
-        path: 'svcd', component: SvcdNavComponent,
-        children: [
-            { path: 'index', component: MainContentComponent },
-            { path: 'content', component: AccountComponent },
-            { path: 'incident', 
-            children: [
-                { path: 'new', component: IncidentNewComponent },
-                { path: 'new-mng', component: IncidentNewMngComponent },
-                { path: 'list', component: IncidentListComponent },
-                { path: 'list-mng', component: IncidentListMngComponent },
-                { path: 'list-all', component: IncidentListAllComponent }
-            ]
-            },
-            { path: 'statistic',
-              children: [
-                  { path: 'com-higher', component: ComHigherComponent}
-              ]},
-            { path: 'company',
-              children: [
-                  { path: 'list', component: CompanyListComponent }
-            ]},
-            { path: 'usermanage',
-              children: [
-                  { path: 'list', component: UsermanageListComponent }
-            ]}
-        ]
-    },
-    { path: 'home', component: HomeComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'login/:email/:password', component: LoginComponent },
-    { path: 'logout', component: LogoutComponent },
-    { path: 'account', component: AccountComponent },
-    { path: 'notfound', component: NotFoundComponent },
-    { path: '**', redirectTo: '/notfound' },
-    */
 ];
 
 @NgModule({

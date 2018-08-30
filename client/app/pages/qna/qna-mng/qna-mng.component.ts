@@ -6,9 +6,9 @@ import { CommonApiService } from '../../../services/common-api.service';
 
 
 @Component({
-  selector: 'app-oftenqna-list',
-  templateUrl: './oftenqna-list.component.html',
-  styleUrls: ['./oftenqna-list.component.css']
+  selector: 'app-qna-mng',
+  templateUrl: './qna-mng.component.html',
+  styleUrls: ['./qna-mng.component.css']
 })
 export class QnaMngComponent implements OnInit {
   public isLoading = true;

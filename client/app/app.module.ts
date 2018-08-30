@@ -66,8 +66,6 @@ import { UsermanageListComponent } from './pages/usermanage/usermanage-list/user
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
 import { PageInfoComponent } from './pages/page-info/page-info.component';
-import { HigherProcessListComponent } from './pages/higherProcess/higher-process-list/higher-process-list.component';
-import { HigherProcessDetailComponent } from './pages/higherProcess/higher-process-detail/higher-process-detail.component';
 import { ExcelService } from './services/excel.service';
 import { OftenqnaListComponent } from './pages/oftenqna/oftenqna-list/oftenqna-list.component';
 import { OftenqnaDetailComponent } from './pages/oftenqna/oftenqna-detail/oftenqna-detail.component';
@@ -75,7 +73,6 @@ import { MyProcessComponent } from './pages/process/my-process/my-process.compon
 import { IncidentUserCompleteComponent } from './pages/incident/incident-user-complete/incident-user-complete.component';
 import { HigherProcessComponent } from './pages/process/higher-process/higher-process.component';
 import { LowerProcessComponent } from './pages/process/lower-process/lower-process.component';
-import { OftenQnaComponent } from './pages/qna/often-qna/often-qna.component';
 import { QnaMngComponent } from './pages/qna/qna-mng/qna-mng.component';
 import { QnaListComponent } from './pages/qna/qna-list/qna-list.component';
 import { QnaDetailComponent } from './pages/qna/qna-detail/qna-detail.component';
@@ -131,14 +128,12 @@ const PAGES = [
         CompanyListComponent,
         MatchCharCssPipe,
         PageInfoComponent,
-        HigherProcessListComponent,
         OftenqnaListComponent,
         OftenqnaDetailComponent,
         MyProcessComponent,
         IncidentUserCompleteComponent,
         HigherProcessComponent,
         LowerProcessComponent,
-        OftenQnaComponent,
         QnaMngComponent,
         QnaListComponent,
         QnaDetailComponent,
@@ -148,8 +143,7 @@ const PAGES = [
         ProcessGubunCodeComponent,
         ProcessGubunCodeDetailComponent,
         DashboardMainComponent,
-        ManagerDashboardComponent,
-        HigherProcessDetailComponent
+        ManagerDashboardComponent
     ],
     imports: [
         BrowserModule,
