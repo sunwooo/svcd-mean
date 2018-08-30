@@ -70,7 +70,8 @@ export class OftenqnaListComponent implements OnInit {
             this.totalDataCnt = res.totalCnt;
             this.totalPage = res.totalPage;
             this.oftenqna = res.oftenqna;
-
+            
+            console.log("this.oftenqna : ", this.oftenqna);
         },
         (error: HttpErrorResponse) => {
         }
@@ -81,6 +82,7 @@ export class OftenqnaListComponent implements OnInit {
   /**
    * 상위업무리스트 조회
    */
+  
   getHigherProcess() {
     this.commonApi.getHigher({scope:"*"}).subscribe( //
         (res) => {
@@ -95,11 +97,12 @@ export class OftenqnaListComponent implements OnInit {
   /**
    * 상위업무 변경 시 
    */
+  
   setHigherCd(higherCd){
     this.higher_cd = higherCd;
     this.getOftenqna();
   }
-
+  
   /**
    * 페이지 이동 시
    * @param selectedPage 
