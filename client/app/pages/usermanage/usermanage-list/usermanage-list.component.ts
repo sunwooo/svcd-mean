@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsermanageService } from '../../../services/usermanage.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonApiService } from '../../../services/common-api.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-usermanage-list',
@@ -13,6 +14,7 @@ export class UsermanageListComponent implements OnInit {
     public companyCd: string;
     public isLoading = true;
     public usermanage: any = [];                //조회 usermanage
+    public usermanageDetail: any;               //선택 인시던트 id
 
     public searchType: string = "";             //검색구분
     public searchText: string = "";             //검색어
@@ -33,7 +35,8 @@ export class UsermanageListComponent implements OnInit {
     ];
 
     constructor(private usermanageService: UsermanageService,
-        private commonApi: CommonApiService) { }
+        private commonApi: CommonApiService,
+        private modalService: NgbModal) { }
 
     public maxSize: number = 10;      // 한 화면에 나타낼 페이지 수
     public page: number = 0;          // 현재 페이지
@@ -121,6 +124,22 @@ export class UsermanageListComponent implements OnInit {
     pageChange(selectedPage) {
         console.log("================================pageChange!!", selectedPage);
         this.formData.page = selectedPage;
+        this.formData.perPage = this.pageDataSize;
+
+        this.getUsermanage();
+    }
+
+    setDetail(modalId, usermanage) {
+        this.usermanageDetail = usermanage;
+        this.modalService.open(modalId, { windowClass: 'xlModal', centered: true });
+    }
+
+    /**
+   * 수정된 후 처리
+   * @param event 
+   */
+    reload() {
+        this.formData.page = this.page;
         this.formData.perPage = this.pageDataSize;
 
         this.getUsermanage();
