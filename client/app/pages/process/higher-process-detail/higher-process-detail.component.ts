@@ -10,7 +10,7 @@ import { EventEmitter } from "@angular/core";
 @Component({
   selector: 'app-higher-process-detail',
   templateUrl: './higher-process-detail.component.html',
-  styleUrls: ['./higher-process-detail.component.css']
+  styleUrls: ['./higher-process-detail.component.css'],
   providers: [
       { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
       { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
