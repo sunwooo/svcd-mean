@@ -86,6 +86,7 @@ import { ProcessGubunCodeComponent } from './pages/process/process-gubun-code/pr
 import { ProcessGubunCodeDetailComponent } from './pages/process/process-gubun-code-detail/process-gubun-code-detail.component';
 import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboard-main.component';
 import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
+import { HigherProcessDetailComponent } from './pages/process/higher-process-detail/higher-process-detail.component';
 
 const PAGES = [
     HomeComponent,
@@ -148,7 +149,8 @@ const PAGES = [
         ProcessGubunCodeComponent,
         ProcessGubunCodeDetailComponent,
         DashboardMainComponent,
-        ManagerDashboardComponent
+        ManagerDashboardComponent,
+        HigherProcessDetailComponent
     ],
     imports: [
         BrowserModule,
