@@ -26,7 +26,7 @@ import { StatisticService } from './services/statistic.service';
 import { CompanyService } from './services/company.service';
 import { UsermanageService } from './services/usermanage.service';
 import { HigherProcessService } from './services/higherProcess.service';
-import { OftenqnaService } from './services/oftenqna.service';
+import { QnaService } from './services/qna.service';
 
 /** Components */
 import { AppComponent } from './app.component';
@@ -67,8 +67,6 @@ import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.comp
 import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
 import { PageInfoComponent } from './pages/page-info/page-info.component';
 import { ExcelService } from './services/excel.service';
-import { OftenqnaListComponent } from './pages/oftenqna/oftenqna-list/oftenqna-list.component';
-import { OftenqnaDetailComponent } from './pages/oftenqna/oftenqna-detail/oftenqna-detail.component';
 import { MyProcessComponent } from './pages/process/my-process/my-process.component';
 import { IncidentUserCompleteComponent } from './pages/incident/incident-user-complete/incident-user-complete.component';
 import { HigherProcessComponent } from './pages/process/higher-process/higher-process.component';
@@ -128,8 +126,6 @@ const PAGES = [
         CompanyListComponent,
         MatchCharCssPipe,
         PageInfoComponent,
-        OftenqnaListComponent,
-        OftenqnaDetailComponent,
         MyProcessComponent,
         IncidentUserCompleteComponent,
         HigherProcessComponent,
@@ -170,7 +166,7 @@ const PAGES = [
         UsermanageService,
         HigherProcessService,
         ExcelService,
-        OftenqnaService
+        QnaService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]

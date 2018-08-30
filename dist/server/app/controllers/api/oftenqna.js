@@ -110,10 +110,12 @@ module.exports = {
     },
 
     update: (req, res, next) => {
-        //console.log("update=====");
+        console.log("update req.query=====", req.query);
+        console.log("update req.body=====", req.body._id);
+
         OftenQna.findOneAndUpdate({
-            _id: req.body.oftenqna.id
-        }, req.body.oftenqna, function (err, oftenqna) {
+            _id: req.body._id
+        }, req.body, function (err, oftenqna) {
             if (err) {
                 return res.json({
                     success: false,

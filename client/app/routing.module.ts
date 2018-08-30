@@ -18,7 +18,6 @@ import { IncidentListAllComponent } from './pages/incident/incident-list-all/inc
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
-import { OftenqnaListComponent } from './pages/oftenqna/oftenqna-list/oftenqna-list.component';
 import { MyProcessComponent } from './pages/process/my-process/my-process.component';
 import { LowerProcessComponent } from './pages/process/lower-process/lower-process.component';
 import { HigherProcessComponent } from './pages/process/higher-process/higher-process.component';
@@ -27,6 +26,8 @@ import { CompanyProcessComponent } from './pages/process/company-process/company
 import { ProcessGubunCodeComponent } from './pages/process/process-gubun-code/process-gubun-code.component';
 import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboard-main.component';
 import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
+import { QnaMngComponent } from './pages/qna/qna-mng/qna-mng.component';
+import { QnaListComponent } from './pages/qna/qna-list/qna-list.component';
 
 const routes: Routes = [
 
@@ -39,6 +40,7 @@ const routes: Routes = [
             
             { path: '1100', component: IncidentNewComponent },
             { path: '1200', component: IncidentListComponent },
+            { path: '1300', component: QnaListComponent },
 
             { path: '2100', component: IncidentNewMngComponent },
             { path: '2200', component: IncidentListMngComponent },
@@ -55,7 +57,7 @@ const routes: Routes = [
             { path: '4500', component: UserAccessComponent },
             { path: '4600', component: CompanyProcessComponent },
             { path: '4700', component: ProcessGubunCodeComponent },
-            { path: '4800', component: OftenqnaListComponent},
+            { path: '4800', component: QnaMngComponent},
 
             { path: '9100', component: DashboardMainComponent}
         ]

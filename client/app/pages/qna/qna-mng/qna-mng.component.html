@@ -82,7 +82,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let qna of oftenqna" (click)="setDetail(oftenqnaDetailModal, qna);"> 
+              <tr *ngFor="let qna of oftenqna" (click)="setDetail(qnaDetailModal, qna);"> 
                 <td class='text-center'>{{qna.higher_nm}}</td>
                 <td class='text-left'>{{qna.title}}</td>
                 <td class='text-center'>{{qna.user_nm}}</td>
@@ -115,12 +115,12 @@
 
 <!-- start detail view modal -->
 
-<ng-template #oftenqnaDetailModal let-c="close" let-d="dismiss">
-    <app-oftenqna-detail [cValues]="this.c"
+<ng-template #qnaDetailModal let-c="close" let-d="dismiss">
+    <app-qna-detail [cValues]="this.c"
                            [dValues]="this.d"
-                           [oftenqnaDetail]="oftenqnaDetail"
+                           [qnaDetail]="qnaDetail"
                            (openerReload) = "reload()" 
-    ></app-oftenqna-detail>
+    ></app-qna-detail>
 </ng-template>
 
 <!-- end detail view modal -->

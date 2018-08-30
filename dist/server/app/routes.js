@@ -71,8 +71,8 @@ router.get('/higherProcess/list', higherProcessCtrl.list); //상위업무 조회
 router.put('/higherProcess/update', higherProcessCtrl.update); //상위업무 수정
 
 //oftenqna route
-router.get('/oftenqna/list', oftenQnaCtrl.list); //자주묻는질문과답 조회
-router.put('/oftenqna/update', oftenQnaCtrl.update); //자주묻는질문과답 수정
+router.get('/qna/list', oftenQnaCtrl.list); //자주묻는질문과답 조회
+router.put('/qna/update', oftenQnaCtrl.update); //자주묻는질문과답 수정
 
 
 //upload incident attach file 

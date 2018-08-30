@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { OftenqnaService } from '../../../services/oftenqna.service';
+import { QnaService } from '../../../services/qna.service';
 import { CommonApiService } from '../../../services/common-api.service';
 
 
@@ -12,7 +12,7 @@ import { CommonApiService } from '../../../services/common-api.service';
 })
 export class QnaMngComponent implements OnInit {
   public isLoading = true;
-  public oftenqnaDetail: any;                   //선택 qna id
+  public qnaDetail: any;                   //선택 qna id
 
   public oftenqna: any = [];                   //조회 company
   
@@ -31,7 +31,7 @@ export class QnaMngComponent implements OnInit {
         { name: '내용', value: 'content' }
     ];  
 
-  constructor(private oftenqnaService: OftenqnaService
+  constructor(private qnaService: QnaService
               ,private commonApi: CommonApiService
               ,private modalService: NgbModal) { }
 
@@ -43,7 +43,7 @@ export class QnaMngComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading = false;
-    this.getOftenqna();
+    this.getQna();
     this.getHigherProcess();
   }
 
@@ -52,19 +52,19 @@ export class QnaMngComponent implements OnInit {
     this.formData.searchType = this.searchType;
     this.formData.searchText = this.searchText;
 
-    this.getOftenqna() ;
+    this.getQna() ;
   }
 
   /**
-  * Oftenqna 조회
+  * Qna 조회
   */
-  getOftenqna() {
+  getQna() {
       
     //this.formData.page = this.page++;
     //this.formData.perPage = this.perPage;
     this.formData.higher_cd = this.higher_cd;
 
-    this.oftenqnaService.getOftenqnaList(this.formData).subscribe(
+    this.qnaService.getQnaList(this.formData).subscribe(
         (res) => {
 
             this.totalDataCnt = res.totalCnt;
@@ -100,7 +100,7 @@ export class QnaMngComponent implements OnInit {
   
   setHigherCd(higherCd){
     this.higher_cd = higherCd;
-    this.getOftenqna();
+    this.getQna();
   }
   
   /**
@@ -112,12 +112,12 @@ export class QnaMngComponent implements OnInit {
     this.formData.page = selectedPage;
     this.formData.perPage = this.pageDataSize;
     
-    this.getOftenqna();
+    this.getQna();
     
   }
 
   setDetail(modalId, oftenqna){
-    this.oftenqnaDetail = oftenqna;
+    this.qnaDetail = oftenqna;
     this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
   }
 
@@ -129,7 +129,7 @@ export class QnaMngComponent implements OnInit {
       this.formData.page = this.page;
       this.formData.perPage = this.pageDataSize;
       
-      this.getOftenqna();
+      this.getQna();
   }
 
 }
