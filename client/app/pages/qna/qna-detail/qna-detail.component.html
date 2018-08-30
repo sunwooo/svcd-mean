@@ -1,3 +1,167 @@
-<p>
-  qna-detail works!
-</p>
+<div class="modal-header" style="text-align:left">
+  <h5 class="modal-title">
+    자주묻는 질문과 답 상세보기
+  </h5>
+  <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-sm-12">
+    <form #f="ngForm" (ngSubmit)="updateOftenqna(f)" novalidate>
+      <!--<form #f="ngForm" (ngSubmit)="saveUser(f)" novalidate>-->
+        <div ngModelGroup="oftenqna">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div role="toolbar" class="btn-toolbar m-b-10">
+                    <div class="float-right">
+                        <button type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+                        <i class="fa fa-bars"></i>목록</button>
+                        <button type="button" (click)="deleteOftenQna(oftenqnaDetail?._id);" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
+                        <i class="fa fa-remove"></i>삭제</button>
+                        <button type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+                        <i class="fa fa-send-o"></i>저장</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card-box m-r-5">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 col-centered">
+                                    <div class="form-wrap">
+                                        <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field3">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-star">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="oftenqnaDetail?.title"
+                                                        id="title"
+                                                        type="text" 
+                                                        name="title" 
+                                                        placeholder="제목" 
+                                                        style="ime-mode:active;"
+                                                >
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="form-group row">
+                                          <div class="col-lg-12 col-sm-12">
+                                              <div style="text-align:left;width:100%">
+                                                  <textarea
+                                                          id="summernote" 
+                                                          name="content" 
+                                                          align="left" 
+                                                          row="10"
+                                                  >{{oftenqnaDetail?.content}}</textarea>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <!-- 첨부파일 Start-->
+                                      <div class="card-box m-r-5">
+                                          <div class="form-group row">
+                                              <div class="col-lg-9 col-sm-12">
+                                                  <input type="file" 
+                                                      ng2FileSelect 
+                                                      [uploader]="uploader" 
+                                                      name="avatar" 
+                                                      id="avatar" 
+                                                      multiple
+                                                      style="width:100%"
+                                                  >
+                                              </div>
+                                              <div class="col-lg-3 col-sm-12" >
+                                                  <mat-label class>첨부개수 : {{ uploader?.queue?.length }}</mat-label>
+                                              </div>
+                                          </div>
+                                          <div class="form-group row">
+                                              <div class="col-lg-12 col-sm-12 m-b-40">
+                                                  <table class="table">
+                                                      <thead>
+                                                          <tr>
+                                                              <th width="50%">파일명</th>
+                                                              <th>크기</th>
+                                                              <th>진행</th>
+                                                              <th>상태</th>
+                                                              <th>제거</th>
+                                                          </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                          <tr *ngFor="let item of uploader.queue">
+                                                              <td>
+                                                                  <strong>{{ item?.file?.name }}</strong>
+                                                              </td>
+                                                              <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                                                              <td *ngIf="uploader.options.isHTML5">
+                                                                  <div class="progress" style="margin-bottom: 0;">
+                                                                      <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                                                                  </div>
+                                                              </td>
+                                                              <td class="text-center">
+                                                                  <span *ngIf="item.isSuccess">
+                                                                      <i class="glyphicon glyphicon-ok"></i>
+                                                                  </span>
+                                                                  <span *ngIf="item.isCancel">
+                                                                      <i class="glyphicon glyphicon-ban-circle"></i>
+                                                                  </span>
+                                                                  <span *ngIf="item.isError">
+                                                                      <i class="glyphicon glyphicon-remove"></i>
+                                                                  </span>
+                                                              </td>
+                                                              <td nowrap>
+                                                                  <!--
+                                                                  <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                                                      <span class="glyphicon glyphicon-upload"></span> Upload
+                                                                  </button>
+                                                                  <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                                                                      <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                                                                  </button>
+                                                                  -->
+                                                                  <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                                                      <span class="glyphicon glyphicon-trash"></span> 제거
+                                                                  </button>
+                                                              </td>
+                                                          </tr>
+                                                      </tbody>
+                                                  </table>
+                                          
+                                                  <div style="text-align: right">
+                                                      <div>
+                                                          업로드 상태:
+                                                          <div class="progress" style="">
+                                                              <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                                                          </div>
+                                                      </div>
+                                                      <!--
+                                                      <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                                                          <span class="glyphicon glyphicon-upload"></span> Upload all
+                                                      </button>
+                                                      <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                                                          <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                                                      </button>
+                                                      -->
+                                                      <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                                                          <span class="glyphicon glyphicon-trash"></span> 전체 제거
+                                                      </button>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <!-- 첨부파일 End-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- card-box m-r-5 -->
+                </div>
+            </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  
