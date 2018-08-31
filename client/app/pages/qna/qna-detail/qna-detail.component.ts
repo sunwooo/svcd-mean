@@ -31,14 +31,11 @@ export class QnaDetailComponent implements OnInit {
     @Input() cValues;              //모달창 닫기용
     @Input() dValues;              //모달창 무시용
     @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
-    @Output() afterDelete = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
-
 
     private formData: any = {};    //전송용 formData
     private attach_file: any = []; //mongodb 저장용 첨부파일 배열
 
     public uploader: FileUploader = new FileUploader({ url: URL }); //file upload용 객체
-  
 
   constructor(private auth: AuthService,
         public toast: ToastComponent,
@@ -118,13 +115,6 @@ export class QnaDetailComponent implements OnInit {
                     //리스트와 공유된 oftenqnaDetail 수정
                     this.qnaDetail.title   = this.formData.title;
                     this.qnaDetail.content   = this.formData.content;
-                    
-
-
-
-
-
-                    
 
                     this.openerReload.emit();
 
@@ -181,10 +171,20 @@ export class QnaDetailComponent implements OnInit {
      * 자주묻는질문과답 삭제
      * @param higherProcessId
      */
-    deleteQna(oftenQnaId) {
-        this.qnaService.delete(oftenQnaId).subscribe(
+    deleteQna(qnaId) {
+        console.log("deleteQna qnaId :" , qnaId);
+
+        this.qnaService.delete(qnaId).subscribe(
             (res) => {
-                this.afterDelete.emit();
+                
+                if(res.success){
+
+                    console.log("successAAAAAAA");
+                    this.toast.open('삭제되었습니다.', 'success');
+                    this.router.navigate(['/svcd/4800']);
+                    this.openerReload.emit();
+                }
+
             },
             (error: HttpErrorResponse) => {
                 console.log(error);

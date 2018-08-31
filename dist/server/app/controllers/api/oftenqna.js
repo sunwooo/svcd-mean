@@ -137,6 +137,86 @@ module.exports = {
     },
 
     /**
+    * qna 삭제 
+    */
+    /*
+    delete: (req, res, next) => {
+        console.log("delete...");
+        try {
+            OftenQna.findOneAndRemove({
+                _id: req.body._id
+                }, req.body, function (err, qna) {
+                    if (err) {
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                    return res.json({
+                        success: true,
+                        message: "delete successed"
+                    });
+                }
+            });
+
+        } catch (err) {
+            logger.error("qna deleted err : ", err);
+            
+            return res.json({
+                success: false,
+                message: err
+            });
+        } finally{}
+
+    },
+    */
+    /**
+    * qna 삭제 
+    */
+    delete: (req, res, next) => {
+        console.log("delete start.....");
+        try {
+            async.waterfall([function (callback) {
+
+            var upQna = {};
+            var m = moment();
+            var date = m.format("YYYY-MM-DD HH:mm:ss");
+
+            upQna.deleted_at = date;
+            upQna.delete_flag = 'Y';
+
+            callback(null, upQna);
+
+            console.log("upQna : ", upQna);
+
+        }], function (err, upQna) {
+                OftenQna.findOneAndRemove({
+                _id: req.body._id
+                }, upQna, function (err, qna) {
+                if (err) {
+                    return res.json({
+                    success: false,
+                    message: err
+                    });
+                } else {
+                    return res.json({
+                    success: true,
+                    message: "delete successed"
+                    });
+                }
+                });
+            });
+
+        } catch (err) {
+            logger.error("upQna deleted err : ", err);
+            return res.json({
+                success: false,
+                message: err
+            });
+        }
+    },
+
+    /**
     * qna 등록
     */
     insert: (req, res) => {
@@ -149,7 +229,7 @@ module.exports = {
     async.waterfall([function (callback) {
 
       var newqna = req.body.qna;
-      console.log("newincident ", newincident);
+      console.log("newqna ", newqna);
     
       //TODO
       //추가수정

@@ -35,12 +35,13 @@ export class QnaService {
      * @param qnaId
      */
     delete(qnaId): Observable<any>{
-        var body = {id:qnaId};
+        var body = {_id:qnaId};
         var httpOptions = {
             headers: new HttpHeaders({ 'Content-Type': 'application/json' }), body: body
         };
         return this.http.delete<any>('/api/qna/delete', httpOptions);
     }
+
     
     
     /**
