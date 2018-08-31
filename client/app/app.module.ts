@@ -82,6 +82,7 @@ import { ProcessGubunCodeDetailComponent } from './pages/process/process-gubun-c
 import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboard-main.component';
 import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
 import { TreeviewModule } from 'ngx-treeview';
+import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
 
 const PAGES = [
     HomeComponent,
@@ -140,7 +141,8 @@ const PAGES = [
         ProcessGubunCodeComponent,
         ProcessGubunCodeDetailComponent,
         DashboardMainComponent,
-        ManagerDashboardComponent
+        ManagerDashboardComponent,
+        QnaNewComponent
     ],
     imports: [
         BrowserModule,

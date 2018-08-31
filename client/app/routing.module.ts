@@ -28,6 +28,7 @@ import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboa
 import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
 import { QnaMngComponent } from './pages/qna/qna-mng/qna-mng.component';
 import { QnaListComponent } from './pages/qna/qna-list/qna-list.component';
+import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
 
 const routes: Routes = [
 
@@ -58,6 +59,7 @@ const routes: Routes = [
             { path: '4600', component: CompanyProcessComponent },
             { path: '4700', component: ProcessGubunCodeComponent },
             { path: '4800', component: QnaMngComponent},
+            { path: '4900', component: QnaNewComponent},
 
             { path: '9100', component: DashboardMainComponent}
         ]

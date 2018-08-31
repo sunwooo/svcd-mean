@@ -41,6 +41,14 @@ export class QnaService {
         };
         return this.http.delete<any>('/api/qna/delete', httpOptions);
     }
-
+    
+    
+    /**
+     * qna 등록
+     * @param qna 
+     */
+    addQna(qna: NgForm): Observable<any> {
+        return this.http.post<any>('/api/qna/new', qna, {withCredentials:true});
+    }
 
 }

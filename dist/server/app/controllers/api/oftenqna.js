@@ -13,6 +13,9 @@ var moment = require('moment');
 
 module.exports = {
  
+    /**
+    * qna 조회
+    */
     list: (req, res, next) => {
         var search = service.createSearch(req);
 
@@ -109,9 +112,12 @@ module.exports = {
     
     },
 
+    /**
+     * qna 수정
+    */
     update: (req, res, next) => {
-        console.log("update req.query=====", req.query);
-        console.log("update req.body=====", req.body._id);
+        //console.log("update req.query=====", req.query);
+        //console.log("update req.body=====", req.body._id);
 
         OftenQna.findOneAndUpdate({
             _id: req.body._id
@@ -129,5 +135,73 @@ module.exports = {
             }
         });
     },
-}
 
+    /**
+    * qna 등록
+    */
+    insert: (req, res) => {
+
+    //console.log("================== insert = (req, res) ======================");
+    //console.log("xxxx req.session : ", req.session);
+    //console.log("req.body.incident : ", req.body.incident);
+    //console.log("=============================================================");
+
+    async.waterfall([function (callback) {
+
+      var newqna = req.body.qna;
+      console.log("newincident ", newincident);
+    
+      //TODO
+      //추가수정
+      /*
+      if (request_info == null) {
+        newincident.request_company_cd = req.session.company_cd;
+        newincident.request_company_nm = req.session.company_nm;
+        newincident.request_dept_nm = req.session.dept_nm;
+        newincident.request_nm = req.session.user_nm;
+        newincident.request_id = req.session.email;
+      } else {
+        newincident.request_company_cd = request_info.company_cd;
+        newincident.request_company_nm = request_info.company_nm;
+        newincident.request_dept_nm = request_info.dept_nm;
+        newincident.request_nm = request_info.employee_nm;
+        newincident.request_id = request_info.email;
+      }
+      */
+      //추가수정
+      newqna.register_company_cd = req.session.company_cd;
+      newqna.register_company_nm = req.session.company_nm;
+      newqna.register_nm = req.session.user_nm;
+      newqna.register_id = req.session.email;
+
+      if (req.files) {
+          newqna.attach_file = req.files;
+      }
+
+      OftenQna.create(newqna, function (err, newqna) {
+        if (err) {
+          //console.log("trace err ", err);
+          return res.json({
+            success: false,
+            message: err
+          });
+        }
+        
+        
+        console.log("trace OftenQna.create ", newqna);
+            
+        //////////////////////////////////////
+        // SD 업무담당자 사내메신저 호출
+        //alimi.sendAlimi(req.body.incident.higher_cd);
+        //////////////////////////////////////
+
+        callback(null);
+      });
+    }], function (err) {
+      return res.json({
+            success: true,
+            message: err
+        });
+    });
+  },
+}
