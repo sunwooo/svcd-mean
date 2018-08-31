@@ -82,6 +82,7 @@ import { ProcessGubunCodeDetailComponent } from './pages/process/process-gubun-c
 import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboard-main.component';
 import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
 import { TreeviewModule } from 'ngx-treeview';
+import { UsermanageDetailAComponent } from './pages/usermanage/usermanage-detail-a/usermanage-detail-a.component';
 
 const PAGES = [
     HomeComponent,
@@ -123,6 +124,7 @@ const PAGES = [
         EmpInfoComponent,
         ComHigherComponent,
         UsermanageListComponent,
+        UsermanageDetailAComponent,
         CompanyDetailAComponent,
         CompanyListComponent,
         MatchCharCssPipe,
