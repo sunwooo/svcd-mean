@@ -12,6 +12,7 @@ import { MaterialModule } from './material/material.module';
 import { RoutingModule } from './routing.module';
 import { SharedModule } from './shared/shared.module';
 import { SideNavMenuModule } from './side-nav-menu/module';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 /**pipe */
 import { MatchCharCssPipe } from './match-char-css.pipe';
@@ -156,7 +157,8 @@ const PAGES = [
         TruncateModule,
         NgxChartsModule,
         Nl2BrPipeModule,
-        TreeviewModule.forRoot()
+        TreeviewModule.forRoot(),
+        AngularMultiSelectModule
     ],
     providers: [
         AuthService,

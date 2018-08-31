@@ -35,7 +35,7 @@
                     <mat-form-field>
                         <mat-select [(ngModel)]="searchType"
                                     name="searchType" 
-                                    (selectionChange)="getOftenqna()"
+                                    (selectionChange)="getQna()"
                                     placeholder="검색구분">
                             <mat-option *ngFor="let obj of searchTypeObj" [value]="obj.value">{{obj.name}}</mat-option>
                         </mat-select>
@@ -117,9 +117,9 @@
 
 <ng-template #qnaDetailModal let-c="close" let-d="dismiss">
     <app-qna-detail [cValues]="this.c"
-                           [dValues]="this.d"
-                           [qnaDetail]="qnaDetail"
-                           (openerReload) = "reload()" 
+                        [dValues]="this.d"
+                        [qnaDetail]="qnaDetail"
+                        (openerReload) = "reload()" 
     ></app-qna-detail>
 </ng-template>
 
