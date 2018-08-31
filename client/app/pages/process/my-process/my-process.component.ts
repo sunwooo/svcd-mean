@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { TreeviewItem } from 'ngx-treeview';
+import {  TreeviewItem, TreeviewConfig } from 'ngx-treeview';
 
 @Component({
     selector: 'app-my-process',
@@ -17,14 +17,14 @@ export class MyProcessComponent implements OnInit {
         maxHeight: 500
     }
 
-    public items: TreeviewItem;
+    public items: TreeviewItem[];
 
     constructor() { 
         
     }
 
     ngOnInit() {
-        this.items = new TreeviewItem({
+        var a = new TreeviewItem({
             text: 'IT', value: 9, children: [
                 {
                     text: 'Programming', value: 91, children: [{
@@ -49,6 +49,7 @@ export class MyProcessComponent implements OnInit {
                 }
             ]
         });
+        this.items[0] = a;
     }
 
     onSubmit() {

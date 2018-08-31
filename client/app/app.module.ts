@@ -81,6 +81,7 @@ import { ProcessGubunCodeComponent } from './pages/process/process-gubun-code/pr
 import { ProcessGubunCodeDetailComponent } from './pages/process/process-gubun-code-detail/process-gubun-code-detail.component';
 import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboard-main.component';
 import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
+import { TreeviewModule } from 'ngx-treeview';
 
 const PAGES = [
     HomeComponent,
@@ -152,7 +153,8 @@ const PAGES = [
         FileUploadModule,
         TruncateModule,
         NgxChartsModule,
-        Nl2BrPipeModule
+        Nl2BrPipeModule,
+        TreeviewModule.forRoot()
     ],
     providers: [
         AuthService,
