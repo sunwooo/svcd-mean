@@ -9,13 +9,15 @@ var oftenqnaSchema = mongoose.Schema({
     title:          { type: String, required: true },
     content:        { type: String },
     reading_cnt:    { type: Number, default : 0 },
-    company_cd:     { type: String },
+    company_cd : [{
+        id:         {type : String},
+        itemName:   {type : String},
+    }],
     company_nm:     { type: String },
     sabun:          { type: String },
     user_nm:        { type: String },
     attach_file : [{ 
         fieldname:      {type : String},
-        originalname:   {type : String},
         encoding:       {type : String},
         mimetype:       {type : String},
         destination:    {type : String},
