@@ -37,6 +37,12 @@ export class QnaDetailComponent implements OnInit {
 
     public uploader: FileUploader = new FileUploader({ url: URL }); //file upload용 객체
 
+    dropdownList = [];
+    selectedItems = [];
+    dropdownSettings = {};
+    
+
+
   constructor(private auth: AuthService,
         public toast: ToastComponent,
         private qnaService: QnaService,
@@ -45,9 +51,43 @@ export class QnaDetailComponent implements OnInit {
         private renderer: Renderer,
         private router: Router) { }
 
+
+
   ngOnInit() {
       this.formData = this.qnaDetail;
+     // alert(JSON.stringify(this.formData.company_cd));
+       
+     
+     this.dropdownList = [
+            { id: "1", itemName: "India" },
+            { id: "2", itemName: "Singapore" },
+            { id: "3", itemName: "Australia" },
+            { id: "4", itemName: "Canada" },
+            { id: "5", itemName: "South Korea" },
+            { id: "6", itemName: "Brazil" }
+        ];
 
+        
+        this.selectedItems = this.formData.company_cd;
+        console.log("this.selectedItems : ", this.selectedItems);
+/*
+        [
+            { "id": 1, "itemName": "India" },
+            { "id": 2, "itemName": "Singapore" },
+            { "id": 3, "itemName": "Australia" },
+            { "id": 4, "itemName": "Canada" }
+        ];
+  */      
+        this.dropdownSettings = {
+                            singleSelection: false, 
+                            text:"Select on Companies",
+                            selectAllText:'Select All',
+                            unSelectAllText:'UnSelect All',
+                            enableSearchFilter: true,
+                            classes:"myclass custom-class"
+        };
+
+        
         $('#summernote').summernote({
             height: 350, // set editor height;
             minHeight: null, // set minimum height of editor
@@ -90,15 +130,20 @@ export class QnaDetailComponent implements OnInit {
         }
   }
 
+ 
+
   /**
      * mongodb 저장용 서비스 호출
      */
     saveQna() {
-        $('.summernote').summernote('code', 'gggggggg');
         console.log('=======================================saveOftenqna(form : NgForm)===============================');
         console.log("form",this.formData);
         console.log('=================================================================================================');
         
+        this.formData.company_cd = this.selectedItems;
+        console.log("this.selectedItems : ", this.selectedItems);
+
+
         this.qnaService.putQna(this.formData).subscribe(
             (res) => {
 
@@ -115,6 +160,7 @@ export class QnaDetailComponent implements OnInit {
                     //리스트와 공유된 oftenqnaDetail 수정
                     this.qnaDetail.title   = this.formData.title;
                     this.qnaDetail.content   = this.formData.content;
+                    
 
                     this.openerReload.emit();
 
@@ -125,13 +171,7 @@ export class QnaDetailComponent implements OnInit {
 
             },
             (error: HttpErrorResponse) => {
-                //if (error.status == 400) {
-                //    this.toast.open('동일한 Email이 존재합니다.', 'danger');
-                //}else if (error.status == 400) {
-                //    this.toast.open('승인중인 계정입니다.', 'danger');
-                //} else {
                 this.toast.open('오류입니다. ' + error.message, 'danger');
-                //}
             }
         );
         
@@ -201,6 +241,30 @@ export class QnaDetailComponent implements OnInit {
     */
     closeModal($event) {
         this.cValues('Close click');
+    }
+
+
+    onItemSelect(item:any){
+        console.log("onItemSelect selectedItems : ", this.selectedItems);
+        console.log("onItemSelect item : ", item);
+        
+        //this.selectedItems.push(item);
+        console.log("1 this.selectedItems: ", this.selectedItems);
+    }
+    OnItemDeSelect(item:any){
+        //this.selectedItems.pop();
+        console.log("2 this.selectedItems: ", this.selectedItems);
+
+    }
+    onSelectAll(items: any){
+        //this.selectedItems.splice(0);
+        //this.selectedItems.push(items); //[{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+        //this.selectedItems = this.selectedItems[0];
+        console.log("3 this.selectedItems: ", this.selectedItems);
+    }
+    onDeSelectAll(items: any){
+        //this.selectedItems.splice(0);
+        console.log("4 this.selectedItems: ", this.selectedItems);
     }
 
 }
