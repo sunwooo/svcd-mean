@@ -12,8 +12,8 @@ export class QnaService {
     ) { }
 
     /**
-     * qnaList 가져오기 
-    */
+     * Mng qnaList 가져오기 
+     */
     
     getQnaList(condition): Observable<any> {
         console.log("===========================getqnaList", condition);

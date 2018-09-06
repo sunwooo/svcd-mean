@@ -33,17 +33,20 @@ module.exports = {
 
 
         async.waterfall([function (callback) {
+
+
             OftenQna.find(search.findOftenqna, function (err, oftenqna) {
                     if (err) {
                         return res.json({
                             success: false,
                             message: err
                         });
-                    } else {
+                    } else { 
                         callback(null);
                     }
                 })
-                //.sort("-" + search.order_by);
+               
+                //.sort("-" + search.order_by);111
                 /*
                 .sort({
                     group_flag: -1,
@@ -113,6 +116,111 @@ module.exports = {
     },
 
     /**
+     * qna 조회 (사용자)
+     */
+    userlist: (req, res, next) => {
+        try{
+        console.log("===============================userlist===============================");
+        console.log("req.query.company_cd : ", req.query.company_cd);
+        console.log("===============================userlist===============================");
+        var search = service.createSearch(req);
+
+        var page = 1;
+        var perPage = 15;
+
+        console.log("==========================================userlist=======================================");
+        console.log("req.query.page : ", req.query.page);
+        console.log("req.query.perPage : ", req.query.perPage);
+        console.log("req.query.searchText : ", req.query.searchText);
+        console.log("================================================================================================");
+
+        if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
+        if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
+        //if (req.query.company_cd != null && req.query.company_cd != '') company_cd = req.query.company_cd;
+
+
+        async.waterfall([function (callback) {
+            console.log(1);
+            
+            var condition = {};
+            search.findOftenqna.company_cd =  { '$elemMatch': { id: 'ISU_ST'}};
+
+            OftenQna.find(search.findOftenqna , function (err, oftenqna) {
+
+                console.log("search.findOftenqna : " , search.findOftenqna);
+                if (err) {
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                    callback(null)
+                }
+            });
+        },
+        function (callback) {
+            OftenQna.count(search.findOftenqna, function (err, totalCnt) {
+                if (err) {
+                    logger.error("oftenqna : ", err);
+
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+
+                    //logger.debug("=============================================");
+                    //logger.debug("oftenqna : ", totalCnt);
+                    //logger.debug("=============================================");
+
+                    callback(null, totalCnt)
+                }
+            });
+        }
+        ], function (err, totalCnt) {
+
+            OftenQna.find(search.findOftenqna, function (err, oftenqna) {
+                if (err) {
+
+                    //logger.debug("=============================================");
+                    //logger.debug("incident : ", err);
+                    //logger.debug("=============================================");
+
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                   
+
+
+                    //incident에 페이징 처리를 위한 전체 갯수전달
+                    var rtnData = {};
+                    rtnData.oftenqna = oftenqna;
+                    rtnData.totalCnt = totalCnt;
+
+                    //logger.debug("=============================================");
+                    //logger.debug("rtnData.totalCnt : ", rtnData.totalCnt);
+                    //console.log("rtnData : ", JSON.stringify(rtnData));
+                    //logger.debug("=============================================");
+
+                    res.json(rtnData);
+
+                }
+            })
+                //.sort({
+                //    group_flag: -1,
+                //    company_nm: 1
+                //})
+                .skip((page - 1) * perPage)
+                .limit(perPage);
+        });
+        }catch(err){
+            console.log("err : ",err);
+        }
+    },
+
+    /**
      * qna 수정
     */
     update: (req, res, next) => {
@@ -136,40 +244,6 @@ module.exports = {
         });
     },
 
-    /**
-    * qna 삭제 
-    */
-    /*
-    delete: (req, res, next) => {
-        console.log("delete...");
-        try {
-            OftenQna.findOneAndRemove({
-                _id: req.body._id
-                }, req.body, function (err, qna) {
-                    if (err) {
-                    return res.json({
-                        success: false,
-                        message: err
-                    });
-                } else {
-                    return res.json({
-                        success: true,
-                        message: "delete successed"
-                    });
-                }
-            });
-
-        } catch (err) {
-            logger.error("qna deleted err : ", err);
-            
-            return res.json({
-                success: false,
-                message: err
-            });
-        } finally{}
-
-    },
-    */
     /**
     * qna 삭제 
     */

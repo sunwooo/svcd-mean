@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { QnaService } from '../../../services/qna.service';
 import { CommonApiService } from '../../../services/common-api.service';
+import { CookieService } from 'ngx-cookie-service';
 import { Router } from "@angular/router";
 
 @Component({
@@ -32,10 +33,13 @@ export class QnaListComponent implements OnInit {
     { name: '내용', value: 'content' }
   ];
 
+  public company_cd: string = this.cookieService.get("company_cd");
+
   constructor(private qnaService: QnaService
     , private commonApi: CommonApiService
     , private modalService: NgbModal
-    , private router: Router ) { }
+    , private router: Router
+    , private cookieService: CookieService ) { }
 
   public maxSize: number = 10;      // 한 화면에 나타낼 페이지 수
   public page: number = 0;          // 현재 페이지
@@ -65,6 +69,10 @@ export class QnaListComponent implements OnInit {
     //this.formData.page = this.page++;
     //this.formData.perPage = this.perPage;
     this.formData.higher_cd = this.higher_cd;
+    //this.formData.company_cd = this.company_cd;
+    console.log("higher_cd :" ,this.higher_cd );
+
+    //console.log("getQna() company_cd :", this.company_cd);
 
     this.qnaService.getUserQnaList(this.formData).subscribe(
       (res) => {
@@ -78,7 +86,6 @@ export class QnaListComponent implements OnInit {
       (error: HttpErrorResponse) => {
       }
     );
-
   }
 
   /**

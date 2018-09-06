@@ -71,10 +71,11 @@ router.get('/higherProcess/list', higherProcessCtrl.list); //상위업무 조회
 router.put('/higherProcess/update', higherProcessCtrl.update); //상위업무 수정
 
 //oftenqna route
-router.get('/qna/list', oftenQnaCtrl.list); //자주묻는질문과답 조회
-router.put('/qna/update', oftenQnaCtrl.update); //자주묻는질문과답 수정
-router.delete('/qna/delete', oftenQnaCtrl.delete); //자주묻는질문과답 수정
-router.post('/qna/new', oftenQnaCtrl.insert); //자주묻는질문과답 수정
+router.get('/qna/list', oftenQnaCtrl.list);         //자주묻는질문과답 조회(관리자)
+router.get('/qna/userlist', oftenQnaCtrl.userlist); //자주묻는질문과답 조회(사용자)
+router.put('/qna/update', oftenQnaCtrl.update);     //자주묻는질문과답 수정
+router.delete('/qna/delete', oftenQnaCtrl.delete);  //자주묻는질문과답 삭제
+router.post('/qna/new', oftenQnaCtrl.insert);       //자주묻는질문과답 등록
 
 
 //upload incident attach file 
