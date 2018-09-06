@@ -69,10 +69,10 @@ export class QnaListComponent implements OnInit {
     //this.formData.page = this.page++;
     //this.formData.perPage = this.perPage;
     this.formData.higher_cd = this.higher_cd;
-    //this.formData.company_cd = this.company_cd;
+    this.formData.company_cd = this.company_cd;
     console.log("higher_cd :" ,this.higher_cd );
+    console.log("getQna() company_cd :", this.company_cd);
 
-    //console.log("getQna() company_cd :", this.company_cd);
 
     this.qnaService.getUserQnaList(this.formData).subscribe(
       (res) => {

@@ -120,19 +120,19 @@ module.exports = {
      */
     userlist: (req, res, next) => {
         try{
-        console.log("===============================userlist===============================");
-        console.log("req.query.company_cd : ", req.query.company_cd);
-        console.log("===============================userlist===============================");
+        //console.log("===============================userlist===============================");
+        //console.log("req.query.company_cd : ", req.query.company_cd);
+        //console.log("===============================userlist===============================");
         var search = service.createSearch(req);
 
         var page = 1;
         var perPage = 15;
 
-        console.log("==========================================userlist=======================================");
-        console.log("req.query.page : ", req.query.page);
-        console.log("req.query.perPage : ", req.query.perPage);
-        console.log("req.query.searchText : ", req.query.searchText);
-        console.log("================================================================================================");
+        //console.log("==========================================userlist=======================================");
+        //console.log("req.query.page : ", req.query.page);
+        //console.log("req.query.perPage : ", req.query.perPage);
+        //console.log("req.query.searchText : ", req.query.searchText);
+        //console.log("================================================================================================");
 
         if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
         if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
@@ -140,14 +140,13 @@ module.exports = {
 
 
         async.waterfall([function (callback) {
-            console.log(1);
-            
+            //console.log("req.query.company_cd : ", req.query.company_cd);
             var condition = {};
-            search.findOftenqna.company_cd =  { '$elemMatch': { id: 'ISU_ST'}};
+            search.findOftenqna.company_cd =  { '$elemMatch': { id: req.query.company_cd}};
 
             OftenQna.find(search.findOftenqna , function (err, oftenqna) {
 
-                console.log("search.findOftenqna : " , search.findOftenqna);
+                //console.log("search.findOftenqna : " , search.findOftenqna);
                 if (err) {
                     return res.json({
                         success: false,
