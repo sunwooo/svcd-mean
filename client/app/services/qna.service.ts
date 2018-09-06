@@ -22,6 +22,16 @@ export class QnaService {
     }
 
     /**
+     * User qnaList() 가져오기
+     */
+    getUserQnaList(condition): Observable<any> {
+        console.log("===========================getUserQnaList", condition);
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/qna/userlist', {params: httpParams});
+    }
+
+
+    /**
      * qna 수정
      * @param form 
     */

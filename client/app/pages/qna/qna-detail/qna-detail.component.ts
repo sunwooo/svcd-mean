@@ -11,6 +11,7 @@ import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-u
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { UserService } from '../../../services/user.service';
+import { CommonApiService } from '../../../services/common-api.service';
 import { catchError, map, tap,startWith, switchMap, debounceTime, distinctUntilChanged, takeWhile, first } from 'rxjs/operators';
 import { HigherCdComponent } from '../../../shared/higher-cd/higher-cd.component';
 import { Input, Output } from "@angular/core";
@@ -40,6 +41,9 @@ export class QnaDetailComponent implements OnInit {
     dropdownList = [];
     selectedItems = [];
     dropdownSettings = {};
+
+    public companyObj: any = [];                 //회사리스트
+
     
 
 
@@ -49,22 +53,26 @@ export class QnaDetailComponent implements OnInit {
         private cookieService: CookieService,
         private userService: UserService,
         private renderer: Renderer,
-        private router: Router) { }
+        private router: Router,
+        private commonApi: CommonApiService) { }
 
 
 
   ngOnInit() {
       this.formData = this.qnaDetail;
+      this.getCompany();
      // alert(JSON.stringify(this.formData.company_cd));
        
      
      this.dropdownList = [
+        /*
             { id: "1", itemName: "India" },
             { id: "2", itemName: "Singapore" },
             { id: "3", itemName: "Australia" },
             { id: "4", itemName: "Canada" },
             { id: "5", itemName: "South Korea" },
             { id: "6", itemName: "Brazil" }
+        */
         ];
 
         
@@ -266,5 +274,29 @@ export class QnaDetailComponent implements OnInit {
         //this.selectedItems.splice(0);
         console.log("4 this.selectedItems: ", this.selectedItems);
     }
+
+    /**
+   * 회사리스트 조회
+   */
+  
+  getCompany() {
+    this.commonApi.getCompany({scope:"*"}).subscribe( 
+        (res) => {
+            //console.log("getCompany res ====>" , JSON.stringify(res));
+            //console.log("getCompany res ====>" , JSON.stringify(res));
+            this.companyObj = res;
+            for(var i=0; i<this.companyObj.length;i++){
+
+                var text = {id:""+ this.companyObj[i].company_cd+"",itemName:""+ this.companyObj[i].company_nm+""} ;
+                console.log("text :" + text);
+                // {id:"7",itemName:"France"},
+
+                this.dropdownList.push(text);
+            }
+        },
+        (error: HttpErrorResponse) => {
+        }
+    );
+  }
 
 }
