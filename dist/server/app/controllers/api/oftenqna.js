@@ -304,34 +304,19 @@ module.exports = {
       var newqna = req.body.qna;
       console.log("newqna ", newqna);
     
-      //TODO
-      //추가수정
-      /*
-      if (request_info == null) {
-        newincident.request_company_cd = req.session.company_cd;
-        newincident.request_company_nm = req.session.company_nm;
-        newincident.request_dept_nm = req.session.dept_nm;
-        newincident.request_nm = req.session.user_nm;
-        newincident.request_id = req.session.email;
-      } else {
-        newincident.request_company_cd = request_info.company_cd;
-        newincident.request_company_nm = request_info.company_nm;
-        newincident.request_dept_nm = request_info.dept_nm;
-        newincident.request_nm = request_info.employee_nm;
-        newincident.request_id = request_info.email;
-      }
-      */
-      //추가수정
+    
       newqna.register_company_cd = req.session.company_cd;
       newqna.register_company_nm = req.session.company_nm;
       newqna.register_nm = req.session.user_nm;
       newqna.register_id = req.session.email;
+    
+      console.log("newqna.pop_yn : ", newqna.pop_yn );
 
       if (req.files) {
           newqna.attach_file = req.files;
       }
 
-      OftenQna.create(newqna, function (err, newqna) {
+      OftenQna.create(newqna, function (err, savedqna) {
         if (err) {
           //console.log("trace err ", err);
           return res.json({
@@ -340,8 +325,8 @@ module.exports = {
           });
         }
         
-        
-        console.log("trace OftenQna.create ", newqna);
+         console.log("trace OftenQna.create savedqna", savedqna);
+       
             
         //////////////////////////////////////
         // SD 업무담당자 사내메신저 호출
@@ -349,6 +334,7 @@ module.exports = {
         //////////////////////////////////////
 
         callback(null);
+        
       });
     }], function (err) {
       return res.json({

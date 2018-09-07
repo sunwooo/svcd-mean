@@ -7,6 +7,9 @@ import { NgForm } from "@angular/forms";
 import { QnaService } from '../../../services/qna.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { Router } from '@angular/router';
+import { EventEmitter } from "@angular/core";
+import { Output } from "@angular/core";
+import { Input } from "@angular/core";
 
 
 const URL = '/api/upload-file';
@@ -20,8 +23,8 @@ declare var $: any;
   styleUrls: ['./qna-new.component.css']
 })
 export class QnaNewComponent implements OnInit {
-    item: any;
-    aJsonArray: any;
+  item: any;
+  aJsonArray: any;
 
   public isLoading = true;
   private formData: any = {}; //전송용 formData
@@ -49,6 +52,17 @@ export class QnaNewComponent implements OnInit {
   //companyList = [];
 
   public employee_nm: string = this.cookieService.get("employee_nm");
+  public email: string = this.cookieService.get("email");
+
+  innerValue: string;
+
+  @Input() value: any;
+  @Input() placeholder: string;
+  @Input() disabled: boolean;
+  @Input() trueValue: any = "Y";
+  @Input() falseValue: any = "N";
+  @Output() onChange = new EventEmitter();
+  @Output() valueChange = new EventEmitter();
 
 
   constructor(private qnaService: QnaService
@@ -151,7 +165,21 @@ export class QnaNewComponent implements OnInit {
         }
   }
 
-  
+    customOnChange($event) {
+        this.onChange.emit($event);
+    }
+
+    modelChange($event) {
+        console.log("modelChange $event : ", $event);
+
+        if ($event) {
+            this.innerValue = "Y";
+            this.valueChange.emit(this.trueValue);
+        } else {
+            this.innerValue = "N";
+            this.valueChange.emit(this.falseValue);
+        }
+    }
 
   /**
    * formData 조합
@@ -168,10 +196,12 @@ export class QnaNewComponent implements OnInit {
       //form.value.qna.higher_cd = this.higher.higher_cd;
       //form.value.qna.higher_nm = this.higher.higher_nm;
       //Template form을 전송용 formData에 저장 
-      form.value.qna.higher_cd = this.higher_cd;
-      form.value.qna.higher_nm = this.higher_nm;
-      form.value.qna.user_nm = this.employee_nm;
-      form.value.qna.company_cd = this.selectedItems;
+      form.value.qna.higher_cd     = this.higher_cd;
+      form.value.qna.higher_nm     = this.higher_nm;
+      form.value.qna.user_nm       = this.employee_nm;
+      form.value.qna.user_id       = this.email;
+      form.value.qna.company_cd    = this.selectedItems;
+      form.value.qna.pop_yn        = this.innerValue;
       
 
     

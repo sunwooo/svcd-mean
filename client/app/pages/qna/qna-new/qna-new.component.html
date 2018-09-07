@@ -56,7 +56,16 @@
                                         </mat-form-field> 
                                     </div>
                                     <div>
-                                        <mat-checkbox>팝업공지</mat-checkbox>
+                                        <mat-checkbox [ngModel]="innerValue"
+                                                    (ngModelChange)="modelChange($event)"
+                                                    [checked]="innerValue"
+                                                    [disabled]="disabled"
+                                                    (change)="customOnChange($event)"
+                                                   
+                                                    name="pop_yn"
+                                                    >
+                                            팝업공지
+                                        </mat-checkbox>
                                     </div>
                                 </div>
                                 <div class="form-group row">
