@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HigherProcessService } from '../../../services/higherProcess.service';
 import { HttpErrorResponse } from "@angular/common/http";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { HigherProcessService } from '../../../services/higher-process.service';
 
 @Component({
   selector: 'app-higher-process',

@@ -4,7 +4,7 @@ import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS, MatDatepickerInputEvent
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
-import { HigherProcessService } from '../../../services/higherProcess.service';
+import { HigherProcessService } from '../../../services/higher-process.service';
 import { EventEmitter } from "@angular/core";
 
 @Component({

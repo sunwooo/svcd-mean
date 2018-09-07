@@ -31,7 +31,7 @@ export class UserService {
         console.log("user : ", user.value);
         console.log("======================================================");
 
-        return this.http.post<any>('/api/addUser', user.value, { withCredentials: true });
+        return this.http.post<any>('/api/user/addUser', user.value, { withCredentials: true });
     }
 
 
@@ -63,7 +63,7 @@ export class UserService {
         console.log("email : ", email);
         console.log("======================================================");
 
-        return this.http.get<any>('/api/empInfo', { params: new HttpParams().set('email', email) });
+        return this.http.get<any>('/api/user/empInfo', { params: new HttpParams().set('email', email) });
     }
 
 
@@ -72,8 +72,26 @@ export class UserService {
      * @param empName 
      */
     findEmp(empName: string): Observable<any> {
-        return this.http.get<any>('/api/findEmp', { params: new HttpParams().set('empName', empName) });
+        return this.http.get<any>('/api/user/findEmp', { params: new HttpParams().set('empName', empName) });
     }
     
+    /**
+     * 사용자 리스트 조회
+     * @param condition 
+     */
+    getUserList(condition): Observable<any> {
+
+        //console.log("==================services getUsermanageList", condition);
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/user/list', { params: httpParams });
+    }
+
+    /**
+       * 사원정보 수정
+       * @param form 
+      */
+    putUser(form: NgForm): Observable<any> {
+        return this.http.put<any>('/api/user/update', form.value, { withCredentials: true });
+    }
 
 }

@@ -1,3 +1,6 @@
+<app-loading [condition]="isLoading"></app-loading>
+<app-toast></app-toast>
+
 <div class="content">
     <div class="container">
         <div class="svcd-body-content">
@@ -8,7 +11,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card-box">
-                        <form novalidate #f="ngForm" (ngSubmit)="onSubmit()" class="form-horizontal group-border-dashed">
+                        <form novalidate #f="ngForm" (ngSubmit)="getHigherTree()" class="form-horizontal group-border-dashed">
                             <div class="form-group row">
                                 <div class="col-lg-3 col-sm-12">
                                     <app-higher-cd 
@@ -16,7 +19,7 @@
                                         [required]="false"
                                         [choiceElement]="false"
                                         [allElement]="true"
-                                        [company]="''"
+                                        [company]="'*'"
                                         [placeholder]="'상위업무'"
                                         (outHigherCd)="setHigher($event)"
                                     ></app-higher-cd>
@@ -35,17 +38,24 @@
             </div>
             <!-- end Search Area-->  
             <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card-box">
-                            <ngx-treeview [config]="config"
-                                        [items]="items"
-                                        (selectedChange)="onSelectedChange($event)"
-                                        (filterChange)="onFilterChange($event)">
-                            </ngx-treeview>
-                        </div>
+                <div class="col-lg-6">
+                    <div class="card-box">
+                        <ngx-treeview [config]="config" 
+                                    [items]="items" 
+                                    (selectedChange)="onSelectedChange($event)" 
+                                    [disabled]="!dropdownEnabled"
+                                    [ngxDisabledOnSelector]="'button.dropdown-toggle'" 
+                                    (filterChange)="onFilterChange($event)"
+                        >
+                        </ngx-treeview>
                     </div>
                 </div>
-
+                <div class="col-lg-6">
+                    <div class="list-group">
+                        <a *ngFor="let val of values" class="list-group-item list-group-item-action">{{val.higher_nm}}/{{val.lower_nm}}</a>
+                    </div>
+                  </div>
+            </div>
         </div>
     </div>
 </div>
