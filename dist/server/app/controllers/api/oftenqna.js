@@ -142,7 +142,7 @@ module.exports = {
         async.waterfall([function (callback) {
             //console.log("req.query.company_cd : ", req.query.company_cd);
             var condition = {};
-            search.findOftenqna.company_cd =  { '$elemMatch': { id: req.query.company_cd}};
+            search.findOftenqna.company_cd =  {'$elemMatch': { id: req.query.company_cd}};
 
             OftenQna.find(search.findOftenqna , function (err, oftenqna) {
 

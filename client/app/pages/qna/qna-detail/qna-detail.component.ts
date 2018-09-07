@@ -38,11 +38,14 @@ export class QnaDetailComponent implements OnInit {
 
     public uploader: FileUploader = new FileUploader({ url: URL }); //file upload용 객체
 
-    dropdownList = [];
-    selectedItems = [];
-    dropdownSettings = {};
+    public dropdownList = [];
+    public selectedItems = [];
+    public dropdownSettings = {};
 
     public companyObj: any = [];                 //회사리스트
+
+    public user_flag: string = this.cookieService.get("user_flag");
+    public employee_nm: string = this.cookieService.get("employee_nm");
 
     
 
@@ -198,6 +201,7 @@ export class QnaDetailComponent implements OnInit {
         this.formData.content = text;
   
         this.formData.title = form.value.oftenqna.title;
+        this.formData.user_nm = this.employee_nm;
 
         console.log('============= updateQna ===============');
         console.log('this.formData.title :' , this.formData.title);
