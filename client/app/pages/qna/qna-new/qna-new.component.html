@@ -1,0 +1,188 @@
+<div class="content">
+    <div class="container">
+        <div class="svcd-body-content">
+            <app-page-header [title]="'자주묻는 질문과 답 등록하기'"></app-page-header>
+            <form novalidate #f="ngForm" (ngSubmit)="saveQna(f)" class="form-horizontal group-border-dashed">
+                <div ngModelGroup="qna">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div role="toolbar" class="btn-toolbar m-t-10  float-right">
+                                <div class="float-right">
+                                    <button type="button" (click)="goList()" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+                                    <i class="fa fa-bars"></i>목록</button>
+                                    <button type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+                                    <i class="fa fa-send-o"></i>저장
+                                    </button>
+                                    <!--
+                                    <button type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-r-5">
+                                        <span>저장</span>
+                                        <i class="fa fa-send m-l-10"></i>
+                                    </button>
+                                    -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card-box">
+                                <div class="form-group row">
+                                    <div class="col-lg-12 col-sm-12" >
+                                        <div class="form-group">
+                                            <angular2-multiselect 
+                                                [data]="dropdownList" 
+                                                [(ngModel)]="selectedItems" 
+                                                [settings]="dropdownSettings" 
+                                                (onSelect)="onItemSelect($event)" 
+                                                (onDeSelect)="OnItemDeSelect($event)"
+                                                (onSelectAll)="onSelectAll($event)"
+                                                (onDeSelectAll)="onDeSelectAll($event)"
+                                                [ngModelOptions]="{standalone: true}"
+                                                >
+                                            </angular2-multiselect>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-3 col-sm-9">
+                                        <mat-form-field class="mat-form-field">
+                                            <mat-select [(ngModel)]="higher_cd"
+                                                        name="higher_cd" 
+                                                        (selectionChange)="setHigherCd($event.value)"
+                                                        placeholder="상위업무">
+                                                <mat-option value="*">전체</mat-option>
+                                                <mat-option *ngFor="let obj of higherObj; let i = index; " [value]="i">{{obj.higher_nm}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field> 
+                                    </div>
+                                    <div>
+                                        <mat-checkbox>팝업공지</mat-checkbox>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-9 col-sm-12">
+                                        <mat-form-field class="mat-form-field4">
+                                            <input matInput 
+                                                ngModel
+                                                name="title" 
+                                                type="input" 
+                                                required 
+                                                placeholder="제목"
+                                            >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <div style="text-align:left;width:100%">
+                                            <textarea ngModel 
+                                                    id="summernote" 
+                                                    name="content" 
+                                                    align="left" 
+                                                    row="10"
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 첨부파일 Start-->
+                                <div class="card-box m-r-5">
+                                    <div class="form-group row">
+                                        <div class="col-lg-9 col-sm-12">
+                                            <input type="file" 
+                                                ng2FileSelect 
+                                                [uploader]="uploader" 
+                                                name="avatar" 
+                                                id="avatar" 
+                                                multiple
+                                                style="width:100%"
+                                            >
+                                        </div>
+                                        <div class="col-lg-3 col-sm-12" >
+                                            <mat-label class>첨부개수 : {{ uploader?.queue?.length }}</mat-label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-12 col-sm-12 m-b-40">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="50%">파일명</th>
+                                                        <th>크기</th>
+                                                        <th>진행</th>
+                                                        <th>상태</th>
+                                                        <th>제거</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of uploader.queue">
+                                                        <td>
+                                                            <strong>{{ item?.file?.name }}</strong>
+                                                        </td>
+                                                        <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                                                        <td *ngIf="uploader.options.isHTML5">
+                                                            <div class="progress" style="margin-bottom: 0;">
+                                                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span *ngIf="item.isSuccess">
+                                                                <i class="glyphicon glyphicon-ok"></i>
+                                                            </span>
+                                                            <span *ngIf="item.isCancel">
+                                                                <i class="glyphicon glyphicon-ban-circle"></i>
+                                                            </span>
+                                                            <span *ngIf="item.isError">
+                                                                <i class="glyphicon glyphicon-remove"></i>
+                                                            </span>
+                                                        </td>
+                                                        <td nowrap>
+                                                            <!--
+                                                            <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                                                <span class="glyphicon glyphicon-upload"></span> Upload
+                                                            </button>
+                                                            <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                                                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                                                            </button>
+                                                            -->
+                                                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                                                <span class="glyphicon glyphicon-trash"></span> 제거
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                    
+                                            <div style="text-align: right">
+                                                <div>
+                                                    업로드 상태:
+                                                    <div class="progress" style="">
+                                                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                                                    </div>
+                                                </div>
+                                                <!--
+                                                <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                                                    <span class="glyphicon glyphicon-upload"></span> Upload all
+                                                </button>
+                                                <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                                                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                                                </button>
+                                                -->
+                                                
+                                                <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                                                    <span class="glyphicon glyphicon-trash"></span> 전체 제거
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                <!-- 첨부파일 End-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+  
