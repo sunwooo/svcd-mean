@@ -83,8 +83,7 @@ import { ProcessGubunCodeDetailComponent } from './pages/process/process-gubun-c
 import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboard-main.component';
 import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
 import { TreeviewModule } from 'ngx-treeview';
-import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
-
+import { UsermanageDetailAComponent } from './pages/usermanage/usermanage-detail-a/usermanage-detail-a.component';import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
 const PAGES = [
     HomeComponent,
     LoginComponent,
@@ -125,6 +124,7 @@ const PAGES = [
         EmpInfoComponent,
         ComHigherComponent,
         UsermanageListComponent,
+        UsermanageDetailAComponent,
         CompanyDetailAComponent,
         CompanyListComponent,
         MatchCharCssPipe,
@@ -157,6 +157,7 @@ const PAGES = [
         TruncateModule,
         NgxChartsModule,
         Nl2BrPipeModule,
+
         TreeviewModule.forRoot(),
         AngularMultiSelectModule
     ],
