@@ -298,49 +298,57 @@ module.exports = {
     //console.log("xxxx req.session : ", req.session);
     //console.log("req.body.incident : ", req.body.incident);
     //console.log("=============================================================");
+    try{
+        async.waterfall([function (callback) {
 
-    async.waterfall([function (callback) {
+        var newqna = req.body.qna;
+        console.log("newqna ", newqna);
+        
+        
+        newqna.register_company_cd = req.session.company_cd;
+        newqna.register_company_nm = req.session.company_nm;
+        newqna.register_nm = req.session.user_nm;
+        newqna.register_id = req.session.email;
+        
+        
 
-      var newqna = req.body.qna;
-      console.log("newqna ", newqna);
-    
-    
-      newqna.register_company_cd = req.session.company_cd;
-      newqna.register_company_nm = req.session.company_nm;
-      newqna.register_nm = req.session.user_nm;
-      newqna.register_id = req.session.email;
-    
-      console.log("newqna.pop_yn : ", newqna.pop_yn );
+        if (req.files) {
+            newqna.attach_file = req.files;
+        }
+        console.log("nnnnn newqna.pop_yn : ", newqna );
+        OftenQna.create(newqna, function (err, savedqna) {
+            if (err) {
+            //console.log("trace err ", err);
+            return res.json({
+                success: false,
+                message: err
+            });
+            }
+            
+            console.log("trace OftenQna.create savedqna", savedqna);
+        
+                
+            //////////////////////////////////////
+            // SD 업무담당자 사내메신저 호출
+            //alimi.sendAlimi(req.body.incident.higher_cd);
+            //////////////////////////////////////
 
-      if (req.files) {
-          newqna.attach_file = req.files;
-      }
+            callback(null);
+            
+            });
+            }], function (err) {
+            return res.json({
+                    success: true,
+                    message: err
+                });
+            });
 
-      OftenQna.create(newqna, function (err, savedqna) {
-        if (err) {
-          //console.log("trace err ", err);
-          return res.json({
+    } catch (err) {
+        logger.error("upQna deleted err : ", err);
+        return res.json({
             success: false,
             message: err
-          });
-        }
-        
-         console.log("trace OftenQna.create savedqna", savedqna);
-       
-            
-        //////////////////////////////////////
-        // SD 업무담당자 사내메신저 호출
-        //alimi.sendAlimi(req.body.incident.higher_cd);
-        //////////////////////////////////////
-
-        callback(null);
-        
-      });
-    }], function (err) {
-      return res.json({
-            success: true,
-            message: err
         });
-    });
-  },
+    }
+    }
 }

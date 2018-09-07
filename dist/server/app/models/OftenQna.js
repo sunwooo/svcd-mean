@@ -25,7 +25,10 @@ var oftenqnaSchema = mongoose.Schema({
         path:           {type : String},
         size:           {type : Number} }], 
     created_at:     {type : String},
-    updated_at:     { type: Date }
+    updated_at:     { type: Date },
+    pop_yn:         { type: String },       
+    user_id:        { type: String }       
+    
 });
 
 oftenqnaSchema.pre("save", setCreateAt);

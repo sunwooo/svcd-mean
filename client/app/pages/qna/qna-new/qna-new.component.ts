@@ -59,8 +59,8 @@ export class QnaNewComponent implements OnInit {
   @Input() value: any;
   @Input() placeholder: string;
   @Input() disabled: boolean;
-  @Input() trueValue: any = "Y";
-  @Input() falseValue: any = "N";
+  @Input() trueValue: any = "true";
+  @Input() falseValue: any = "false";
   @Output() onChange = new EventEmitter();
   @Output() valueChange = new EventEmitter();
 
@@ -164,22 +164,6 @@ export class QnaNewComponent implements OnInit {
 
         }
   }
-
-    customOnChange($event) {
-        this.onChange.emit($event);
-    }
-
-    modelChange($event) {
-        console.log("modelChange $event : ", $event);
-
-        if ($event) {
-            this.innerValue = "Y";
-            this.valueChange.emit(this.trueValue);
-        } else {
-            this.innerValue = "N";
-            this.valueChange.emit(this.falseValue);
-        }
-    }
 
   /**
    * formData 조합
@@ -342,5 +326,19 @@ export class QnaNewComponent implements OnInit {
   onDeSelectAll(items: any){
         //this.selectedItems.splice(0);
         console.log("4 this.selectedItems: ", this.selectedItems);
+  }
+
+
+
+  modelChange($event) {
+        console.log("modelChange $event : ", $event);
+
+        if ($event) {
+            this.innerValue = "Y";
+            this.valueChange.emit(this.trueValue);
+        } else {
+            this.innerValue = "N";
+            this.valueChange.emit(this.falseValue);
+        }
   }
 }
