@@ -16,9 +16,9 @@
                     <div class="float-right">
                         <button type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
                         <i class="fa fa-bars"></i>목록</button>
-                        <button type="button" (click)="deleteQna(qnaDetail?._id);" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
+                        <button ng-If="user_flag==1 || user_flag==3" type="button" (click)="deleteQna(qnaDetail?._id);" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
                         <i class="fa fa-remove"></i>삭제</button>
-                        <button type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+                        <button ng-If="user_flag==1 || user_flag==3" type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
                         <i class="fa fa-send-o"></i>저장</button>
                     </div>
                     </div>
@@ -28,8 +28,21 @@
                 <div class="col-sm-12">
                     <div class="card-box m-r-5">
                             <div class="row">
-                                <div class="col-lg-12 col-sm-12 col-centered">
+                                <div class="col-lg-12 col-sm-12">
                                     <div class="form-wrap">
+                                        <div>
+                                            <angular2-multiselect 
+                                                [data]="dropdownList" 
+                                                [(ngModel)]="selectedItems" 
+                                                [settings]="dropdownSettings" 
+                                                (onSelect)="onItemSelect($event)" 
+                                                (onDeSelect)="OnItemDeSelect($event)"
+                                                (onSelectAll)="onSelectAll($event)"
+                                                (onDeSelectAll)="onDeSelectAll($event)"
+                                                [ngModelOptions]="{standalone: true}"
+                                                >             
+                                            </angular2-multiselect>
+                                        </div>
                                         <div class="input-wrap">
                                             <mat-form-field class="mat-form-field3">
                                                 <span matPrefix>

@@ -12,6 +12,7 @@ import { MaterialModule } from './material/material.module';
 import { RoutingModule } from './routing.module';
 import { SharedModule } from './shared/shared.module';
 import { SideNavMenuModule } from './side-nav-menu/module';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 /**pipe */
 import { MatchCharCssPipe } from './match-char-css.pipe';
@@ -84,9 +85,8 @@ import { ProcessGubunCodeDetailComponent } from './pages/process/process-gubun-c
 import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboard-main.component';
 import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
 import { TreeviewModule } from 'ngx-treeview';
+import { UsermanageDetailAComponent } from './pages/usermanage/usermanage-detail-a/usermanage-detail-a.component';import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
 import { HigherProcessDetailComponent } from './pages/process/higher-process-detail/higher-process-detail.component';
-
-
 const PAGES = [
     HomeComponent,
     LoginComponent,
@@ -127,6 +127,7 @@ const PAGES = [
         EmpInfoComponent,
         ComHigherComponent,
         UsermanageListComponent,
+        UsermanageDetailAComponent,
         CompanyDetailAComponent,
         CompanyListComponent,
         MatchCharCssPipe,
@@ -145,8 +146,7 @@ const PAGES = [
         ProcessGubunCodeDetailComponent,
         DashboardMainComponent,
         ManagerDashboardComponent,
-        HigherProcessDetailComponent
-    ],
+        HigherProcessDetailComponent,        QnaNewComponent    ],
     imports: [
         BrowserModule,
         RoutingModule,
@@ -159,7 +159,10 @@ const PAGES = [
         TruncateModule,
         NgxChartsModule,
         Nl2BrPipeModule,
-        TreeviewModule.forRoot()
+
+
+        TreeviewModule.forRoot(),
+        AngularMultiSelectModule
     ],
     providers: [
         AuthService,

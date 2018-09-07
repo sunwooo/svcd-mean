@@ -12,14 +12,24 @@ export class QnaService {
     ) { }
 
     /**
-     * qnaList 가져오기 
-    */
+     * Mng qnaList 가져오기 
+     */
     
     getQnaList(condition): Observable<any> {
         console.log("===========================getqnaList", condition);
         var httpParams = new HttpParams({ fromObject: condition });
         return this.http.get<any>('/api/qna/list', {params: httpParams});
     }
+
+    /**
+     * User qnaList() 가져오기
+     */
+    getUserQnaList(condition): Observable<any> {
+        console.log("===========================getUserQnaList", condition);
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/qna/userlist', {params: httpParams});
+    }
+
 
     /**
      * qna 수정
@@ -35,12 +45,21 @@ export class QnaService {
      * @param qnaId
      */
     delete(qnaId): Observable<any>{
-        var body = {id:qnaId};
+        var body = {_id:qnaId};
         var httpOptions = {
             headers: new HttpHeaders({ 'Content-Type': 'application/json' }), body: body
         };
         return this.http.delete<any>('/api/qna/delete', httpOptions);
     }
 
+    
+    
+    /**
+     * qna 등록
+     * @param qna 
+     */
+    addQna(qna: NgForm): Observable<any> {
+        return this.http.post<any>('/api/qna/new', qna, {withCredentials:true});
+    }
 
 }
