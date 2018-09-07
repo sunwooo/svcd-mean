@@ -31,7 +31,7 @@ export class CommonApiService {
      * 본인업무 JSON 조회
      * @param condition 조건
      */
-    myProcess(): Observable<any> {
+    getMyProcess(): Observable<any> {
         var httpParams = new HttpParams({ fromObject: {}});
         return this.http.get<any>('/api/myProcess', {params: httpParams});
     }
@@ -70,4 +70,5 @@ export class CommonApiService {
         var httpParams = new HttpParams({ fromObject: condition });
         return this.http.get<any>('/api/processGubun', {params: httpParams});
     }
+
 }

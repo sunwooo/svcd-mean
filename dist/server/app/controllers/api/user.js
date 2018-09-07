@@ -15,12 +15,12 @@ module.exports = {
    */
   login: (req, res) => {
 
-    console.log("========controller user.login()========");
-    console.log("req.session : ", req.session);
-    console.log("req.cookie : ", req.cookies);
-    console.log("req.body : ", req.body);
+    //console.log("========controller user.login()========");
+    //console.log("req.session : ", req.session);
+    //console.log("req.cookie : ", req.cookies);
+    //console.log("req.body : ", req.body);
     //console.log("req.query : ", req.query);
-    console.log("=======================================");
+    //console.log("=======================================");
 
     var condition = {};
     if (req.body.email != null) {

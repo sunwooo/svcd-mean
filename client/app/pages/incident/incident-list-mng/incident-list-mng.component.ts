@@ -98,7 +98,7 @@ export class IncidentListMngComponent implements OnInit {
      * 나의업무리스트 조회
      */
     getMyProcess() {
-        this.commonApi.myProcess().subscribe(
+        this.commonApi.getMyProcess().subscribe(
             (res) => {
                 this.lowerObj = res;
             },

@@ -25,8 +25,10 @@ import { CookieService } from 'ngx-cookie-service';
 import { StatisticService } from './services/statistic.service';
 import { CompanyService } from './services/company.service';
 import { UsermanageService } from './services/usermanage.service';
-import { HigherProcessService } from './services/higherProcess.service';
+import { HigherProcessService } from './services/higher-process.service';
 import { QnaService } from './services/qna.service';
+import { MyProcessService } from './services/my-process.service';
+import { CompanyProcessService } from './services/company-process.service';
 
 /** Components */
 import { AppComponent } from './app.component';
@@ -82,6 +84,8 @@ import { ProcessGubunCodeDetailComponent } from './pages/process/process-gubun-c
 import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboard-main.component';
 import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
 import { TreeviewModule } from 'ngx-treeview';
+import { HigherProcessDetailComponent } from './pages/process/higher-process-detail/higher-process-detail.component';
+
 
 const PAGES = [
     HomeComponent,
@@ -140,7 +144,8 @@ const PAGES = [
         ProcessGubunCodeComponent,
         ProcessGubunCodeDetailComponent,
         DashboardMainComponent,
-        ManagerDashboardComponent
+        ManagerDashboardComponent,
+        HigherProcessDetailComponent
     ],
     imports: [
         BrowserModule,
@@ -168,7 +173,9 @@ const PAGES = [
         UsermanageService,
         HigherProcessService,
         ExcelService,
-        QnaService
+        QnaService,
+        MyProcessService,
+        CompanyProcessService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]

@@ -163,7 +163,7 @@ module.exports = {
                     } else {
                         res.json(lowerprocess);
                     }
-                }).sort('lower_nm');;
+                }).sort('lower_nm');
             });
         } catch (e) {
             logger.error("manager control saveReceipt : ", e);
