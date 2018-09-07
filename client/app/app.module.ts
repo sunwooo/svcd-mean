@@ -25,7 +25,6 @@ import { AuthService } from './services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { StatisticService } from './services/statistic.service';
 import { CompanyService } from './services/company.service';
-import { UsermanageService } from './services/usermanage.service';
 import { HigherProcessService } from './services/higher-process.service';
 import { QnaService } from './services/qna.service';
 import { MyProcessService } from './services/my-process.service';
@@ -65,7 +64,6 @@ import { IncidentCompleteComponent } from './pages/incident/incident-complete/in
 import { IncidentHoldComponent } from './pages/incident/incident-hold/incident-hold.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
 import { CompanyDetailAComponent } from './pages/company/company-detail-a/company-detail-a.component';
-import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { LowerCdComponent } from './shared/lower-cd/lower-cd.component';
 import { PageInfoComponent } from './pages/page-info/page-info.component';
@@ -85,8 +83,10 @@ import { ProcessGubunCodeDetailComponent } from './pages/process/process-gubun-c
 import { DashboardMainComponent } from './pages/dashboard/dashboard-main/dashboard-main.component';
 import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/manager-dashboard.component';
 import { TreeviewModule } from 'ngx-treeview';
-import { UsermanageDetailAComponent } from './pages/usermanage/usermanage-detail-a/usermanage-detail-a.component';import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
+import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
 import { HigherProcessDetailComponent } from './pages/process/higher-process-detail/higher-process-detail.component';
+import { UserDetailAComponent } from './pages/user/user-detail-a/user-detail-a.component';
+
 const PAGES = [
     HomeComponent,
     LoginComponent,
@@ -126,8 +126,7 @@ const PAGES = [
         ProcessStatusComponent,
         EmpInfoComponent,
         ComHigherComponent,
-        UsermanageListComponent,
-        UsermanageDetailAComponent,
+        UserDetailAComponent,
         CompanyDetailAComponent,
         CompanyListComponent,
         MatchCharCssPipe,
@@ -173,7 +172,7 @@ const PAGES = [
         EmpInfoComponent,
         StatisticService,
         CompanyService,
-        UsermanageService,
+        UserService,
         HigherProcessService,
         ExcelService,
         QnaService,

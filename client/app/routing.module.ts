@@ -17,7 +17,6 @@ import { IncidentListAllComponent } from './pages/incident/incident-list-all/inc
 
 import { ComHigherComponent } from './pages/statistic/com-higher/com-higher.component';
 import { CompanyListComponent } from './pages/company/company-list/company-list.component';
-import { UsermanageListComponent } from './pages/usermanage/usermanage-list/usermanage-list.component';
 import { MyProcessComponent } from './pages/process/my-process/my-process.component';
 import { LowerProcessComponent } from './pages/process/lower-process/lower-process.component';
 import { HigherProcessComponent } from './pages/process/higher-process/higher-process.component';
@@ -29,6 +28,7 @@ import { ManagerDashboardComponent } from './pages/dashboard/manager-dashboard/m
 import { QnaMngComponent } from './pages/qna/qna-mng/qna-mng.component';
 import { QnaListComponent } from './pages/qna/qna-list/qna-list.component';
 import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
+import { UserListComponent } from './pages/user/user-list/user-list.component';
 
 const routes: Routes = [
 
@@ -54,7 +54,7 @@ const routes: Routes = [
             { path: '4100', component: HigherProcessComponent },
             { path: '4200', component: LowerProcessComponent },
             { path: '4300', component: CompanyListComponent },
-            { path: '4400', component: UsermanageListComponent },
+            { path: '4400', component: UserListComponent },
             { path: '4500', component: UserAccessComponent },
             { path: '4600', component: CompanyProcessComponent },
             { path: '4700', component: ProcessGubunCodeComponent },

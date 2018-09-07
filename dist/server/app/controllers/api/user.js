@@ -3,7 +3,7 @@
 var async = require('async');
 var jwt = require('jsonwebtoken');
 var User = require('../../models/User');
-var service = require('../../services/usermanage');
+var service = require('../../services/user');
 var request = require("request");
 var CONFIG = require('../../../config/config.json');
 var logger = require('log4js').getLogger('app');
@@ -162,16 +162,16 @@ module.exports = {
 
   insert: (req, res) => {
     try {
-      //console.log('Login controller New debug >>> ', req.body.usermanage);
+      //console.log('Login controller New debug >>> ', req.body.user);
 
       console.log("=================== insert = (req, res) ======================");
-      console.log("req.body.usermanage : ", req.body);
+      console.log("req.body.user : ", req.body);
       console.log("==============================================================");
 
-      var usermanage = req.body;
+      var user = req.body;
 
       //미승인 세팅
-      usermanage.access_yn = 'N';
+      user.access_yn = 'N';
 
       async.waterfall([function (callback) {
         User.count({
@@ -180,7 +180,7 @@ module.exports = {
           if (err) {
 
             console.log("=============================================");
-            console.log("login.js new usermanage err : ", err);
+            console.log("login.js new user err : ", err);
             console.log("=============================================");
 
             return res.json({
@@ -190,7 +190,7 @@ module.exports = {
           } else {
 
             //console.log("=============================================");
-            //console.log("login new usermanage userCnt : ", userCnt);
+            //console.log("login new user userCnt : ", userCnt);
             //console.log("=============================================");
 
             callback(null, userCnt);
@@ -205,7 +205,7 @@ module.exports = {
             message: User.email + '는 이미 등록된 계정입니다.'
           })
         } else {
-          User.create(usermanage, function (err, usermanage) {
+          User.create(user, function (err, user) {
             if (err) {
               console.log("===============================")
               console.log("login.js new err : ", err);
@@ -218,11 +218,11 @@ module.exports = {
             } else {
 
               console.log("===============================")
-              console.log("usermanage : ", usermanage);
+              console.log("user : ", user);
               //console.log("this.rtnData : ", this.rtnData);
               console.log("===============================")
 
-              //rtnData.usermanage = usermanage;
+              //rtnData.user = user;
               res.json({
                 success: true,
                 message: err
@@ -232,7 +232,7 @@ module.exports = {
         }
       });
     } catch (e) {
-      console.log('usermanage controllers error ====================> ', e)
+      console.log('user controllers error ====================> ', e)
     }
   },
 
@@ -249,7 +249,7 @@ module.exports = {
           'Content-type': 'application/json'
         },
         method: "GET",
-      }, function (err, response, usermanage) {
+      }, function (err, response, user) {
 
         User.find({
             employee_nm: {
@@ -258,22 +258,22 @@ module.exports = {
             group_flag: "out"
           })
           .limit(10)
-          .exec(function (err, usermanageData) {
+          .exec(function (err, userData) {
             if (err) {
               return res.json({
                 success: false,
                 message: err
               });
             } else {
-              if (usermanage != null) {
-                usermanage = JSON.parse(usermanage);
+              if (user != null) {
+                user = JSON.parse(user);
               }
-              res.json(mergeUser(usermanage, usermanageData));
+              res.json(mergeUser(user, userData));
             }
-          }); //usermanage.find End
+          }); //user.find End
       }); //request End
     } catch (e) {
-      logger.debug("===control usermanager.js userJSON : ", e);
+      logger.debug("===control userr.js userJSON : ", e);
     }
   },
 
@@ -283,7 +283,7 @@ module.exports = {
     var page = 1;
     var perPage = 15;
 
-    //console.log("==========================================getusermanage=======================================");
+    //console.log("==========================================getuser=======================================");
     //console.log("search : ", JSON.stringify(search));
     //console.log("req.query.page : ", req.query.page);
     //console.log("req.query.perPage : ", req.query.perPage);
@@ -313,7 +313,7 @@ module.exports = {
       });
     }], function (err, totalCnt) {
 
-      User.find(search.findUsermanage, function (err, usermanage) {
+      User.find(search.findUsermanage, function (err, user) {
           if (err) {
 
             //logger.debug("=============================================");
@@ -328,7 +328,7 @@ module.exports = {
 
             //incident에 페이징 처리를 위한 전체 갯수전달
             var rtnData = {};
-            rtnData.usermanage = usermanage;
+            rtnData.user = user;
             rtnData.totalCnt = totalCnt;
 
             res.json(rtnData);
@@ -342,6 +342,35 @@ module.exports = {
         .limit(perPage);
     });
   },
+
+  /**
+   * 사용자 업데이트
+   */
+  //LHI(김상엽 수정요망)
+  update: (req, res, next) => {
+    req.body.user.updatedAt = Date.now();
+
+    console.log("============================================");
+    console.log("========================== req.body : ", req.body);
+    console.log("============================================");
+
+    User.findOneAndUpdate({
+        _id: req.body.user.id
+    }, req.body.user, function (err, user) {
+        if (err) {
+            return res.json({
+                success: false,
+                message: err
+              });
+        }
+        if (!user) {
+            return res.json({
+                success: true,
+                message: '수정되었습니다.'
+              });
+        }
+    });
+  }
 }
 
 

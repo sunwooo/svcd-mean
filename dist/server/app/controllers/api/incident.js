@@ -141,15 +141,15 @@ module.exports = {
               //접수 업데이트 성공 시 메일 전송
               User.findOne({
                 email: Incident.request_id
-              }, function (err, usermanage) {
+              }, function (err, user) {
                 if (err) {
                   return res.json({
                     success: false,
                     message: err
                   });
                 } else {
-                  if (usermanage != null) {
-                    if (usermanage.email_send_yn == 'Y') {
+                  if (user != null) {
+                    if (user.email_send_yn == 'Y') {
                       mailer.receiveSend(Incident, upIncident);
                     }
                   }
@@ -218,15 +218,15 @@ module.exports = {
               //완료 업데이트 성공 시 메일 전송
               User.findOne({
                 email: Incident.request_id
-              }, function (err, usermanage) {
+              }, function (err, user) {
                 if (err) {
                   return res.json({
                     success: false,
                     message: err
                   });
                 } else {
-                  if (usermanage != null) {
-                    if (usermanage.email_send_yn == 'Y') {
+                  if (user != null) {
+                    if (user.email_send_yn == 'Y') {
                       mailer.finishSend(Incident, upIncident);
                     }
                   }
@@ -374,15 +374,15 @@ module.exports = {
               //평가 완료 업데이트 성공 시 담당자에게 메일 전송
               User.findOne({
                 email: Incident.manager_email
-              }, function (err, usermanage) {
+              }, function (err, user) {
                 if (err) {
                   return res.json({
                     success: false,
                     message: err
                   });
                 } else {
-                  if (usermanage != null) {
-                    if (usermanage.email_send_yn == 'Y') {
+                  if (user != null) {
+                    if (user.email_send_yn == 'Y') {
                       mailer.evaluationSend(Incident, upIncident);
                     }
                   }

@@ -1,3 +1,134 @@
-<p>
-  user-list works!
-</p>
+<app-loading [condition]="isLoading"></app-loading>
+<app-toast></app-toast>
+<div class="svcd-body-content">
+  <app-page-header [title]="'사원정보관리'"></app-page-header>
+
+  <!-- start Search Area-->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card-box">
+        <form novalidate #f="ngForm" (ngSubmit)="onSubmit()" class="form-horizontal group-border-dashed">
+
+          <div class="form-group row">
+            <div class="col-lg-6 col-sm-12">
+              <mat-form-field class="mat-form-field2">
+                <mat-select [(ngModel)]="company_cd" 
+                            name="company_cd" 
+                            placeholder="회사명">
+                  <mat-option value="*">전체</mat-option>
+                  <mat-option *ngFor="let obj of companyObj" [value]="obj.company_cd">{{obj.company_nm}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-3 col-sm-12">
+              <mat-form-field>
+                <mat-select [(ngModel)]="using_yn" 
+                            name="using_yn" 
+                            (change)="onSubmit()" 
+                            placeholder="사용유무">
+                  <mat-option value="*">전체</mat-option>
+                  <mat-option *ngFor="let obj of using_ynObj" [value]="obj.value">{{obj.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-3 col-sm-12">
+              <mat-form-field>
+                <mat-select [(ngModel)]="searchType" 
+                            name="searchType" 
+                            (change)="onSubmit()" 
+                            placeholder="검색구분">
+                  <mat-option value="company_nm,employee_nm">전체</mat-option>
+                  <mat-option *ngFor="let obj of searchTypeObj" [value]="obj.value">{{obj.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+              <mat-form-field class="mat-form-field3">
+                <input  matInput 
+                        [(ngModel)]="searchText" 
+                        name="searchText" 
+                        type="input" 
+                        placeholder="검색어">
+              </mat-form-field>&nbsp;&nbsp;
+              <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
+                <span>조회</span>
+                <i class="fa fa-search m-r-5"></i>
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- end Search Area-->
+  <!-- end Search Area-->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card-box">
+        <!--table.table.table-bordered(id='dvData')-->
+        <iframe id="txtArea1" style="display:none"></iframe>
+        <table id="dvData" class="table table-hover">
+          <thead>
+            <tr>
+              <th>회사명</th>
+              <th>email</th>
+              <th class="text-center">사원명</th>
+              <th>부서명</th>
+              <th width="6%" class="text-center">직위</th>
+              <th width="14%" class="text-center">연락처</th>
+              <th width="6%" class="text-center">사용여부</th>
+              <th width="6%" class="text-center">메일발송</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of userObj" (click)="setDetail(userDetailModal, user)">
+              <td>{{user.company_nm}}</td>
+              <td class='text-center'>{{user.email}}</td>
+              <td class='text-center'>{{user.employee_nm}}</td>
+              <td class='text-center'>{{user.dept_nm}}</td>
+              <td class='text-center'>{{user.position_nm}}</td>
+              <td class='text-center'>{{user.hp_telno}}</td>
+              <td class='text-center'>{{user.using_yn}}</td>
+              <td class='text-center'>{{user.email_send_yn}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="dataTables_info">Showing 1 to 15 of
+            <span id="totalPage"></span> pages / 총
+            <span id="totalCnt"></span>개
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <ngb-pagination   [collectionSize]="totalDataCnt" 
+                            pageChange [(page)]="page" 
+                            [maxSize]="maxSize" 
+                            [pageSize]="pageDataSize"
+                            [rotate]="true" 
+                            [ellipses]="false" 
+                            [boundaryLinks]="true" 
+                            (pageChange)="pageChange($event)" 
+                            class="float-right">
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- start detail view modal -->
+<ng-template #userDetailModal let-c="close" let-d="dismiss">
+    <app-user-detail-a    [cValues]="this.c"
+                                [dValues]="this.d"
+                                [userDetail]="userDetail"
+                                (openerReload) = "reload()" 
+    ></app-user-detail-a>
+</ng-template>
+<!-- end detail view modal -->
