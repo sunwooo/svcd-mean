@@ -68,20 +68,14 @@ export class QnaDetailComponent implements OnInit {
   ngOnInit() {
     this.formData = this.qnaDetail;
     this.getCompany();
-     // alert(JSON.stringify(this.formData.company_cd));
     
+    //pop_yn에 따른 체크박스 체크
     if(this.formData.pop_yn == "Y"){
-        alert('y');
         this.isChecked = true;
     }else{
-        alert('n');
-        //isChecked = true;
         this.isChecked = false;
     }
 
-    
-    alert("A"+this.formData.pop_yn);
-     
      this.dropdownList = [
         /*
             { id: "1", itemName: "India" },
