@@ -350,5 +350,69 @@ module.exports = {
             message: err
         });
     }
+    },
+
+    getPopUpYN : (req, res, next) => {
+        var search = service.createSearch(req);
+
+        console.log("==========================================getPopUpYn=======================================");
+        console.log("==========================================1111111111111111111111=======================================");
+        console.log("req.session.company_cd : ", req.session.company_cd);
+        console.log("===========================================================================================");
+
+        var condition = {};
+        search.findOftenqna.company_cd =  {'$elemMatch': { id: req.session.company_cd}};
+        search.findOftenqna.pop_yn = "Y";
+
+        //console.log("search.findOftenqna : ", JSON.stringify(search.findOftenqna));
+
+
+        try {
+            /*
+            OftenQna.find({
+                company_cd: {
+                    $regex: new RegExp(req.session.company_cd, "i")
+                },
+                pop_yn : "Y"
+            }).exec(function (err, oftenQna) {
+            */
+            OftenQna.find(search.findOftenqna , function (err, oftenqna) {
+                
+                console.log("==============================================");
+                console.log("oftenqna :", oftenqna);
+                //logger.debug("company_cd", req.session.company_cd);
+                //logger.debug("oftenQna", JSON.stringify(oftenQna));
+                console.log("==============================================");
+
+                if (err) {
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                    //res.send(oftenQna);
+                    //res.json(oftenQna);
+                    //console.log("oftenqna :", oftenqna);
+
+                    var rtnData = {};
+                    rtnData.oftenqna = oftenqna;
+                    //rtnData.totalCnt = totalCnt;
+
+                    //logger.debug("=============================================");
+                    //logger.debug("rtnData.totalCnt : ", rtnData.totalCnt);
+                    //console.log("rtnData : ", JSON.stringify(rtnData));
+                    //logger.debug("=============================================");
+
+                    res.json(rtnData);
+
+                    console.log("rtnData.oftenqna : ", rtnData.oftenqna);
+
+
+                }
+            });
+        } catch (e) {
+            console.log('****************', e);
+        }
+        
     }
 }

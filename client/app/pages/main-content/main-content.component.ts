@@ -4,6 +4,7 @@ import { StatisticService } from '../../services/statistic.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IncidentService } from '../../services/incident.service';
 import { AuthService } from '../../services/auth.service';
+import { QnaService } from '../../services/qna.service';
 
 @Component({
     selector: 'app-main-content',
@@ -62,7 +63,8 @@ export class MainContentComponent implements OnInit {
     constructor(private auth: AuthService,
         private modalService: NgbModal,
         private statisticService: StatisticService,
-        private incidentService: IncidentService){
+        private incidentService: IncidentService,
+        private qnaService: QnaService){
     }
 
     ngOnInit() {
@@ -141,6 +143,19 @@ export class MainContentComponent implements OnInit {
         this.incidentService.getIncident(condition).subscribe(
             (res) => {
                 this.incidentList = res.incident;
+            },
+            (error : HttpErrorResponse) => {
+
+            }
+        )
+
+
+        
+        //팝업공지 기능
+        this.qnaService.popupCheck().subscribe(
+            (res) => {
+                console.log("res:", res);
+                //this.valuationChart = res;
             },
             (error : HttpErrorResponse) => {
 
