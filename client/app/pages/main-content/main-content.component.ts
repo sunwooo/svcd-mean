@@ -16,9 +16,12 @@ import { PopUpComponent } from '../../shared/pop-up/pop-up.component';
 export class MainContentComponent implements OnInit {
 
     //@ContentChild(PopUpComponent) noticeModal: any;
-    @ViewChild('popupModal') noticeModal:ElementRef;
+    @ViewChild('popupModal1') noticeModal1:ElementRef;
+    @ViewChild('popupModal2') noticeModal2:ElementRef;
+    @ViewChild('popupModal3') noticeModal3:ElementRef;
+    @ViewChild('popupModal4') noticeModal4:ElementRef;
+    @ViewChild('popupModal5') noticeModal5:ElementRef;
     public noticeList =  [];
-    public notice = {};
 
     private anyData: any;
     private anyDataForm: any; 
@@ -168,32 +171,23 @@ export class MainContentComponent implements OnInit {
             (res) => {
                 console.log("res:", res.oftenqna);
 
-
-                console.log("this.noticeModal : ", this.noticeModal);
+                console.log("this.noticeModal : ", this.noticeModal1);
                 this.noticeList = res.oftenqna;
 
-                this.noticeList.forEach(notice =>{
-            
-                    this.notice = notice;
-        
-                    console.log("notice : ", notice);
-                    
-                    //this.modalService.open(this.noticeModal, { windowClass: 'mdModal', centered: true });
-                    
-                    
-                    
-                    var modalRef = this.modalService.open(this.noticeModal,  { windowClass: 'mdModal', centered: true });
-                    console.log("modalRef : ", modalRef);
-                    modalRef.componentInstance.anyDataForm = this.anyData;
-                    
-                    modalRef.result.then((data) => {
-                        // on close
-                        console.log("1 data:", data);
-                    }, (reason) => {
-                        // on dismiss
-                        console.log("2 reason:", reason);
-                    });
-                });
+                for(var i = 0 ; i < 5 ; i++){
+                    if(this.noticeList[i]){
+                        if(i == 0)
+                            this.modalService.open(this.noticeModal1,  { windowClass: 'mdModal', centered: true });
+                        if(i == 1)
+                            this.modalService.open(this.noticeModal2,  { windowClass: 'mdModal', centered: true });
+                        if(i == 2)
+                            this.modalService.open(this.noticeModal3,  { windowClass: 'mdModal', centered: true });
+                        if(i == 3)
+                            this.modalService.open(this.noticeModal4,  { windowClass: 'mdModal', centered: true });
+                        if(i == 4)
+                            this.modalService.open(this.noticeModal5,  { windowClass: 'mdModal', centered: true });
+                    }
+                }
             },
             (error : HttpErrorResponse) => {
 

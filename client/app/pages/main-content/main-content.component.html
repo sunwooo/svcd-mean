@@ -175,15 +175,49 @@
 <!-- end empInfo modal -->
 
 <!-- start popup modal -->
-<ng-template #popupModal let-c="close" let-d="dismiss">
+<ng-template #popupModal1 let-c="close" let-d="dismiss">
     <app-pop-up [cValues]="this.c"
                     [dValues]="this.d"
-                    [popNotice]="notice"
+                    [popNotice]="noticeList[0]"
     ></app-pop-up>
 </ng-template>
 <!-- end popup modal -->
 
+<!-- start popup modal -->
+<ng-template #popupModal2 let-c="close" let-d="dismiss">
+    <app-pop-up [cValues]="this.c"
+                    [dValues]="this.d"
+                    [popNotice]="noticeList[1]"
+    ></app-pop-up>
+</ng-template>
+<!-- end popup modal -->
 
+<!-- start popup modal -->
+<ng-template #popupModal3 let-c="close" let-d="dismiss">
+    <app-pop-up [cValues]="this.c"
+                    [dValues]="this.d"
+                    [popNotice]="noticeList[2]"
+    ></app-pop-up>
+</ng-template>
+<!-- end popup modal -->
+
+<!-- start popup modal -->
+<ng-template #popupModal4 let-c="close" let-d="dismiss">
+    <app-pop-up [cValues]="this.c"
+                    [dValues]="this.d"
+                    [popNotice]="noticeList[3]"
+    ></app-pop-up>
+</ng-template>
+<!-- end popup modal -->
+
+<!-- start popup modal -->
+<ng-template #popupModal5 let-c="close" let-d="dismiss">
+    <app-pop-up [cValues]="this.c"
+                    [dValues]="this.d"
+                    [popNotice]="noticeList[4]"
+    ></app-pop-up>
+</ng-template>
+<!-- end popup modal -->
 
 
 <ng-template #content let-c="close" let-d="dismiss">
