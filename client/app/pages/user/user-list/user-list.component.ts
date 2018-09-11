@@ -13,8 +13,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
     public companyCd: string;
     public isLoading = true;
-    public userObj: any = [];                //조회 user
-    public userDetail: any;               //선택 인시던트 id
+    public userObj: any = [];                   //조회 user
+    public userDetail: any;                     //선택 인시던트 id
+    public selectedIdx: number = -1;            //삭제를 위한 인덱스, 상세보기 시 값변경
 
     public searchType: string = "";             //검색구분
     public searchText: string = "";             //검색어
@@ -129,8 +130,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
         this.getUsermanage();
     }
 
-    setDetail(modalId, user) {
+    /**
+     * 상세보기창 호출
+     * @param modalId 모달창 id
+     * @param user 조회할 user 객체
+     * @param idx  삭제를 위한 인덱스
+     */
+    setDetail(modalId, user, idx) {
         this.userDetail = user;
+        this.selectedIdx = idx;
         this.modalService.open(modalId, { windowClass: 'xlModal', centered: true });
     }
 

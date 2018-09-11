@@ -86,6 +86,7 @@ import { TreeviewModule } from 'ngx-treeview';
 import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
 import { HigherProcessDetailComponent } from './pages/process/higher-process-detail/higher-process-detail.component';
 import { UserDetailAComponent } from './pages/user/user-detail-a/user-detail-a.component';
+import { PopUpComponent } from './shared/pop-up/pop-up.component';
 
 const PAGES = [
     HomeComponent,
@@ -146,8 +147,8 @@ const PAGES = [
         DashboardMainComponent,
         ManagerDashboardComponent,
         HigherProcessDetailComponent,
-        QnaNewComponent
-    ],
+        QnaNewComponent, 
+        PopUpComponent    ],
     imports: [
         BrowserModule,
         RoutingModule,
@@ -177,7 +178,8 @@ const PAGES = [
         ExcelService,
         QnaService,
         MyProcessService,
-        CompanyProcessService
+        CompanyProcessService,
+        PopUpComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]

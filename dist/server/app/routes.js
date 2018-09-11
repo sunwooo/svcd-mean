@@ -26,8 +26,9 @@ router.post('/login', userCtrl.login);    //로그인
 router.post('/user/addUser', ssc.sessionCheck, userCtrl.insert);    //사용자 추가등록
 router.get('/user/empInfo', ssc.sessionCheck, userCtrl.empInfo);    //사용자 정보
 router.get('/user/findEmp', ssc.sessionCheck, userCtrl.findEmp);    //사용자 찾기
-router.get('/user/list', ssc.sessionCheck, userCtrl.list);    //사원정보관리
-router.get('/user/update', ssc.sessionCheck, userCtrl.update);    //사원정보수정
+router.get('/user/list', ssc.sessionCheck, userCtrl.list);          //사원정보관리
+router.put('/user/update', ssc.sessionCheck, userCtrl.update);      //사원정보수정
+router.delete('/user/delete', ssc.sessionCheck, userCtrl.delete);   //사원정보삭제
 
 
 //Common api route
@@ -74,11 +75,12 @@ router.put('/higherProcess/update', ssc.sessionCheck, higherProcessCtrl.update);
 
 
 //oftenqna route
-router.get('/qna/list', ssc.sessionCheck, oftenQnaCtrl.list);         //자주묻는질문과답 조회(관리자)
-router.get('/qna/userlist', ssc.sessionCheck, oftenQnaCtrl.userlist); //자주묻는질문과답 조회(사용자)
-router.put('/qna/update', ssc.sessionCheck, oftenQnaCtrl.update);     //자주묻는질문과답 수정
-router.delete('/qna/delete', ssc.sessionCheck, oftenQnaCtrl.delete);  //자주묻는질문과답 삭제
-router.post('/qna/new', ssc.sessionCheck, oftenQnaCtrl.insert);       //자주묻는질문과답 등록
+router.get('/qna/list', ssc.sessionCheck, oftenQnaCtrl.list);               //자주묻는질문과답 조회(관리자)
+router.get('/qna/userlist', ssc.sessionCheck, oftenQnaCtrl.userlist);       //자주묻는질문과답 조회(사용자)
+router.put('/qna/update', ssc.sessionCheck, oftenQnaCtrl.update);           //자주묻는질문과답 수정
+router.delete('/qna/delete', ssc.sessionCheck, oftenQnaCtrl.delete);        //자주묻는질문과답 삭제
+router.post('/qna/new', ssc.sessionCheck, oftenQnaCtrl.insert);             //자주묻는질문과답 등록
+router.get('/qna/getPopUpYN', ssc.sessionCheck, oftenQnaCtrl.getPopUpYN);   //팝업공지 체크 조회
 
 
 //myProcess route

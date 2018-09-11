@@ -1,0 +1,21 @@
+<app-loading [condition]="isLoading"></app-loading>
+<!-- popup Notice Modal-->
+<div class="modal-header">
+  <h5 class="modal-title float-left" >{{popNotice?.title}}</h5>
+  <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
+</div>
+<div class="modal-body">
+    <div class="col-sm-9">
+        <p><span [innerHTML]="popNotice?.content | nl2br"></span></p>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="col-sm-9">
+        <label for='pop-day' (click)="closePopup()">
+            {{popNotice?._id}}
+            <input id='pop-day' value='' name='pop-day' type='checkbox'/> 하루동안 보지 않기
+        </label>
+    </div>
+</div>
+
+

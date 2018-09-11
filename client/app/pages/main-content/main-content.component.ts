@@ -4,6 +4,9 @@ import { StatisticService } from '../../services/statistic.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IncidentService } from '../../services/incident.service';
 import { AuthService } from '../../services/auth.service';
+import { QnaService } from '../../services/qna.service';
+import { PopUpComponent } from '../../shared/pop-up/pop-up.component';
+
 
 @Component({
     selector: 'app-main-content',
@@ -11,6 +14,14 @@ import { AuthService } from '../../services/auth.service';
     styleUrls: ['./main-content.component.scss']
 })
 export class MainContentComponent implements OnInit {
+
+    //@ContentChild(PopUpComponent) noticeModal: any;
+    @ViewChild('popupModal') noticeModal:ElementRef;
+    public noticeList =  [];
+    public notice = {};
+
+    private anyData: any;
+    private anyDataForm: any; 
 
     /** being chart setting */
     public view1: any[] = [350, 200];
@@ -58,11 +69,13 @@ export class MainContentComponent implements OnInit {
     public incidentList;
     public incidentDetail: any;                 //선택 인시던트 id
     public empEmail: string = "";               //팝업 조회용 이메일
+    public popupNotice: string = "";            //팝업 조회용 QNA공지
 
     constructor(private auth: AuthService,
         private modalService: NgbModal,
         private statisticService: StatisticService,
-        private incidentService: IncidentService){
+        private incidentService: IncidentService,
+        private qnaService: QnaService){
     }
 
     ngOnInit() {
@@ -71,6 +84,7 @@ export class MainContentComponent implements OnInit {
         this.statisticService.getStatusCdCnt().subscribe(
             (res) => {  
                 var statusArray = res;
+                
                 var chart1 = [];
                 var chart2 = [];
                 statusArray.forEach((val, idx) => {
@@ -147,6 +161,48 @@ export class MainContentComponent implements OnInit {
             }
         )
 
+
+        
+        //팝업공지 기능
+        this.qnaService.popupCheck().subscribe(
+            (res) => {
+                console.log("res:", res.oftenqna);
+
+
+                console.log("this.noticeModal : ", this.noticeModal);
+                this.noticeList = res.oftenqna;
+
+                this.noticeList.forEach(notice =>{
+            
+                    this.notice = notice;
+        
+                    console.log("notice : ", notice);
+                    
+                    //this.modalService.open(this.noticeModal, { windowClass: 'mdModal', centered: true });
+                    
+                    
+                    
+                    var modalRef = this.modalService.open(this.noticeModal,  { windowClass: 'mdModal', centered: true });
+                    console.log("modalRef : ", modalRef);
+                    modalRef.componentInstance.anyDataForm = this.anyData;
+                    
+                    modalRef.result.then((data) => {
+                        // on close
+                        console.log("1 data:", data);
+                    }, (reason) => {
+                        // on dismiss
+                        console.log("2 reason:", reason);
+                    });
+                });
+            },
+            (error : HttpErrorResponse) => {
+
+            }
+        )
+
+       
+
+
     }
 
     onSelect(modalId, data) {
@@ -174,6 +230,7 @@ export class MainContentComponent implements OnInit {
         this.empEmail = email;
         this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
     }
+
     /*
     openBackDropCustomClass(content) {
       this.modalService.open(content, {backdropClass: 'light-blue-backdrop'});
