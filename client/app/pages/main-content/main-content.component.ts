@@ -164,8 +164,6 @@ export class MainContentComponent implements OnInit {
             }
         )
 
-
-        
         //팝업공지 기능
         this.qnaService.popupCheck().subscribe(
             (res) => {
