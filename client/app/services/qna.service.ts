@@ -61,5 +61,13 @@ export class QnaService {
     addQna(qna: NgForm): Observable<any> {
         return this.http.post<any>('/api/qna/new', qna, {withCredentials:true});
     }
+    
+    /**
+     * popup check
+     */
+    popupCheck(): Observable<any>{
+        console.log("popupCheck().....");
+        return this.http.get<any>('/api/qna/getPopUpYN');
+    }
 
 }

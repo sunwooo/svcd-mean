@@ -1,9 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ContentChild, ElementRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatisticService } from '../../services/statistic.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IncidentService } from '../../services/incident.service';
 import { AuthService } from '../../services/auth.service';
+import { QnaService } from '../../services/qna.service';
+import { PopUpComponent } from '../../shared/pop-up/pop-up.component';
+
 
 @Component({
     selector: 'app-main-content',
@@ -11,6 +14,8 @@ import { AuthService } from '../../services/auth.service';
     styleUrls: ['./main-content.component.scss']
 })
 export class MainContentComponent implements OnInit {
+
+    @ContentChild(PopUpComponent) noticeModal: any;
 
     /** being chart setting */
     public view1: any[] = [350, 200];
@@ -58,11 +63,13 @@ export class MainContentComponent implements OnInit {
     public incidentList;
     public incidentDetail: any;                 //선택 인시던트 id
     public empEmail: string = "";               //팝업 조회용 이메일
+    public popupNotice: string = "";            //팝업 조회용 QNA공지
 
     constructor(private auth: AuthService,
         private modalService: NgbModal,
         private statisticService: StatisticService,
-        private incidentService: IncidentService){
+        private incidentService: IncidentService,
+        private qnaService: QnaService){
     }
 
     ngOnInit() {
@@ -147,6 +154,26 @@ export class MainContentComponent implements OnInit {
             }
         )
 
+
+        
+        //팝업공지 기능
+        this.qnaService.popupCheck().subscribe(
+            (res) => {
+                console.log("res:", res.oftenqna);
+                //this.popupNotice = popup;
+                //this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
+                //this.getPopUp('popupModal', res.oftenqna);
+                //this.popupNotice = popup;
+                //this.modalService.open('popupModal', { windowClass: 'xlModal', centered: true});
+
+                console.log("this.noticeModal : ", this.noticeModal);
+                this.getPopUp(this.noticeModal,res.oftenqna);
+            },
+            (error : HttpErrorResponse) => {
+
+            }
+        )
+
     }
 
     onSelect(modalId, data) {
@@ -174,6 +201,15 @@ export class MainContentComponent implements OnInit {
         this.empEmail = email;
         this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
     }
+
+    getPopUp(modalId, popup){
+        console.log("modalId : ", modalId);
+        console.log("popup : ", popup);
+
+        this.popupNotice = popup;
+        this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
+    }
+
     /*
     openBackDropCustomClass(content) {
       this.modalService.open(content, {backdropClass: 'light-blue-backdrop'});

@@ -32,6 +32,8 @@ export class QnaDetailComponent implements OnInit {
     @Input() cValues;              //모달창 닫기용
     @Input() dValues;              //모달창 무시용
     @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
+   
+    public isChecked;
 
     private formData: any = {};    //전송용 formData
     private attach_file: any = []; //mongodb 저장용 첨부파일 배열
@@ -49,6 +51,8 @@ export class QnaDetailComponent implements OnInit {
 
     
 
+    
+
 
   constructor(private auth: AuthService,
         public toast: ToastComponent,
@@ -62,11 +66,16 @@ export class QnaDetailComponent implements OnInit {
 
 
   ngOnInit() {
-      this.formData = this.qnaDetail;
-      this.getCompany();
-     // alert(JSON.stringify(this.formData.company_cd));
-       
-     
+    this.formData = this.qnaDetail;
+    this.getCompany();
+    
+    //pop_yn에 따른 체크박스 체크
+    if(this.formData.pop_yn == "Y"){
+        this.isChecked = true;
+    }else{
+        this.isChecked = false;
+    }
+
      this.dropdownList = [
         /*
             { id: "1", itemName: "India" },
@@ -141,7 +150,6 @@ export class QnaDetailComponent implements OnInit {
         }
   }
 
- 
 
   /**
      * mongodb 저장용 서비스 호출
@@ -169,8 +177,11 @@ export class QnaDetailComponent implements OnInit {
 
                 if(res.success){
                     //리스트와 공유된 oftenqnaDetail 수정
-                    this.qnaDetail.title   = this.formData.title;
+                    this.qnaDetail.title     = this.formData.title;
                     this.qnaDetail.content   = this.formData.content;
+                    this.qnaDetail.pop_yn    = this.formData.pop_yn;
+
+                    console.log("successssssssssssssssss======================>", this.qnaDetail.pop_yn);
                     
 
                     this.openerReload.emit();
@@ -195,6 +206,9 @@ export class QnaDetailComponent implements OnInit {
      */
     updateQna(form: NgForm) {
 
+
+console.log("xxxxxxxxxxxxxxxxxxxx : ",this.isChecked);
+
         //Template form을 전송용 formData에 저장 
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
@@ -202,10 +216,16 @@ export class QnaDetailComponent implements OnInit {
   
         this.formData.title = form.value.oftenqna.title;
         this.formData.user_nm = this.employee_nm;
+        if(this.isChecked){
+            this.formData.pop_yn = "Y";
+        }else{
+            this.formData.pop_yn = "N";
+        }
 
         console.log('============= updateQna ===============');
         console.log('this.formData.title :' , this.formData.title);
         console.log('this.formData.content :' , this.formData.content);
+        console.log("this.formData.pop_yn111111111111111111111111111 : ",  this.isChecked);
         console.log("this.uploader : ", this.uploader);
         console.log("this.formData : ", this.formData);
         console.log('============================================');

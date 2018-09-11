@@ -75,11 +75,12 @@ router.put('/higherProcess/update', ssc.sessionCheck, higherProcessCtrl.update);
 
 
 //oftenqna route
-router.get('/qna/list', ssc.sessionCheck, oftenQnaCtrl.list);         //자주묻는질문과답 조회(관리자)
-router.get('/qna/userlist', ssc.sessionCheck, oftenQnaCtrl.userlist); //자주묻는질문과답 조회(사용자)
-router.put('/qna/update', ssc.sessionCheck, oftenQnaCtrl.update);     //자주묻는질문과답 수정
-router.delete('/qna/delete', ssc.sessionCheck, oftenQnaCtrl.delete);  //자주묻는질문과답 삭제
-router.post('/qna/new', ssc.sessionCheck, oftenQnaCtrl.insert);       //자주묻는질문과답 등록
+router.get('/qna/list', ssc.sessionCheck, oftenQnaCtrl.list);               //자주묻는질문과답 조회(관리자)
+router.get('/qna/userlist', ssc.sessionCheck, oftenQnaCtrl.userlist);       //자주묻는질문과답 조회(사용자)
+router.put('/qna/update', ssc.sessionCheck, oftenQnaCtrl.update);           //자주묻는질문과답 수정
+router.delete('/qna/delete', ssc.sessionCheck, oftenQnaCtrl.delete);        //자주묻는질문과답 삭제
+router.post('/qna/new', ssc.sessionCheck, oftenQnaCtrl.insert);             //자주묻는질문과답 등록
+router.get('/qna/getPopUpYN', ssc.sessionCheck, oftenQnaCtrl.getPopUpYN);   //팝업공지 체크 조회
 
 
 //myProcess route
