@@ -20,6 +20,9 @@ export class MainContentComponent implements OnInit {
     public noticeList =  [];
     public notice = {};
 
+    private anyData: any;
+    private anyDataForm: any; 
+
     /** being chart setting */
     public view1: any[] = [350, 200];
     public view2: any[] = [700, 223];
@@ -81,6 +84,7 @@ export class MainContentComponent implements OnInit {
         this.statisticService.getStatusCdCnt().subscribe(
             (res) => {  
                 var statusArray = res;
+                
                 var chart1 = [];
                 var chart2 = [];
                 statusArray.forEach((val, idx) => {
@@ -174,8 +178,21 @@ export class MainContentComponent implements OnInit {
         
                     console.log("notice : ", notice);
                     
-                    this.modalService.open(this.noticeModal, { windowClass: 'mdModal', centered: true });
-    
+                    //this.modalService.open(this.noticeModal, { windowClass: 'mdModal', centered: true });
+                    
+                    
+                    
+                    var modalRef = this.modalService.open(this.noticeModal,  { windowClass: 'mdModal', centered: true });
+                    console.log("modalRef : ", modalRef);
+                    modalRef.componentInstance.anyDataForm = this.anyData;
+                    
+                    modalRef.result.then((data) => {
+                        // on close
+                        console.log("1 data:", data);
+                    }, (reason) => {
+                        // on dismiss
+                        console.log("2 reason:", reason);
+                    });
                 });
             },
             (error : HttpErrorResponse) => {

@@ -21,7 +21,7 @@ export class PopUpComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-   console.log("popNotice : ", this.popNotice);
+   //console.log("popNotice : ", this.popNotice);
     //if(this.popup != ""){
  
       //this.getEmpInfo(this.popup);
