@@ -142,6 +142,7 @@ export class AuthService {
         this.cookieService.set('jikchk_nm', decodedUser.jikchk_nm, expiredDate);
         this.cookieService.set('office_tel_no', decodedUser.office_tel_no, expiredDate);
         this.cookieService.set('hp_telno', decodedUser.hp_telno, expiredDate);
+        this.cookieService.set('token', decodedUser.token, expiredDate);
 
         /*
         this.cookieService.set('_id', decodedUser._id, {expire:expiredDate});

@@ -145,7 +145,9 @@ const PAGES = [
         ProcessGubunCodeDetailComponent,
         DashboardMainComponent,
         ManagerDashboardComponent,
-        HigherProcessDetailComponent,        QnaNewComponent    ],
+        HigherProcessDetailComponent,
+        QnaNewComponent
+    ],
     imports: [
         BrowserModule,
         RoutingModule,
@@ -158,8 +160,6 @@ const PAGES = [
         TruncateModule,
         NgxChartsModule,
         Nl2BrPipeModule,
-
-
         TreeviewModule.forRoot(),
         AngularMultiSelectModule
     ],
