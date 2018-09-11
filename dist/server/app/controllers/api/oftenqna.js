@@ -364,7 +364,7 @@ module.exports = {
         search.findOftenqna.company_cd =  {'$elemMatch': { id: req.session.company_cd}};
         search.findOftenqna.pop_yn = "Y";
 
-        //console.log("search.findOftenqna : ", JSON.stringify(search.findOftenqna));
+        console.log("search.findOftenqna : ", JSON.stringify(search.findOftenqna));
 
 
         try {

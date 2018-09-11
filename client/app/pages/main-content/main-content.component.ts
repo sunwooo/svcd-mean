@@ -1,4 +1,4 @@
-import { Component, OnInit, ContentChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatisticService } from '../../services/statistic.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -15,7 +15,10 @@ import { PopUpComponent } from '../../shared/pop-up/pop-up.component';
 })
 export class MainContentComponent implements OnInit {
 
-    @ContentChild(PopUpComponent) noticeModal: any;
+    //@ContentChild(PopUpComponent) noticeModal: any;
+    @ViewChild('popupModal') noticeModal:ElementRef;
+    public noticeList =  [];
+    public notice = {};
 
     /** being chart setting */
     public view1: any[] = [350, 200];
@@ -160,19 +163,28 @@ export class MainContentComponent implements OnInit {
         this.qnaService.popupCheck().subscribe(
             (res) => {
                 console.log("res:", res.oftenqna);
-                //this.popupNotice = popup;
-                //this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
-                //this.getPopUp('popupModal', res.oftenqna);
-                //this.popupNotice = popup;
-                //this.modalService.open('popupModal', { windowClass: 'xlModal', centered: true});
+
 
                 console.log("this.noticeModal : ", this.noticeModal);
-                this.getPopUp(this.noticeModal,res.oftenqna);
+                this.noticeList = res.oftenqna;
+
+                this.noticeList.forEach(notice =>{
+            
+                    this.notice = notice;
+        
+                    console.log("notice : ", notice);
+                    
+                    this.modalService.open(this.noticeModal, { windowClass: 'mdModal', centered: true });
+    
+                });
             },
             (error : HttpErrorResponse) => {
 
             }
         )
+
+       
+
 
     }
 
@@ -199,14 +211,6 @@ export class MainContentComponent implements OnInit {
 
     getEmpInfo(modalId, email){
         this.empEmail = email;
-        this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
-    }
-
-    getPopUp(modalId, popup){
-        console.log("modalId : ", modalId);
-        console.log("popup : ", popup);
-
-        this.popupNotice = popup;
         this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
     }
 

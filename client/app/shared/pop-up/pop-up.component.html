@@ -1,25 +1,12 @@
 <app-loading [condition]="isLoading"></app-loading>
-<!-- popup Noice Modal-->
+<!-- popup Notice Modal-->
 <div class="modal-header">
-  <h4 class="modal-title float-left">Notice</h4>
+  <h5 class="modal-title float-left" >{{popNotice?.title}}</h5>
+  <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
 </div>
 <div class="modal-body">
-  <div class="row">
-    <div class="col-sm-3">
-      <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
-    </div>
     <div class="col-sm-9">
-        aaa
+        <p><span [innerHTML]="popNotice?.content | nl2br"></span></p>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-3">
-      <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
-    </div>
-    <div class="col-sm-9">
-        <div class="card-box" align="center">
-            <p><b>조회된 데이타가 없습니다.</b></p>
-        </div>
-    </div>
-  </div>
 </div>
+
