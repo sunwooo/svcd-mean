@@ -45,11 +45,11 @@ export class UserService {
         console.log("email : ", email);
         console.log("======================================================");
 
-        var headers = new HttpHeaders();            
+        var headers = new HttpHeaders();
         headers.set('Content-Type', 'application/json');
         //headers.set('Access-Control-Allow-Origin', '*');
 
-        return this.http.get<any>('http://gw.isu.co.kr/COVIWeb/api/UserSimpleData.aspx?email='+email, {headers} );
+        return this.http.get<any>('http://gw.isu.co.kr/COVIWeb/api/UserSimpleData.aspx?email=' + email, { headers });
     }
 
 
@@ -57,7 +57,7 @@ export class UserService {
     * 
     * @param user 
     */
-    getEmpInfo(email: string): Observable <any> {
+    getEmpInfo(email: string): Observable<any> {
 
         console.log("========getEmpInfo(email : string): Observable<any>========");
         console.log("email : ", email);
@@ -74,7 +74,7 @@ export class UserService {
     findEmp(empName: string): Observable<any> {
         return this.http.get<any>('/api/user/findEmp', { params: new HttpParams().set('empName', empName) });
     }
-    
+
     /**
      * 사용자 리스트 조회
      * @param condition 
@@ -87,11 +87,25 @@ export class UserService {
     }
 
     /**
-       * 사원정보 수정
-       * @param form 
-      */
-    putUser(form: NgForm): Observable<any> {
-        return this.http.put<any>('/api/user/update', form.value, { withCredentials: true });
+     * 사용자 수정
+     * @param form 
+     */
+    putUser(form): Observable<any>{
+        //console.log("=== user.services putUser form.value : ", form);
+        return this.http.put<any>('/api/user/update', form, { withCredentials: true });
     }
 
+    /**
+     * 사용자 삭제
+     * @param userId
+     */
+    delete(userId): Observable<any>{
+        //console.log("=== user.services delete userId : ", userId);
+
+        var body = {_id:userId};
+        var httpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' }), body: body
+        };
+        return this.http.delete<any>('/api/user/delete', httpOptions);
+    }
 }

@@ -4,6 +4,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../../services/user.service';
 import { NgForm } from '@angular/forms';
 import { CommonApiService } from '../../../services/common-api.service';
+import { ToastComponent } from '../../../shared/toast/toast.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-user-detail-a',
@@ -12,6 +14,7 @@ import { CommonApiService } from '../../../services/common-api.service';
 })
 export class UserDetailAComponent implements OnInit {
     @Input() userDetail: any; //조회 user
+    @Input() user_id: any;
     @Input() cValues;  //모달창 닫기용
     @Input() dValues;  //모달창 무시용
     @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
@@ -19,8 +22,8 @@ export class UserDetailAComponent implements OnInit {
     public show_addr: string;
     public zip_cd: string;
     public addr: string;
-    public companyObj: any = [];                //회사리스트
-    private formData: any = {};                 //전송용 formData
+    public companyObj: any = [];                //회사리스트 Object
+    public selectedComIdx = 0;                  //회사리스트 Object내 회사  index
 
     public userFlagObj: { name: string; value: string; }[] = [
         { name: '그룹관리자', value: '1' },
@@ -46,14 +49,12 @@ export class UserDetailAComponent implements OnInit {
         { name: '미사용', value: 'N' }
     ];
 
-    constructor(private userService: UserService,
-        private commonApi: CommonApiService) { }
+    constructor(private userService: UserService
+        , private commonApi: CommonApiService
+        , private toast: ToastComponent
+        ,private router: Router) { }
 
     ngOnInit() {
-        this.zip_cd = this.userDetail.zip_cd;
-        this.addr = this.userDetail.addr;
-        this.show_addr = this.userDetail.zip_cd + '    ' + this.userDetail.addr;
-
         this.getCompanyList();
     }
 
@@ -63,8 +64,17 @@ export class UserDetailAComponent implements OnInit {
     getCompanyList() {
         this.commonApi.getCompany(this.userDetail).subscribe(
             (res) => {
-                //console.log("res", res);
+                //console.log("res : ", res);
                 this.companyObj = res;
+
+                //idx를 찾아서 조회시 초기값 세팅
+                var tmpIdx = 0;
+                this.companyObj.forEach(element => {
+                    if (element.company_cd == this.userDetail.company_cd) {
+                        this.selectedComIdx = tmpIdx;
+                    }
+                    tmpIdx++;
+                });
             },
             (error: HttpErrorResponse) => {
             }
@@ -74,10 +84,9 @@ export class UserDetailAComponent implements OnInit {
     /**
      * 회사리스트 선택후 company_cd, compant_nm 세팅
      */
-    setCompany() {
-        console.log('companyObj.company_cd > ', this.userDetail.company_select);
-        this.userDetail.company_cd = this.companyObj.company_cd;
-        this.userDetail.compant_nm = this.companyObj.compant_nm;
+    setCompany(idx) {
+        this.userDetail.company_cd = this.companyObj[idx].company_cd;
+        this.userDetail.company_nm = this.companyObj[idx].company_nm;
     }
 
     /**
@@ -87,18 +96,16 @@ export class UserDetailAComponent implements OnInit {
     updateUser(form: NgForm) {
 
         form.value.user.id = this.userDetail._id;
-        console.log('=======================================save(form : NgForm)=======================================');
-        console.log("form.value", form.value);
-        console.log("form", form);
-        console.log('=================================================================================================');
 
+        //console.log('======= save(form : NgForm) =======');
+        //console.log("form.value > ", form.value);
+        //console.log("form > ", form);
+        //console.log("userDetail > ", this.userDetail);
+        //console.log('===================================');
 
-
-        this.userService.putUser(form).subscribe(
-            res => {
-                //업데이트가 성공하면 진행 상태값 변경
+        this.userService.putUser(form.value).subscribe(
+            (res) => {
                 if (res.success) {
-                    //리스트와 공유된 userDetail 수정
                     this.userDetail.company_cd = form.value.company_cd;
                     this.userDetail.company_nm = form.value.company_nm;
                     this.userDetail.sabun = form.value.sabun;
@@ -115,18 +122,40 @@ export class UserDetailAComponent implements OnInit {
                     this.userDetail.access_yn = form.value.access_yn;
                     this.userDetail.using_yn = form.value.using_yn;
 
+                    this.toast.open('수정되었습니다.', 'success');
                     this.openerReload.emit();
 
                     //모달창 닫기
                     this.cValues('Close click');
                 }
-            }
-            ,
+            },
             (error: HttpErrorResponse) => {
-
+                this.toast.open('오류입니다. ' + error.message, 'danger');
             }
         );
+    }
 
+    /**
+     * 사용자관리 삭제
+     * @param higherProcessId
+     */
+    deleteaUser(userId) {
+        //console.log("deleteaUser userId :" , userId);
+
+        this.userService.delete(userId).subscribe(
+            (res) => {
+                if(res.success){
+                    this.toast.open('삭제되었습니다.', 'success');
+                    this.openerReload.emit();
+
+                    //모달창 닫기
+                    this.cValues('Close click');
+                }
+            },
+            (error: HttpErrorResponse) => {
+                this.toast.open('오류입니다. ' + error.message, 'danger');
+            },
+        );
     }
 
     /**
