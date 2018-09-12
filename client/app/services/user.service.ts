@@ -100,7 +100,7 @@ export class UserService {
      * @param form 
      */
     insertUser(form): Observable<any>{
-        console.log("=== user.services insertUser form.value : ", form);
+        //console.log("=== user.services insertUser form.value : ", form);
         return this.http.post<any>('/api/user/insertUser', form, { withCredentials: true });
     }
 
