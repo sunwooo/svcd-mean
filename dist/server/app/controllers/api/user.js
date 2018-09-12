@@ -38,20 +38,34 @@ module.exports = {
          * user 테이블에 존재않을 시 그룹웨어 검색  
          */
         async.waterfall([function (callback) {
-          User.findOne(condition).exec(function (err, user) {
-            if (user != null) {
+            User.findOne(condition).exec(function (err, user) {
+              if (user != null) {
 
-              if (user.authenticate(req.body.password) //비밀번호가 일치하면 - 고객사
-                ||
-                req.query.key == "$2a$10$0bnBGRBBgiLTMPc8M8LZIuNjErIdMLGOI6SPjLxlIVIhi81HOA0U6" //제공된 키값으로 요청(링크)되면 - 고객사(stlc)
-              ) {
-                if (user.access_yn == 'Y') {
-                  user.status = 'OK';
-                } else {
-                  user.status = 'FAIL';
+                if (user.authenticate(req.body.password) //비밀번호가 일치하면 - 고객사
+                  ||
+                  req.query.key == "$2a$10$0bnBGRBBgiLTMPc8M8LZIuNjErIdMLGOI6SPjLxlIVIhi81HOA0U6" //제공된 키값으로 요청(링크)되면 - 고객사(stlc)
+                ) {
+                  if (user.access_yn == 'Y') {
+                    user.status = 'OK';
+                  } else {
+                    user.status = 'FAIL';
+                  }
+                  callback(null, user);
+                } else { //비밀번호 일치하지 않으면 그룹사 권한별
+                  request({
+                    uri: CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password),
+                    headers: {
+                      'Content-type': 'application/json'
+                    },
+                    method: "GET",
+                  }, function (err, response, gwUser) {
+                    var userInfo = JSON.parse(gwUser);
+                    userInfo.user_flag = user.user_flag;
+                    userInfo.group_flag = 'in';
+                    callback(null, userInfo);
+                  });
                 }
-                callback(null, user);
-              } else { //비밀번호 일치하지 않으면 그룹사 권한별
+              } else { //user테이블에 계정이 존재하지 않으면 그룹사 일반계정
                 request({
                   uri: CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password),
                   headers: {
@@ -60,35 +74,21 @@ module.exports = {
                   method: "GET",
                 }, function (err, response, gwUser) {
                   var userInfo = JSON.parse(gwUser);
-                  userInfo.user_flag = user.user_flag;
+                  //운영 시 9로 수정
+                  userInfo.user_flag = '9';
+                  //userInfo.user_flag = '5';
                   userInfo.group_flag = 'in';
                   callback(null, userInfo);
                 });
               }
-            } else { //user테이블에 계정이 존재하지 않으면 그룹사 일반계정
-              request({
-                uri: CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password),
-                headers: {
-                  'Content-type': 'application/json'
-                },
-                method: "GET",
-              }, function (err, response, gwUser) {
-                var userInfo = JSON.parse(gwUser);
-                //운영 시 9로 수정
-                userInfo.user_flag = '9';
-                //userInfo.user_flag = '5';
-                userInfo.group_flag = 'in';
-                callback(null, userInfo);
-              });
-            }
-          });
+            });
           },
           function (userInfo, callback) { //토큰 발급
             try {
               var condition = {}; //조건
               condition.email = req.body.email; //계정
               UserToken.deleteOne(condition, function (err, dut) {
-          if (!err) {
+                if (!err) {
                   UserToken.create(condition, function (err, ut) {
                     if (!err) {
                       userInfo.token = ut.token;
@@ -367,7 +367,6 @@ module.exports = {
     /**
      * 사용자 수정
      */
-     */
     update: (req, res, next) => {
       req.body.user.updatedAt = Date.now();
 
@@ -423,9 +422,8 @@ module.exports = {
         console.log("user controller delete error > ", e);
       }
     },
-  },
 
-	/**
+    /**
      * 사용자관리 추가
      */
     insertUser: (req, res, next) => {
@@ -481,8 +479,10 @@ module.exports = {
       });
       */
     }
-  },
-}
+
+  }, //user.js module done
+
+
   /**
    * 배열합치기
    * @param {} trg1 
