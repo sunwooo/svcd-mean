@@ -1,19 +1,36 @@
 <app-loading [condition]="isLoading"></app-loading>
-<!-- popup Notice Modal-->
+<!-- popup Noice Modal-->
 <div class="modal-header">
-  <h5 class="modal-title float-left" >{{popNotice?.title}}</h5>
-  <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
+  <h4 class="modal-title float-left">Notice</h4>
+  <h4 class="modal-title float-left">{{popNotice?.title}}</h4>
+
 </div>
 <div class="modal-body">
-    <div class="col-sm-9">
+  <div class="row">
+    <div class="col-sm-3">
+      <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
+    </div>
+    <div class="col-lg-9">
         <p><span [innerHTML]="popNotice?.content | nl2br"></span></p>
     </div>
+    <div class="col-sm-9">
+        aaa
 </div>
 <div class="modal-footer">
-    <div class="col-sm-9">
+    <div class="col-lg-10">
         <mat-checkbox [(ngModel)]="pop_day" [ngModelOptions]="{standalone: true}" >하루동안 열지 않기</mat-checkbox>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
+    </div>
+    <div class="col-lg-2">
         <button id='pop-close-btn' type='button' data-dismiss='modal' class='btn btn-default' (click)="closePopup(popNotice?._id)">Close</button>
     </div>
+  </div>
 </div>
+</div>
+
 
 

@@ -218,12 +218,4 @@ export class IncidentListCompleteComponent implements OnInit {
     }
     
 
-    /*
-    reWrite(incident): void {
-      console.log("reWrite() incident ==========>", incident);
-      let link = ['/svcd/1110/:id', incident.id];
-      this.router.navigate(link);
-    }
-    */
-
 }
