@@ -67,7 +67,12 @@ function createOrCondition(req){
             });
         }
     }
+    if(req.query.complete){
+        OrQueries.push({'status_cd':'3'});
+        OrQueries.push({'status_cd':'4'});
+    }
     return OrQueries;
+    
 }
 
 

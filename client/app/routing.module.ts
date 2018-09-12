@@ -29,6 +29,7 @@ import { QnaMngComponent } from './pages/qna/qna-mng/qna-mng.component';
 import { QnaListComponent } from './pages/qna/qna-list/qna-list.component';
 import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
 import { UserListComponent } from './pages/user/user-list/user-list.component';
+import { IncidentListCompleteComponent } from './pages/incident/incident-list-complete/incident-list-complete.component';
 
 const routes: Routes = [
 
@@ -42,6 +43,7 @@ const routes: Routes = [
             { path: '1100', component: IncidentNewComponent },
             { path: '1200', component: IncidentListComponent },
             { path: '1300', component: QnaListComponent },
+            { path: '1400', component: IncidentListCompleteComponent },
 
             { path: '2100', component: IncidentNewMngComponent },
             { path: '2200', component: IncidentListMngComponent },
