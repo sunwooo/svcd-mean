@@ -3,6 +3,7 @@
 var async = require('async');
 var jwt = require('jsonwebtoken');
 var User = require('../../models/User');
+var UserToken = require('../../models/UserToken');
 var service = require('../../services/user');
 var request = require("request");
 var CONFIG = require('../../../config/config.json');
@@ -81,7 +82,26 @@ module.exports = {
               });
             }
           });
-        }], function (err, userInfo) {
+          },
+          function (userInfo, callback) { //토큰 발급
+            try {
+              var condition = {}; //조건
+              condition.email = req.body.email; //계정
+              UserToken.deleteOne(condition, function (err, dut) {
+          if (!err) {
+                  UserToken.create(condition, function (err, ut) {
+                    if (!err) {
+                      userInfo.token = ut.token;
+                      callback(null, userInfo);
+                    }
+                  });
+                }
+              });
+            } catch (e) {
+              console.log("login createToken error ", e);
+            }
+          }
+        ], function (err, userInfo) {
           if (!err) {
             if (userInfo.status == 'OK') {
 
@@ -347,6 +367,7 @@ module.exports = {
     /**
      * 사용자 수정
      */
+     */
     update: (req, res, next) => {
       req.body.user.updatedAt = Date.now();
 
@@ -377,6 +398,7 @@ module.exports = {
     /**
      * 사용자 삭제
      */
+
     delete: (req, res, next) => {
       //console.log("user delete start.....");
       //console.log("req.body._id > ", req.body._id);
@@ -401,8 +423,9 @@ module.exports = {
         console.log("user controller delete error > ", e);
       }
     },
+  },
 
-    /**
+	/**
      * 사용자관리 추가
      */
     insertUser: (req, res, next) => {
@@ -459,7 +482,7 @@ module.exports = {
       */
     }
   },
-
+}
   /**
    * 배열합치기
    * @param {} trg1 
