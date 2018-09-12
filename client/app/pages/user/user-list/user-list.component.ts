@@ -148,6 +148,7 @@ export class UserListComponent implements OnInit {
     addUserPage() {
         this.router.navigate(["/svcd/4450"]);
     }
+    /*
    * 수정된 후 처리
    * @param event 
    */

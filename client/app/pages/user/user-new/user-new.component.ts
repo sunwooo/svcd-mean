@@ -19,7 +19,7 @@ export class UserNewComponent implements OnInit {
     public company_nm = "";
     public company_select = "";
     private formData: any = {};                 //전송용 formData
-    
+    public email = "";
 
     public userFlagObj: { name: string; value: string; }[] = [
         { name: '그룹관리자', value: '1' },
