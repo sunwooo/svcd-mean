@@ -87,6 +87,7 @@ import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
 import { HigherProcessDetailComponent } from './pages/process/higher-process-detail/higher-process-detail.component';
 import { UserDetailAComponent } from './pages/user/user-detail-a/user-detail-a.component';
 import { PopUpComponent } from './shared/pop-up/pop-up.component';
+import { UserNewComponent } from './pages/user/user-new/user-new.component';
 
 const PAGES = [
     HomeComponent,
@@ -148,7 +149,9 @@ const PAGES = [
         ManagerDashboardComponent,
         HigherProcessDetailComponent,        
         QnaNewComponent, 
-        PopUpComponent    ],
+        PopUpComponent, 
+        UserNewComponent
+    ],
     imports: [
         BrowserModule,
         RoutingModule,
