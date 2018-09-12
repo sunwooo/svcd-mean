@@ -87,6 +87,7 @@ import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
 import { HigherProcessDetailComponent } from './pages/process/higher-process-detail/higher-process-detail.component';
 import { UserDetailAComponent } from './pages/user/user-detail-a/user-detail-a.component';
 import { PopUpComponent } from './shared/pop-up/pop-up.component';
+import { IncidentListCompleteComponent } from './pages/incident/incident-list-complete/incident-list-complete.component';
 import { UserNewComponent } from './pages/user/user-new/user-new.component';
 
 const PAGES = [
@@ -149,8 +150,9 @@ const PAGES = [
         ManagerDashboardComponent,
         HigherProcessDetailComponent,        
         QnaNewComponent, 
-        PopUpComponent, 
-        UserNewComponent
+        PopUpComponent,
+		IncidentListCompleteComponent,
+		UserNewComponent
     ],
     imports: [
         BrowserModule,
@@ -164,8 +166,6 @@ const PAGES = [
         TruncateModule,
         NgxChartsModule,
         Nl2BrPipeModule,
-
-
         TreeviewModule.forRoot(),
         AngularMultiSelectModule
     ],
