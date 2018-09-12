@@ -22,11 +22,11 @@ module.exports = {
         var page = 1;
         var perPage = 15;
 
-        console.log("==========================================getcompany=======================================");
-        console.log("req.query.page : ", req.query.page);
-        console.log("req.query.perPage : ", req.query.perPage);
-        console.log("req.query.searchText : ", req.query.searchText);
-        console.log("================================================================================================");
+        //console.log("==========================================getcompany=======================================");
+        //console.log("req.query.page : ", req.query.page);
+        //console.log("req.query.perPage : ", req.query.perPage);
+        //console.log("req.query.searchText : ", req.query.searchText);
+        //console.log("================================================================================================");
 
         if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
         if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
@@ -247,7 +247,7 @@ module.exports = {
     * qna 삭제 
     */
     delete: (req, res, next) => {
-        console.log("delete start.....");
+        //console.log("delete start.....");
         try {
             async.waterfall([function (callback) {
 
@@ -260,7 +260,7 @@ module.exports = {
 
             callback(null, upQna);
 
-            console.log("upQna : ", upQna);
+            //console.log("upQna : ", upQna);
 
         }], function (err, upQna) {
                 OftenQna.findOneAndRemove({
@@ -302,7 +302,7 @@ module.exports = {
         async.waterfall([function (callback) {
 
         var newqna = req.body.qna;
-        console.log("newqna ", newqna);
+        //console.log("newqna ", newqna);
         
         
         newqna.register_company_cd = req.session.company_cd;
@@ -315,7 +315,7 @@ module.exports = {
         if (req.files) {
             newqna.attach_file = req.files;
         }
-        console.log("nnnnn newqna.pop_yn : ", newqna );
+        //console.log("nnnnn newqna.pop_yn : ", newqna );
         OftenQna.create(newqna, function (err, savedqna) {
             if (err) {
             //console.log("trace err ", err);
@@ -325,7 +325,7 @@ module.exports = {
             });
             }
             
-            console.log("trace OftenQna.create savedqna", savedqna);
+            //console.log("trace OftenQna.create savedqna", savedqna);
         
                 
             //////////////////////////////////////
@@ -355,16 +355,16 @@ module.exports = {
     getPopUpYN : (req, res, next) => {
         var search = service.createSearch(req);
 
-        console.log("==========================================getPopUpYn=======================================");
-        console.log("==========================================1111111111111111111111=======================================");
-        console.log("req.session.company_cd : ", req.session.company_cd);
-        console.log("===========================================================================================");
+        //console.log("==========================================getPopUpYn=======================================");
+        //console.log("==========================================1111111111111111111111=======================================");
+        //console.log("req.session.company_cd : ", req.session.company_cd);
+        //console.log("===========================================================================================");
 
         var condition = {};
         search.findOftenqna.company_cd =  {'$elemMatch': { id: req.session.company_cd}};
         search.findOftenqna.pop_yn = "Y";
 
-        console.log("search.findOftenqna : ", JSON.stringify(search.findOftenqna));
+        //console.log("search.findOftenqna : ", JSON.stringify(search.findOftenqna));
 
 
         try {
@@ -378,11 +378,11 @@ module.exports = {
             */
             OftenQna.find(search.findOftenqna , function (err, oftenqna) {
                 
-                console.log("==============================================");
-                console.log("oftenqna :", oftenqna);
+                //console.log("==============================================");
+                //console.log("oftenqna :", oftenqna);
                 //logger.debug("company_cd", req.session.company_cd);
                 //logger.debug("oftenQna", JSON.stringify(oftenQna));
-                console.log("==============================================");
+                //console.log("==============================================");
 
                 if (err) {
                     return res.json({
@@ -403,11 +403,9 @@ module.exports = {
                     //console.log("rtnData : ", JSON.stringify(rtnData));
                     //logger.debug("=============================================");
 
+                    //console.log("rtnData.oftenqna : ", rtnData.oftenqna);
+                    
                     res.json(rtnData);
-
-                    console.log("rtnData.oftenqna : ", rtnData.oftenqna);
-
-
                 }
             });
         } catch (e) {

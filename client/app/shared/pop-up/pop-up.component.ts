@@ -13,7 +13,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class PopUpComponent implements OnInit {
 
-  @Input() popNotice : string;
+  @Input() popNotice : any;
   @Input() cValues;  //모달창 닫기용
   @Input() dValues;  //모달창 무시용
   @Output() closeEvent = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
