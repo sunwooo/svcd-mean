@@ -58,7 +58,7 @@
                     <span>조회</span>
                     <i class="fa fa-search m-r-5"></i>
                 </button>
-                <button type="button" (click)="setNewDetail(userDetailNewModal)"  class="btn btn-success waves-effect waves-light m-l-5"> 
+                <button type="button" (click)="addUserPage()"  class="btn btn-success waves-effect waves-light m-l-5"> 
                     <i class="fa fa-arrow-circle-o-down"></i>추가
                 </button>
             </div>
@@ -132,15 +132,5 @@
                                 [userDetail]="userDetail"
                                 (openerReload) = "reload()" 
     ></app-user-detail-a>
-</ng-template>
-<!-- end detail view modal -->
-
-<!-- start detail view modal -->
-<ng-template #userDetailNewModal let-c="close" let-d="dismiss">
-    <app-user-new   [cValues]="this.c"
-                    [dValues]="this.d"
-                    [userDetailNew]="userDetailNew"
-                    (openerReload) = "reload()" 
-    ></app-user-new>
 </ng-template>
 <!-- end detail view modal -->
