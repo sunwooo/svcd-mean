@@ -401,6 +401,63 @@ module.exports = {
         console.log("user controller delete error > ", e);
       }
     },
+
+    /**
+     * 사용자관리 추가
+     */
+    insertUser: (req, res, next) => {
+      console.log('insertUser debug Start >>> ', req.body.user);
+
+      /*
+      var user = req.body.user;
+
+      async.waterfall([function (callback) {
+        User.count({
+          'email': user.email
+        }, function (err, userCnt) {
+          if (err) {
+
+            console.log("=============================================");
+            console.log("insertUser err : ", err);
+            console.log("=============================================");
+
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+
+            //console.log("=============================================");
+            //console.log("login new user userCnt : ", userCnt);
+            //console.log("=============================================");
+
+            callback(null, userCnt);
+          }
+        });
+      }], function (err, userCnt) {
+        var rtnData = {};
+
+        if (userCnt > 0) {
+          rtnData.message = "중복된 계정이 존재합니다.";
+          res.send(rtnData.message);
+        } else {
+          User.create(req.body.user, function (err, user) {
+            if (err) {
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+              return res.json({
+                success: true,
+                message: "insert successed"
+              });
+            }
+          });
+        }
+      });
+      */
+    }
   },
 
   /**
