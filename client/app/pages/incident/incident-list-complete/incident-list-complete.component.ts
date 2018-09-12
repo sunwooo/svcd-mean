@@ -11,22 +11,19 @@ import { EmpInfoComponent } from '../../../shared/emp-info/emp-info.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonApiService } from '../../../services/common-api.service';
 import { LowerCdComponent } from '../../../shared/lower-cd/lower-cd.component';
-import { ExcelService } from '../../../services/excel.service';
-
-// Jquery declaration
-declare var $: any;
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
-    selector: 'app-incident-list-all',
-    templateUrl: './incident-list-all.component.html',
-    styleUrls: ['./incident-list-all.component.scss'],
-    providers: [
-        { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
-        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-        { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-    ],
+  selector: 'app-incident-list-complete',
+  templateUrl: './incident-list-complete.component.html',
+  styleUrls: ['./incident-list-complete.component.css'],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
 })
-export class IncidentListAllComponent implements OnInit {
+export class IncidentListCompleteComponent implements OnInit {
 
     @ViewChild(LowerCdComponent) child: LowerCdComponent;    
 
@@ -37,20 +34,15 @@ export class IncidentListAllComponent implements OnInit {
     private formData: any = {};                 //전송용 formData
     public incidents: any = [];                 //조회 incident
 
-    public status_cd: string = "*";             //진행상태 
-    public company_cd: string = "*";             //회사코드
     public higher_cd: string = "*";              //상위코드
     public lower_cd: string = "*";              //하위코드
-    public register_yyyy: string = "";          //검색년도
     public reg_date_from;                       //검색시작일
     public reg_date_to;                         //검색종료일
     public searchType: string = "title,content";//검색구분
     public searchText: string = "";              //검색어
-    public user_flag: string = "user";           //사용자 구분
     public empEmail: string = "";               //팝업 조회용 이메일
+    public request_company: string = this.cookieService.get("company_cd");
 
-    public companyObj: any = [];                //회사리스트
-    public registerYyyyObj: any = [];           //문의년도 리스트
     public lowerObj: any = [];                //하위업무리스트
     public searchTypeObj: { name: string; value: string; }[] = [
         { name: '제목+내용', value: 'title,content' },
@@ -74,53 +66,16 @@ export class IncidentListAllComponent implements OnInit {
         private commonApi: CommonApiService,
         private empInfo: EmpInfoComponent,
         private modalService: NgbModal,
-        private excelService:ExcelService,
+        private cookieService: CookieService,
         private router: Router) {
     }
 
     ngOnInit() {
         this.isLoading = false;
 
-        if(this.auth.user_flag == "1"){ //SD 전체관리자
-            this.user_flag = "*";
-        }else if(this.auth.user_flag == "5"){//고객사 담당자
-            this.user_flag = "company";
-        }
-        
-        var today = new Date();
-        this.register_yyyy = today.getFullYear().toString();
-
-        //this.reg_date_to = new FormControl(new Date()).value;
-        this.getRegisterYyyy();
-        this.getCompanyList();
         this.getIncident();
     }
 
-    /**
-     * 회사리스트 조회
-     */
-    getCompanyList() {
-        this.commonApi.getCompany(this.formData).subscribe(
-            (res) => {
-                this.companyObj = res;
-            },
-            (error: HttpErrorResponse) => {
-            }
-        );
-    }
-
-    /**
-     * 등록요청 년도 조회
-     */
-    getRegisterYyyy() {
-        this.commonApi.getRegisterYyyy().subscribe(
-            (res) => {
-                this.registerYyyyObj = res;
-            },
-            (error: HttpErrorResponse) => {
-            }
-        );
-    }
 
     /**
      * incident 조회
@@ -128,13 +83,11 @@ export class IncidentListAllComponent implements OnInit {
     getIncident() {
 
         this.setTransForm();
-
         this.formData.page = this.page;
         this.formData.perPage = this.pageDataSize;
 
         this.incidentService.getIncident(this.formData).subscribe(
             (res) => {
-
                 this.incidents = [];
                 var tmp = this.incidents.concat(res.incident);
                 this.incidents = tmp;
@@ -142,7 +95,6 @@ export class IncidentListAllComponent implements OnInit {
                 if (this.totalDataCnt == 0) {
                     this.toast.open('조회데이타가 없습니다..', 'success');
                 }
-
             },
             (error: HttpErrorResponse) => {
             },
@@ -159,7 +111,6 @@ export class IncidentListAllComponent implements OnInit {
      * @param event 
      */
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-
         console.log("================================");
         console.log("this.reg_date_to : ", this.reg_date_to);
         console.log("this.reg_date_from : ", this.reg_date_from);
@@ -191,14 +142,6 @@ export class IncidentListAllComponent implements OnInit {
      */
     counter(i: number) {
         return new Array(i);
-    }
-
-    /**
-     * 진행구분 선택 시
-     */
-    onSelected(processStatus: string) {
-        this.status_cd = processStatus;
-        this.getIncident();
     }
 
     /**
@@ -247,47 +190,15 @@ export class IncidentListAllComponent implements OnInit {
     }
 
     /**
-     * 현재 페이지 excelDownload
-     */
-    excelDownloadAll(){
-        if(this.totalDataCnt <= 10000){
-
-            this.setTransForm();
-
-            //1페이지로 초기화
-            this.formData.page = 1;
-            this.formData.perPage = 10000;
-          
-            this.incidentService.getExcelData(this.formData).subscribe(
-                (res) => {
-                    if(res.totalDataCnt != 0){
-                        this.excelService.exportAsExcelFile(res.incident, '문의내용');
-                    }else{
-                        this.toast.open('조회데이타가 없습니다.', 'danger');
-                    }
-
-                },
-                (error: HttpErrorResponse) => {
-                }
-            );
-        }else{
-            this.toast.open('10000건 이하로 다운로드하세요.', 'primary');
-        }  
-        
-    }
-
-    /**
      * 전송용 폼 세팅
      */
     setTransForm(){
         this.formData.page = 1;
         this.formData.perPage = 10000;
-        this.formData.user = "managerall";
-        this.formData.status_cd = this.status_cd;
-        this.formData.company_cd = this.company_cd;
-        this.formData.register_yyyy = this.register_yyyy;
+        this.formData.user = "";
         this.formData.higher_cd = this.higher_cd;
         this.formData.lower_cd = this.lower_cd;
+        this.formData.complete = 'true';
         if (this.reg_date_from != null)
             this.formData.reg_date_from = this.reg_date_from.format('YYYY-MM-DD');
         if (this.reg_date_to != null)

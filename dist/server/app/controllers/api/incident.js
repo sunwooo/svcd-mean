@@ -422,7 +422,7 @@ module.exports = {
     var search = service.createSearch(req);
 
     //console.log("req.query : ", req.query);
-    //console.log("search : ", JSON.stringify(search));
+    console.log("search : ", JSON.stringify(search));
 
     var page = 1;
     var perPage = 15;
@@ -469,6 +469,9 @@ module.exports = {
               callback(err);
             });
           } else {
+            search.findIncident.$and.push({
+                "request_id": req.session.email
+            });
             callback(null);
           }
 
@@ -489,6 +492,7 @@ module.exports = {
         }
       ], function (err, totalCnt) {
 
+        console.log("XXXXXXXXXXXXXXXXXXXXXX",JSON.stringify(search.findIncident));
         Incident.find(search.findIncident, function (err, incident) {
             if (err) {
               return res.json({

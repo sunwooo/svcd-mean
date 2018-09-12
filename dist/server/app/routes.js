@@ -28,7 +28,7 @@ router.get('/user/empInfo', ssc.sessionCheck, userCtrl.empInfo);    //사용자 
 router.get('/user/findEmp', ssc.sessionCheck, userCtrl.findEmp);    //사용자 찾기
 router.get('/user/list', ssc.sessionCheck, userCtrl.list);          //사원정보관리
 router.put('/user/update', ssc.sessionCheck, userCtrl.update);      //사원정보수정
-//router.delete('/user/delete', ssc.sessionCheck, userCtrl.delete);   //사원정보삭제
+router.delete('/user/delete', ssc.sessionCheck, userCtrl.delete);   //사원정보삭제
 
 
 //Common api route
