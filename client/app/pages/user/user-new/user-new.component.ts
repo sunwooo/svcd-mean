@@ -18,10 +18,23 @@ export class UserNewComponent implements OnInit {
     public selectedComIdx = 0;                  //회사리스트 Object내 회사  index
     public company_cd = "";
     public company_nm = "";
-    public company_select = "";
-    public email ="";
+    public userCompany_nm = "";
+    public email = "";
+    public sabun = "";
+    public password = "";
+    public employee_nm = "";
+    public dept_nm = "";
+    public position_nm = "";
+    public jikchk_nm = "";
+    public hp_telno = "";
+    public office_tel_no = "";
+    public group_flag = "";
+    public user_flag = "";
+    public email_send_yn = "";
+    public access_yn = "";
+    public using_yn = "";
+
     private formData: any = {};                 //전송용 formData
-    
 
     public userFlagObj: { name: string; value: string; }[] = [
         { name: '그룹관리자', value: '1' },
@@ -83,11 +96,10 @@ export class UserNewComponent implements OnInit {
      * @param form 
      */
     insertUser(form: NgForm) {
-        form.value.email = this.email;
-        console.log('======= user-new.ts > insertUser start =======');
-        console.log('form : ', form.value);
+        //form.value.user.email = this.email;
+        //console.log('======= user-new.ts > insertUser start =======');
+        //console.log('form : ', form.value);
         
-        /*
         this.userService.insertUser(form.value).subscribe(
             (res) => {
                 if (res.success) {
@@ -96,13 +108,14 @@ export class UserNewComponent implements OnInit {
 
                     //사용자정보관리 조회화면으로 이동
                     this.goList();
+                } else {
+                    this.toast.open('중복된 이메일이 존재합니다.', 'danger');
                 }
             },
             (error: HttpErrorResponse) => {
                 this.toast.open('오류입니다. ' + error.message, 'danger');
             }
         );
-        */
     }
 
     goList(){
