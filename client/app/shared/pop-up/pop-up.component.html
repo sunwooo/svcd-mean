@@ -11,10 +11,8 @@
 </div>
 <div class="modal-footer">
     <div class="col-sm-9">
-        <label for='pop-day' (click)="closePopup()">
-            {{popNotice?._id}}
-            <input id='pop-day' value='' name='pop-day' type='checkbox'/> 하루동안 보지 않기
-        </label>
+        <mat-checkbox [(ngModel)]="pop_day" [ngModelOptions]="{standalone: true}" >하루동안 열지 않기</mat-checkbox>
+        <button id='pop-close-btn' type='button' data-dismiss='modal' class='btn btn-default' (click)="closePopup(popNotice?._id)">Close</button>
     </div>
 </div>
 
