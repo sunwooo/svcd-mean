@@ -123,8 +123,6 @@ export class IncidentNewComponent implements OnInit {
      */
     saveIncident(form: NgForm) {
 
-        console.log("xxxxxxxxxxx this.higher : ",this.higher.higher_cd);
-
         if(!this.higher.higher_cd){
             this.toast.open('상위업무를 선택하세요. ', 'danger');
             return;
