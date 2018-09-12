@@ -1,6 +1,6 @@
 <div class="modal-header" style="text-align:left">
   <h5 class="modal-title">
-    처리내역 상세보기
+    처리진행현황 상세보기
   </h5>
   <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
 </div>
@@ -11,8 +11,6 @@
         <div class="pull-left">
           <button type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-bars"></i>목록</button>
-          <button type="button" (click)="reRegister(incidentDetail)" class="btn btn-warning waves-effect waves-light m-l-5 btn-sm">
-          <i class="fa fa-copy m-r-5"></i>재등록</button>
           <button *ngIf="incidentDetail?.status_cd == 3" (click)="setValuation(incidentDetailModal);" type="button" class="btn btn-success waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-edit"></i>서비스 평가</button>
           <button *ngIf="incidentDetail?.status_cd == 1" (click)="deleteIncident(incidentDetail?._id);" type="button" class="btn btn-danger waves-effect waves-light m-l-5 btn-sm">

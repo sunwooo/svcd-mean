@@ -207,15 +207,5 @@ export class IncidentListCompleteComponent implements OnInit {
         this.formData.searchText = this.searchText;
         
     }
-    
-    reWrite(incident){
-        console.log("reWrite() incident ==========>", incident);
-        
-        //this.router.navigate(['/svcd/1110/:'+incident]);
-        //this.router.navigate(['/svcd/1110', 1234]);
-        this.router.navigate(['/svcd/1110']);
-
-    }
-    
 
 }

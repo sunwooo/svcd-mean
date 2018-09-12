@@ -5,7 +5,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IncidentService } from '../../../services/incident.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { saveAs } from 'file-saver';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-incident-detail-a',
@@ -18,15 +17,13 @@ export class IncidentDetailAComponent implements OnInit {
     @Input() cValues;  //모달창 닫기용
     @Input() dValues;  //모달창 무시용
     @Output() afterDelete = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
-    @Output() openerRewrite = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
 
     public empEmail: string = "";               //팝업 조회용 이메일
 
     constructor(private auth: AuthService,
         private modalService: NgbModal,
         private incidentService: IncidentService,
-        private empInfo: EmpInfoComponent,
-        private router: Router) { }
+        private empInfo: EmpInfoComponent) { }
 
     ngOnInit() {
         //console.log("incidentDetail",JSON.stringify(this.incidentDetail));
@@ -108,16 +105,6 @@ export class IncidentDetailAComponent implements OnInit {
      * 모달 닫기
     */
     closeModal($event) {
-        this.cValues('Close click');
-    }
-
-    /**
-     * 재등록 기능
-     */
-    reRegister(incident){
-    //location.href = "/incident/edit/"+ incident_id;
-        this.openerRewrite.emit(incident);
-        //console.log("incidentDetail incident ======================>>>>> ", incident);
         this.cValues('Close click');
     }
 

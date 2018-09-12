@@ -42,7 +42,6 @@ const routes: Routes = [
             { path: '0003', component: AccountComponent },
             
             { path: '1100', component: IncidentNewComponent },
-            { path: '1110', component: IncidentNewComponent },
             { path: '1200', component: IncidentListComponent },
             { path: '1300', component: QnaListComponent },
             { path: '1400', component: IncidentListCompleteComponent },
