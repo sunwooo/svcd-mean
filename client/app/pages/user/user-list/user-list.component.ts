@@ -3,18 +3,20 @@ import { UserService } from '../../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonApiService } from '../../../services/common-api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-user-list',
     templateUrl: './user-list.component.html',
     styleUrls: ['./user-list.component.css']
-  })
-  export class UserListComponent implements OnInit {
+})
+export class UserListComponent implements OnInit {
 
     public companyCd: string;
     public isLoading = true;
     public userObj: any = [];                   //조회 user
     public userDetail: any;                     //선택 인시던트 id
+    public userDetailNew: any;                  //선택 인시던트 id
     public selectedIdx: number = -1;            //삭제를 위한 인덱스, 상세보기 시 값변경
 
     public searchType: string = "";             //검색구분
@@ -37,7 +39,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
     constructor(private userService: UserService,
         private commonApi: CommonApiService,
-        private modalService: NgbModal) { }
+        private modalService: NgbModal,
+        private router: Router) { }
 
     public maxSize: number = 10;      // 한 화면에 나타낼 페이지 수
     public page: number = 0;          // 현재 페이지
@@ -142,7 +145,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
         this.modalService.open(modalId, { windowClass: 'xlModal', centered: true });
     }
 
-    /**
+    addUserPage() {
+        this.router.navigate(["/svcd/4450"]);
+    }
    * 수정된 후 처리
    * @param event 
    */

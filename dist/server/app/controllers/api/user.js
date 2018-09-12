@@ -364,42 +364,40 @@ module.exports = {
       });
     },
 
-
     /**
-     * 사용자 업데이트
+     * 사용자 수정
      */
-    //LHI(김상엽 수정요망)
     update: (req, res, next) => {
-        req.body.user.updatedAt = Date.now();
-  
-        //console.log("===========User controllers Start!===========");
-        //console.log("req.body : ", req.body);
-        //console.log("=============================================");
-        try {
-          User.findOneAndUpdate({
-            _id: req.body.user.id
-          }, req.body.user, function (err, user) {
-            if (err) {
-              return res.json({
-                success: false,
-                message: err
-              });
-            } else {
-              return res.json({
-                success: true,
-                message: "update successed"
-              });
-            }
-          });
-        } catch (e) {
-          console.log("user controller update error > ", e);
-        }
-      },
+      req.body.user.updatedAt = Date.now();
 
+      //console.log("===========User controllers Start!===========");
+      //console.log("req.body : ", req.body);
+      //console.log("=============================================");
+      try {
+        User.findOneAndUpdate({
+          _id: req.body.user.id
+        }, req.body.user, function (err, user) {
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+            return res.json({
+              success: true,
+              message: "update successed"
+            });
+          }
+        });
+      } catch (e) {
+        console.log("user controller update error > ", e);
+      }
+    },
 
     /**
      * 사용자 삭제
      */
+
     delete: (req, res, next) => {
       //console.log("user delete start.....");
       //console.log("req.body._id > ", req.body._id);
@@ -425,32 +423,89 @@ module.exports = {
       }
     },
 
-}
+    /**
+     * 사용자관리 추가
+     */
+    insertUser: (req, res, next) => {
+      console.log('insertUser debug Start >>> ', req.body.user);
+
+      /*
+      var user = req.body.user;
+
+      async.waterfall([function (callback) {
+        User.count({
+          'email': user.email
+        }, function (err, userCnt) {
+          if (err) {
+
+            console.log("=============================================");
+            console.log("insertUser err : ", err);
+            console.log("=============================================");
+
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+
+            //console.log("=============================================");
+            //console.log("login new user userCnt : ", userCnt);
+            //console.log("=============================================");
+
+            callback(null, userCnt);
+          }
+        });
+      }], function (err, userCnt) {
+        var rtnData = {};
+
+        if (userCnt > 0) {
+          rtnData.message = "중복된 계정이 존재합니다.";
+          res.send(rtnData.message);
+        } else {
+          User.create(req.body.user, function (err, user) {
+            if (err) {
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+              return res.json({
+                success: true,
+                message: "insert successed"
+              });
+            }
+          });
+        }
+      });
+      */
+    }
+
+  }, //user.js module done
 
 
-/**
- * 배열합치기
- * @param {} trg1 
- * @param {*} trg2 
- */
-function mergeUser(trg1, trg2) {
-  var rtnJSON = [];
-  try {
-    if (trg1 != null) {
-      for (var i = 0; i < trg1.length; i++) {
-        rtnJSON.push(trg1[i]);
+  /**
+   * 배열합치기
+   * @param {} trg1 
+   * @param {*} trg2 
+   */
+  function mergeUser(trg1, trg2) {
+    var rtnJSON = [];
+    try {
+      if (trg1 != null) {
+        for (var i = 0; i < trg1.length; i++) {
+          rtnJSON.push(trg1[i]);
+        }
       }
-    }
-    if (trg2 != null) {
-      for (var i = 0; i < trg2.length; i++) {
-        rtnJSON.push(trg2[i]);
+      if (trg2 != null) {
+        for (var i = 0; i < trg2.length; i++) {
+          rtnJSON.push(trg2[i]);
+        }
       }
+      return rtnJSON;
+    } catch (e) {
+      logger.error("control useremanage mergeUser : ", e);
     }
-    return rtnJSON;
-  } catch (e) {
-    logger.error("control useremanage mergeUser : ", e);
   }
-}
 
 /**
  * 세션 처리

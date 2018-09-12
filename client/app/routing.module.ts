@@ -30,6 +30,7 @@ import { QnaListComponent } from './pages/qna/qna-list/qna-list.component';
 import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
 import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { IncidentListCompleteComponent } from './pages/incident/incident-list-complete/incident-list-complete.component';
+import { UserNewComponent } from './pages/user/user-new/user-new.component';
 
 const routes: Routes = [
 
@@ -58,6 +59,7 @@ const routes: Routes = [
             { path: '4200', component: LowerProcessComponent },
             { path: '4300', component: CompanyListComponent },
             { path: '4400', component: UserListComponent },
+            { path: '4450', component: UserNewComponent },
             { path: '4500', component: UserAccessComponent },
             { path: '4600', component: CompanyProcessComponent },
             { path: '4700', component: ProcessGubunCodeComponent },
