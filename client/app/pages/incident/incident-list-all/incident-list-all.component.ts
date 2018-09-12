@@ -93,7 +93,6 @@ export class IncidentListAllComponent implements OnInit {
         //this.reg_date_to = new FormControl(new Date()).value;
         this.getRegisterYyyy();
         this.getCompanyList();
-        this.getMyProcess();
         this.getIncident();
     }
 
@@ -117,19 +116,6 @@ export class IncidentListAllComponent implements OnInit {
         this.commonApi.getRegisterYyyy().subscribe(
             (res) => {
                 this.registerYyyyObj = res;
-            },
-            (error: HttpErrorResponse) => {
-            }
-        );
-    }
-
-    /**
-     * 나의업무리스트 조회
-     */
-    getMyProcess() {
-        this.commonApi.getMyProcess().subscribe(
-            (res) => {
-                this.lowerObj = res;
             },
             (error: HttpErrorResponse) => {
             }

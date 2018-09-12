@@ -66,7 +66,6 @@ export class QnaService {
      * popup check
      */
     popupCheck(): Observable<any>{
-        console.log("popupCheck().....");
         return this.http.get<any>('/api/qna/getPopUpYN');
     }
 

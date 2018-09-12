@@ -27,7 +27,7 @@ declare var $: any;
 })
 export class IncidentNewComponent implements OnInit {
 
-    public higher: any;    
+    public higher: any = {};    
     public initPrcSpd: string = "N";
     public request_info: string = this.cookieService.get("employee_nm");
     public real_contact: string = this.cookieService.get("hp_telno");
@@ -122,6 +122,11 @@ export class IncidentNewComponent implements OnInit {
      * @param form 
      */
     saveIncident(form: NgForm) {
+
+        if(!this.higher.higher_cd){
+            this.toast.open('요청업무를 선택하세요. ', 'danger');
+            return;
+        }
 
         //summernote 내용처리
         var text = $('#summernote').summernote('code');

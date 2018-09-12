@@ -79,5 +79,12 @@ export class EmpInfoComponent {
             }
         );
     }
+
+    /**
+     * 모달 닫기
+    */
+    closeModal($event) {
+        this.cValues('Close click');
+    }
 }
 

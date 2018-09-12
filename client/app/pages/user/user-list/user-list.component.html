@@ -39,6 +39,7 @@
                 <mat-select [(ngModel)]="searchType" 
                             name="searchType" 
                             placeholder="검색구분">
+                  <mat-option value="company_nm,employee_nm">전체</mat-option>
                   <mat-option *ngFor="let obj of searchTypeObj" [value]="obj.value">{{obj.name}}
                   </mat-option>
                 </mat-select>
@@ -52,8 +53,6 @@
                         type="input" 
                         placeholder="검색어">
               </mat-form-field>&nbsp;&nbsp;
-            </div>
-            <div class="col-lg-3 col-sm-12">
                 <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
                     <span>조회</span>
                     <i class="fa fa-search m-r-5"></i>

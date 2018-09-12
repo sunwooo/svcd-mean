@@ -90,7 +90,7 @@ module.exports = {
                         newIncident.process_nm            = incident.process_nm              //처리구분내용                                                                        
                         newIncident.valuation             = incident.valuation               //평가점수                                                                         
                         newIncident.valuation_content     = incident.valuation_content       //평가내용                                                                                                                                                                                                                 
-                        newIncident.created_at            = incident.created_at              //생성일
+                        //newIncident.created_at            = incident.created_at              //생성일
                         
                         rtnVal.push(newIncident);
                 });

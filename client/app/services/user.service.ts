@@ -96,16 +96,13 @@ export class UserService {
     }
 
     /**
-     * 사용자 추가
+ 	 * 사용자 추가
      * @param form 
      */
     insertUser(form): Observable<any>{
         //console.log("=== user.services insertUser form.value : ", form);
         return this.http.post<any>('/api/user/insertUser', form, { withCredentials: true });
-    }
-
-    /**
-     * 사용자 삭제
+    }     * 사용자 삭제
      * @param userId
      */
     delete(userId): Observable<any>{

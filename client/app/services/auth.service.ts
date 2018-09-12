@@ -82,7 +82,8 @@ export class AuthService {
         //console.log("logout : ");
         //console.log("============================");
 
-        this.cookieService.deleteAll();
+        //this.cookieService.deleteAll();
+        this.deleteCookie();
         this.loggedIn = false;
         this.router.navigate(['']);
     }
@@ -116,6 +117,8 @@ export class AuthService {
 
     }
 
+    
+
     decodeUserFromToken(token) {
         return this.jwtHelper.decodeToken(token).user;
     }
@@ -128,7 +131,8 @@ export class AuthService {
         this.loggedIn = true;
         this.user_flag = decodedUser.user_flag;
         this.email = decodedUser.email;
-        this.cookieService.deleteAll();
+        //this.cookieService.deleteAll();
+        this.deleteCookie();
 
         this.cookieService.set('email', decodedUser.email, expiredDate);
         this.cookieService.set('employee_nm', decodedUser.employee_nm, expiredDate);
@@ -142,22 +146,24 @@ export class AuthService {
         this.cookieService.set('jikchk_nm', decodedUser.jikchk_nm, expiredDate);
         this.cookieService.set('office_tel_no', decodedUser.office_tel_no, expiredDate);
         this.cookieService.set('hp_telno', decodedUser.hp_telno, expiredDate);
+        this.cookieService.set('token', decodedUser.token, expiredDate);
 
-        /*
-        this.cookieService.set('_id', decodedUser._id, {expire:expiredDate});
-        this.cookieService.set('email', decodedUser.email, expiredDate);
-        this.cookieService.set('employee_nm', decodedUser.employee_nm, expiredDate);
-        this.cookieService.set('user_flag', decodedUser.user_flag, expiredDate);
-        this.cookieService.set('group_flag', decodedUser.group_flag, expiredDate);
-        this.cookieService.set('company_cd', decodedUser.company_cd, expiredDate);
-        this.cookieService.set('company_nm', decodedUser.company_nm, expiredDate);
-        this.cookieService.set('dept_cd', decodedUser.dept_cd, expiredDate);
-        this.cookieService.set('dept_nm', decodedUser.dept_nm, expiredDate);
-        this.cookieService.set('position_nm', decodedUser.position_nm, expiredDate);
-        this.cookieService.set('jikchk_nm', decodedUser.jikchk_nm, expiredDate);
-        this.cookieService.set('office_tel_no', decodedUser.office_tel_no, expiredDate);
-        this.cookieService.set('hp_telno', decodedUser.hp_telno, expiredDate);
-        */
     }
 
+    deleteCookie(){
+        this.cookieService.delete('email');
+        this.cookieService.delete('employee_nm');
+        this.cookieService.delete('user_flag');
+        this.cookieService.delete('group_flag');
+        this.cookieService.delete('company_cd');
+        this.cookieService.delete('company_nm');
+        this.cookieService.delete('dept_cd');
+        this.cookieService.delete('dept_nm');
+        this.cookieService.delete('position_nm');
+        this.cookieService.delete('jikchk_nm');
+        this.cookieService.delete('office_tel_no');
+        this.cookieService.delete('hp_telno');
+        this.cookieService.delete('token');
+    }
 }
+

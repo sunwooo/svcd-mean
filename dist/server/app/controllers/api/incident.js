@@ -411,18 +411,11 @@ module.exports = {
    */
   list: (req, res, next) => {
 
-    //세션이 존재하지 않으면
-    //if(req.session != null || req.session.user_flag != null){
-    //    return res.json({
-    //        success: false,
-    //        message: '세션이 존재하지 않습니다.'
-    //      });
-    //}
-
     var search = service.createSearch(req);
 
-    //console.log("req.query : ", req.query);
+    //console.log("=================================================");
     //console.log("search : ", JSON.stringify(search));
+    //console.log("=================================================");
 
     var page = 1;
     var perPage = 15;
@@ -469,6 +462,9 @@ module.exports = {
               callback(err);
             });
           } else {
+            search.findIncident.$and.push({
+                "request_id": req.session.email
+            });
             callback(null);
           }
 
@@ -488,6 +484,10 @@ module.exports = {
           });
         }
       ], function (err, totalCnt) {
+
+        //console.log("=================================================");
+        //console.log("search.findIncident : ",JSON.stringify(search.findIncident));
+        //console.log("=================================================");
 
         Incident.find(search.findIncident, function (err, incident) {
             if (err) {

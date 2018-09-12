@@ -28,7 +28,6 @@ export class UserListComponent implements OnInit {
     private formData: any = {};                 //전송용 formData
 
     public searchTypeObj: { name: string; value: string; }[] = [
-        { name: '전체', value: 'company_nm,employee_nm' },
         { name: '사원명', value: 'employee_nm' },
         { name: '회사명', value: 'company_nm' }
     ];
@@ -149,8 +148,6 @@ export class UserListComponent implements OnInit {
     addUserPage() {
         this.router.navigate(["/svcd/4450"]);
     }
-
-    /**
    * 수정된 후 처리
    * @param event 
    */

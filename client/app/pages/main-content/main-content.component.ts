@@ -1,10 +1,11 @@
-import { Component, OnInit, ContentChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatisticService } from '../../services/statistic.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IncidentService } from '../../services/incident.service';
 import { AuthService } from '../../services/auth.service';
 import { QnaService } from '../../services/qna.service';
+import { CookieService } from 'ngx-cookie-service';
 import { PopUpComponent } from '../../shared/pop-up/pop-up.component';
 
 
@@ -15,7 +16,16 @@ import { PopUpComponent } from '../../shared/pop-up/pop-up.component';
 })
 export class MainContentComponent implements OnInit {
 
-    @ContentChild(PopUpComponent) noticeModal: any;
+    //@ContentChild(PopUpComponent) noticeModal: any;
+    @ViewChild('popupModal1') noticeModal1:ElementRef;
+    @ViewChild('popupModal2') noticeModal2:ElementRef;
+    @ViewChild('popupModal3') noticeModal3:ElementRef;
+    @ViewChild('popupModal4') noticeModal4:ElementRef;
+    @ViewChild('popupModal5') noticeModal5:ElementRef;
+    public noticeList =  [];
+
+    private anyData: any;
+    private anyDataForm: any; 
 
     /** being chart setting */
     public view1: any[] = [350, 200];
@@ -69,15 +79,19 @@ export class MainContentComponent implements OnInit {
         private modalService: NgbModal,
         private statisticService: StatisticService,
         private incidentService: IncidentService,
-        private qnaService: QnaService){
+        private qnaService: QnaService,
+        public cookieService: CookieService){
     }
 
     ngOnInit() {
+        
+        
 
         //상태별 건수
         this.statisticService.getStatusCdCnt().subscribe(
             (res) => {  
                 var statusArray = res;
+                
                 var chart1 = [];
                 var chart2 = [];
                 statusArray.forEach((val, idx) => {
@@ -154,20 +168,37 @@ export class MainContentComponent implements OnInit {
             }
         )
 
-
-        
         //팝업공지 기능
         this.qnaService.popupCheck().subscribe(
             (res) => {
                 console.log("res:", res.oftenqna);
-                //this.popupNotice = popup;
-                //this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
-                //this.getPopUp('popupModal', res.oftenqna);
-                //this.popupNotice = popup;
-                //this.modalService.open('popupModal', { windowClass: 'xlModal', centered: true});
+                console.log("this.noticeModal : ", this.noticeModal1);
+                var loopCnt =5;
+                this.noticeList = res.oftenqna;
+                if(this.noticeList.length <5){
+                    loopCnt = this.noticeList.length;
+                }
+                for(var i = 0 ; i < loopCnt ; i++){
+                    if(this.noticeList[i]){
+                        //console.log('xxxxxxxxxx',this.noticeList[i]._id);
+                        //console.log('xxxxxxxxxx',this.cookieService.get(this.noticeList[i]._id));
+                        console.log("this.cookieService.get :", this.cookieService.getAll());
+                        var ck = this.cookieService.get(this.noticeList[i]._id);
+                        console.log("i : ", i);
+                        console.log("ck : ", ck);
 
-                console.log("this.noticeModal : ", this.noticeModal);
-                this.getPopUp(this.noticeModal,res.oftenqna);
+                        if(i == 0 && ck != 'N')
+                            this.modalService.open(this.noticeModal1,  { windowClass: 'mdModal', centered: true, backdrop: 'static', keyboard: false });
+                        if(i == 1 && ck != 'N')
+                            this.modalService.open(this.noticeModal2,  { windowClass: 'mdModal', centered: true, backdrop: 'static', keyboard: false  });
+                        if(i == 2 && ck != 'N')
+                            this.modalService.open(this.noticeModal3,  { windowClass: 'mdModal', centered: true, backdrop: 'static', keyboard: false  });
+                        if(i == 3 && ck != 'N')
+                            this.modalService.open(this.noticeModal4,  { windowClass: 'mdModal', centered: true, backdrop: 'static', keyboard: false  });
+                        if(i == 4 && ck != 'N')
+                            this.modalService.open(this.noticeModal5,  { windowClass: 'mdModal', centered: true, backdrop: 'static', keyboard: false  });
+                    }
+                }
             },
             (error : HttpErrorResponse) => {
 
@@ -202,13 +233,8 @@ export class MainContentComponent implements OnInit {
         this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
     }
 
-    getPopUp(modalId, popup){
-        console.log("modalId : ", modalId);
-        console.log("popup : ", popup);
 
-        this.popupNotice = popup;
-        this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
-    }
+   
 
     /*
     openBackDropCustomClass(content) {

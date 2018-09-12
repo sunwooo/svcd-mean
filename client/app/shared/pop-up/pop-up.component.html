@@ -1,25 +1,18 @@
 <app-loading [condition]="isLoading"></app-loading>
 <!-- popup Noice Modal-->
 <div class="modal-header">
-  <h4 class="modal-title float-left">Notice</h4>
+  <h4 class="modal-title float-left">{{popNotice?.title}}</h4>
 </div>
 <div class="modal-body">
-  <div class="row">
-    <div class="col-sm-3">
-      <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
+    <div class="col-lg-9">
+        <p><span [innerHTML]="popNotice?.content | nl2br"></span></p>
     </div>
-    <div class="col-sm-9">
-        aaa
+</div>
+<div class="modal-footer">
+    <div class="col-lg-10">
+        <mat-checkbox [(ngModel)]="pop_day" [ngModelOptions]="{standalone: true}" >하루동안 열지 않기</mat-checkbox>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-3">
-      <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
+    <div class="col-lg-2">
+        <button id='pop-close-btn' type='button' data-dismiss='modal' class='btn btn-default' (click)="closePopup(popNotice?._id)">Close</button>
     </div>
-    <div class="col-sm-9">
-        <div class="card-box" align="center">
-            <p><b>조회된 데이타가 없습니다.</b></p>
-        </div>
-    </div>
-  </div>
 </div>

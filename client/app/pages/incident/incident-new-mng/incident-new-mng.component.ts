@@ -32,7 +32,7 @@ export class IncidentNewMngComponent implements OnInit {
 
     @ViewChild(HigherCdComponent) child:HigherCdComponent;
 
-    public higher: any;
+    public higher: any = {};
     public initPrcSpd: string = "N";
     public real_contact: string ;
 
@@ -153,6 +153,11 @@ export class IncidentNewMngComponent implements OnInit {
      * @param form 
      */
     saveIncident(form: NgForm) {
+
+        if(!this.higher.higher_cd){
+            this.toast.open('요청업무를 선택하세요. ', 'danger');
+            return;
+        }
 
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
