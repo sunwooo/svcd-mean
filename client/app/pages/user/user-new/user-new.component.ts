@@ -13,11 +13,13 @@ import { Router } from '@angular/router';
 })
 export class UserNewComponent implements OnInit {
 
+
     public companyObj: any = [];                //회사리스트 Object
     public selectedComIdx = 0;                  //회사리스트 Object내 회사  index
     public company_cd = "";
     public company_nm = "";
     public company_select = "";
+    public email ="";
     private formData: any = {};                 //전송용 formData
     
 
