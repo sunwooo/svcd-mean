@@ -1,8 +1,7 @@
 <app-loading [condition]="isLoading"></app-loading>
-<!-- popup Notice Modal-->
+<!-- popup Noice Modal-->
 <div class="modal-header">
-  <h5 class="modal-title float-left" >{{popNotice?.title}}</h5>
-  <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
+  <h4 class="modal-title float-left">Notice</h4>
 </div>
 <div class="modal-body">
     <div class="col-lg-9">
@@ -17,5 +16,3 @@
         <button id='pop-close-btn' type='button' data-dismiss='modal' class='btn btn-default' (click)="closePopup(popNotice?._id)">Close</button>
     </div>
 </div>
-
-
