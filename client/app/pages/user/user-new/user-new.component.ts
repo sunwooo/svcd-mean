@@ -4,6 +4,7 @@ import { CommonApiService } from '../../../services/common-api.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-user-new',
@@ -12,14 +13,13 @@ import { NgForm } from '@angular/forms';
 })
 export class UserNewComponent implements OnInit {
 
-    @Input() userDetailNew: any; //조회 user
-    @Input() user_id: any;
-    @Input() cValues;  //모달창 닫기용
-    @Input() dValues;  //모달창 무시용
-    @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
-
     public companyObj: any = [];                //회사리스트 Object
     public selectedComIdx = 0;                  //회사리스트 Object내 회사  index
+    public company_cd = "";
+    public company_nm = "";
+    public company_select = "";
+    private formData: any = {};                 //전송용 formData
+    
 
     public userFlagObj: { name: string; value: string; }[] = [
         { name: '그룹관리자', value: '1' },
@@ -47,6 +47,7 @@ export class UserNewComponent implements OnInit {
 
     constructor(private userService: UserService
         , private commonApi: CommonApiService
+        , private router: Router
         , private toast: ToastComponent) { }
 
     ngOnInit() {
@@ -57,7 +58,7 @@ export class UserNewComponent implements OnInit {
        * 회사리스트 조회
        */
     getCompanyList() {
-        this.commonApi.getCompany(this.userDetailNew).subscribe(
+        this.commonApi.getCompany(this.formData).subscribe(
             (res) => {
                 //console.log("res : ", res);
                 this.companyObj = res;
@@ -71,10 +72,8 @@ export class UserNewComponent implements OnInit {
      * 회사리스트 선택후 company_cd, compant_nm 세팅
      */
     setCompany(idx) {
-        console.log("=== userDetailNew : ", this.userDetailNew);
-        console.log("=== companyObj : ", this.companyObj[idx]);
-        this.userDetailNew.company_cd = this.companyObj[idx].company_cd;
-        this.userDetailNew.company_nm = this.companyObj[idx].company_nm;
+        this.company_cd = this.companyObj[idx].company_cd;
+        this.company_nm = this.companyObj[idx].company_nm;
     }
 
     /**
@@ -82,41 +81,19 @@ export class UserNewComponent implements OnInit {
      * @param form 
      */
     insertUser(form: NgForm) {
-
-        //form.value.user.id = this.userDetailNew._id;
-
-        console.log('======= save(form : NgForm) =======');
-        console.log("form.value > ", form.value);
-        //console.log("form > ", form);
-        console.log("userDetailNew > ", this.userDetailNew);
-        console.log('===================================');
-
+        form.value.email = this.email;
+        console.log('======= user-new.ts > insertUser start =======');
+        console.log('form : ', form.value);
+        
         /*
         this.userService.insertUser(form.value).subscribe(
             (res) => {
                 if (res.success) {
-                    this.userDetailNew.company_cd = form.value.company_cd;
-                    this.userDetailNew.company_nm = form.value.company_nm;
-                    this.userDetailNew.email = form.value.email;
-                    this.userDetailNew.sabun = form.value.sabun;
-                    this.userDetailNew.password = form.value.password;
-                    this.userDetailNew.employee_nm = form.value.employee_nm;
-                    this.userDetailNew.dept_nm = form.value.dept_nm;
-                    this.userDetailNew.position_nm = form.value.position_nm;
-                    this.userDetailNew.jikchk_nm = form.value.jikchk_nm;
-                    this.userDetailNew.hp_telno = form.value.hp_telno;
-                    this.userDetailNew.office_tel_no = form.value.office_tel_no;
-                    this.userDetailNew.group_flag = form.value.group_flag;
-                    this.userDetailNew.user_flag = form.value.user_flag;
-                    this.userDetailNew.email_send_yn = form.value.email_send_yn;
-                    this.userDetailNew.access_yn = form.value.access_yn;
-                    this.userDetailNew.using_yn = form.value.using_yn;
 
                     this.toast.open('추가되었습니다.', 'success');
-                    this.openerReload.emit();
 
-                    //모달창 닫기
-                    this.cValues('Close click');
+                    //사용자정보관리 조회화면으로 이동
+                    this.goList();
                 }
             },
             (error: HttpErrorResponse) => {
@@ -126,10 +103,7 @@ export class UserNewComponent implements OnInit {
         */
     }
 
-    /**
-     * 모달 닫기
-    */
-    closeModal($event) {
-        this.cValues('Close click');
+    goList(){
+        this.router.navigate(['/svcd/4400']);
     }
 }
