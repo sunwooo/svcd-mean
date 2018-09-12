@@ -173,10 +173,12 @@ export class MainContentComponent implements OnInit {
             (res) => {
                 console.log("res:", res.oftenqna);
                 console.log("this.noticeModal : ", this.noticeModal1);
-
+                var loopCnt =5;
                 this.noticeList = res.oftenqna;
-
-                for(var i = 0 ; i < 5 ; i++){
+                if(this.noticeList.length <5){
+                    loopCnt = this.noticeList.length;
+                }
+                for(var i = 0 ; i < loopCnt ; i++){
                     if(this.noticeList[i]){
                         //console.log('xxxxxxxxxx',this.noticeList[i]._id);
                         //console.log('xxxxxxxxxx',this.cookieService.get(this.noticeList[i]._id));
