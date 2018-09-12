@@ -171,7 +171,8 @@
     <app-incident-detail-a [cValues]="this.c"
                            [dValues]="this.d"
                            [incidentDetail]="incidentDetail"
-                           (openerReload) = "reload()" 
+                           (openerRewrite) = "reWrite($event)" 
+
     ></app-incident-detail-a>
 </ng-template>
 <!-- end detail view modal -->
