@@ -5,7 +5,6 @@ import { UserService } from '../../../services/user.service';
 import { NgForm } from '@angular/forms';
 import { CommonApiService } from '../../../services/common-api.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-user-detail-a',
@@ -19,9 +18,6 @@ export class UserDetailAComponent implements OnInit {
     @Input() dValues;  //모달창 무시용
     @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
 
-    public show_addr: string;
-    public zip_cd: string;
-    public addr: string;
     public companyObj: any = [];                //회사리스트 Object
     public selectedComIdx = 0;                  //회사리스트 Object내 회사  index
 
@@ -51,8 +47,7 @@ export class UserDetailAComponent implements OnInit {
 
     constructor(private userService: UserService
         , private commonApi: CommonApiService
-        , private toast: ToastComponent
-        ,private router: Router) { }
+        , private toast: ToastComponent) { }
 
     ngOnInit() {
         this.getCompanyList();

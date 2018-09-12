@@ -24,7 +24,6 @@
               <mat-form-field>
                 <mat-select [(ngModel)]="using_yn" 
                             name="using_yn" 
-                            (change)="onSubmit()" 
                             placeholder="사용유무">
                   <mat-option value="*">전체</mat-option>
                   <mat-option *ngFor="let obj of using_ynObj" [value]="obj.value">{{obj.name}}
@@ -39,9 +38,7 @@
               <mat-form-field>
                 <mat-select [(ngModel)]="searchType" 
                             name="searchType" 
-                            (change)="onSubmit()" 
                             placeholder="검색구분">
-                  <mat-option value="company_nm,employee_nm">전체</mat-option>
                   <mat-option *ngFor="let obj of searchTypeObj" [value]="obj.value">{{obj.name}}
                   </mat-option>
                 </mat-select>
@@ -55,10 +52,15 @@
                         type="input" 
                         placeholder="검색어">
               </mat-form-field>&nbsp;&nbsp;
-              <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
-                <span>조회</span>
-                <i class="fa fa-search m-r-5"></i>
-              </button>
+            </div>
+            <div class="col-lg-3 col-sm-12">
+                <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
+                    <span>조회</span>
+                    <i class="fa fa-search m-r-5"></i>
+                </button>
+                <button type="button" (click)="setNewDetail(userDetailNewModal)"  class="btn btn-success waves-effect waves-light m-l-5"> 
+                    <i class="fa fa-arrow-circle-o-down"></i>추가
+                </button>
             </div>
           </div>
 
@@ -130,5 +132,15 @@
                                 [userDetail]="userDetail"
                                 (openerReload) = "reload()" 
     ></app-user-detail-a>
+</ng-template>
+<!-- end detail view modal -->
+
+<!-- start detail view modal -->
+<ng-template #userDetailNewModal let-c="close" let-d="dismiss">
+    <app-user-new   [cValues]="this.c"
+                    [dValues]="this.d"
+                    [userDetailNew]="userDetailNew"
+                    (openerReload) = "reload()" 
+    ></app-user-new>
 </ng-template>
 <!-- end detail view modal -->

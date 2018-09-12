@@ -1,13 +1,13 @@
 <div class="modal-header" style="text-align:left">
     <h5 class="modal-title">
-      사원정보 상세보기
+      사원 추가
     </h5>
     <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
   </div>
   <div class="modal-body">
     <div class="row">
       <div class="col-sm-12">
-      <form #f="ngForm" (ngSubmit)="updateUser(f)" novalidate>
+      <form #f="ngForm" (ngSubmit)="insertUser(f)" novalidate>
           <div ngModelGroup="user">
               <div class="row">
                   <div class="col-sm-12">
@@ -15,8 +15,6 @@
                       <div class="float-right">
                           <button type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
                           <i class="fa fa-bars"></i>목록</button>
-                          <button ng-If="user_flag==1 || user_flag==3" type="button" (click)="deleteaUser(userDetail?._id);" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
-                          <i class="fa fa-remove"></i>삭제</button>
                           <button ng-If="user_flag==1 || user_flag==3" type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
                           <i class="fa fa-send-o"></i>저장</button>
                       </div>
@@ -37,7 +35,7 @@
                                                     <i class="prefix fa fa-keyboard-o">&nbsp;&nbsp;&nbsp;</i>
                                                 </span>
                                                 <input matInput 
-                                                        [ngModel]="userDetail?.userCompany_nm"
+                                                        [ngModel]="userDetailNew?.userCompany_nm"
                                                         id="userCompany_nm"
                                                         type="text"
                                                         name="userCompany_nm" 
@@ -48,13 +46,13 @@
                                             </mat-form-field>
                                           </div>
 
-                                          <div class="input-wrap" style="display:none">
+                                          <div class="input-wrap">
                                             <mat-form-field  class="mat-form-field2">
                                                 <span matPrefix>
                                                     <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
                                                 </span>
                                                 <input matInput 
-                                                        [ngModel]="userDetail?.company_cd"
+                                                        [ngModel]="userDetailNew?.company_cd"
                                                         id="company_cd"
                                                         type="text"
                                                         name="company_cd" 
@@ -71,7 +69,7 @@
                                                       <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
                                                   </span>
                                                   <input matInput 
-                                                          [ngModel]="userDetail?.company_nm"
+                                                          [ngModel]="userDetailNew?.company_nm"
                                                           id="company_nm"
                                                           type="text"
                                                           name="company_nm" 
@@ -106,7 +104,7 @@
                                                       <i class="prefix fa fa-envelope-o">&nbsp;&nbsp;&nbsp;</i>
                                                   </span>
                                                   <input matInput 
-                                                          [ngModel]="userDetail?.email"
+                                                          [ngModel]="userDetailNew?.email"
                                                           id="email"
                                                           type="text" 
                                                           name="email" 
@@ -122,7 +120,7 @@
                                                       <i class="prefix fa fa-id-card-o">&nbsp;&nbsp;&nbsp;</i>
                                                   </span>
                                                   <input matInput 
-                                                          [ngModel]="userDetail?.sabun"
+                                                          [ngModel]="userDetailNew?.sabun"
                                                           id="sabun"
                                                           type="text" 
                                                           name="sabun" 
@@ -138,7 +136,7 @@
                                                       <i class="prefix fa fa-key">&nbsp;&nbsp;&nbsp;</i>
                                                   </span>
                                                   <input matInput 
-                                                          [ngModel]="userDetail?.password"
+                                                          [ngModel]="userDetailNew?.password"
                                                           id="password"
                                                           type="password" 
                                                           name="password" 
@@ -154,7 +152,7 @@
                                                       <i class="prefix fa fa-user">&nbsp;&nbsp;&nbsp;</i>
                                                   </span>
                                                   <input matInput 
-                                                          [ngModel]="userDetail?.employee_nm"
+                                                          [ngModel]="userDetailNew?.employee_nm"
                                                           id="employee_nm"
                                                           type="text" 
                                                           name="employee_nm" 
@@ -169,7 +167,7 @@
                                                     <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
                                                 </span>
                                                 <input matInput 
-                                                        [ngModel]="userDetail?.dept_nm"
+                                                        [ngModel]="userDetailNew?.dept_nm"
                                                         id="dept_nm"
                                                         type="text"
                                                         name="dept_nm" 
@@ -184,7 +182,7 @@
                                                     <i class="prefix fa fa-id-badge">&nbsp;&nbsp;&nbsp;</i>
                                                 </span>
                                                 <input matInput 
-                                                        [ngModel]="userDetail?.position_nm"
+                                                        [ngModel]="userDetailNew?.position_nm"
                                                         id="position_nm"
                                                         type="text"
                                                         name="position_nm" 
@@ -199,7 +197,7 @@
                                                     <i class="prefix fa fa-id-badge">&nbsp;&nbsp;&nbsp;</i>
                                                 </span>
                                                 <input matInput 
-                                                        [ngModel]="userDetail?.jikchk_nm"
+                                                        [ngModel]="userDetailNew?.jikchk_nm"
                                                         id="jikchk_nm"
                                                         type="text"
                                                         name="jikchk_nm" 
@@ -215,7 +213,7 @@
                                                       <i class="prefix fa fa-phone">&nbsp;&nbsp;&nbsp;</i>
                                                   </span>
                                                   <input matInput 
-                                                          [ngModel]="userDetail?.hp_telno"
+                                                          [ngModel]="userDetailNew?.hp_telno"
                                                           id="hp_telno"
                                                           type="text" 
                                                           name="hp_telno" 
@@ -229,7 +227,7 @@
                                                     <i class="prefix fa fa-fax">&nbsp;&nbsp;&nbsp;</i>
                                                 </span>
                                                 <input matInput 
-                                                        [ngModel]="userDetail?.office_tel_no"
+                                                        [ngModel]="userDetailNew?.office_tel_no"
                                                         id="office_tel_no"
                                                         type="text"
                                                         name="office_tel_no" 
@@ -245,7 +243,7 @@
                                                 <span matPrefix style ="width:10px">
                                                     <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                                                 </span>
-                                                <mat-select [ngModel]="userDetail?.group_flag"
+                                                <mat-select [ngModel]="userDetailNew?.group_flag"
                                                     name="group_flag" 
                                                     placeholder="그룹사권한구분">
                                                 <mat-option *ngFor="let obj of groupFlagObj" [value]="obj.value">{{obj.name}}</mat-option>
@@ -258,7 +256,7 @@
                                                 <span matPrefix style ="width:10px">
                                                     <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                                                 </span>
-                                                <mat-select [ngModel]="userDetail?.user_flag"
+                                                <mat-select [ngModel]="userDetailNew?.user_flag"
                                                     name="user_flag" 
                                                     placeholder="사용자권한구분">
                                                 <mat-option *ngFor="let obj of userFlagObj" [value]="obj.value">{{obj.name}}</mat-option>
@@ -271,7 +269,7 @@
                                                 <span matPrefix style ="width:10px">
                                                     <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                                                 </span>
-                                                <mat-select [ngModel]="userDetail?.email_send_yn"
+                                                <mat-select [ngModel]="userDetailNew?.email_send_yn"
                                                     name="email_send_yn" 
                                                     placeholder="메일 발송여부">
                                                 <mat-option *ngFor="let obj of emailSendYnObj" [value]="obj.value">{{obj.name}}</mat-option>
@@ -284,7 +282,7 @@
                                                 <span matPrefix style ="width:10px">
                                                     <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                                                 </span>
-                                                <mat-select [ngModel]="userDetail?.access_yn"
+                                                <mat-select [ngModel]="userDetailNew?.access_yn"
                                                     name="access_yn" 
                                                     placeholder="계정 승인여부">
                                                 <mat-option *ngFor="let obj of accessYnObj" [value]="obj.value">{{obj.name}}</mat-option>
@@ -297,9 +295,10 @@
                                                 <span matPrefix style ="width:10px">
                                                     <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                                                 </span>
-                                                <mat-select [ngModel]="userDetail?.using_yn"
+                                                <mat-select [ngModel]="userDetailNew?.using_yn"
                                                     name="using_yn" 
-                                                    placeholder="계정 사용여부">
+                                                    placeholder="계정 사용여부"
+                                                >
                                                 <mat-option *ngFor="let obj of usingYnObj" [value]="obj.value">{{obj.name}}</mat-option>
                                                 </mat-select>
                                             </mat-form-field>

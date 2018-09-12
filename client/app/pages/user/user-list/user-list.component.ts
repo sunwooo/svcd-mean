@@ -26,6 +26,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     private formData: any = {};                 //전송용 formData
 
     public searchTypeObj: { name: string; value: string; }[] = [
+        { name: '전체', value: 'company_nm,employee_nm' },
         { name: '사원명', value: 'employee_nm' },
         { name: '회사명', value: 'company_nm' }
     ];
@@ -139,6 +140,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     setDetail(modalId, user, idx) {
         this.userDetail = user;
         this.selectedIdx = idx;
+        this.modalService.open(modalId, { windowClass: 'xlModal', centered: true });
+    }
+
+    /**
+     * 신규 상세보기창
+     * @param modalId 모달창 id
+     */
+    setNewDetail(modalId) {
+        console.log("setNewDetail modalId : ",modalId);
         this.modalService.open(modalId, { windowClass: 'xlModal', centered: true });
     }
 
