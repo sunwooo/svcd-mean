@@ -32,6 +32,7 @@ import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { IncidentListCompleteComponent } from './pages/incident/incident-list-complete/incident-list-complete.component';
 import { UserNewComponent } from './pages/user/user-new/user-new.component';
 import { UserMyInfoComponent } from './pages/user/user-my-info/user-my-info.component';
+import { CompanyNewComponent } from './pages/company/company-new/company-new.component';
 
 const routes: Routes = [
 
@@ -59,6 +60,7 @@ const routes: Routes = [
             { path: '4100', component: HigherProcessComponent },
             { path: '4200', component: LowerProcessComponent },
             { path: '4300', component: CompanyListComponent },
+            { path: '4350', component: CompanyNewComponent},
             { path: '4400', component: UserListComponent },
             { path: '4450', component: UserNewComponent },
             { path: '4500', component: UserAccessComponent },

@@ -22,11 +22,19 @@ export class CompanyService {
     }
 
     /**
-     * 회사정보 수정
+     * 회사 수정
      * @param form 
     */
     putCompany(form:NgForm): Observable<any> {
         return this.http.put<any>('/api/company/update', form.value, {withCredentials:true});
+    }
+
+    /**
+     * 회사 등록
+     * @param qna 
+     */
+    addCompany(company: NgForm): Observable<any> {
+        return this.http.post<any>('/api/company/new', company, {withCredentials:true});
     }
 
 }

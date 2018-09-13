@@ -92,6 +92,7 @@ import { UserNewComponent } from './pages/user/user-new/user-new.component';
 import { IncidentModifyComponent } from './pages/incident/incident-modify/incident-modify.component';
 import { IncidentRewriteComponent } from './pages/incident/incident-rewrite/incident-rewrite.component';
 import { UserMyInfoComponent } from './pages/user/user-my-info/user-my-info.component';
+import { CompanyNewComponent } from './pages/company/company-new/company-new.component';
 
 const PAGES = [
     HomeComponent,
@@ -158,7 +159,8 @@ const PAGES = [
         UserNewComponent,
         IncidentModifyComponent,
         IncidentRewriteComponent,
-        UserMyInfoComponent    ],
+        UserMyInfoComponent,
+        CompanyNewComponent    ],
     imports: [
         BrowserModule,
         RoutingModule,

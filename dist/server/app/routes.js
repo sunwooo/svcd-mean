@@ -66,8 +66,9 @@ router.get('/statistic/higherCnt', ssc.sessionCheck, statisticCtrl.higherCdCnt);
 
 
 //company route
-router.get('/company/list', ssc.sessionCheck, companyCtrl.list); //회사 조회
-router.put('/company/update', ssc.sessionCheck, companyCtrl.update); //회사 수정
+router.get('/company/list', ssc.sessionCheck, companyCtrl.list);            //회사 조회
+router.put('/company/update', ssc.sessionCheck, companyCtrl.update);        //회사 수정
+router.post('/company/new', ssc.sessionCheck, companyCtrl.insert);          //회사 등록
 
 
 //higherProcess route

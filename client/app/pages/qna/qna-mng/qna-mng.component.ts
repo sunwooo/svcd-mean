@@ -135,7 +135,6 @@ export class QnaMngComponent implements OnInit {
   }
 
   goAddPage() {
-    console.log("gogogogogo");
     this.router.navigate(["/svcd/4900"]);
   }
 }

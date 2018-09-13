@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CompanyService } from '../../../services/company.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-company-list',
@@ -26,12 +27,14 @@ export class CompanyListComponent implements OnInit {
   ];  
 
   constructor(private companyService: CompanyService
-              ,private modalService: NgbModal) { }
+              ,private modalService: NgbModal
+              , private router: Router) { }
 
   public maxSize: number = 10;      // 한 화면에 나타낼 페이지 수
   public page: number = 0;          // 현재 페이지
   public totalDataCnt: number = 0;   
-  public pageDataSize:number =15;     
+  public pageDataSize:number =15;  
+  public totalPage: number = 0;       // 총 페이지수   
 
   ngOnInit() {
 
@@ -67,6 +70,7 @@ export class CompanyListComponent implements OnInit {
             //var tmp = this.incidents.concat(res.incident);
             //this.incidents = tmp;
             this.totalDataCnt = res.totalCnt;
+            this.totalPage = res.totalPage;
 
             //if(res.incident.length == 0){
             //    this.toast.open('더 이상 조회데이타가 없습니다..', 'success');
@@ -107,5 +111,8 @@ export class CompanyListComponent implements OnInit {
       this.getCompany();
   }
 
+  goAddPage() {
+    this.router.navigate(["/svcd/4350"]);
+  }
 
 }
