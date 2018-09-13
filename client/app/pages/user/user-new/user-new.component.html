@@ -22,15 +22,15 @@
               <div class="card-box">
                 <div class="container">
                   <div class="row">
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-4 col-sm-12 col-centered">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-5 col-sm-12 col-centered">
                       <div class="form-group">
                         <div class="input-wrap" style="display:none">
                           <mat-form-field class="mat-form-field1">
                             <span matPrefix>
                               <i class="prefix fa fa-keyboard-o">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput id="userCompany_nm" type="text" name="userCompany_nm" placeholder="입력한 회사명"
+                            <input matInput (ngModel)="userCompany_nm" type="text" name="userCompany_nm" placeholder="입력한 회사명"
                               style="ime-mode:active;" readonly>
                           </mat-form-field>
                         </div>
@@ -72,7 +72,7 @@
                             <span matPrefix>
                               <i class="prefix fa fa-envelope-o">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput id="email" type="text" name="email" placeholder="email" style="ime-mode:active;"
+                            <input matInput (ngModel)="email" type="text" name="email" placeholder="email" style="ime-mode:active;"
                               required>
                           </mat-form-field>
                         </div>
@@ -81,7 +81,7 @@
                             <span matPrefix>
                               <i class="prefix fa fa-id-card-o">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput id="sabun" type="text" name="sabun" placeholder="사번" style="ime-mode:active;">
+                            <input matInput (ngModel)="sabun" type="text" name="sabun" placeholder="사번" style="ime-mode:active;">
                           </mat-form-field>
                         </div>
 
@@ -90,7 +90,7 @@
                             <span matPrefix>
                               <i class="prefix fa fa-key">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput id="password" type="password" name="password" placeholder="비밀번호" style="ime-mode:active;">
+                            <input matInput (ngModel)="password" type="password" name="password" placeholder="비밀번호" style="ime-mode:active;">
                           </mat-form-field>
                         </div>
 
@@ -99,7 +99,7 @@
                             <span matPrefix>
                               <i class="prefix fa fa-user">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput id="employee_nm" type="text" name="employee_nm" placeholder="사원명" style="ime-mode:active;">
+                            <input matInput (ngModel)="employee_nm" type="text" name="employee_nm" placeholder="사원명" style="ime-mode:active;">
                           </mat-form-field>
                         </div>
 
@@ -108,7 +108,7 @@
                             <span matPrefix>
                               <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput id="dept_nm" type="text" name="dept_nm" placeholder="부서명" style="ime-mode:active;">
+                            <input matInput (ngModel)="dept_nm" type="text" name="dept_nm" placeholder="부서명" style="ime-mode:active;">
                           </mat-form-field>
                         </div>
                         <div class="input-wrap">
@@ -116,7 +116,7 @@
                             <span matPrefix>
                               <i class="prefix fa fa-id-badge">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput id="position_nm" type="text" name="position_nm" placeholder="직위" style="ime-mode:active;">
+                            <input matInput (ngModel)="position_nm" type="text" name="position_nm" placeholder="직위" style="ime-mode:active;">
                           </mat-form-field>
                         </div>
                         <div class="input-wrap">
@@ -124,7 +124,7 @@
                             <span matPrefix>
                               <i class="prefix fa fa-id-badge">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput id="jikchk_nm" type="text" name="jikchk_nm" placeholder="직책" style="ime-mode:active;">
+                            <input matInput (ngModel)="jikchk_nm" type="text" name="jikchk_nm" placeholder="직책" style="ime-mode:active;">
                           </mat-form-field>
                         </div>
 
@@ -132,7 +132,8 @@
                       </div>
                     </div>
 
-                    <div class="col-lg-4 col-sm-12 col-centered">
+
+                    <div class="col-lg-5 col-sm-12 col-centered">
                       <div class="form-wrap">
 
                         <div class="input-wrap">
@@ -140,7 +141,7 @@
                             <span matPrefix>
                               <i class="prefix fa fa-phone">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput id="hp_telno" type="text" name="hp_telno" placeholder="핸드폰번호">
+                            <input matInput (ngModel)="hp_telno" type="text" name="hp_telno" placeholder="핸드폰번호">
                           </mat-form-field>
                         </div>
 
@@ -149,7 +150,7 @@
                             <span matPrefix>
                               <i class="prefix fa fa-fax">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput id="office_tel_no" type="text" name="office_tel_no" placeholder="회사전화번호"
+                            <input matInput (ngModel)="office_tel_no" type="text" name="office_tel_no" placeholder="회사전화번호"
                               style="ime-mode:active;">
                           </mat-form-field>
                         </div>
@@ -159,7 +160,7 @@
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select name="group_flag" placeholder="그룹사권한구분">
+                            <mat-select (ngModel)="group_flag" name="group_flag" placeholder="그룹사권한구분">
                               <mat-option *ngFor="let obj of groupFlagObj" [value]="obj.value">{{obj.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -170,7 +171,7 @@
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select name="user_flag" placeholder="사용자권한구분">
+                            <mat-select (ngModel)="user_flag" name="user_flag" placeholder="사용자권한구분">
                               <mat-option *ngFor="let obj of userFlagObj" [value]="obj.value">{{obj.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -181,7 +182,7 @@
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select name="email_send_yn" placeholder="메일 발송여부">
+                            <mat-select (ngModel)="email_send_yn" name="email_send_yn" placeholder="메일 발송여부">
                               <mat-option *ngFor="let obj of emailSendYnObj" [value]="obj.value">{{obj.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -192,7 +193,7 @@
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select name="access_yn" placeholder="계정 승인여부">
+                            <mat-select (ngModel)="access_yn" name="access_yn" placeholder="계정 승인여부">
                               <mat-option *ngFor="let obj of accessYnObj" [value]="obj.value">{{obj.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -203,14 +204,14 @@
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select name="using_yn" placeholder="계정 사용여부">
+                            <mat-select (ngModel)="using_yn" name="using_yn" placeholder="계정 사용여부">
                               <mat-option *ngFor="let obj of usingYnObj" [value]="obj.value">{{obj.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-2"></div>
+                    <div class="col-lg-1"></div>
                   </div> <!-- row end -->
                 </div>
               </div>

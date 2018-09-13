@@ -23,6 +23,7 @@ router.post('/login', userCtrl.login);    //로그인
 
 
 //Users route
+router.post('/user/insertUser', ssc.sessionCheck, userCtrl.insertUser);    //사용자 신규등록
 router.post('/user/addUser', ssc.sessionCheck, userCtrl.insert);    //사용자 추가등록
 router.get('/user/empInfo', ssc.sessionCheck, userCtrl.empInfo);    //사용자 정보
 router.get('/user/findEmp', ssc.sessionCheck, userCtrl.findEmp);    //사용자 찾기

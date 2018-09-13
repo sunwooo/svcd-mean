@@ -427,10 +427,10 @@ module.exports = {
      * 사용자관리 추가
      */
     insertUser: (req, res, next) => {
-      console.log('insertUser debug Start >>> ', req.body.user);
-
-      /*
       var user = req.body.user;
+
+      //console.log('insertUser debug Start >>> ', req.body.user);
+      //console.log('insertUser debug Start >>> ', user.email);
 
       async.waterfall([function (callback) {
         User.count({
@@ -460,7 +460,12 @@ module.exports = {
 
         if (userCnt > 0) {
           rtnData.message = "중복된 계정이 존재합니다.";
-          res.send(rtnData.message);
+          //res.send(rtnData.message);
+
+          return res.json({
+            success: false,
+            message: rtnData.message
+          });
         } else {
           User.create(req.body.user, function (err, user) {
             if (err) {
@@ -477,7 +482,6 @@ module.exports = {
           });
         }
       });
-      */
     }
 
   }, //user.js module done
