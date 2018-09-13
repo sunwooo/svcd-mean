@@ -102,6 +102,31 @@ export class IncidentDetailAComponent implements OnInit {
     }
 
     /**
+     * 모달창 호출
+     * @param incident 
+     */
+    openMiddleModal(modalId){
+        this.modalService.open(modalId, { windowClass: 'xllModal', centered: true, backdrop: 'static', keyboard: false });
+    }
+
+    /**
+     * 수정 후 호출
+     * @param event 
+     */
+    afterModify(event){
+        console.log("================= afterModify");
+    }
+
+    /**
+     * 재등록 후 호출
+     * @param event 
+     */
+    afterRewrite(event){
+        console.log("================= afterRewrite");
+    }
+
+
+    /**
      * 모달 닫기
     */
     closeModal($event) {

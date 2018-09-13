@@ -112,7 +112,7 @@ export class IncidentNewMngComponent implements OnInit {
         });
 
         /**
-         * 개별 파일업로드 완료 시 db저장용 objectt배열에 저장
+         * 개별 파일업로드 완료 시 db저장용 object배열에 저장
          */
         this.uploader.onCompleteItem = (item: any, res: any, status: any, headers: any) => {
             this.attach_file.push(JSON.parse(res));

@@ -16,14 +16,15 @@ var oftenqnaSchema = mongoose.Schema({
     company_nm:     { type: String },
     sabun:          { type: String },
     user_nm:        { type: String },
-    attach_file : [{ 
-        fieldname:      {type : String},
-        encoding:       {type : String},
-        mimetype:       {type : String},
-        destination:    {type : String},
-        filename:       {type : String},
-        path:           {type : String},
-        size:           {type : Number} }], 
+    attach_file: [{    fieldname       : {type : String},
+                       originalname    : {type : String},
+                       encoding        : {type : String},
+                       mimetype        : {type : String},
+                       destination     : {type : String},
+                       filename        : {type : String},
+                       path            : {type : String},
+                       size            : {type : Number}
+                 }], //첨부파일
     created_at:     {type : String},
     updated_at:     { type: Date },
     pop_yn:         { type: String },       

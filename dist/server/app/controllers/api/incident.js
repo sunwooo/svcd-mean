@@ -11,8 +11,63 @@ var CONFIG = require('../../../config/config.json');
 var moment = require('moment');
 var logger = require('log4js').getLogger('app');
 var path = require('path');
+var fs = require('fs');
 
 module.exports = {
+
+  /**
+   * 인시던트 수정
+   */
+  update: (req, res, next) => {
+    try {
+      async.waterfall([function (callback) {
+
+        var upIncident = req.body.incident;
+
+        console.log("========================================================");
+        console.log("========================req.body.incident ",req.body.incident);
+        console.log("========================================================");
+
+
+        Incident.findOneAndUpdate({
+          _id: req.body.incident._id
+        }, upIncident, function (err, Incident) {
+          if (!Incident) {
+            return res.json({
+              success: false,
+              message: "No data found to update"
+            });
+          } else {
+            callback(null, upIncident);
+          }
+        });
+
+      }], function (err, upIncident) {
+        if(!req.body.deletefile){
+            return res.json({
+                success: true,
+                message: "수정되었습니다."
+            });  
+        }  
+        fs.unlink(req.body.deletefile, function (err) {
+            if (err) {
+              console.log("incident attach file delete ",err);
+            }
+            return res.json({
+                success: true,
+                message: "수정되었습니다."
+            });  
+          });
+      });
+    } catch (err) {
+      logger.error("incident control update error : ", err);
+      return res.json({
+        success: false,
+        message: err
+      });
+    }
+  },
+
 
   /**
    * 상위업무 변경
@@ -431,8 +486,8 @@ module.exports = {
           if ((req.session.user_flag == "1" && (req.query.user == "manager" || req.query.user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
 
             var condition = {};
-            if(req.query.user != "managerall"){
-                condition.email = req.session.email;
+            if (req.query.user != "managerall") {
+              condition.email = req.session.email;
             }
 
             MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
@@ -463,7 +518,7 @@ module.exports = {
             });
           } else {
             search.findIncident.$and.push({
-                "request_id": req.session.email
+              "request_id": req.session.email
             });
             callback(null);
           }
@@ -535,8 +590,8 @@ module.exports = {
 
             var condition = {};
 
-            if(req.query.user != "managerall"){
-                condition.email = req.session.email;
+            if (req.query.user != "managerall") {
+              condition.email = req.session.email;
             }
 
             MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
@@ -587,45 +642,45 @@ module.exports = {
       ], function (err, totalCnt) {
 
         var aggregatorOpts = [{
-            $match:search.findIncident
+          $match: search.findIncident
         }, {
-            $project: {
-                _id : 0,
-                진행상태 : '$status_nm',
-                상위업무 : '$higher_nm',
-                하위업무 : '$lower_nm',
-                요청자이름 : '$request_nm',
-                요청자회사 : '$request_company_nm',
-                요청자부서 : '$request_dept_nm',
-                등록일자 : '$register_date',
-                완료일자 : '$complete_date',
-                요청제목 : '$title',
-                고객요청내용 : '$content',
-                담당자이름 : '$manager_nm',
-                처리내용 : '$complete_content',
-                처리소요시간 : '$work_time'
-            }
+          $project: {
+            _id: 0,
+            진행상태: '$status_nm',
+            상위업무: '$higher_nm',
+            하위업무: '$lower_nm',
+            요청자이름: '$request_nm',
+            요청자회사: '$request_company_nm',
+            요청자부서: '$request_dept_nm',
+            등록일자: '$register_date',
+            완료일자: '$complete_date',
+            요청제목: '$title',
+            고객요청내용: '$content',
+            담당자이름: '$manager_nm',
+            처리내용: '$complete_content',
+            처리소요시간: '$work_time'
+          }
         }, {
-            $sort: {
-                register_date: -1
-            }
+          $sort: {
+            register_date: -1
+          }
         }];
         Incident.aggregate(aggregatorOpts).exec(function (err, incident) {
-            if (err) {
-                return res.json({
-                success: false,
-                message: err
-                });
-            } else {
-                //incident에 페이징 처리를 위한 전체 갯수전달
-                var rtnData = {};
-                rtnData.incident = incident;
-                rtnData.totalCnt = totalCnt;
-                res.json(rtnData);
-            }
+          if (err) {
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+            //incident에 페이징 처리를 위한 전체 갯수전달
+            var rtnData = {};
+            rtnData.incident = incident;
+            rtnData.totalCnt = totalCnt;
+            res.json(rtnData);
+          }
         });
       });
-    }catch (err) {} finally {}
+    } catch (err) {} finally {}
 
   },
 

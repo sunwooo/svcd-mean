@@ -69,4 +69,13 @@ export class QnaService {
         return this.http.get<any>('/api/qna/getPopUpYN');
     }
 
+    /**
+     * 파일 삭제
+     * @param qna
+     */
+    fileUpdate(qna){
+        console.log("xxxxxxxxxxxxxxxx ", qna);
+        return this.http.put<any>('/api/qna/update', qna, {withCredentials:true});
+    }
+
 }
