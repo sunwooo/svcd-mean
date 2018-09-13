@@ -87,6 +87,17 @@ export class UserService {
     }
 
     /**
+     * 미승인 사용자 리스트 조회
+     * @param condition 
+     */
+    getAccessUserList(condition): Observable<any> {
+
+        //console.log("==================services getUsermanageList", condition);
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/user/accessList', { params: httpParams });
+    }
+
+    /**
      * 사용자 수정
      * @param form 
      */
