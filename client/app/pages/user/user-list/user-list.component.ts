@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { CommonApiService } from '../../../services/common-api.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { ToastComponent } from '../../../shared/toast/toast.component';
 
 @Component({
     selector: 'app-user-list',
@@ -40,11 +41,13 @@ export class UserListComponent implements OnInit {
     constructor(private userService: UserService,
         private commonApi: CommonApiService,
         private modalService: NgbModal,
-        private router: Router) { }
+        private router: Router,
+        private toast: ToastComponent) { }
 
     public maxSize: number = 10;      // 한 화면에 나타낼 페이지 수
     public page: number = 0;          // 현재 페이지
-    public totalDataCnt: number = 0;
+    public totalDataCnt: number = 0;  // 총 데이타 수
+    public totlaPageCnt: number = 0;  // 총 페이지 수
     public pageDataSize: number = 15;
 
     ngOnInit() {
@@ -101,25 +104,27 @@ export class UserListComponent implements OnInit {
     */
     getUsermanage() {
 
-        //this.formData.page = this.page++;
-        //this.formData.perPage = this.perPage;
+        this.formData.page = this.page;
+        this.formData.perPage = this.pageDataSize;
 
         this.userService.getUserList(this.formData).subscribe(
             (res) => {
 
-                //var tmp = this.incidents.concat(res.incident);
-                //this.incidents = tmp;
+                this.userObj = [];
+                var tmp = this.userObj.concat(res.user);
+                this.userObj = tmp;
                 this.totalDataCnt = res.totalCnt;
 
-                //if(res.incident.length == 0){
-                //    this.toast.open('더 이상 조회데이타가 없습니다..', 'success');
-                //}
-                //console.log("this.formData : ", this.formData);
-                this.userObj = res.user;
-                //console.log("res.user : ", res.user);
+                if (this.userObj.length == 0) {
+                    this.toast.open('조회데이타가 없습니다..', 'success');
+                }
 
+                //this.userObj = res.user;
             },
             (error: HttpErrorResponse) => {
+            },
+            () => {
+                this.totlaPageCnt = Math.ceil(this.totalDataCnt / this.pageDataSize);
             }
         );
 
@@ -148,7 +153,7 @@ export class UserListComponent implements OnInit {
     addUserPage() {
         this.router.navigate(["/svcd/4450"]);
     }
-    
+
     /*
    * 수정된 후 처리
    * @param event 

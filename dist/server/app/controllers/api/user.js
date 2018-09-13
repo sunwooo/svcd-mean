@@ -5,6 +5,7 @@ var jwt = require('jsonwebtoken');
 var User = require('../../models/User');
 var UserToken = require('../../models/UserToken');
 var service = require('../../services/user');
+var AccessUserService = require('../../services/userAccess');
 var request = require("request");
 var CONFIG = require('../../../config/config.json');
 var logger = require('log4js').getLogger('app');
@@ -304,12 +305,12 @@ module.exports = {
       var page = 1;
       var perPage = 15;
 
-      //console.log("==========================================getuser=======================================");
-      //console.log("search : ", JSON.stringify(search));
+      console.log("======= getuser =======");
+      console.log("search : ", JSON.stringify(search));
       //console.log("req.query.page : ", req.query.page);
       //console.log("req.query.perPage : ", req.query.perPage);
-      //console.log("req.query.searchText : ", req.query.searchText);
-      //console.log("================================================================================================");
+      console.log("req.query.searchText : ", req.query.searchText);
+      console.log("=======================");
 
       if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
       if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
@@ -317,7 +318,73 @@ module.exports = {
       async.waterfall([function (callback) {
         User.count(search.findUsermanage, function (err, totalCnt) {
           if (err) {
-            logger.error("incident : ", err);
+            console.log("user controller list : ", err);
+
+            return res.json({
+              success: false,
+              message: err
+            });
+          } else {
+
+            //console.log("=============================================");
+            //console.log("incidentCnt : ", totalCnt);
+            //console.log("=============================================");
+
+            callback(null, totalCnt);
+          }
+        });
+      }], function (err, totalCnt) {
+
+        User.find(search.findUsermanage, function (err, user) {
+            if (err) {
+
+              //logger.debug("=============================================");
+              //logger.debug("incident : ", err);
+              //logger.debug("=============================================");
+
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+
+              //incident에 페이징 처리를 위한 전체 갯수전달
+              var rtnData = {};
+              rtnData.user = user;
+              rtnData.totalCnt = totalCnt;
+
+              res.json(rtnData);
+            }
+          })
+          .sort({
+            group_flag: -1,
+            company_nm: 1
+          })
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+      });
+    },
+
+    accessList: (req, res, next) => {
+      var search = AccessUserService.createSearch(req);
+
+      var page = 1;
+      var perPage = 15;
+
+      console.log("======= getuser =======");
+      console.log("search : ", JSON.stringify(search));
+      //console.log("req.query.page : ", req.query.page);
+      //console.log("req.query.perPage : ", req.query.perPage);
+      //console.log("req.query.searchText : ", req.query.searchText);
+      console.log("=======================");
+
+      if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
+      if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
+
+      async.waterfall([function (callback) {
+        User.count(search.findUsermanage, function (err, totalCnt) {
+          if (err) {
+            console.log("user controller list : ", err);
 
             return res.json({
               success: false,

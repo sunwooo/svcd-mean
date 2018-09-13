@@ -52,7 +52,7 @@ export class UserDetailAComponent implements OnInit {
     constructor(private userService: UserService
         , private commonApi: CommonApiService
         , private toast: ToastComponent
-        ,private router: Router) { }
+        , private router: Router) { }
 
     ngOnInit() {
         this.getCompanyList();
@@ -142,20 +142,23 @@ export class UserDetailAComponent implements OnInit {
     deleteaUser(userId) {
         //console.log("deleteaUser userId :" , userId);
 
-        this.userService.delete(userId).subscribe(
-            (res) => {
-                if(res.success){
-                    this.toast.open('삭제되었습니다.', 'success');
-                    this.openerReload.emit();
+        if (confirm("사원 정보를 삭제 하시겠습니까?")) {
+            this.userService.delete(userId).subscribe(
+                (res) => {
+                    if (res.success) {
+                        this.toast.open('삭제되었습니다.', 'success');
+                        this.openerReload.emit();
 
-                    //모달창 닫기
-                    this.cValues('Close click');
-                }
-            },
-            (error: HttpErrorResponse) => {
-                this.toast.open('오류입니다. ' + error.message, 'danger');
-            },
-        );
+                        //모달창 닫기
+                        this.cValues('Close click');
+                    }
+                },
+                (error: HttpErrorResponse) => {
+                    this.toast.open('오류입니다. ' + error.message, 'danger');
+                },
+            );
+        }
+
     }
 
     /**
