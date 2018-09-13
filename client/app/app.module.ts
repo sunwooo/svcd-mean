@@ -89,6 +89,9 @@ import { UserDetailAComponent } from './pages/user/user-detail-a/user-detail-a.c
 import { PopUpComponent } from './shared/pop-up/pop-up.component';
 import { IncidentListCompleteComponent } from './pages/incident/incident-list-complete/incident-list-complete.component';
 import { UserNewComponent } from './pages/user/user-new/user-new.component';
+import { IncidentModifyComponent } from './pages/incident/incident-modify/incident-modify.component';
+import { IncidentRewriteComponent } from './pages/incident/incident-rewrite/incident-rewrite.component';
+import { UserMyInfoComponent } from './pages/user/user-my-info/user-my-info.component';
 
 const PAGES = [
     HomeComponent,
@@ -152,7 +155,10 @@ const PAGES = [
         QnaNewComponent, 
         PopUpComponent, 
         IncidentListCompleteComponent,
-        UserNewComponent    ],
+        UserNewComponent,
+        IncidentModifyComponent,
+        IncidentRewriteComponent,
+        UserMyInfoComponent    ],
     imports: [
         BrowserModule,
         RoutingModule,

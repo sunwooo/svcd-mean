@@ -31,6 +31,7 @@ import { QnaNewComponent } from './pages/qna/qna-new/qna-new.component';
 import { UserListComponent } from './pages/user/user-list/user-list.component';
 import { IncidentListCompleteComponent } from './pages/incident/incident-list-complete/incident-list-complete.component';
 import { UserNewComponent } from './pages/user/user-new/user-new.component';
+import { UserMyInfoComponent } from './pages/user/user-my-info/user-my-info.component';
 
 const routes: Routes = [
 
@@ -40,6 +41,7 @@ const routes: Routes = [
         children: [
             { path: '0001', component: MainContentComponent },
             { path: '0003', component: AccountComponent },
+            { path: '0005', component: UserMyInfoComponent },
             
             { path: '1100', component: IncidentNewComponent },
             { path: '1200', component: IncidentListComponent },
