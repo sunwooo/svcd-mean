@@ -216,5 +216,51 @@ module.exports = {
             });
         }
     },
+
+    /**
+    * 회사 삭제 
+    */
+    delete: (req, res, next) => {
+        try {
+            async.waterfall([function (callback) {
+
+            var upCompany = {};
+            var m = moment();
+            var date = m.format("YYYY-MM-DD HH:mm:ss");
+
+            upCompany.deleted_at = date;
+            upCompany.delete_flag = 'Y';
+
+            callback(null, upCompany);
+
+            //console.log("upQna : ", upQna);
+
+        }], function (err, upCompany) {
+                Company.findOneAndRemove({
+                _id: req.body._id
+                }, upCompany, function (err, company) {
+                if (err) {
+                    return res.json({
+                    success: false,
+                    message: err
+                    });
+                } else {
+                    return res.json({
+                    success: true,
+                    message: "delete successed"
+                    });
+                }
+                });
+            });
+
+        } catch (err) {
+            logger.error("upCompany deleted err : ", err);
+            return res.json({
+                success: false,
+                message: err
+            });
+        }
+    },
+
 }
 

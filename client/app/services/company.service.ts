@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
@@ -31,10 +31,22 @@ export class CompanyService {
 
     /**
      * 회사 등록
-     * @param qna 
+     * @param company 
      */
     addCompany(company: NgForm): Observable<any> {
         return this.http.post<any>('/api/company/new', company, {withCredentials:true});
+    }
+
+    /**
+     * 회사 삭제
+     * @param companyId
+     */
+    delete(companyId): Observable<any>{
+        var body = {_id:companyId};
+        var httpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' }), body: body
+        };
+        return this.http.delete<any>('/api/company/delete', httpOptions);
     }
 
 }

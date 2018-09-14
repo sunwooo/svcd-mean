@@ -6,6 +6,8 @@ import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { CompanyService } from '../../../services/company.service';
 import { EventEmitter } from "@angular/core";
+import { ToastComponent } from '../../../shared/toast/toast.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-company-detail-a',
@@ -42,7 +44,9 @@ export class CompanyDetailAComponent implements OnInit {
         class: ['btn', 'btn-success btn-sm']
     };
 
-    constructor(private companyService: CompanyService) { }
+    constructor(private companyService: CompanyService
+                ,public toast: ToastComponent
+                ,private router: Router) { }
 
     ngOnInit() {
         this.zip_cd = this.companyDetail.zip_cd;
@@ -139,4 +143,28 @@ export class CompanyDetailAComponent implements OnInit {
         this.cValues('Close click');
     }
 
+    /**
+     * 회사정보 삭제
+     * @param companyId
+     */
+    deleteCompany(companyId) {
+        //console.log("deleteQna qnaId :", qnaId);
+
+        this.companyService.delete(companyId).subscribe(
+            (res) => {
+                if (res.success) {
+                    this.toast.open('삭제되었습니다.', 'success');
+                    this.router.navigate(['/svcd/4300']);
+                    this.openerReload.emit();
+                }
+
+            },
+            (error: HttpErrorResponse) => {
+                console.log(error);
+            },
+            () => {
+                this.cValues('Close click');
+            }
+        );
+    }
 }
