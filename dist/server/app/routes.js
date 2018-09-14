@@ -47,7 +47,8 @@ router.get('/registerYyyy', ssc.sessionCheck, apiCtrl.registerYyyy);      //등�
 
 //incident route
 router.get('/incident/list', ssc.sessionCheck, incidentCtrl.list);    //인시던트 조회
-router.get('/incident/detail', ssc.sessionCheck, incidentCtrl.detail);    //상세조회
+router.get('/incident/detail', ssc.sessionCheck, incidentCtrl.detail);    //상세 조회
+router.put('/incident/update', ssc.sessionCheck, incidentCtrl.update);    //인시던트 수정
 router.post('/incident/new', ssc.sessionCheck, incidentCtrl.insert);     //문의하기 등록
 router.post('/incident/download', ssc.sessionCheck, incidentCtrl.download);  //첨부파일 다운로드
 router.put('/incident/valuation', ssc.sessionCheck, incidentCtrl.setValuation); //만족도 평가

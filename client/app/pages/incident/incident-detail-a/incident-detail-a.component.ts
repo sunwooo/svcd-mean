@@ -16,7 +16,7 @@ export class IncidentDetailAComponent implements OnInit {
     @Input() incidentDetail: any; //조회 incident
     @Input() cValues;  //모달창 닫기용
     @Input() dValues;  //모달창 무시용
-    @Output() afterDelete = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
+    @Output() reload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
 
     public empEmail: string = "";               //팝업 조회용 이메일
 
@@ -100,6 +100,31 @@ export class IncidentDetailAComponent implements OnInit {
         this.incidentDetail.valuation = incident.valuation;
         this.incidentDetail.valuation_content = incident.valuation_content;
     }
+
+    /**
+     * 모달창 호출
+     * @param incident 
+     */
+    openMiddleModal(modalId){
+        this.modalService.open(modalId, { windowClass: 'xllModal', centered: true, backdrop: 'static', keyboard: false });
+    }
+
+    /**
+     * 수정 후 호출
+     * @param event 
+     */
+    afterModify(event){
+        console.log("================= afterModify");
+    }
+
+    /**
+     * 재등록 후 호출
+     * @param event 
+     */
+    afterRewrite(){
+        this.reload.emit();
+    }
+
 
     /**
      * 모달 닫기

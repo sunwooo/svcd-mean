@@ -187,4 +187,11 @@ export class IncidentListComponent implements OnInit {
         this.incidents.splice(this.selectedIdx,1);
     }
     
+
+    /**
+     * 재등록 후 
+     */
+    reload(){
+        this.getIncident();
+    }
 }
