@@ -549,7 +549,55 @@ module.exports = {
           });
         }
       });
-    }
+    },
+
+    /**
+     * 마이페이지 조회
+     */
+    myPage: (req, res, next) => {
+      //console.log("user controller myPage start!");
+      //console.log("req.session.email : ", req.session.email);
+
+      User.findOne({
+        email: req.session.email
+      }, function (err, user) {
+        if (err) {
+          return res.json({
+            success: false,
+            message: err
+          });
+        } else {
+
+          //var rtnData = {};
+          //rtnData.user = user;
+          //console.log("user : ", user);
+          res.json(user);
+        }
+      });
+    },
+
+    /**
+     * 마이페이지 수정
+     */
+    myPageUpdate: (req, res, next) => {
+      req.body.user.updatedAt = Date.now();
+
+      User.findOneAndUpdate({
+        email: req.session.email
+      }, req.body.user, function (err, user) {
+        if (err) {
+          return res.json({
+            success: false,
+            message: err
+          });
+        } else {
+          return res.json({
+            success: true,
+            message: "update successed"
+          });
+        }
+      });
+    },
 
   }, //user.js module done
 

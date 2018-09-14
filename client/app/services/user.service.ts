@@ -128,4 +128,24 @@ export class UserService {
         };
         return this.http.delete<any>('/api/user/delete', httpOptions);
     }
+
+    /**
+     * 마이페이지 조회
+     * @param form 
+     */
+    myPageList(form): Observable<any> {
+
+        //console.log("==================services myPageList", form);
+        var httpParams = new HttpParams({ fromObject: form });
+        return this.http.get<any>('/api/user/myPage', { params: httpParams });
+    }
+
+    /**
+     * 마이페이지 수정
+     * @param form 
+     */
+    putMyPage(form): Observable<any>{
+        //console.log("=== user.services putUser form.value : ", form);
+        return this.http.put<any>('/api/user/myPageUpdate', form, { withCredentials: true });
+    }
 }
