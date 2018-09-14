@@ -109,8 +109,8 @@ export class IncidentDetailAComponent implements OnInit {
     openMiddleModal(modalId){
         this.modalService.open(modalId, { windowClass: 'xllModal', centered: true, backdrop: 'static', keyboard: false });
     }
-
-    /**
+ 
+    /*
      * 수정 후 호출
      * @param event 
      */
