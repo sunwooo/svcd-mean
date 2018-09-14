@@ -32,14 +32,10 @@ export class IncidentRewriteComponent implements OnInit {
     @Input() incidentDetail: any; //조회 incident
     @Input() cValues;  //모달창 닫기용
     @Input() dValues;  //모달창 무시용
-    @Output() afterDelete = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
-
-    public higher: any = {};    
-    public request_company: string = this.cookieService.get("company_cd");
-    
+    @Output() outReload = new EventEmitter<any>(); //부모에게 이벤트 전달용
+   
     private formData: any = {}; //전송용 formData
     private attach_file: any = []; //mongodb 저장용 첨부파일 배열
-
 
     public uploader: FileUploader = new FileUploader({ url: URL }); //file upload용 객체
     public processSpeed: { name: string; value: string; }[] = [
@@ -125,18 +121,15 @@ export class IncidentRewriteComponent implements OnInit {
      */
     saveIncident(form: NgForm) {
 
-        if(!this.higher.higher_cd){
-            this.toast.open('요청업무를 선택하세요. ', 'danger');
-            return;
-        }
-
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
         form.value.incident.content = text;
-        form.value.incident.higher_cd = this.higher.higher_cd;
-        form.value.incident.higher_nm = this.higher.higher_nm;
+
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
+
+        this.formData.incident._id = this.incidentDetail._id;
+        this.formData.incident.title = "[재요청]"+this.incidentDetail.title;
 
         //form.onReset();
 
@@ -164,7 +157,9 @@ export class IncidentRewriteComponent implements OnInit {
                 //console.log('===================================================================================');
 
                 this.toast.open('등록되었습니다.', 'success');
-                this.router.navigate(['/svcd/1200']);
+                this.outReload.emit();
+                this.cValues('Close click');
+
             },
             (error: HttpErrorResponse) => {
                 //if (error.status == 400) {
@@ -176,20 +171,6 @@ export class IncidentRewriteComponent implements OnInit {
                 //}
             }
         );
-    }
-
-    /**
-     * 업무요청 선택 시
-     * @param higher 
-     */
-    onSelected(higher) {
-        console.log('higherCd : ', higher);
-        //this.higherCd = higherCd;
-
-        //////////////////////////////////
-        this.higher = higher;
-        //////////////////////////////////  
-
     }
 
     /**

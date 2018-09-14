@@ -16,7 +16,7 @@ export class IncidentDetailAComponent implements OnInit {
     @Input() incidentDetail: any; //조회 incident
     @Input() cValues;  //모달창 닫기용
     @Input() dValues;  //모달창 무시용
-    @Output() afterDelete = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
+    @Output() reload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
 
     public empEmail: string = "";               //팝업 조회용 이메일
 
@@ -121,8 +121,8 @@ export class IncidentDetailAComponent implements OnInit {
      * 재등록 후 호출
      * @param event 
      */
-    afterRewrite(event){
-        console.log("================= afterRewrite");
+    afterRewrite(){
+        this.reload.emit();
     }
 
 

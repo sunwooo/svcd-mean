@@ -1,11 +1,12 @@
 <div class="modal-header" style="text-align:left">
-        <h5 class="modal-title">
-          재등록하기
-        </h5>
-        <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
-    </div>
-    <div class="modal-body">
-        <form novalidate #f="ngForm" (ngSubmit)="saveIncident(f)" class="form-horizontal group-border-dashed">
+    <h5 class="modal-title">
+      재요청하기
+    </h5>
+    <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
+</div>
+<div class="modal-body">
+    <form novalidate #f="ngForm" (ngSubmit)="saveIncident(f)" class="form-horizontal group-border-dashed">
+        <div ngModelGroup="incident">
             <div class="row">
                 <div class="col-lg-12">
                     <div role="toolbar" class="btn-toolbar m-t-10  float-right">
@@ -36,7 +37,7 @@
                             </div>
                             <div class="col-lg-3 col-sm-12">
                                 <mat-form-field>
-                                    <mat-select [ngModel] = "incidentDetail?.process_speed" 
+                                    <mat-select [(ngModel)] = "incidentDetail.process_speed" 
                                                 name="process_speed" 
                                                 placeholder="긴급구분"
                                     >
@@ -88,7 +89,8 @@
                                         [ngModel] = "incidentDetail?.title"
                                         name="title" 
                                         type="input" 
-                                        required 
+                                        required
+                                        readonly=true 
                                         placeholder="제목"
                                     >
                                 </mat-form-field>
@@ -110,7 +112,7 @@
                                 </mat-form-field>
                             </div>
                         </div>
-    
+
                         <div class="form-group row">
                             <div class="col-lg-12 col-sm-12">
                                 <div style="text-align:left;width:100%">
@@ -123,116 +125,139 @@
                                 </div>
                             </div>
                         </div>
-    
-                        <!-- 첨부파일 1개 이상일때만 표시-->
-                        <div class="row" *ngIf="incidentDetail?.attach_file.length > 0" style="text-align:left">
-                            <div class="col-lg-6">
-                                <div>
-                                <h6>* 첨부파일
-                                    <b class="text-primary-svc"> {{incidentDetail?.attach_file.length}} </b>개</h6>
-                                <div *ngFor="let file of incidentDetail?.attach_file" class="i fa fa-paperclip m-r-10 m-b-10">
-                                    <a (click)="fileDownLoad(file?.path, file?.originalname)" style="cursor: pointer">
-                                    <span class="text-pink">&nbsp;{{file?.originalname}}</span>
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <!-- 첨부파일 Start-->
-                        <div class="card-box m-r-5">
+
+                        <!-- 첨부파일 1개 이상일때만 표시
+                        <div *ngIf="incidentDetail?.attach_file.length > 0" class="card-box m-r-5">
                             <div class="form-group row">
-                                <div class="col-lg-9 col-sm-12">
-                                    <input type="file" 
-                                        ng2FileSelect 
-                                        [uploader]="uploader" 
-                                        name="avatar" 
-                                        id="avatar" 
-                                        multiple
-                                        style="width:100%"
-                                    >
-                                </div>
-                                <div class="col-lg-3 col-sm-12" >
-                                    <mat-label class>첨부개수 : {{ uploader?.queue?.length }}</mat-label>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-lg-12 col-sm-12 m-b-40">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th width="50%">파일명</th>
-                                                <th>크기</th>
-                                                <th>진행</th>
-                                                <th>상태</th>
-                                                <th>제거</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let item of uploader.queue">
-                                                <td>
-                                                    <strong>{{ item?.file?.name }}</strong>
-                                                </td>
-                                                <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                                                <td *ngIf="uploader.options.isHTML5">
-                                                    <div class="progress" style="margin-bottom: 0;">
-                                                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <span *ngIf="item.isSuccess">
-                                                        <i class="glyphicon glyphicon-ok"></i>
-                                                    </span>
-                                                    <span *ngIf="item.isCancel">
-                                                        <i class="glyphicon glyphicon-ban-circle"></i>
-                                                    </span>
-                                                    <span *ngIf="item.isError">
-                                                        <i class="glyphicon glyphicon-remove"></i>
-                                                    </span>
-                                                </td>
-                                                <td nowrap>
-                                                    <!--
-                                                    <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                                                        <span class="glyphicon glyphicon-upload"></span> Upload
-                                                    </button>
-                                                    <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
-                                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                                                    </button>
-                                                    -->
-                                                    <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
-                                                        <span class="glyphicon glyphicon-trash"></span> 제거
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                            
-                                    <div style="text-align: right">
-                                        <div>
-                                            업로드 상태:
-                                            <div class="progress" style="">
-                                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-                                            </div>
-                                        </div>
-                                        <!--
-                                        <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-                                            <span class="glyphicon glyphicon-upload"></span> Upload all
-                                        </button>
-                                        <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
-                                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                                        </button>
-                                        -->
-                                        <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                                            <span class="glyphicon glyphicon-trash"></span> 전체 제거
+                                <div class="col-lg-12 col-sm-12">
+                                    <h6>* 첨부파일
+                                        <b class="text-primary-svc"> {{incidentDetail?.attach_file.length}} </b>개
+                                    </h6>
+                                    <div *ngFor="let file of incidentDetail?.attach_file; let idx = index" class="i fa m-r-10 m-b-10">
+                                        <button (click)="deleteFile(file?.path, idx)" type="button" class="btn btn-secondary waves-effect waves-light m-r-5 btn-sm">
+                                            <i class="fa fa-paperclip m-r-10"></i>
+                                            <span>&nbsp;&nbsp;{{file?.originalname}}</span>
+                                            <i class="fa fa-times m-l-10"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- 첨부파일 End-->
+                        </div> 첨부파일 End-->
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
-    
+            
+            <!-- attach row Start-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-box">
+                        
+                        
+                        <!--<div class="form-group row"  style="background-color: red">-->
+                        <!-- 첨부파일 Start-->
+                        <!--<div class="card-box"  style="background-color: yellow">-->
+                                <div class="form-group row">
+                                    <div class="col-lg-8 col-sm-12">
+                                        <input type="file" 
+                                            ng2FileSelect 
+                                            [uploader]="uploader" 
+                                            name="avatar" 
+                                            id="avatar" 
+                                            multiple
+                                            style="width:100%"
+                                        >
+                                    </div>
+                                    <div class="col-lg-2 col-sm-12" >
+                                        <mat-label class>올릴파일 수 : {{ uploader?.queue?.length }}</mat-label>
+                                    
+                                    </div>
+                                    <div  class="col-lg-2 col-sm-12 float-right">
+                                        <button type="button" (click)="addAttachFile()" class="btn btn-primary waves-effect waves-light m-r-5 btn-sm">
+                                            <span>파일올리기</span>
+                                            <i class="fa fa-send m-l-10"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-12 col-sm-12 m-b-40">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th width="50%">파일명</th>
+                                                    <th>크기</th>
+                                                    <th>진행</th>
+                                                    <th>상태</th>
+                                                    <th>제거</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of uploader.queue">
+                                                    <td>
+                                                        <strong>{{ item?.file?.name }}</strong>
+                                                    </td>
+                                                    <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                                                    <td *ngIf="uploader.options.isHTML5">
+                                                        <div class="progress" style="margin-bottom: 0;">
+                                                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span *ngIf="item.isSuccess">
+                                                            <i class="glyphicon glyphicon-ok"></i>
+                                                        </span>
+                                                        <span *ngIf="item.isCancel">
+                                                            <i class="glyphicon glyphicon-ban-circle"></i>
+                                                        </span>
+                                                        <span *ngIf="item.isError">
+                                                            <i class="glyphicon glyphicon-remove"></i>
+                                                        </span>
+                                                    </td>
+                                                    <td nowrap>
+                                                        <!--
+                                                        <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                                            <span class="glyphicon glyphicon-upload"></span> Upload
+                                                        </button>
+                                                        <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                                                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                                                        </button>
+                                                        -->
+                                                        <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                                            <span class="glyphicon glyphicon-trash"></span> 제거
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                
+                                        <div style="text-align: right">
+                                            <div>
+                                                업로드 상태:
+                                                <div class="progress" style="">
+                                                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                                                </div>
+                                            </div>
+                                            <!--
+                                            <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                                                <span class="glyphicon glyphicon-upload"></span> Upload all
+                                            </button>
+                                            <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                                            </button>
+                                            -->
+                                            <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                                                <span class="glyphicon glyphicon-trash"></span> 전체 제거
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!--</div>-->
+                            <!-- 첨부파일 End-->
+                        <!--</div>-->
+
+
+                    </div>
+                </div>
+            </div><!-- attach row End-->
+        </div><!-- ngModelGroup-->
+    </form>
+</div>
