@@ -72,12 +72,9 @@ export class CompanyListComponent implements OnInit {
             this.totalDataCnt = res.totalCnt;
             this.totalPage = res.totalPage;
 
-            //if(res.incident.length == 0){
-            //    this.toast.open('더 이상 조회데이타가 없습니다..', 'success');
-            //}
-            console.log("this.formData : ", this.formData);
+            console.log("this.totalPage : ", this.totalPage);
+
             this.company = res.company;
-            console.log("res : ", res);
 
         },
         (error: HttpErrorResponse) => {
@@ -87,13 +84,13 @@ export class CompanyListComponent implements OnInit {
   }
 
   pageChange(selectedPage){
-    console.log("pageChange!!",selectedPage);
     this.formData.page = selectedPage;
     this.formData.perPage = this.pageDataSize;
     
     this.getCompany();
     
   }
+
 
   setDetail(modalId, company){
     this.companyDetail = company;

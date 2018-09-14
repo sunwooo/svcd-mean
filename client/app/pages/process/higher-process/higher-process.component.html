@@ -20,7 +20,7 @@
                     </mat-form-field>
                 </div>
                 <div class="col-lg-9 col-sm-12">
-                    <mat-form-field class="mat-form-field3">
+                    <mat-form-field class="mat-form-field2">
                         <input matInput
                             [(ngModel)]="searchText"
                             name="searchText"
@@ -28,9 +28,12 @@
                             placeholder="검색어"
                         >
                     </mat-form-field>&nbsp;&nbsp;
-                    <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
+                    <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5 btn-sm">
                         <span>조회</span>
                         <i class="fa fa-search m-r-5"></i>
+                    </button>
+                    <button type="button" (click)="goAddPage()"  class="btn btn-success waves-effect waves-light m-l-5 btn-sm"> 
+                        <i class="fa fa-arrow-circle-o-down"></i>추가
                     </button>
                 </div>
             </div>  

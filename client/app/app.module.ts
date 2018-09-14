@@ -93,6 +93,7 @@ import { IncidentModifyComponent } from './pages/incident/incident-modify/incide
 import { IncidentRewriteComponent } from './pages/incident/incident-rewrite/incident-rewrite.component';
 import { UserMyInfoComponent } from './pages/user/user-my-info/user-my-info.component';
 import { CompanyNewComponent } from './pages/company/company-new/company-new.component';
+import { HigherProcessNewComponent } from './pages/process/higher-process-new/higher-process-new.component';
 
 const PAGES = [
     HomeComponent,
@@ -160,7 +161,8 @@ const PAGES = [
         IncidentModifyComponent,
         IncidentRewriteComponent,
         UserMyInfoComponent,
-        CompanyNewComponent    ],
+        CompanyNewComponent,
+        HigherProcessNewComponent    ],
     imports: [
         BrowserModule,
         RoutingModule,

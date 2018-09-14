@@ -131,5 +131,46 @@ module.exports = {
             });
         } finally{}
 
-    }
+    },
+
+    /**
+    * 회사 등록
+    */
+    insert: (req, res) => {
+
+        try{
+            async.waterfall([function (callback) {
+
+            var newhigher = req.body.higherProcess;
+            
+            newhigher.register_company_cd = req.session.company_cd;
+            newhigher.register_company_nm = req.session.company_nm;
+            newhigher.register_nm = req.session.user_nm;
+            newhigher.register_id = req.session.email;
+
+            HigherProcess.create(newhigher, function (err, savedhigher) {
+                if (err) {
+                    return res.json({
+                        success: false,
+                        message: err
+                    });
+                }
+              
+                callback(null);
+                
+                });
+            }], function (err) {
+            return res.json({
+                    success: true,
+                    message: err
+                });
+            });
+
+        } catch (err) {
+            return res.json({
+                success: false,
+                message: err
+            });
+        }
+    },
 }

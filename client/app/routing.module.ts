@@ -33,6 +33,7 @@ import { IncidentListCompleteComponent } from './pages/incident/incident-list-co
 import { UserNewComponent } from './pages/user/user-new/user-new.component';
 import { UserMyInfoComponent } from './pages/user/user-my-info/user-my-info.component';
 import { CompanyNewComponent } from './pages/company/company-new/company-new.component';
+import { HigherProcessNewComponent } from  './pages/process/higher-process-new/higher-process-new.component';
 
 const routes: Routes = [
 
@@ -58,6 +59,7 @@ const routes: Routes = [
             { path: '3200', component: ComHigherComponent },
             
             { path: '4100', component: HigherProcessComponent },
+            { path: '4150', component: HigherProcessNewComponent },
             { path: '4200', component: LowerProcessComponent },
             { path: '4300', component: CompanyListComponent },
             { path: '4350', component: CompanyNewComponent},

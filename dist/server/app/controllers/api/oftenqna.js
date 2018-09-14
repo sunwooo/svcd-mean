@@ -96,6 +96,7 @@ module.exports = {
                     var rtnData = {};
                     rtnData.oftenqna = oftenqna;
                     rtnData.totalCnt = totalCnt;
+                    rtnData.totalPage = Math.ceil(totalCnt/perPage);
 
                     //logger.debug("=============================================");
                     //logger.debug("rtnData.totalCnt : ", rtnData.totalCnt);
@@ -198,6 +199,7 @@ module.exports = {
                     var rtnData = {};
                     rtnData.oftenqna = oftenqna;
                     rtnData.totalCnt = totalCnt;
+                    rtnData.totalPage = Math.ceil(totalCnt/perPage);
 
                     //logger.debug("=============================================");
                     //logger.debug("rtnData.totalCnt : ", rtnData.totalCnt);

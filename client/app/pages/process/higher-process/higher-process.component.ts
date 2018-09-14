@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from "@angular/common/http";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { HigherProcessService } from '../../../services/higher-process.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-higher-process',
@@ -25,7 +26,8 @@ export class HigherProcessComponent implements OnInit {
   ];  
 
   constructor(private higherProcessService: HigherProcessService
-  ,private modalService: NgbModal) 
+            ,private modalService: NgbModal
+            , private router: Router) 
   { }
 
   public maxSize: number = 10;      // 한 화면에 나타낼 페이지 수
@@ -91,5 +93,12 @@ export class HigherProcessComponent implements OnInit {
       this.formData.perPage = this.pageDataSize;
       
       this.getHigherList();
+  }
+
+  /**
+   * 상위업무 추가 페이지 이동
+   */
+  goAddPage() {
+    this.router.navigate(["/svcd/4150"]);
   }
 }

@@ -40,4 +40,12 @@ export class HigherProcessService {
         };
         return this.http.delete<any>('/api/higherProcess/delete', httpOptions);
     }
+
+    /**
+     * 상위업무 등록
+     * @param higherProcess 
+     */
+    addHigherProcess(higherProcess: NgForm): Observable<any> {
+        return this.http.post<any>('/api/higherProcess/new', higherProcess, {withCredentials:true});
+    }
 }
