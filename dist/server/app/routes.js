@@ -77,9 +77,10 @@ router.delete('/company/delete', ssc.sessionCheck, companyCtrl.delete);     //�
 
 
 //higherProcess route
-router.get('/higherProcess/list', ssc.sessionCheck, higherProcessCtrl.list);      //상위업무 조회
-router.put('/higherProcess/update', ssc.sessionCheck, higherProcessCtrl.update);  //상위업무 수정
-router.post('/higherProcess/new', ssc.sessionCheck, higherProcessCtrl.insert);    //상위업무 등록
+router.get('/higherProcess/list', ssc.sessionCheck, higherProcessCtrl.list);                  //상위업무 조회
+router.put('/higherProcess/update', ssc.sessionCheck, higherProcessCtrl.update);              //상위업무 수정
+router.post('/higherProcess/new', ssc.sessionCheck, higherProcessCtrl.insert);                //상위업무 등록
+router.delete('/higherProcess/delete', ssc.sessionCheck, higherProcessCtrl.delete);           //상위업무 삭제
 
 
 //oftenqna route

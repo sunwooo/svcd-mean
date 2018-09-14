@@ -12,7 +12,8 @@ var higherProcessSchema = mongoose.Schema({
     sabun: { type: String },                        //사번
     user_nm: { type: String , default : '관리자'},     //등록자
     created_at: { type: String },  //생성일자 
-    use_yn: { type: String , default : '사용'}        //사용여부
+    use_yn: { type: String , default : '사용'},        //사용여부
+    deleted_at: { type : String }                   //삭제일자
 });
 
 higherProcessSchema.pre("save", setCreateAt);

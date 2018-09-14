@@ -106,35 +106,48 @@ module.exports = {
     */
     delete: (req, res, next) => {
         try {
-            HigherProcess.findOneAndRemove({
-                _id: req.body.higherProcess.id
-                }, function (err, higherProcess) {
+            async.waterfall([function (callback) {
 
-                if (err) return res.json({
+            var upHigher = {};
+            var m = moment();
+            var date = m.format("YYYY-MM-DD HH:mm:ss");
+
+            upHigher.deleted_at = date;
+            upHigher.delete_flag = 'Y';
+
+            callback(null, upHigher);
+
+            //console.log("upQna : ", upQna);
+
+        }], function (err, upHigher) {
+                HigherProcess.findOneAndRemove({
+                _id: req.body._id
+                }, upHigher, function (err, higherProcess) {
+                if (err) {
+                    return res.json({
                     success: false,
                     message: err
+                    });
+                } else {
+                    return res.json({
+                    success: true,
+                    message: "delete successed"
+                    });
+                }
                 });
-                
-                if (!higherProcess) return res.json({
-                    success: false,
-                    message: "No data found to delete"
-                });
-                res.json(higherProcess);
             });
 
         } catch (err) {
-            logger.error("higherProcess deleted err : ", err);
-            
+            logger.error("upHigher deleted err : ", err);
             return res.json({
                 success: false,
                 message: err
             });
-        } finally{}
-
+        }
     },
 
     /**
-    * 회사 등록
+    * 상위업무 등록
     */
     insert: (req, res) => {
 
