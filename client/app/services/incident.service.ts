@@ -115,4 +115,12 @@ export class IncidentService {
         var headers = new HttpHeaders().append('Content-Type','application/json');
         return this.http.post('/api/incident/download', body, {responseType : 'blob', headers : headers});
     }
+
+    /**
+     * 파일 삭제
+     * @param incident
+     */
+    fileUpdate(incident){
+        return this.http.put<any>('/api/incident/update', incident, {withCredentials:true});
+    }
 }

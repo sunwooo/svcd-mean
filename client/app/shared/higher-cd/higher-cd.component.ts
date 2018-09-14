@@ -9,20 +9,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class HigherCdComponent implements OnInit {
 
-    @Input() scope: string; //상위업무 전체 조회면 '*', 
+    @Input() scope: string; //상위업무 전체 조회면 '*',
+    @Input() initHigherCd: string; //초기 상세업무
     @Input() required: boolean = false;
     @Input() placeholder: string;
     @Input() company: string;
     @Output() outHigherCd = new EventEmitter<string>();
 
     public higherCd: any;
-    public initHigherCd: string = "";
     public condition: any = {};
+    public selecedIdx;
 
     constructor(private commonApi: CommonApiService) { }
 
     ngOnInit() {       
-        //console.log("xxxxxxxxxxx this.scope ",this.scope);
         if(this.scope == "*") this.initHigherCd = "*";
         //console.log("xxxxxxxxxxx this.initHigherCd ",this.initHigherCd);
         this.getHigherCd(this.company);

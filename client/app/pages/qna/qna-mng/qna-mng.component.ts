@@ -120,7 +120,7 @@ export class QnaMngComponent implements OnInit {
 
   setDetail(modalId, oftenqna) {
     this.qnaDetail = oftenqna;
-    this.modalService.open(modalId, { windowClass: 'xlModal', centered: true });
+    this.modalService.open(modalId, { windowClass: 'xllModal', centered: true, backdrop: 'static', keyboard: false });
   }
 
   /**

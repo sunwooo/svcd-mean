@@ -87,6 +87,17 @@ export class UserService {
     }
 
     /**
+     * 미승인 사용자 리스트 조회
+     * @param condition 
+     */
+    getAccessUserList(condition): Observable<any> {
+
+        //console.log("==================services getUsermanageList", condition);
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/user/accessList', { params: httpParams });
+    }
+
+    /**
      * 사용자 수정
      * @param form 
      */
@@ -116,5 +127,25 @@ export class UserService {
             headers: new HttpHeaders({ 'Content-Type': 'application/json' }), body: body
         };
         return this.http.delete<any>('/api/user/delete', httpOptions);
+    }
+
+    /**
+     * 마이페이지 조회
+     * @param form 
+     */
+    myPageList(form): Observable<any> {
+
+        //console.log("==================services myPageList", form);
+        var httpParams = new HttpParams({ fromObject: form });
+        return this.http.get<any>('/api/user/myPage', { params: httpParams });
+    }
+
+    /**
+     * 마이페이지 수정
+     * @param form 
+     */
+    putMyPage(form): Observable<any>{
+        //console.log("=== user.services putUser form.value : ", form);
+        return this.http.put<any>('/api/user/myPageUpdate', form, { withCredentials: true });
     }
 }

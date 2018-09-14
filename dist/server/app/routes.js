@@ -28,8 +28,11 @@ router.post('/user/addUser', ssc.sessionCheck, userCtrl.insert);    //사용자 
 router.get('/user/empInfo', ssc.sessionCheck, userCtrl.empInfo);    //사용자 정보
 router.get('/user/findEmp', ssc.sessionCheck, userCtrl.findEmp);    //사용자 찾기
 router.get('/user/list', ssc.sessionCheck, userCtrl.list);          //사원정보관리
+router.get('/user/accessList', ssc.sessionCheck, userCtrl.accessList);          //사원정보관리
 router.put('/user/update', ssc.sessionCheck, userCtrl.update);      //사원정보수정
 router.delete('/user/delete', ssc.sessionCheck, userCtrl.delete);   //사원정보삭제
+router.get('/user/myPage', ssc.sessionCheck, userCtrl.myPage);      //마이페이지 조회
+router.put('/user/myPageUpdate', ssc.sessionCheck, userCtrl.myPageUpdate);      //마이페이지 수정
 
 
 //Common api route
@@ -44,7 +47,8 @@ router.get('/registerYyyy', ssc.sessionCheck, apiCtrl.registerYyyy);      //등�
 
 //incident route
 router.get('/incident/list', ssc.sessionCheck, incidentCtrl.list);    //인시던트 조회
-router.get('/incident/detail', ssc.sessionCheck, incidentCtrl.detail);    //상세조회
+router.get('/incident/detail', ssc.sessionCheck, incidentCtrl.detail);    //상세 조회
+router.put('/incident/update', ssc.sessionCheck, incidentCtrl.update);    //인시던트 수정
 router.post('/incident/new', ssc.sessionCheck, incidentCtrl.insert);     //문의하기 등록
 router.post('/incident/download', ssc.sessionCheck, incidentCtrl.download);  //첨부파일 다운로드
 router.put('/incident/valuation', ssc.sessionCheck, incidentCtrl.setValuation); //만족도 평가

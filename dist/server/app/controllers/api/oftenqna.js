@@ -10,6 +10,7 @@ var service = require('../../services/oftenqna');
 var CONFIG = require('../../../config/config.json');
 var logger = require('log4js').getLogger('app');
 var moment = require('moment');
+var fs = require('fs');
 
 module.exports = {
  
@@ -223,24 +224,52 @@ module.exports = {
      * qna 수정
     */
     update: (req, res, next) => {
-        //console.log("update req.query=====", req.query);
-        //console.log("update req.body=====", req.body._id);
 
-        OftenQna.findOneAndUpdate({
-            _id: req.body._id
-        }, req.body, function (err, oftenqna) {
-            if (err) {
-                return res.json({
+        try {
+            async.waterfall([function (callback) {
+      
+              //console.log("========================================================");
+              //console.log("========================req.body ",req.body);
+              //console.log("========================req.body._id ",req.body.qna._id);
+              //console.log("========================================================");
+      
+              OftenQna.findOneAndUpdate({
+                _id: req.body.qna._id
+              }, req.body.qna, function (err, qna) {
+                if (!qna) {
+                  return res.json({
                     success: false,
-                    message: err
+                    message: "No data found to update"
+                  });
+                } else {
+                  callback(null);
+                }
+              });
+      
+            }], function (err) {
+              if(!req.body.deletefile){
+                  return res.json({
+                      success: true,
+                      message: "수정되었습니다."
+                  });  
+              }  
+              fs.unlink(req.body.deletefile, function (err) {
+                  if (err) {
+                    console.log("qna attach file delete ",err);
+                  }
+                  return res.json({
+                      success: true,
+                      message: "수정되었습니다."
+                  });  
                 });
-            } else {
-                return res.json({
-                    success: true,
-                    message: "update successed"
-                });
-            }
-        });
+            });
+          } catch (err) {
+            logger.error("qna control update error : ", err);
+            return res.json({
+              success: false,
+              message: err
+            });
+          }
     },
 
     /**

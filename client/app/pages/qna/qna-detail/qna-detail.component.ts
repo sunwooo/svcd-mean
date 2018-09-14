@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { UserService } from '../../../services/user.service';
 import { CommonApiService } from '../../../services/common-api.service';
-import { catchError, map, tap,startWith, switchMap, debounceTime, distinctUntilChanged, takeWhile, first } from 'rxjs/operators';
+import { catchError, map, tap, startWith, switchMap, debounceTime, distinctUntilChanged, takeWhile, first } from 'rxjs/operators';
 import { HigherCdComponent } from '../../../shared/higher-cd/higher-cd.component';
 import { Input, Output } from "@angular/core";
 const URL = '/api/upload-file';
@@ -22,9 +22,9 @@ declare var $: any;
 
 
 @Component({
-  selector: 'app-qna-detail',
-  templateUrl: './qna-detail.component.html',
-  styleUrls: ['./qna-detail.component.css']
+    selector: 'app-qna-detail',
+    templateUrl: './qna-detail.component.html',
+    styleUrls: ['./qna-detail.component.css']
 })
 export class QnaDetailComponent implements OnInit {
 
@@ -32,7 +32,7 @@ export class QnaDetailComponent implements OnInit {
     @Input() cValues;              //모달창 닫기용
     @Input() dValues;              //모달창 무시용
     @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
-   
+
     public isChecked;
 
     private formData: any = {};    //전송용 formData
@@ -49,12 +49,7 @@ export class QnaDetailComponent implements OnInit {
     public user_flag: string = this.cookieService.get("user_flag");
     public employee_nm: string = this.cookieService.get("employee_nm");
 
-    
-
-    
-
-
-  constructor(private auth: AuthService,
+    constructor(private auth: AuthService,
         public toast: ToastComponent,
         private qnaService: QnaService,
         private cookieService: CookieService,
@@ -65,49 +60,49 @@ export class QnaDetailComponent implements OnInit {
 
 
 
-  ngOnInit() {
-    this.formData = this.qnaDetail;
-    this.getCompany();
-    
-    //pop_yn에 따른 체크박스 체크
-    if(this.formData.pop_yn == "Y"){
-        this.isChecked = true;
-    }else{
-        this.isChecked = false;
-    }
+    ngOnInit() {
 
-     this.dropdownList = [
+        this.getCompany();
+
+        //pop_yn에 따른 체크박스 체크
+        if (this.qnaDetail.pop_yn == "Y") {
+            this.isChecked = true;
+        } else {
+            this.isChecked = false;
+        }
+
+        this.dropdownList = [
+            /*
+                { id: "1", itemName: "India" },
+                { id: "2", itemName: "Singapore" },
+                { id: "3", itemName: "Australia" },
+                { id: "4", itemName: "Canada" },
+                { id: "5", itemName: "South Korea" },
+                { id: "6", itemName: "Brazil" }
+            */
+        ];
+
+
+        this.selectedItems = this.qnaDetail.company_cd;
+        //console.log("this.selectedItems : ", this.selectedItems);
         /*
-            { id: "1", itemName: "India" },
-            { id: "2", itemName: "Singapore" },
-            { id: "3", itemName: "Australia" },
-            { id: "4", itemName: "Canada" },
-            { id: "5", itemName: "South Korea" },
-            { id: "6", itemName: "Brazil" }
-        */
-        ];
-
-        
-        this.selectedItems = this.formData.company_cd;
-        console.log("this.selectedItems : ", this.selectedItems);
-/*
-        [
-            { "id": 1, "itemName": "India" },
-            { "id": 2, "itemName": "Singapore" },
-            { "id": 3, "itemName": "Australia" },
-            { "id": 4, "itemName": "Canada" }
-        ];
-  */      
+                [
+                    { "id": 1, "itemName": "India" },
+                    { "id": 2, "itemName": "Singapore" },
+                    { "id": 3, "itemName": "Australia" },
+                    { "id": 4, "itemName": "Canada" }
+                ];
+          */
         this.dropdownSettings = {
-                            singleSelection: false, 
-                            text:"Select on Companies",
-                            selectAllText:'Select All',
-                            unSelectAllText:'UnSelect All',
-                            enableSearchFilter: true,
-                            classes:"myclass custom-class"
+            singleSelection: false,
+            text: "Select on Companies",
+            selectAllText: 'Select All',
+            unSelectAllText: 'UnSelect All',
+            enableSearchFilter: true,
+            classes: "myclass custom-class"
         };
 
-        
+
         $('#summernote').summernote({
             height: 350, // set editor height;
             minHeight: null, // set minimum height of editor
@@ -132,12 +127,16 @@ export class QnaDetailComponent implements OnInit {
             }
         });
 
-        $('#summernote').summernote('code', this.formData.content);
+        $('#summernote').summernote('code', this.qnaDetail.content);
 
         /**
-         * 개별 파일업로드 완료 시 db저장용 objectt배열에 저장
+         * 개별 파일업로드 완료 시 db저장용 object배열에 저장
          */
         this.uploader.onCompleteItem = (item: any, res: any, status: any, headers: any) => {
+            //console.log('=======================================uploader.onCompleteItem=======================================');
+            //console.log("uploader.onCompleteItem res ", res);
+            //console.log('=================================================================================================');
+
             this.attach_file.push(JSON.parse(res));
         }
 
@@ -145,60 +144,34 @@ export class QnaDetailComponent implements OnInit {
          * 첨부파일 전체 업로드 완료 시 db저장용 object배열을 fromData에 저장
          */
         this.uploader.onCompleteAll = () => {
-            this.formData.oftenqna.attach_file = this.attach_file;
-            this.saveQna();
-        }
-  }
 
+            this.attach_file.forEach(af => {
+                this.qnaDetail.attach_file.push(af);
+            });
 
-  /**
-     * mongodb 저장용 서비스 호출
-     */
-    saveQna() {
-        console.log('=======================================saveOftenqna(form : NgForm)===============================');
-        console.log("form",this.formData);
-        console.log('=================================================================================================');
-        
-        this.formData.company_cd = this.selectedItems;
-        console.log("this.selectedItems : ", this.selectedItems);
-
-
-        this.qnaService.putQna(this.formData).subscribe(
-            (res) => {
-
-                console.log('============= oftenqnaService.putOftenqna(this.formData).subscribe ===============');
-                console.log(res);
-                console.log('===================================================================================');
-
-                //this.toast.open('저장되었습니다.', 'success');
-                //this.router.navigate(['/svcd/4800']);
-                //this.cValues('Close click');
-
-
-                if(res.success){
-                    //리스트와 공유된 oftenqnaDetail 수정
-                    this.qnaDetail.title     = this.formData.title;
-                    this.qnaDetail.content   = this.formData.content;
-                    this.qnaDetail.pop_yn    = this.formData.pop_yn;
-
-                    console.log("successssssssssssssssss======================>", this.qnaDetail.pop_yn);
-                    
-
-                    this.openerReload.emit();
-
-                    //모달창 닫기
-                    this.cValues('Close click');
+            this.formData = {
+                'qna': {
+                    '_id': this.qnaDetail._id,
+                    'attach_file': this.qnaDetail.attach_file
                 }
+            };
 
+            //console.log('=======================================uploader.onCompleteAll=======================================');
+            //console.log("this.formData ", this.formData);
+            //console.log('=================================================================================================');
 
-            },
-            (error: HttpErrorResponse) => {
-                this.toast.open('오류입니다. ' + error.message, 'danger');
-            }
-        );
-        
-
+            //Template form을 전송용 formData에 저장 
+            this.qnaService.fileUpdate(this.formData).subscribe(
+                (res) => {
+                    this.uploader.clearQueue();
+                    this.toast.open('파일이 업로드되었습니다.', 'success');
+                },
+                (error: HttpErrorResponse) => {
+                    console.log(error);
+                });
+        }
     }
+
 
     /**
      * formData 조합
@@ -206,35 +179,38 @@ export class QnaDetailComponent implements OnInit {
      */
     updateQna(form: NgForm) {
 
-
-console.log("xxxxxxxxxxxxxxxxxxxx : ",this.isChecked);
-
         //Template form을 전송용 formData에 저장 
+        this.formData = form.value;
+        this.formData.qna._id = this.qnaDetail._id;
+
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
-        this.formData.content = text;
-  
-        this.formData.title = form.value.oftenqna.title;
-        this.formData.user_nm = this.employee_nm;
-        if(this.isChecked){
-            this.formData.pop_yn = "Y";
-        }else{
-            this.formData.pop_yn = "N";
-        }
+        this.formData.qna.content = text;
 
-        console.log('============= updateQna ===============');
-        console.log('this.formData.title :' , this.formData.title);
-        console.log('this.formData.content :' , this.formData.content);
-        console.log("this.formData.pop_yn111111111111111111111111111 : ",  this.isChecked);
-        console.log("this.uploader : ", this.uploader);
-        console.log("this.formData : ", this.formData);
-        console.log('============================================');
-
-        if (this.uploader.queue.length > 0) {
-            this.uploader.uploadAll(); //uploader 완료(this.uploader.onCompleteAll) 후 oftenqna저장
+        this.formData.qna.user_nm = this.employee_nm;
+        if (this.isChecked) {
+            this.formData.qna.pop_yn = "Y";
         } else {
-            this.saveQna();
+            this.formData.qna.pop_yn = "N";
         }
+
+        this.formData.qna.company_cd = this.selectedItems;
+
+        this.qnaService.putQna(this.formData).subscribe(
+            (res) => {
+                if (res.success) {
+                    //리스트와 공유된 oftenqnaDetail 수정
+                    this.qnaDetail.title = this.formData.qna.title;
+                    this.qnaDetail.content = this.formData.qna.content;
+                    this.qnaDetail.pop_yn = this.formData.qna.pop_yn;
+                    //모달창 닫기
+                    this.cValues('Close click');
+                }
+            },
+            (error: HttpErrorResponse) => {
+                this.toast.open('오류입니다. ' + error.message, 'danger');
+            }
+        );
 
     }
 
@@ -244,14 +220,11 @@ console.log("xxxxxxxxxxxxxxxxxxxx : ",this.isChecked);
      * @param higherProcessId
      */
     deleteQna(qnaId) {
-        console.log("deleteQna qnaId :" , qnaId);
+        //console.log("deleteQna qnaId :", qnaId);
 
         this.qnaService.delete(qnaId).subscribe(
             (res) => {
-                
-                if(res.success){
-
-                    console.log("successAAAAAAA");
+                if (res.success) {
                     this.toast.open('삭제되었습니다.', 'success');
                     this.router.navigate(['/svcd/4800']);
                     this.openerReload.emit();
@@ -276,51 +249,93 @@ console.log("xxxxxxxxxxxxxxxxxxxx : ",this.isChecked);
     }
 
 
-    onItemSelect(item:any){
-        console.log("onItemSelect selectedItems : ", this.selectedItems);
-        console.log("onItemSelect item : ", item);
-        
+    onItemSelect(item: any) {
+        //console.log("onItemSelect selectedItems : ", this.selectedItems);
+        //console.log("onItemSelect item : ", item);
+
         //this.selectedItems.push(item);
         console.log("1 this.selectedItems: ", this.selectedItems);
     }
-    OnItemDeSelect(item:any){
+    OnItemDeSelect(item: any) {
         //this.selectedItems.pop();
-        console.log("2 this.selectedItems: ", this.selectedItems);
+        //console.log("2 this.selectedItems: ", this.selectedItems);
 
     }
-    onSelectAll(items: any){
+    onSelectAll(items: any) {
         //this.selectedItems.splice(0);
         //this.selectedItems.push(items); //[{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
         //this.selectedItems = this.selectedItems[0];
-        console.log("3 this.selectedItems: ", this.selectedItems);
+        //console.log("3 this.selectedItems: ", this.selectedItems);
     }
-    onDeSelectAll(items: any){
+    onDeSelectAll(items: any) {
         //this.selectedItems.splice(0);
-        console.log("4 this.selectedItems: ", this.selectedItems);
+        //console.log("4 this.selectedItems: ", this.selectedItems);
     }
 
     /**
    * 회사리스트 조회
    */
-  
-  getCompany() {
-    this.commonApi.getCompany({scope:"*"}).subscribe( 
-        (res) => {
-            //console.log("getCompany res ====>" , JSON.stringify(res));
-            //console.log("getCompany res ====>" , JSON.stringify(res));
-            this.companyObj = res;
-            for(var i=0; i<this.companyObj.length;i++){
 
-                var text = {id:""+ this.companyObj[i].company_cd+"",itemName:""+ this.companyObj[i].company_nm+""} ;
-                console.log("text :" + text);
-                // {id:"7",itemName:"France"},
+    getCompany() {
+        this.commonApi.getCompany({ scope: "*" }).subscribe(
+            (res) => {
+                //console.log("getCompany res ====>" , JSON.stringify(res));
+                //console.log("getCompany res ====>" , JSON.stringify(res));
+                this.companyObj = res;
+                for (var i = 0; i < this.companyObj.length; i++) {
 
-                this.dropdownList.push(text);
+                    var text = { id: "" + this.companyObj[i].company_cd + "", itemName: "" + this.companyObj[i].company_nm + "" };
+                    //console.log("text :" + text);
+                    // {id:"7",itemName:"France"},
+
+                    this.dropdownList.push(text);
+                }
+            },
+            (error: HttpErrorResponse) => {
             }
-        },
-        (error: HttpErrorResponse) => {
+        );
+    }
+
+
+    /**
+     * 파일 다운로드
+     * @param path 
+     * @param filename 
+     */
+    deleteFile(deletefile, index) {
+
+        //삭제할 파일을 attach_file 배열에서 제거 (DB저장용)
+        this.qnaDetail.attach_file.splice(index, 1);
+
+        this.formData = {
+            'qna': {
+                '_id': this.qnaDetail._id,
+                'attach_file': this.qnaDetail.attach_file
+            },
+            'deletefile': deletefile
+        };
+
+        //Template form을 전송용 formData에 저장 
+        this.qnaService.fileUpdate(this.formData).subscribe(
+            (res) => {
+                console.log("res ", res);
+                this.toast.open('파일이 삭제되었습니다.', 'success');
+            },
+            (error: HttpErrorResponse) => {
+                console.log(error);
+            }
+        );
+    }
+
+    /**
+     * 첨부파일 추가
+     */
+    addAttachFile() {
+        if (this.uploader.queue.length > 0) {
+            this.uploader.uploadAll(); //uploader 완료(this.uploader.onCompleteAll)
+        } else {
+            this.toast.open('올릴 파일을 선택하세요.', 'danger');
         }
-    );
-  }
+    }
 
 }
