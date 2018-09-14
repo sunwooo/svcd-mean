@@ -31,6 +31,8 @@ router.get('/user/list', ssc.sessionCheck, userCtrl.list);          //사원정�
 router.get('/user/accessList', ssc.sessionCheck, userCtrl.accessList);          //사원정보관리
 router.put('/user/update', ssc.sessionCheck, userCtrl.update);      //사원정보수정
 router.delete('/user/delete', ssc.sessionCheck, userCtrl.delete);   //사원정보삭제
+router.get('/user/myPage', ssc.sessionCheck, userCtrl.myPage);      //마이페이지 조회
+router.put('/user/myPageUpdate', ssc.sessionCheck, userCtrl.myPageUpdate);      //마이페이지 수정
 
 
 //Common api route
