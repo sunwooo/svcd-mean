@@ -82,6 +82,8 @@ export class IncidentRewriteComponent implements OnInit {
                 }
         });
 
+        this.incidentDetail.title = "[재요청] "+this.incidentDetail.title;
+
         $('#summernote').summernote('code', this.incidentDetail.content);
 
         /**
@@ -127,9 +129,6 @@ export class IncidentRewriteComponent implements OnInit {
 
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
-
-        this.formData.incident._id = this.incidentDetail._id;
-        this.formData.incident.title = "[재요청]"+this.incidentDetail.title;
 
         //form.onReset();
 
