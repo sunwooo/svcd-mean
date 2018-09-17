@@ -14,18 +14,24 @@ import { NgForm } from '@angular/forms';
 export class UserMyInfoComponent implements OnInit {
 
     @Input() myPageDetail: any; //조회 user
-    @Input() user_id: any;
-    @Input() cValues;  //모달창 닫기용
-    @Input() dValues;  //모달창 무시용
     @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
 
-    public show_addr: string;
-    public zip_cd: string;
-    public addr: string;
     public companyObj: any = [];                //회사리스트 Object
     public selectedComIdx = 0;                  //회사리스트 Object내 회사  index
     private formData: any = {};                 //전송용 formData
-    private userObj: any = [];                  //조회 user
+    public userCompany_nm: string;
+    public company_cd: string;
+    public company_nm: string;
+    public email: string;
+    public sabun: string;
+    public password: string;
+    public employee_nm: string;
+    public dept_nm: string;
+    public position_nm: string;
+    public jikchk_nm: string;
+    public hp_telno: string;
+    public office_tel_no: string;
+    public id: string;
 
     public userFlagObj: { name: string; value: string; }[] = [
         { name: '그룹관리자', value: '1' },
@@ -67,19 +73,17 @@ export class UserMyInfoComponent implements OnInit {
     getCompanyList() {
         this.commonApi.getCompany(this.myPageDetail).subscribe(
             (res) => {
-                //console.log("res : ", res);
+                //console.log("getCompanyList res : ", res);
                 this.companyObj = res;
 
                 //idx를 찾아서 조회시 초기값 세팅
                 var tmpIdx = 0;
-                /*
                 this.companyObj.forEach(element => {
-                    if (element.company_cd == this.myPageDetail.company_cd) {
+                    if (element.company_cd == this.company_cd) {
                         this.selectedComIdx = tmpIdx;
                     }
                     tmpIdx++;
                 });
-                */
             },
             (error: HttpErrorResponse) => {
             }
@@ -90,28 +94,34 @@ export class UserMyInfoComponent implements OnInit {
      * 회사리스트 선택후 company_cd, compant_nm 세팅
      */
     setCompany(idx) {
-        this.myPageDetail.company_cd = this.companyObj[idx].company_cd;
-        this.myPageDetail.company_nm = this.companyObj[idx].company_nm;
+        this.company_cd = this.companyObj[idx].company_cd;
+        this.company_nm = this.companyObj[idx].company_nm;
     }
 
     /**
     * 마이페이지 조회
     */
     getMyPage() {
-        console.log("getMyPage start!!!");
+        //console.log("getMyPage start!!!");
 
         this.userService.myPageList(this.formData).subscribe(
             (res) => {
-                console.log("res >>> ", res);
+                //console.log("res >>> ", res);
+                //console.log("res.email >>> ", res.email);
                 
-
-                this.userObj = [];
-                var tmp = this.userObj.concat(res.user);
-                this.userObj = tmp;
-
-                if (this.userObj.length == 0) {
-                    this.toast.open('조회데이타가 없습니다..', 'success');
-                }
+                this.userCompany_nm = res.userCompany_nm;
+                this.company_cd = res.company_cd;
+                this.company_nm = res.company_nm;
+                this.email = res.email;
+                this.sabun = res.sabun;
+                this.password = res.password;
+                this.employee_nm = res.employee_nm;
+                this.dept_nm = res.dept_nm;
+                this.position_nm = res.position_nm;
+                this.jikchk_nm = res.jikchk_nm;
+                this.hp_telno = res.hp_telno;
+                this.office_tel_no = res.office_tel_no;
+                this.id = res._id;
 
                 //this.userObj = res.user;
             },
@@ -127,8 +137,9 @@ export class UserMyInfoComponent implements OnInit {
      * @param form 
      */
     myPageUpdate(form: NgForm) {
+        //console.log("this.id > ", this.id);
 
-        form.value.user.id = this.myPageDetail._id;
+        form.value.user.id = this.id;
 
         //console.log('======= save(form : NgForm) =======');
         //console.log("form.value > ", form.value);
@@ -139,22 +150,6 @@ export class UserMyInfoComponent implements OnInit {
         this.userService.putMyPage(form.value).subscribe(
             (res) => {
                 if (res.success) {
-                    this.myPageDetail.company_cd = form.value.company_cd;
-                    this.myPageDetail.company_nm = form.value.company_nm;
-                    this.myPageDetail.sabun = form.value.sabun;
-                    this.myPageDetail.password = form.value.password;
-                    this.myPageDetail.employee_nm = form.value.employee_nm;
-                    this.myPageDetail.dept_nm = form.value.dept_nm;
-                    this.myPageDetail.position_nm = form.value.position_nm;
-                    this.myPageDetail.jikchk_nm = form.value.jikchk_nm;
-                    this.myPageDetail.hp_telno = form.value.hp_telno;
-                    this.myPageDetail.office_tel_no = form.value.office_tel_no;
-                    this.myPageDetail.group_flag = form.value.group_flag;
-                    this.myPageDetail.user_flag = form.value.user_flag;
-                    this.myPageDetail.email_send_yn = form.value.email_send_yn;
-                    this.myPageDetail.access_yn = form.value.access_yn;
-                    this.myPageDetail.using_yn = form.value.using_yn;
-
                     this.toast.open('수정되었습니다.', 'success');
                     this.openerReload.emit();
 
@@ -168,7 +163,7 @@ export class UserMyInfoComponent implements OnInit {
     }
 
     goList() {
-        this.router.navigate(['/svcd/4400']);
+        this.router.navigate(['/svcd/0001']);
     }
 
 }
