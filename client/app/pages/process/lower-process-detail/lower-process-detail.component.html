@@ -1,0 +1,157 @@
+<div class="modal-header" style="text-align:left">
+  <h5 class="modal-title">
+    하위업무 상세보기
+  </h5>
+  <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-sm-12">
+    <form #f="ngForm" (ngSubmit)="updateLowerProcess(f)" novalidate>
+      <!--<form #f="ngForm" (ngSubmit)="saveUser(f)" novalidate>-->
+        <div ngModelGroup="lowerProcess">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div role="toolbar" class="btn-toolbar m-b-10">
+                    <div class="float-right">
+                        <button type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+                        <i class="fa fa-bars"></i>목록</button>
+                        <button type="button" (click)="deleteLowerProcess(lowerProcessDetail?._id);" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
+                        <i class="fa fa-remove"></i>삭제</button>
+                        <button type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+                        <i class="fa fa-send-o"></i>저장</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card-box m-r-5">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-8 col-sm-12 col-centered">
+                                    <div class="form-wrap">
+                                        <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-key">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="lowerProcessDetail?.higher_nm"
+                                                        id="higher_nm"
+                                                        type="text" 
+                                                        maxlength="30" 
+                                                        name="higher_nm" 
+                                                        placeholder="상위업무명" 
+                                                        style="ime-mode:active;" 
+                                                        required
+                                                        readonly
+                                                >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field  class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="lowerProcessDetail?.lower_cd"
+                                                        id="lower_cd"
+                                                        type="text"
+                                                        name="lower_cd" 
+                                                        placeholder="하위업무코드"
+                                                        style="ime-mode:active;" 
+                                                        required
+                                                        readonly
+                                                >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field  class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="lowerProcessDetail?.lower_nm"
+                                                        id="lower_nm"
+                                                        type="text"
+                                                        name="lower_nm" 
+                                                        placeholder="하위업무명"
+                                                        style="ime-mode:active;" 
+                                                        required
+                                                >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-info-circle">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="lowerProcessDetail?.description"
+                                                        id="description"
+                                                        type="text" 
+                                                        name="description" 
+                                                        placeholder="설명" 
+                                                        style="ime-mode:active;" 
+                                                        
+                                                >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-info-circle">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="lowerProcessDetail?.need_hour"
+                                                        id="need_hour"
+                                                        type="text" 
+                                                        name="need_hour" 
+                                                        placeholder="소요시간" 
+                                                        style="ime-mode:active;"   
+                                                >
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field">
+                                            <span matPrefix style ="width:10px">
+                                                    <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                            <mat-select [ngModel]="lowerProcessDetail?.use_yn"
+                                                    name="use_yn" 
+                                                    placeholder="사용여부">
+                                                <mat-option *ngFor="let obj of use_ynObj" [value]="obj.value">{{obj.name}}</mat-option>
+                                            </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="input-wrap" style="display:none">
+                                            <mat-form-field  class="mat-form-field2">
+                                                <span matPrefix>
+                                                    <i class="prefix fa fa-comment-o">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <input matInput 
+                                                        [ngModel]="lowerProcessDetail?._id"
+                                                        id="id"
+                                                        type="id" 
+                                                        name="id" 
+                                                        placeholder="objectId" 
+                                                >
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- card-box m-r-5 -->
+                </div>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  
