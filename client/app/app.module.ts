@@ -29,6 +29,7 @@ import { HigherProcessService } from './services/higher-process.service';
 import { QnaService } from './services/qna.service';
 import { MyProcessService } from './services/my-process.service';
 import { CompanyProcessService } from './services/company-process.service';
+import { LowerProcessService } from './services/lower-process.service';
 
 /** Components */
 import { AppComponent } from './app.component';
@@ -94,6 +95,9 @@ import { IncidentRewriteComponent } from './pages/incident/incident-rewrite/inci
 import { UserMyInfoComponent } from './pages/user/user-my-info/user-my-info.component';
 import { CompanyNewComponent } from './pages/company/company-new/company-new.component';
 import { HigherProcessNewComponent } from './pages/process/higher-process-new/higher-process-new.component';
+import { LowerProcessDetailComponent } from './pages/process/lower-process-detail/lower-process-detail.component';
+import { LowerProcessNewComponent } from './pages/process/lower-process-new/lower-process-new.component';
+
 
 const PAGES = [
     HomeComponent,
@@ -162,7 +166,9 @@ const PAGES = [
         IncidentRewriteComponent,
         UserMyInfoComponent,
         CompanyNewComponent,
-        HigherProcessNewComponent    ],
+        HigherProcessNewComponent,
+        LowerProcessDetailComponent,
+        LowerProcessNewComponent    ],
     imports: [
         BrowserModule,
         RoutingModule,
@@ -193,7 +199,8 @@ const PAGES = [
         QnaService,
         MyProcessService,
         CompanyProcessService,
-        PopUpComponent
+        PopUpComponent,
+        LowerProcessService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]
