@@ -63,8 +63,8 @@ export class UserMyInfoComponent implements OnInit {
         , private router: Router) { }
 
     ngOnInit() {
-        this.getCompanyList();
         this.getMyPage();
+        this.getCompanyList();
     }
 
     /**
