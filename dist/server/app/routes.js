@@ -11,6 +11,7 @@ var incidentCtrl = require("../app/controllers/api/incident");
 var statisticCtrl = require("../app/controllers/api/statistic");
 var companyCtrl = require("../app/controllers/api/company");
 var higherProcessCtrl = require("../app/controllers/api/higherProcess");
+var lowerProcessCtrl = require("../app/controllers/api/lowerProcess");
 var myProcessCtrl = require("../app/controllers/api/myProcess");
 var companyProcessCtrl = require("../app/controllers/api/companyProcess");
 var apiCtrl = require("../app/controllers/api/common");
@@ -77,8 +78,17 @@ router.delete('/company/delete', ssc.sessionCheck, companyCtrl.delete);     //�
 
 
 //higherProcess route
-router.get('/higherProcess/list', ssc.sessionCheck, higherProcessCtrl.list); //상위업무 조회
-router.put('/higherProcess/update', ssc.sessionCheck, higherProcessCtrl.update); //상위업무 수정
+router.get('/higherProcess/list', ssc.sessionCheck, higherProcessCtrl.list);                  //상위업무 조회
+router.put('/higherProcess/update', ssc.sessionCheck, higherProcessCtrl.update);              //상위업무 수정
+router.post('/higherProcess/new', ssc.sessionCheck, higherProcessCtrl.insert);                //상위업무 등록
+router.delete('/higherProcess/delete', ssc.sessionCheck, higherProcessCtrl.delete);           //상위업무 삭제
+
+
+//lowerProcess route
+router.get('/lowerProcess/list', ssc.sessionCheck, lowerProcessCtrl.list);                  //상위업무 조회
+router.put('/lowerProcess/update', ssc.sessionCheck, lowerProcessCtrl.update);              //상위업무 수정
+router.post('/lowerProcess/new', ssc.sessionCheck, lowerProcessCtrl.insert);                //상위업무 등록
+router.delete('/lowerProcess/delete', ssc.sessionCheck, lowerProcessCtrl.delete);           //상위업무 삭제
 
 
 //oftenqna route

@@ -6,6 +6,8 @@ import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { HigherProcessService } from '../../../services/higher-process.service';
 import { EventEmitter } from "@angular/core";
+import { ToastComponent } from '../../../shared/toast/toast.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-higher-process-detail',
@@ -20,10 +22,13 @@ import { EventEmitter } from "@angular/core";
 
 export class HigherProcessDetailComponent implements OnInit {
   @Input() higherProcessDetail: any; //조회 company
+
   @Input() cValues;  //모달창 닫기용
   @Input() dValues;  //모달창 무시용
   @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
   @Output() afterDelete = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
+  
+  private formData: any = {};    //전송용 formData
 
   public today = new Date();
   public minDate = new Date(2015, 0, 1);
@@ -36,7 +41,9 @@ export class HigherProcessDetailComponent implements OnInit {
   ];
   
 
-  constructor(private higherProcessService: HigherProcessService) { }
+  constructor(private higherProcessService: HigherProcessService
+                 ,public toast: ToastComponent
+                ,private router: Router) { }
 
   ngOnInit() {
   }
@@ -48,38 +55,34 @@ export class HigherProcessDetailComponent implements OnInit {
     */
     
     updateHigherProcess(form: NgForm) {
-        console.log("this.higherProcessDetail" ,this.higherProcessDetail);
-        
-        form.value.higherProcess.id = this.higherProcessDetail._id;
 
+        //Template form을 전송용 formData에 저장 
+        this.formData = form.value;
+        this.formData.higherProcess._id = this.higherProcessDetail._id;
+
+       
         console.log('=======================================save(form : NgForm)=======================================');
         console.log("form.value",form.value);
         console.log("form",form);
         console.log('=================================================================================================');
 
-   
-
-        this.higherProcessService.putHigherProcess(form).subscribe(
-            res => {
-
-                //업데이트가 성공하면 진행 상태값 변경
-                console.log("res>>>",res);
-                if(res.success){
-                    //리스트와 공유된 higherProcessDetail 수정
-                    this.higherProcessDetail.higher_nm   = form.value.higher_nm;
-                    this.higherProcessDetail.higher_cd   = form.value.higher_cd;
-                    this.higherProcessDetail.description = form.value.description;
-                    this.higherProcessDetail.use_yn      = form.value.use_yn;
-
-                     this.openerReload.emit();
-
+        this.higherProcessService.putHigherProcess(this.formData).subscribe(
+            
+            (res) => {
+                console.log("res>>>", res);
+                
+                if (res.success) {
+                    //리스트와 공유된 oftenqnaDetail 수정
+                    this.higherProcessDetail.higher_nm   = this.formData.higherProcess.higher_nm;
+                    this.higherProcessDetail.higher_cd   = this.formData.higherProcess.higher_cd;
+                    this.higherProcessDetail.description = this.formData.higherProcess.description;
+                    this.higherProcessDetail.use_yn      = this.formData.higherProcess.use_yn;
                     //모달창 닫기
                     this.cValues('Close click');
                 }
-            }
-            ,
+            },
             (error: HttpErrorResponse) => {
-
+                this.toast.open('오류입니다. ' + error.message, 'danger');
             }
         );
     }
@@ -89,9 +92,17 @@ export class HigherProcessDetailComponent implements OnInit {
      * @param higherProcessId
      */
     deleteHigherProcess(higherProcessId) {
+        console.log("deleteHigherProcess higherProcessId :", higherProcessId);
+
         this.higherProcessService.delete(higherProcessId).subscribe(
+            
             (res) => {
-                this.afterDelete.emit();
+                if (res.success) {
+                    this.toast.open('삭제되었습니다.', 'success');
+                    this.router.navigate(['/svcd/4100']);
+                    this.openerReload.emit();
+                }
+
             },
             (error: HttpErrorResponse) => {
                 console.log(error);
@@ -101,6 +112,7 @@ export class HigherProcessDetailComponent implements OnInit {
             }
         );
     }
+
 
     /**
      * 달력 이벤트 처리

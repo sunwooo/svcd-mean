@@ -25,8 +25,8 @@ export class HigherProcessService {
      * 상위업무 수정
      * @param form 
     */
-    putHigherProcess(form: NgForm): Observable<any> {
-        return this.http.put<any>('/api/higherProcess/update', form.value, {withCredentials:true});
+    putHigherProcess(form): Observable<any> {
+        return this.http.put<any>('/api/higherProcess/update', form, {withCredentials:true});
     }
 
     /**
@@ -34,10 +34,18 @@ export class HigherProcessService {
      * @param higherProcessId
      */
     delete(higherProcessId): Observable<any>{
-        var body = {id:higherProcessId};
+        var body = {_id:higherProcessId};
         var httpOptions = {
             headers: new HttpHeaders({ 'Content-Type': 'application/json' }), body: body
         };
         return this.http.delete<any>('/api/higherProcess/delete', httpOptions);
+    }
+
+    /**
+     * 상위업무 등록
+     * @param higherProcess 
+     */
+    addHigherProcess(higherProcess: NgForm): Observable<any> {
+        return this.http.post<any>('/api/higherProcess/new', higherProcess, {withCredentials:true});
     }
 }

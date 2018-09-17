@@ -90,17 +90,18 @@ module.exports = {
                     });
                 } else {
 
-                    //incident에 페이징 처리를 위한 전체 갯수전달
+                    //company에 페이징 처리를 위한 전체 갯수전달
                     var rtnData = {};
                     rtnData.company = company;
                     rtnData.totalCnt = totalCnt;
+                    rtnData.totalPage = Math.ceil(totalCnt/perPage);
+
+                    res.json(rtnData);
 
                     //logger.debug("=============================================");
                     //logger.debug("rtnData.totalCnt : ", rtnData.totalCnt);
                     //console.log("rtnData : ", JSON.stringify(rtnData));
                     //logger.debug("=============================================");
-
-                    res.json(rtnData);
 
                 }
             })
