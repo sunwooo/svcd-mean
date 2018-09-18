@@ -4,6 +4,7 @@ import { NgForm } from "@angular/forms";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { CompanyService } from '../../../services/company.service';
+import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS, MatDatepickerInputEvent } from '@angular/material';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class CompanyNewComponent implements OnInit {
   public isLoading = true;
   private formData: any = {}; //전송용 formData
 
-  //public group_flag: string = "";              
+  public group_flag: string = "";              
   public company_cd: string = "";              
   public company_nm: string = "";  
   public type: string = "";  
@@ -27,6 +28,10 @@ export class CompanyNewComponent implements OnInit {
   public bigo: string = "";
   public date_from: string = "";
   public date_to: string = "";
+
+  public today = new Date();
+  public minDate = new Date(2015, 0, 1);
+  public maxDate = new Date(2030, 0, 1);
 
 
   public groupFlagObj: { name: string; value: string; }[] = [
@@ -57,7 +62,7 @@ export class CompanyNewComponent implements OnInit {
 
      
       //Template form을 전송용 formData에 저장 
-      //form.value.company.group_flag    = this.group_flag;
+      form.value.company.group_flag    = this.group_flag;
       form.value.company.company_cd    = this.company_cd;
       form.value.company.company_nm    = this.company_nm;
       form.value.company.type          = this.type;
@@ -101,6 +106,18 @@ export class CompanyNewComponent implements OnInit {
         }
     );
   }
+
+  /**
+     * Datepicker 이벤트 발생 시
+     * @param type
+     * @param event 
+     */
+    addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+        //this.events.push(`${type}: ${event.value}`);
+        console.log("========== addEvent ============");
+        console.log("type : ", type, "event : ", event.value);
+        console.log("================================");
+    }
 
 
 }
