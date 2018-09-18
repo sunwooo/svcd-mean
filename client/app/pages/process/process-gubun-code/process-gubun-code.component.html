@@ -50,18 +50,18 @@
           <table id="dvData" class="table table-hover">
             <thead>
               <tr>
-                <th width="15%" class="text-center">처리구분명</th>
-                <th width="10%" class="text-center">유형</th>
+                <th width="25%" class="text-center">처리구분명</th>
+                <th width="8%" class="text-center">유형</th>
                 <th class="text-center">설명</th>
-                <th width="10%" class="text-center">등록자</th>
-                <th width="10%" class="text-center">사용여부</th>
+                <th width="8%" class="text-center">등록자</th>
+                <th width="8%" class="text-center">사용여부</th>
               </tr>
             </thead>
             <tbody>
               <!--<tr *ngFor="let higher of higherProcess" (click)="setDetail(companyDetailModal, com);">-->
               <tr *ngFor="let gubun of processGubunCode" (click)="setDetail(processGubunCodeDetailModal, gubun);">
-                <td>{{gubun.process_nm}}</td>
-                <td>{{gubun.question_type}}</td>
+                <td class='text-left'>{{gubun.process_nm}}</td>
+                <td class='text-center'>{{gubun.question_type}}</td>
                 <td class='text-left'>{{gubun.description}}</td>
                 <td class='text-center'>{{gubun.user_nm}}</td>
                 <td class='text-center'>{{gubun.use_yn}}</td>
