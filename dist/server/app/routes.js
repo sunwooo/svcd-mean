@@ -16,6 +16,7 @@ var myProcessCtrl = require("../app/controllers/api/myProcess");
 var companyProcessCtrl = require("../app/controllers/api/companyProcess");
 var apiCtrl = require("../app/controllers/api/common");
 var oftenQnaCtrl = require("../app/controllers/api/oftenqna");
+var processGubunCtrl = require("../app/controllers/api/processGubun");
 
 
 // Login route
@@ -42,7 +43,6 @@ router.get('/lowerProcess', ssc.sessionCheck, apiCtrl.lowerProcess);      //하�
 router.get('/myProcess', ssc.sessionCheck, apiCtrl.myProcess);            //본인업무 조회
 router.get('/company', ssc.sessionCheck, apiCtrl.companyList);            //회사 조회
 router.get('/processStatus', ssc.sessionCheck, apiCtrl.processStatus);    //진행상태 조회
-router.get('/processGubun', ssc.sessionCheck, apiCtrl.processGubun);      //처리구분 조회
 router.get('/registerYyyy', ssc.sessionCheck, apiCtrl.registerYyyy);      //등록년도 조회
 
 
@@ -68,6 +68,9 @@ router.get('/statistic/statusCdCnt', ssc.sessionCheck, statisticCtrl.statusCdCnt
 router.get('/statistic/valuationCnt', ssc.sessionCheck, statisticCtrl.valuationCnt);  //만족도 건수
 router.get('/statistic/monthlyCnt', ssc.sessionCheck, statisticCtrl.monthlyCnt);  //월별 건수
 router.get('/statistic/higherCnt', ssc.sessionCheck, statisticCtrl.higherCdCnt);  //신청건수 상위
+
+//processGubun route
+router.get('/processGubun/list', ssc.sessionCheck, processGubunCtrl.list);      //처리구분 조회
 
 
 //company route
