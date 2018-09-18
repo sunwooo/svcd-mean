@@ -70,7 +70,10 @@ router.get('/statistic/monthlyCnt', ssc.sessionCheck, statisticCtrl.monthlyCnt);
 router.get('/statistic/higherCnt', ssc.sessionCheck, statisticCtrl.higherCdCnt);  //신청건수 상위
 
 //processGubun route
-router.get('/processGubun/list', ssc.sessionCheck, processGubunCtrl.list);      //처리구분 조회
+router.get('/processGubun/list', ssc.sessionCheck, processGubunCtrl.list);          //처리구분 조회
+router.put('/processGubun/update', ssc.sessionCheck, processGubunCtrl.update);      //처리구분 수정
+router.post('/processGubun/new', ssc.sessionCheck, processGubunCtrl.insert);        //처리구분 등록
+router.delete('/processGubun/delete', ssc.sessionCheck, processGubunCtrl.delete);   //처리구분 삭제
 
 
 //company route

@@ -11,173 +11,74 @@ const service = require('../../services/processgubun');
 module.exports = {
 
   /**
-   * 초기 페이지 출력
-   */
-  index: (req, res, next) => {
-    async.waterfall([function (callback) {
-      ProcessGubunModel.find({}, function (err, processGubun) {
-        if (err) {
-          res.render("http/500", {
-            cache: true,
-            err: err
-          });
-        }
-        callback(null, processGubun)
-      });
-    }], function (err, processGubun) {
-      if (err) {
-        res.render("http/500", {
-          cache: true,
-          err: err
-        });
-      } else {
-        res.render("processGubun/", {
-          cache: true,
-          processGubun: processGubun
-        });
-      }
-    });
-
-  },
-
-  /**
    * 신규 등록 페이지 출력
    */
-  new: (req, res, next) => {
+  insert: (req, res, next) => {
+    var processGubunCode = req.body.processGubunCode;
+
     async.waterfall([function (callback) {
-      HigherProcessModel.find({}, function (err, higher) {
+      ProcessGubunModel.count({
+        'process_cd': processGubunCode.process_cd
+      }, function (err, processGubunCodeCnt) {
         if (err) {
-          res.render("http/500", {
-            cache: true,
-            err: err
-          });
-        }
-        callback(null, higher)
-      });
-    }], function (err, higher) {
-      if (err) {
-        res.render("http/500", {
-          cache: true,
-          err: err
-        });
-      } else {
-        res.render("processGubun/new", {
-          cache: true,
-          higher: higher,
-          user_id: req.session.user_id,
-          user_nm: req.session.user_nm
-        });
-      }
-    });
-  },
-
-  /**
-   * 저장 처리
-   */
-  save: (req, res, next) => {
-    //console.log('processGubun controller save start!! ');
-    var processGubun = req.body.processGubun;
-    ProcessGubunModel.create(req.body.processGubun, function (err, processGubun) {
-      if (err) {
-        res.render("http/500", {
-          cache: true,
-          err: err
-        });
-      } else {
-        res.redirect('/processGubun/');
-      }
-    });
-  },
-
-  /**
-   * 수정화면 출력
-   */
-  edit: (req, res, next) => {
-    try {
-
-
-      async.waterfall([function (callback) {
-
-        HigherProcessModel.find({}, function (err, higher) {
-          if (err) {
-            res.render("http/500", {
-              cache: true,
-              err: err
-            });
-          }
-          callback(null, higher)
-        });
-
-      }], function (err, higher) {
-        if (err) {
-          res.render("http/500", {
-            cache: true,
-            err: err
+          return res.json({
+            success: false,
+            message: err
           });
         } else {
+          callback(null, processGubunCodeCnt);
+        }
+      });
+    }], function (err, processGubunCodeCnt) {
+      var rtnData = {};
 
-          ProcessGubunModel.findById(req.params.id, function (err, processGubun) {
-            if (err) return res.json({
+      if (processGubunCodeCnt > 0) {
+        rtnData.message = "중복된 코드가 존재합니다.";
+
+        return res.json({
+          success: false,
+          message: rtnData.message
+        });
+      } else {
+        ProcessGubunModel.create(req.body.processGubunCode, function (err, processGubunCode) {
+          if (err) {
+            return res.json({
               success: false,
               message: err
             });
-            //if (!req.user._id.equals(question.author)) return res.json({
-            //    success: false,
-            //    message: "Unauthrized Attempt"
-            //});
-
-            //logger.debug("================================");
-            //logger.debug("processGubun : ", JSON.stringify(processGubun));
-            //logger.debug("================================");
-
-            res.render("processGubun/edit", {
-              cache: true,
-              higher: higher,
-              processGubun: processGubun
-              //,user: req.user
+          } else {
+            return res.json({
+              success: true,
+              message: "insert successed"
             });
-          });
-
-
-        }
-      });
-    } catch (e) {
-      logger.error(e);
-      res.render("http/500", {
-        cache: true,
-        err: err
-      });
-    }
+          }
+        });
+      }
+    });
   },
 
   /**
-   * 업데이트 처리
+   * 업데이트
    */
   update: (req, res, next) => {
-    //console.log("Trace update", req.params.id);
-    //console.log(req.body);
-    //req.body.processGubun.updatedAt = Date.now();
     try {
       ProcessGubunModel.findOneAndUpdate({
-        _id: req.params.id
-        //,author: req.user._id
-      }, req.body.processGubun, function (err, processGubun) {
-        if (err) return res.json({
-          success: false,
-          message: err
-        });
-        if (!processGubun) return res.json({
-          success: false,
-          message: "No data found to update"
-        });
-        res.redirect('/processGubun/');
+        _id: req.body.processGubunCodeDetail.id
+      }, req.body.processGubunCodeDetail, function (err, processGubun) {
+        if (err) {
+          return res.json({
+            success: false,
+            message: err
+          });
+        } else {
+          return res.json({
+            success: true,
+            message: "update successed"
+          });
+        }
       });
     } catch (e) {
-      logger.error(e);
-      res.render("http/500", {
-        cache: true,
-        err: err
-      });
+      console.log("processGubun controller update error > ", e);
     }
   },
 
@@ -187,68 +88,25 @@ module.exports = {
   delete: (req, res, next) => {
     try {
       ProcessGubunModel.findOneAndRemove({
-        _id: req.params.id
+        _id: req.body._id
       }, function (err, processGubun) {
         if (err) {
-          res.render("http/500", {
-            cache: true,
-            err: err
-          });
-        } else {
-          res.redirect('/processGubun');
-        }
-      });
-    } catch (e) {
-      logger.error(e);
-      res.render("http/500", {
-        cache: true,
-        err: err
-      });
-    }
-  },
-
-  /**
-   * 처리구분 JSON 조회
-   */
-  getJSON: (req, res, next) => {
-    try {
-      async.waterfall([function (callback) {
-        //상위코드용 업무처리 개수 조회
-        ProcessGubunModel.count({
-          "higher_cd": req.params.higher_cd,
-          "use_yn": "사용"
-        }, function (err, count) {
-          if (err) return res.json({
+          return res.json({
             success: false,
             message: err
           });
-          callback(null, count)
-        });
-      }], function (err, count) {
-        var higher_cd = req.params.higher_cd;
-        if (count == 0) higher_cd = '000'; //상위코드용 업무처리가 없으면 공통으로 조회
-        ProcessGubunModel.find({
-          "higher_cd": higher_cd,
-          "use_yn": "사용"
-        }, function (err, processGubun) {
-          if (err) {
-            return res.json({
-              success: false,
-              message: err
-            });
-          } else {
-            res.json(processGubun);
-          }
-        }).sort('-process_nm');
+        } else {
+          return res.json({
+            success: true,
+            message: "delete successed"
+          });
+        }
       });
     } catch (e) {
-      logger.error("manager control saveReceipt : ", e);
-      return res.json({
-        success: false,
-        message: err
-      });
+      console.log("processGubun controller delete error > ", e);
     }
   },
+
 
   list: (req, res, next) => {
     //console.log("processGubun controller list start!");
@@ -301,17 +159,7 @@ module.exports = {
     });
   },
 
-  getProcessStatus: (req, res, next) => {
-    ProcessStatusModel.find({}, function (err, processStatus) {
-      if (err) {
-        return res.json({
-          success: false,
-          message: err
-        });
-      } else {
-        res.json(processStatus);
-      }
 
-    }).sort('sort_lvl');
-  }
+
+
 };

@@ -35,6 +35,7 @@ import { UserMyInfoComponent } from './pages/user/user-my-info/user-my-info.comp
 import { CompanyNewComponent } from './pages/company/company-new/company-new.component';
 import { HigherProcessNewComponent } from  './pages/process/higher-process-new/higher-process-new.component';
 import { LowerProcessNewComponent } from './pages/process/lower-process-new/lower-process-new.component';
+import { ProcessGubunCodeNewComponent } from './pages/process/process-gubun-code-new/process-gubun-code-new.component';
 
 const routes: Routes = [
 
@@ -70,6 +71,7 @@ const routes: Routes = [
             { path: '4500', component: UserAccessComponent },
             { path: '4600', component: CompanyProcessComponent },
             { path: '4700', component: ProcessGubunCodeComponent },
+            { path: '4750', component: ProcessGubunCodeNewComponent },
             { path: '4800', component: QnaMngComponent},
             { path: '4900', component: QnaNewComponent},
 

@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProcessGubunCodeService } from '../../../services/process-gubun-code.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
-import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonApiService } from '../../../services/common-api.service';
@@ -23,7 +22,6 @@ export class ProcessGubunCodeDetailComponent implements OnInit {
     public higher_cd: string = "*";                 //상위업무코드
     public higher_nm: string = "";
     public selectedIdx = 0;                      //Object 내 index
-    private formData: any = {};    //전송용 formData
 
     public question_typeObj: { name: string; value: string; }[] = [
         { name: '장애', value: '장애' },
@@ -69,8 +67,6 @@ export class ProcessGubunCodeDetailComponent implements OnInit {
                 var tmpIdx = 0;
                 this.higherObj.forEach(element => {
                     if (element.higher_cd == this.processGubunCodeDetail.higher_cd) {
-                        //console.log("element.company_cd : ", element.company_cd);
-                        //console.log("this.processGubunCodeDetail.higher_cd : ", this.processGubunCodeDetail.higher_cd);
                         this.selectedIdx = tmpIdx;
                     }
                     tmpIdx++;
@@ -87,30 +83,14 @@ export class ProcessGubunCodeDetailComponent implements OnInit {
       */
 
     updateProcessGubunCode(form: NgForm) {
+        
+        form.value.processGubunCodeDetail.id = this.processGubunCodeDetail._id;
 
-        //Template form을 전송용 formData에 저장 
-        this.formData = form.value;
-        this.formData.processGubunCode._id = this.processGubunCodeDetail._id;
-
-
-        console.log('=======================================save(form : NgForm)=======================================');
-        console.log("form.value", form.value);
-        console.log("form", form);
-        console.log('=================================================================================================');
-
-        this.processGubunCodeService.putProcessGubunCode(this.formData).subscribe(
-
+        this.processGubunCodeService.putProcessGubunCode(form.value).subscribe(
             (res) => {
-                console.log("res>>>", res);
+                console.log("res : ", res);
 
                 if (res.success) {
-                    this.processGubunCodeDetail.higher_nm = this.formData.processGubunCode.higher_nm;
-                    this.processGubunCodeDetail.question_type = this.formData.processGubunCode.question_type;
-                    this.processGubunCodeDetail.process_cd = this.formData.processGubunCode.process_cd;
-                    this.processGubunCodeDetail.process_nm = this.formData.processGubunCode.process_nm;
-                    this.processGubunCodeDetail.description = this.formData.processGubunCode.description;
-                    this.processGubunCodeDetail.use_yn = this.formData.processGubunCode.use_yn;
-
                     this.toast.open('수정되었습니다.', 'success');
                     this.openerReload.emit();
 
@@ -129,7 +109,7 @@ export class ProcessGubunCodeDetailComponent implements OnInit {
      * @param processGubunCodeId
      */
     deleteProcessGubunCode(processGubunCodeId) {
-        console.log("deleteProcessGubunCode processGubunCodeId :", processGubunCodeId);
+        //console.log("deleteProcessGubunCode processGubunCodeId :", processGubunCodeId);
 
         if (confirm("처리구분코드를 삭제 하시겠습니까?")) {
             this.processGubunCodeService.delete(processGubunCodeId).subscribe(
