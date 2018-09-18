@@ -58,7 +58,6 @@
               </tr>
             </thead>
             <tbody>
-              <!--<tr *ngFor="let higher of higherProcess" (click)="setDetail(companyDetailModal, com);">-->
               <tr *ngFor="let gubun of processGubunCode" (click)="setDetail(processGubunCodeDetailModal, gubun);">
                 <td class='text-left'>{{gubun.process_nm}}</td>
                 <td class='text-center'>{{gubun.question_type}}</td>
@@ -95,7 +94,7 @@
 <ng-template #processGubunCodeDetailModal let-c="close" let-d="dismiss">
     <app-process-gubun-code-detail [cValues]="this.c"
                            [dValues]="this.d"
-                           [processGubunCodeDetail]="processGubunCodeDetailModal"
+                           [processGubunCodeDetail]="processGubunCodeDetail"
                            (openerReload) = "reload()" 
     ></app-process-gubun-code-detail>
 </ng-template>

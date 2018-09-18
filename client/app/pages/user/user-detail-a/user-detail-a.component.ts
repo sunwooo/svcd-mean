@@ -19,9 +19,6 @@ export class UserDetailAComponent implements OnInit {
     @Input() dValues;  //모달창 무시용
     @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
 
-    public show_addr: string;
-    public zip_cd: string;
-    public addr: string;
     public companyObj: any = [];                //회사리스트 Object
     public selectedComIdx = 0;                  //회사리스트 Object내 회사  index
 
