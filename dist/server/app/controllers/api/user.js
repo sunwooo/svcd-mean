@@ -600,32 +600,32 @@ module.exports = {
       });
     },
 
-  }, //user.js module done
+  } //user.js module done
 
 
-  /**
-   * 배열합치기
-   * @param {} trg1 
-   * @param {*} trg2 
-   */
-  function mergeUser(trg1, trg2) {
+/**
+ * 배열합치기
+ * @param {} trg1 
+ * @param {*} trg2 
+ */
+function mergeUser(trg1, trg2) {
     var rtnJSON = [];
     try {
-      if (trg1 != null) {
-        for (var i = 0; i < trg1.length; i++) {
-          rtnJSON.push(trg1[i]);
+        if (trg1 != null) {
+            for (var i = 0; i < trg1.length; i++) {
+                rtnJSON.push(trg1[i]);
+            }
         }
-      }
-      if (trg2 != null) {
-        for (var i = 0; i < trg2.length; i++) {
-          rtnJSON.push(trg2[i]);
+        if (trg2 != null) {
+            for (var i = 0; i < trg2.length; i++) {
+                rtnJSON.push(trg2[i]);
+            }
         }
-      }
-      return rtnJSON;
+        return rtnJSON;
     } catch (e) {
-      logger.error("control useremanage mergeUser : ", e);
+        logger.error("control useremanage mergeUser : ", e);
     }
-  }
+}
 
 /**
  * 세션 처리
@@ -634,19 +634,19 @@ module.exports = {
  * @param {*} userInfo 
  */
 function setUser(req, res, userInfo) {
-  req.session.email = userInfo.email;
-  req.session.user_id = userInfo.user_id;
-  req.session.sabun = userInfo.sabun;
-  req.session.password = userInfo.password;
-  req.session.user_flag = userInfo.user_flag;
-  req.session.group_flag = userInfo.group_flag;
-  req.session.user_nm = userInfo.employee_nm;
-  req.session.company_cd = userInfo.company_cd;
-  req.session.company_nm = userInfo.company_nm;
-  req.session.dept_cd = userInfo.dept_cd;
-  req.session.dept_nm = userInfo.dept_nm;
-  req.session.position_nm = userInfo.position_nm;
-  req.session.jikchk_nm = userInfo.jikchk_nm;
-  req.session.office_tel_no = userInfo.office_tel_no;
-  req.session.hp_telno = userInfo.hp_telno;
+    req.session.email = userInfo.email;
+    req.session.user_id = userInfo.user_id;
+    req.session.sabun = userInfo.sabun;
+    req.session.password = userInfo.password;
+    req.session.user_flag = userInfo.user_flag;
+    req.session.group_flag = userInfo.group_flag;
+    req.session.user_nm = userInfo.employee_nm;
+    req.session.company_cd = userInfo.company_cd;
+    req.session.company_nm = userInfo.company_nm;
+    req.session.dept_cd = userInfo.dept_cd;
+    req.session.dept_nm = userInfo.dept_nm;
+    req.session.position_nm = userInfo.position_nm;
+    req.session.jikchk_nm = userInfo.jikchk_nm;
+    req.session.office_tel_no = userInfo.office_tel_no;
+    req.session.hp_telno = userInfo.hp_telno;
 }
