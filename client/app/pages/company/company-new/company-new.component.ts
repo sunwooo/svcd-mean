@@ -5,18 +5,24 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { CompanyService } from '../../../services/company.service';
 import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS, MatDatepickerInputEvent } from '@angular/material';
-
+import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-company-new',
   templateUrl: './company-new.component.html',
-  styleUrls: ['./company-new.component.css']
+  styleUrls: ['./company-new.component.css'],
+  providers: [
+        { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
+        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+        { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    ]
 })
 export class CompanyNewComponent implements OnInit {
   public isLoading = true;
   private formData: any = {}; //전송용 formData
 
-  public group_flag: string = "";              
+  public group_flag: string = "";
+  public contract_gubun: string = "";              
   public company_cd: string = "";              
   public company_nm: string = "";  
   public type: string = "";  
@@ -37,6 +43,13 @@ export class CompanyNewComponent implements OnInit {
   public groupFlagObj: { name: string; value: string; }[] = [
         { name: '외부고객사', value: 'out' },
         { name: '그룹사', value: 'in' }
+    ];
+  
+  public contractGubunObj: { name: string; value: string; }[] = [
+        { name: '하자보수', value: '하자보수' },
+        { name: '패키지유지보수', value: '패키지유지보수' },
+        { name: '운영유지보수', value: '운영유지보수' },
+        { name: '연말정산', value: '연말정산' }
     ];
 
 
@@ -62,6 +75,7 @@ export class CompanyNewComponent implements OnInit {
 
      
       //Template form을 전송용 formData에 저장 
+      form.value.company.contract_gubun = this.contract_gubun;
       form.value.company.group_flag    = this.group_flag;
       form.value.company.company_cd    = this.company_cd;
       form.value.company.company_nm    = this.company_nm;
@@ -73,10 +87,12 @@ export class CompanyNewComponent implements OnInit {
       form.value.company.addr2         = this.addr2;
       form.value.company.bigo          = this.bigo;
       form.value.company.date_from     = this.date_from;
+      
       form.value.company.date_to       = this.date_to;
-
+    
     
       this.formData = form.value;
+      console.log("this.formData >>>>>>>>>>>>>" , this.formData);
 
       console.log("saveCompany  this.formData : ", this.formData);
           

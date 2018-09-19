@@ -53,7 +53,7 @@ export class ProcessGubunCodeComponent implements OnInit {
         this.processGubunCodeService.getProcessGubunCodeList(this.formData).subscribe(
             (res) => {
 
-                console.log("getProcessGubunCodeList res >>> ", res);
+                //console.log("getProcessGubunCodeList res >>> ", res);
                 this.totalDataCnt = res.totalCnt;
                 this.totalPage = res.totalPage;
 
@@ -99,6 +99,7 @@ export class ProcessGubunCodeComponent implements OnInit {
      * 처리구분코드 추가 페이지 이동
      */
     goAddPage() {
-        this.router.navigate(["/svcd/4700"]);
+        this.router.navigate(["/svcd/4750"]);
     }
+
 }

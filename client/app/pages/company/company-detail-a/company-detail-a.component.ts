@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
         { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
         { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
         { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-    ],
+    ]
 })
 export class CompanyDetailAComponent implements OnInit {
 
@@ -38,6 +38,13 @@ export class CompanyDetailAComponent implements OnInit {
     public groupFlagObj: { name: string; value: string; }[] = [
         { name: '외부고객사', value: 'out' },
         { name: '그룹사', value: 'in' }
+    ];
+
+    public contractGubunObj: { name: string; value: string; }[] = [
+        { name: '하자보수', value: '하자보수' },
+        { name: '패키지유지보수', value: '패키지유지보수' },
+        { name: '운영유지보수', value: '운영유지보수' },
+        { name: '연말정산', value: '연말정산' }
     ];
 
     public daumAddressOptions =  {
