@@ -1,42 +1,36 @@
-<div class="modal-header" style="text-align:left">
-  <h5 class="modal-title">
-    처리구분코드 상세보기
-  </h5>
-  <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
-</div>
-<div class="modal-body">
-  <div class="row">
-    <div class="col-sm-12">
-      <form #f="ngForm" (ngSubmit)="updateProcessGubunCode(f)" novalidate>
-        <div ngModelGroup="processGubunCodeDetail">
+<div class="content">
+  <div class="container">
+    <div class="svcd-body-content">
+      <app-page-header [title]="'처리구분코드 추가'"></app-page-header>
+      <form novalidate #f="ngForm" (ngSubmit)="addProcessGubunCode(f)" class="form-horizontal group-border-dashed">
+        <div ngModelGroup="processGubunCode">
           <div class="row">
             <div class="col-sm-12">
-              <div role="toolbar" class="btn-toolbar m-b-10">
+              <div role="toolbar" class="btn-toolbar m-t-10  float-right">
                 <div class="float-right">
-                  <button type="button" (click)="closeModal($event)" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+                  <button type="button" (click)="goList()" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
                     <i class="fa fa-bars"></i>목록</button>
-                  <button type="button" (click)="deleteProcessGubunCode(processGubunCodeDetail?._id);" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
-                    <i class="fa fa-remove"></i>삭제</button>
                   <button type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
-                    <i class="fa fa-send-o"></i>저장</button>
+                    <i class="fa fa-send-o"></i>저장
+                  </button>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-12">
-              <div class="card-box m-r-5">
+            <div class="col-lg-12">
+              <div class="card-box">
                 <div class="container">
                   <div class="row">
-                    <div class="col-md-8 col-sm-12 col-centered">
-                      <div class="form-wrap">
+                    <div class="col-lg-8 col-sm-12 col-centered">
+                      <div class="form-group">
 
                         <div class="input-wrap" style="display:none">
                           <mat-form-field class="mat-form-field2">
                             <span matPrefix>
                               <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput [ngModel]="processGubunCodeDetail?.higher_cd" id="higher_cd" type="text" name="higher_cd"
+                            <input matInput [ngModel]="higher_cd" id="higher_cd" type="text" name="higher_cd"
                               placeholder="상위업무코드" style="ime-mode:active;" readonly>
                           </mat-form-field>
                         </div>
@@ -46,7 +40,7 @@
                             <span matPrefix>
                               <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput [ngModel]="processGubunCodeDetail?.higher_nm" id="higher_nm" type="text" name="higher_nm"
+                            <input matInput [ngModel]="higher_nm" id="higher_nm" type="text" name="higher_nm"
                               placeholder="상위업무명" style="ime-mode:active;" readonly>
                           </mat-form-field>
                         </div>
@@ -56,7 +50,7 @@
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select [ngModel]="selectedIdx" name="higher_select" (selectionChange)="setHigherCd($event.value)"
+                            <mat-select name="higher_select" (selectionChange)="setHigherCd($event.value)"
                               placeholder="상위업무명">
                               <mat-option *ngFor="let obj of higherObj; let idx = index" [value]="idx" required>{{obj.higher_nm}}
                               </mat-option>
@@ -69,8 +63,7 @@
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select [ngModel]="processGubunCodeDetail?.question_type" name="question_type"
-                              placeholder="사용여부">
+                            <mat-select [ngModel]="question_type" name="question_type" placeholder="사용여부">
                               <mat-option *ngFor="let obj of question_typeObj" [value]="obj.value">{{obj.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -81,8 +74,8 @@
                             <span matPrefix>
                               <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput [ngModel]="processGubunCodeDetail?.process_cd" id="process_cd" type="text"
-                              name="process_cd" placeholder="처리구분코드" style="ime-mode:active;" readonly>
+                            <input matInput [ngModel]="process_cd" id="process_cd" type="text" name="process_cd"
+                              placeholder="처리구분코드" style="ime-mode:active;">
                           </mat-form-field>
                         </div>
 
@@ -91,8 +84,8 @@
                             <span matPrefix>
                               <i class="prefix fa fa-info-circle">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput [ngModel]="processGubunCodeDetail?.process_nm" id="process_nm" type="text"
-                              name="process_nm" placeholder="처리구분명" style="ime-mode:active;">
+                            <input matInput [ngModel]="process_nm" id="process_nm" type="text" name="process_nm"
+                              placeholder="처리구분명" style="ime-mode:active;">
                           </mat-form-field>
                         </div>
 
@@ -101,8 +94,8 @@
                             <span matPrefix>
                               <i class="prefix fa fa-info-circle">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput [ngModel]="processGubunCodeDetail?.description" id="description" type="text"
-                              name="description" placeholder="설명" style="ime-mode:active;">
+                            <input matInput [ngModel]="description" id="description" type="text" name="description"
+                              placeholder="설명" style="ime-mode:active;">
                           </mat-form-field>
                         </div>
 
@@ -111,7 +104,7 @@
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select [ngModel]="processGubunCodeDetail?.use_yn" name="use_yn" placeholder="사용여부">
+                            <mat-select [ngModel]="use_yn" name="use_yn" placeholder="사용여부">
                               <mat-option *ngFor="let obj of use_ynObj" [value]="obj.value">{{obj.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -122,8 +115,8 @@
                             <span matPrefix>
                               <i class="prefix fa fa-info-circle">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput [ngModel]="processGubunCodeDetail?.user_nm" id="user_nm" type="text" name="user_nm"
-                              placeholder="등록자" style="ime-mode:active;">
+                            <input matInput [ngModel]="user_nm" id="user_nm" type="text" name="user_nm" placeholder="등록자"
+                              style="ime-mode:active;">
                           </mat-form-field>
                         </div>
 
@@ -132,20 +125,22 @@
                             <span matPrefix>
                               <i class="prefix fa fa-info-circle">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput [ngModel]="processGubunCodeDetail?.user_id" id="user_id" type="text" name="user_id"
-                              placeholder="이메일" style="ime-mode:active;">
+                            <input matInput [ngModel]="user_id" id="user_id" type="text" name="user_id" placeholder="이메일"
+                              style="ime-mode:active;">
                           </mat-form-field>
                         </div>
 
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
+                      </div>
+
+                    </div>
+                  </div> <!-- row end -->
+                </div>
               </div>
-              <!-- card-box m-r-5 -->
             </div>
-          </div>
+          </div> <!-- row end -->
+
+
         </div>
       </form>
     </div>

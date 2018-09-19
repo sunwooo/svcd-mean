@@ -98,6 +98,7 @@ import { CompanyNewComponent } from './pages/company/company-new/company-new.com
 import { HigherProcessNewComponent } from './pages/process/higher-process-new/higher-process-new.component';
 import { LowerProcessDetailComponent } from './pages/process/lower-process-detail/lower-process-detail.component';
 import { LowerProcessNewComponent } from './pages/process/lower-process-new/lower-process-new.component';
+import { ProcessGubunCodeNewComponent } from './pages/process/process-gubun-code-new/process-gubun-code-new.component';
 
 const PAGES = [
     HomeComponent,
@@ -168,7 +169,8 @@ const PAGES = [
         CompanyNewComponent,
         HigherProcessNewComponent,
         LowerProcessDetailComponent,
-        LowerProcessNewComponent    ],
+        LowerProcessNewComponent,
+        ProcessGubunCodeNewComponent    ],
     imports: [
         BrowserModule,
         RoutingModule,

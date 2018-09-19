@@ -152,11 +152,11 @@ module.exports = {
     empInfo: (req, res) => {
       try {
 
-        console.log("========controller empInfo========");
-        console.log("req.body.email : ", req.body.email);
-        console.log("req.params.email : ", req.params.email);
-        console.log("req.query.email : ", req.query.email);
-        console.log("=======================================");
+        //console.log("========controller empInfo========");
+        //console.log("req.body.email : ", req.body.email);
+        //console.log("req.params.email : ", req.params.email);
+        //console.log("req.query.email : ", req.query.email);
+        //console.log("=======================================");
 
         var condition = {};
         if (req.query.email != null) {
@@ -186,9 +186,9 @@ module.exports = {
       try {
         //console.log('Login controller New debug >>> ', req.body.user);
 
-        console.log("=================== insert = (req, res) ======================");
-        console.log("req.body.user : ", req.body);
-        console.log("==============================================================");
+        //console.log("=================== insert = (req, res) ======================");
+        //console.log("req.body.user : ", req.body);
+        //console.log("==============================================================");
 
         var user = req.body;
 
@@ -201,9 +201,9 @@ module.exports = {
           }, function (err, userCnt) {
             if (err) {
 
-              console.log("=============================================");
-              console.log("login.js new user err : ", err);
-              console.log("=============================================");
+              //console.log("=============================================");
+              //console.log("login.js new user err : ", err);
+              //console.log("=============================================");
 
               return res.json({
                 success: false,
@@ -229,9 +229,9 @@ module.exports = {
           } else {
             User.create(user, function (err, user) {
               if (err) {
-                console.log("===============================")
-                console.log("login.js new err : ", err);
-                console.log("===============================")
+                //console.log("===============================")
+                //console.log("login.js new err : ", err);
+                //console.log("===============================")
 
                 return res.json({
                   success: false,
@@ -239,10 +239,10 @@ module.exports = {
                 });
               } else {
 
-                console.log("===============================")
-                console.log("user : ", user);
+                //console.log("===============================")
+                //console.log("user : ", user);
                 //console.log("this.rtnData : ", this.rtnData);
-                console.log("===============================")
+                //console.log("===============================")
 
                 //rtnData.user = user;
                 res.json({
@@ -305,12 +305,12 @@ module.exports = {
       var page = 1;
       var perPage = 15;
 
-      console.log("======= getuser =======");
-      console.log("search : ", JSON.stringify(search));
+      //console.log("======= getuser =======");
+      //console.log("search : ", JSON.stringify(search));
       //console.log("req.query.page : ", req.query.page);
       //console.log("req.query.perPage : ", req.query.perPage);
-      console.log("req.query.searchText : ", req.query.searchText);
-      console.log("=======================");
+      //console.log("req.query.searchText : ", req.query.searchText);
+      //console.log("=======================");
 
       if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
       if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
@@ -318,7 +318,7 @@ module.exports = {
       async.waterfall([function (callback) {
         User.count(search.findUsermanage, function (err, totalCnt) {
           if (err) {
-            console.log("user controller list : ", err);
+            //console.log("user controller list : ", err);
 
             return res.json({
               success: false,
@@ -371,12 +371,12 @@ module.exports = {
       var page = 1;
       var perPage = 15;
 
-      console.log("======= getuser =======");
-      console.log("search : ", JSON.stringify(search));
+      //console.log("======= getuser =======");
+      //console.log("search : ", JSON.stringify(search));
       //console.log("req.query.page : ", req.query.page);
       //console.log("req.query.perPage : ", req.query.perPage);
       //console.log("req.query.searchText : ", req.query.searchText);
-      console.log("=======================");
+      //console.log("=======================");
 
       if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
       if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
@@ -384,7 +384,7 @@ module.exports = {
       async.waterfall([function (callback) {
         User.count(search.findUsermanage, function (err, totalCnt) {
           if (err) {
-            console.log("user controller list : ", err);
+            //console.log("user controller list : ", err);
 
             return res.json({
               success: false,
@@ -505,9 +505,9 @@ module.exports = {
         }, function (err, userCnt) {
           if (err) {
 
-            console.log("=============================================");
-            console.log("insertUser err : ", err);
-            console.log("=============================================");
+            //console.log("=============================================");
+            //console.log("insertUser err : ", err);
+            //console.log("=============================================");
 
             return res.json({
               success: false,
