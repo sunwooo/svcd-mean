@@ -39,6 +39,8 @@ export class IncidentNewMngComponent implements OnInit {
     private formData: any = {}; //전송용 formData
     private attach_file: any = []; //mongodb 저장용 첨부파일 배열
     private request_info: any = {} //요청자 정보
+    private dateChange = false; //완료요청일이 변경되었는지 여부
+    
     public request_company: string = ""; //요청자의 상위업무를 회사범위 내에서 지정하기 위함
 
     public uploader: FileUploader = new FileUploader({ url: URL }); //file upload용 객체
@@ -51,6 +53,7 @@ export class IncidentNewMngComponent implements OnInit {
     public maxDate = new Date(2030, 0, 1);
     public events: string[] = [];
     public request_complete_date;
+
     //public serializedDate = new FormControl((new Date()).toISOString());
 
     public searchResult = [];
@@ -168,6 +171,12 @@ export class IncidentNewMngComponent implements OnInit {
 
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
+
+        if(this.dateChange){
+            var tmpDate = new Date(this.formData.incident.request_complete_date);
+            tmpDate.setDate(tmpDate.getDate() + 1);
+            this.formData.incident.request_complete_date = tmpDate;
+        }
         //form.onReset();
 
         //console.log('============= saveIncident ===============');
@@ -229,9 +238,9 @@ export class IncidentNewMngComponent implements OnInit {
      */
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         //this.events.push(`${type}: ${event.value}`);
-        console.log("========== addEvent ============");
-        console.log("type : ", type, "event : ", event.value);
-        console.log("================================");
+        //console.log("========== addEvent ============");
+        //console.log("type : ", type, "event : ", event.value);
+        this.dateChange = true;
     }
 
     /*

@@ -90,26 +90,24 @@ export class MainContentComponent implements OnInit {
         //상태별 건수
         this.statisticService.getStatusCdCnt().subscribe(
             (res) => {  
-                var statusArray = res;
                 
-                var chart1 = [];
-                var chart2 = [];
+                var initChart1 = [{"name":"접수대기", "value":0},
+                              {"name":"처리중", "value":0},];
+                var initChart2 = [{"name":"미평가", "value":0},
+                              {"name":"처리완료", "value":0}];
+
+                var statusArray = res;
+
                 statusArray.forEach((val, idx) => {
-                    if(val._id.status_cd == "1"){
-                        chart1.push({"name":"접수대기", "value":val.count});
-                    }
-                    if(val._id.status_cd == "2"){
-                        chart1.push({"name":"처리중", "value":val.count});
-                    }
-                    if(val._id.status_cd == "3"){
-                        chart2.push({"name":"미평가", "value":val.count});
-                    }
-                    if(val._id.status_cd == "4"){
-                        chart2.push({"name":"처리완료", "value":val.count});
+                    var chartIdx = parseInt(val._id.status_cd)-1;
+                    if(chartIdx < 2) {//접수대기, 처리중 차트에 매핑
+                        initChart1[chartIdx].value = val.count;
+                    } else {          //미평가, 처리완료 차트에 매핑
+                        initChart2[chartIdx-2].value = val.count;
                     }
                 });
-                this.statusChart1 = chart1;
-                this.statusChart2 = chart2;
+                this.statusChart1 = initChart1;
+                this.statusChart2 = initChart2;
             },
             (error: HttpErrorResponse) => {
             }
@@ -118,7 +116,20 @@ export class MainContentComponent implements OnInit {
         //만족도현황
         this.statisticService.valuationCnt().subscribe(
             (res) => {
-                this.valuationChart = res;
+
+                var initChart1 = [{"name":"매우 만족", "value":0},
+                                  {"name":"만족", "value":0},
+                                  {"name":"보통", "value":0},
+                                  {"name":"불만족", "value":0},
+                                  {"name":"매우불만족", "value":0}];
+
+                var valuationArray = res;
+                console.log("xxxxxxxxxxxxxx valuationArray : ", valuationArray);
+                valuationArray.forEach((val, idx) => {
+                    var chartIdx = 5-parseInt(val.valuation);
+                    initChart1[chartIdx].value = val.value;
+                });
+                this.valuationChart = initChart1;
             },
             (error : HttpErrorResponse) => {
 
@@ -158,6 +169,16 @@ export class MainContentComponent implements OnInit {
         var condition: any = {};
         condition.page = 1;
         condition.perPage = 10;
+        condition.user = 'manager';
+
+        condition.status_cd = '*';
+        condition.company_cd = '*';
+        //condition.register_yyyy = this.register_yyyy;
+        condition.higher_cd = '*';
+        condition.lower_cd = '*';        
+
+
+
 
         this.incidentService.getIncident(condition).subscribe(
             (res) => {

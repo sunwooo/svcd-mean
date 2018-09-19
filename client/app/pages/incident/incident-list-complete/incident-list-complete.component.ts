@@ -195,7 +195,7 @@ export class IncidentListCompleteComponent implements OnInit {
     setTransForm(){
         this.formData.page = 1;
         this.formData.perPage = 10000;
-        this.formData.user = "";
+        this.formData.user = "general";
         this.formData.higher_cd = this.higher_cd;
         this.formData.lower_cd = this.lower_cd;
         this.formData.complete = 'true';

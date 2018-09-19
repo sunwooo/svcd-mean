@@ -36,6 +36,7 @@ export class IncidentRewriteComponent implements OnInit {
    
     private formData: any = {}; //전송용 formData
     private attach_file: any = []; //mongodb 저장용 첨부파일 배열
+    private dateChange = false; //완료요청일이 변경되었는지 여부
 
     public uploader: FileUploader = new FileUploader({ url: URL }); //file upload용 객체
     public processSpeed: { name: string; value: string; }[] = [
@@ -130,6 +131,12 @@ export class IncidentRewriteComponent implements OnInit {
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
 
+        if(this.dateChange){
+            var tmpDate = new Date(this.formData.incident.request_complete_date);
+            tmpDate.setDate(tmpDate.getDate() + 1);
+            this.formData.incident.request_complete_date = tmpDate;
+        }
+
         //form.onReset();
 
         //console.log('============= saveIncident ===============');
@@ -179,9 +186,12 @@ export class IncidentRewriteComponent implements OnInit {
      */
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         //this.events.push(`${type}: ${event.value}`);
-        console.log("========== addEvent ============");
-        console.log("type : ", type, "event : ", event.value);
-        console.log("================================");
+        //console.log("========== addEvent ============");
+        //console.log("type : ", type, "event : ", event.value);
+        //console.log("================================");
+
+        this.dateChange = true;
+
     }
     
     /**

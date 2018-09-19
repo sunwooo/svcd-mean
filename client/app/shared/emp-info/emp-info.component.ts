@@ -44,7 +44,6 @@ export class EmpInfoComponent {
     getGroupEmpInfo(email: string) {
         this.userService.getGroupEmpInfo(email).subscribe(
             (res) => {
-                console.log("gw ",res);
                 if(res.exist){
                     this.userInfo = res;
                 }

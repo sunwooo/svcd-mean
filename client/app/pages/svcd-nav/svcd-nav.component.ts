@@ -11,6 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class SvcdNavComponent implements OnInit {
 
     public user_flag = '9';
+    public group_flag = 'out';
 
     constructor(private cookieService: CookieService,
                 private router: Router, 
@@ -20,6 +21,8 @@ export class SvcdNavComponent implements OnInit {
     ngOnInit() {
         if(this.cookieService.get("user_flag"))
             this.user_flag = this.cookieService.get("user_flag");
+            if(this.cookieService.get("group_flag"))
+            this.group_flag = this.cookieService.get("group_flag");
     }
 
     isView(user_flag : string) : boolean{

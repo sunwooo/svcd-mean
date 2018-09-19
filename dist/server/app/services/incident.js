@@ -67,9 +67,16 @@ function createOrCondition(req){
             });
         }
     }
-    if(req.query.complete){
-        OrQueries.push({'status_cd':'3'});
-        OrQueries.push({'status_cd':'4'});
+    if (req.query.user == "general"){
+        if(req.query.complete){
+            OrQueries.push({'status_cd':'3'});
+            OrQueries.push({'status_cd':'4'});
+        }else{
+            OrQueries.push({'status_cd':'1'});
+            OrQueries.push({'status_cd':'2'});
+            OrQueries.push({'status_cd':'5'});
+            OrQueries.push({'status_cd':'9'});
+        }
     }
     return OrQueries;
     
@@ -123,7 +130,8 @@ function createAndCondition(req){
         if(reg_date_from == reg_date_to){  
             
             var df = new Date(reg_date_from);
-            df.setDate(df.getDate()-1);  
+            //df.setDate(df.getDate()-1);  
+            df.setDate(df.getDate());  
             var df2 = df.toISOString();
 
             var dt = new Date(reg_date_to);
@@ -133,7 +141,8 @@ function createAndCondition(req){
         }else{        
 
             var df = new Date(reg_date_from);
-            df.setDate(df.getDate()-1);
+            //df.setDate(df.getDate()-1);
+            df.setDate(df.getDate());
             var df2 = df.toISOString(); 
 
             var dt = new Date(reg_date_to);
