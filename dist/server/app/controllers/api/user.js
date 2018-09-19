@@ -335,6 +335,7 @@ module.exports = {
         });
       }], function (err, totalCnt) {
 
+        //console.log("user controller search.findUsermanage : ", search.findUsermanage);
         User.find(search.findUsermanage, function (err, user) {
             if (err) {
 
