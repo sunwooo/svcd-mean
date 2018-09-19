@@ -71,20 +71,22 @@
           <table id="dvData" class="table table-hover">
             <thead>
               <tr>
-                <th width="23%" class="text-center">회사명</th>
-                <th width="11%" class="text-center">대표자명</th>
+                <th width="13%" class="text-center">구분</th>
+                <th width="20%" class="text-center">회사명</th>
+                <th width="10%" class="text-center">대표자명</th>
                 <th class="text-center">주소</th>
-                <th width="13%" class="text-center">TEL</th>
-                <th width="13%" class="text-center">FAX</th>
+                <th width="12%" class="text-center">TEL</th>
+                <!--<th width="12%" class="text-center">FAX</th>-->
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let com of company" (click)="setDetail(companyDetailModal, com);">
+                <td>{{com.contract_gubun}}</td>
                 <td>{{com.company_nm}}</td>
                 <td class='text-center'>{{com.ceo_nm}}</td>
                 <td class='text-center'>{{com.addr}}</td>
                 <td class='text-center'>{{com.tel_no}}</td>
-                <td class='text-center'>{{com.fax_no}}</td>
+                <!--<td class='text-center'>{{com.fax_no}}</td>-->
               </tr>
             </tbody>
           </table>
