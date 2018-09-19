@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
         { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
         { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
         { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-    ],
+    ]
 })
 export class CompanyDetailAComponent implements OnInit {
 

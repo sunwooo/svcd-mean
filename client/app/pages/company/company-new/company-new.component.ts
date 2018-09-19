@@ -5,12 +5,17 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { CompanyService } from '../../../services/company.service';
 import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS, MatDatepickerInputEvent } from '@angular/material';
-
+import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-company-new',
   templateUrl: './company-new.component.html',
-  styleUrls: ['./company-new.component.css']
+  styleUrls: ['./company-new.component.css'],
+  providers: [
+        { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
+        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+        { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    ]
 })
 export class CompanyNewComponent implements OnInit {
   public isLoading = true;
@@ -82,10 +87,12 @@ export class CompanyNewComponent implements OnInit {
       form.value.company.addr2         = this.addr2;
       form.value.company.bigo          = this.bigo;
       form.value.company.date_from     = this.date_from;
+      
       form.value.company.date_to       = this.date_to;
-
+    
     
       this.formData = form.value;
+      console.log("this.formData >>>>>>>>>>>>>" , this.formData);
 
       console.log("saveCompany  this.formData : ", this.formData);
           
