@@ -36,6 +36,8 @@ import { CompanyNewComponent } from './pages/company/company-new/company-new.com
 import { HigherProcessNewComponent } from  './pages/process/higher-process-new/higher-process-new.component';
 import { LowerProcessNewComponent } from './pages/process/lower-process-new/lower-process-new.component';
 import { ProcessGubunCodeNewComponent } from './pages/process/process-gubun-code-new/process-gubun-code-new.component';
+import { Dashboard1Component } from './pages/dashboard/dashboard1/dashboard1.component';
+import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
 
 const routes: Routes = [
 
@@ -75,7 +77,9 @@ const routes: Routes = [
             { path: '4800', component: QnaMngComponent},
             { path: '4900', component: QnaNewComponent},
 
-            { path: '9100', component: DashboardMainComponent}
+            { path: '9100', component: DashboardMainComponent},
+            { path: '9200', component: Dashboard1Component},
+            { path: '9300', component: Dashboard2Component}
         ]
     },
 

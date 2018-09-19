@@ -99,6 +99,8 @@ import { HigherProcessNewComponent } from './pages/process/higher-process-new/hi
 import { LowerProcessDetailComponent } from './pages/process/lower-process-detail/lower-process-detail.component';
 import { LowerProcessNewComponent } from './pages/process/lower-process-new/lower-process-new.component';
 import { ProcessGubunCodeNewComponent } from './pages/process/process-gubun-code-new/process-gubun-code-new.component';
+import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
+import { Dashboard1Component } from './pages/dashboard/dashboard1/dashboard1.component';
 
 const PAGES = [
     HomeComponent,
@@ -170,7 +172,9 @@ const PAGES = [
         HigherProcessNewComponent,
         LowerProcessDetailComponent,
         LowerProcessNewComponent,
-        ProcessGubunCodeNewComponent    ],
+        ProcessGubunCodeNewComponent,
+        Dashboard2Component,
+        Dashboard1Component    ],
     imports: [
         BrowserModule,
         RoutingModule,
