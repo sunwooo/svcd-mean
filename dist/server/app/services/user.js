@@ -13,7 +13,7 @@ module.exports = {
     var AndQueries = [];
     var OrQueries = [];
     var company_cd = req.query.company_cd == null ? "*" : req.query.company_cd;
-    var using_yn = req.query.using_yn == null ? "Y" : req.query.using_yn;
+    var using_yn = req.query.using_yn == null ? "*" : req.query.using_yn;
 
     try {
       if (req.query.searchType && req.query.searchText) {
