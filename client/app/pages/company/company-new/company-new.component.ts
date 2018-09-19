@@ -16,7 +16,8 @@ export class CompanyNewComponent implements OnInit {
   public isLoading = true;
   private formData: any = {}; //전송용 formData
 
-  public group_flag: string = "";              
+  public group_flag: string = "";
+  public contract_gubun: string = "";              
   public company_cd: string = "";              
   public company_nm: string = "";  
   public type: string = "";  
@@ -37,6 +38,13 @@ export class CompanyNewComponent implements OnInit {
   public groupFlagObj: { name: string; value: string; }[] = [
         { name: '외부고객사', value: 'out' },
         { name: '그룹사', value: 'in' }
+    ];
+  
+  public contractGubunObj: { name: string; value: string; }[] = [
+        { name: '하자보수', value: '하자보수' },
+        { name: '패키지유지보수', value: '패키지유지보수' },
+        { name: '운영유지보수', value: '운영유지보수' },
+        { name: '연말정산', value: '연말정산' }
     ];
 
 
@@ -62,6 +70,7 @@ export class CompanyNewComponent implements OnInit {
 
      
       //Template form을 전송용 formData에 저장 
+      form.value.company.contract_gubun = this.contract_gubun;
       form.value.company.group_flag    = this.group_flag;
       form.value.company.company_cd    = this.company_cd;
       form.value.company.company_nm    = this.company_nm;

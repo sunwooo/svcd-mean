@@ -40,6 +40,13 @@ export class CompanyDetailAComponent implements OnInit {
         { name: '그룹사', value: 'in' }
     ];
 
+    public contractGubunObj: { name: string; value: string; }[] = [
+        { name: '하자보수', value: '하자보수' },
+        { name: '패키지유지보수', value: '패키지유지보수' },
+        { name: '운영유지보수', value: '운영유지보수' },
+        { name: '연말정산', value: '연말정산' }
+    ];
+
     public daumAddressOptions =  {
         class: ['btn', 'btn-success btn-sm']
     };
