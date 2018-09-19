@@ -34,6 +34,7 @@ export class IncidentModifyComponent implements OnInit {
    
     private formData: any = {}; //전송용 formData
     private attach_file: any = []; //mongodb 저장용 첨부파일 배열
+    private dateChange = false; //완료요청일이 변경되었는지 여부
 
     public uploader: FileUploader = new FileUploader({ url: URL }); //file upload용 객체
     public processSpeed: { name: string; value: string; }[] = [
@@ -44,6 +45,7 @@ export class IncidentModifyComponent implements OnInit {
     public minDate = new Date(2015, 0, 1);
     public maxDate = new Date(2030, 0, 1);
     public events: string[] = [];
+
     //public serializedDate = new FormControl((new Date()).toISOString());
 
     constructor(private auth: AuthService,
@@ -142,6 +144,13 @@ export class IncidentModifyComponent implements OnInit {
         this.formData.incident._id = this.incidentDetail._id;
         this.formData.incident.process_speed = this.incidentDetail.process_speed;
 
+        if(this.dateChange){
+            var tmpDate = new Date(this.formData.incident.request_complete_date);
+            tmpDate.setDate(tmpDate.getDate() + 1);
+            this.formData.incident.request_complete_date = tmpDate;
+        }
+
+        
         //Template form을 전송용 formData에 저장 
         this.incidentService.fileUpdate(this.formData).subscribe(
             (res) => {
@@ -193,9 +202,10 @@ export class IncidentModifyComponent implements OnInit {
      */
     addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
         //this.events.push(`${type}: ${event.value}`);
-        console.log("========== addEvent ============");
-        console.log("type : ", type, "event : ", event.value);
-        console.log("================================");
+        //console.log("========== addEvent ============");
+        //console.log("type : ", type, "event : ", event.value);
+        //console.log("================================");
+        this.dateChange = true;
     }
     
     /**

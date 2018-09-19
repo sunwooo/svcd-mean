@@ -88,6 +88,7 @@
             </ngx-charts-line-chart>
           </div>
           <div class="col-sm-12 col-lg-6 float-left">
+            <h4 class="text-dark header-title float-left m-l-30">총요청 현황</h4>  
             <ngx-charts-pie-chart [view]="view3" 
                 [scheme]="colorScheme3" 
                 [results]="higherCntChart" 
@@ -158,10 +159,10 @@
 
 <!-- start detail view modal -->
 <ng-template #incidentDetailModal let-c="close" let-d="dismiss">
-    <app-incident-detail-a [cValues]="this.c"
+    <app-incident-detail-m [cValues]="this.c"
                             [dValues]="this.d"
                             [incidentDetail]="incidentDetail"
-    ></app-incident-detail-a>
+    ></app-incident-detail-m>
 </ng-template>
 <!-- end detail view modal -->
 

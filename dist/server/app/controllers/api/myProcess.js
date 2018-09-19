@@ -21,7 +21,8 @@ module.exports = {
                 if (req.query.higher_cd != "*") {
                     condition.higher_cd = req.query.higher_cd;
                 }
-                condition.user_flag = { $ne: '0' };
+                //condition.user_flag = { $ne: '0' };
+                condition.use_yn = '사용';
 
                 HigherProcess.find(condition, function (err, hp) {
                     if (!err) {
@@ -33,7 +34,8 @@ module.exports = {
             function (hp, callback) {
 
                 var condition = {};
-                condition.user_flag = { $ne: '0' };
+                //condition.user_flag = { $ne: '0' };
+                condition.use_yn = '사용';
 
                 LowerProcess.find(condition, function (err, lp) {
                     if (!err) {

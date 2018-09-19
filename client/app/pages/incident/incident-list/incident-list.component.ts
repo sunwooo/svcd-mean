@@ -149,7 +149,7 @@ export class IncidentListComponent implements OnInit {
     setDetail(modalId, incident, idx){
         this.incidentDetail = incident;
         this.selectedIdx = idx;
-        this.modalService.open(modalId, { windowClass: 'xlModal', centered: true});
+        this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});
     }
 
     /**
