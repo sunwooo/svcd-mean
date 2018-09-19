@@ -101,6 +101,9 @@ import { LowerProcessNewComponent } from './pages/process/lower-process-new/lowe
 import { ProcessGubunCodeNewComponent } from './pages/process/process-gubun-code-new/process-gubun-code-new.component';
 import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
 import { Dashboard1Component } from './pages/dashboard/dashboard1/dashboard1.component';
+import { DetailChart1Component } from './paes/dashboard/detail-chart1/detail-chart1.component';
+import { DetailChart2Component } from './paes/dashboard/detail-chart2/detail-chart2.component';
+import { DetailChart3Component } from './paes/dashboard/detail-chart3/detail-chart3.component';
 
 const PAGES = [
     HomeComponent,
@@ -174,7 +177,10 @@ const PAGES = [
         LowerProcessNewComponent,
         ProcessGubunCodeNewComponent,
         Dashboard2Component,
-        Dashboard1Component    ],
+        Dashboard1Component,
+        DetailChart1Component,
+        DetailChart2Component,
+        DetailChart3Component    ],
     imports: [
         BrowserModule,
         RoutingModule,
