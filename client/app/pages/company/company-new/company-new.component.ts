@@ -92,9 +92,20 @@ export class CompanyNewComponent implements OnInit {
     
     
       this.formData = form.value;
+      //Template form을 전송용 formData에 저장 
+      this.formData = form.value;
       console.log("this.formData >>>>>>>>>>>>>" , this.formData);
+      
+    
+      var tmpFromDate = new Date(this.formData.company.date_from);
+      tmpFromDate.setDate(tmpFromDate.getDate() + 1);
+      this.formData.company.date_from = tmpFromDate;
 
-      console.log("saveCompany  this.formData : ", this.formData);
+      var tmpToDate = new Date(this.formData.company.date_to);
+      tmpToDate.setDate(tmpToDate.getDate() + 1);
+      this.formData.company.date_to = tmpToDate;
+
+      console.log("this.formData 2 >>>>>>>>>>>>>", this.formData);
           
       this.addCompany();
   }

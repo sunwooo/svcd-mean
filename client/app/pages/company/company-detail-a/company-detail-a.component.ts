@@ -72,7 +72,18 @@ export class CompanyDetailAComponent implements OnInit {
         console.log("form.value",form.value);
         console.log("form",form);
         console.log('=================================================================================================');
+        console.log("this.formData >>>>>>>>>>>>>" , form.value);
+      
+    
+        var tmpFromDate = new Date(form.value.company.date_from);
+        tmpFromDate.setDate(tmpFromDate.getDate() + 1);
+        form.value.company.date_from = tmpFromDate;
 
+        var tmpToDate = new Date(form.value.company.date_to);
+        tmpToDate.setDate(tmpToDate.getDate() + 1);
+        form.value.company.date_to = tmpToDate;
+
+        console.log("this.formData 2 >>>>>>>>>>>>>", form.value);
    
 
         this.companyService.putCompany(form).subscribe(
