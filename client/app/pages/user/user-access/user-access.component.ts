@@ -20,7 +20,7 @@ export class UserAccessComponent implements OnInit {
     public userDetailNew: any;                  //선택 인시던트 id
     public selectedIdx: number = -1;            //삭제를 위한 인덱스, 상세보기 시 값변경
 
-    public searchType: string = "";             //검색구분
+    public searchType: string = "company_nm,employee_nm";             //검색구분
     public searchText: string = "";             //검색어
     public company_cd: string = "*";            //회사코드
     public using_yn: string = "*";              //사용여부(Y/N)
@@ -29,6 +29,7 @@ export class UserAccessComponent implements OnInit {
     private formData: any = {};                 //전송용 formData
 
     public searchTypeObj: { name: string; value: string; }[] = [
+        { name: '전체', value: 'company_nm,employee_nm' },
         { name: '사원명', value: 'employee_nm' },
         { name: '회사명', value: 'company_nm' }
     ];
@@ -120,7 +121,7 @@ export class UserAccessComponent implements OnInit {
                     this.toast.open('조회데이타가 없습니다..', 'success');
                 }
 
-                //this.userObj = res.user;
+                this.userObj = res.user;
             },
             (error: HttpErrorResponse) => {
             },
