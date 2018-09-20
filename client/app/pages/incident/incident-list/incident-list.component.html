@@ -107,6 +107,10 @@
                                                 <span (click)="getEmpInfo(empInfoModal,incident.manager_email);"
                                                     class="text-primary-svc"><b>{{incident.manager_nm}}</b></span>
                                                 <span class="p-w-xs">{{incident.register_date}}</span>
+                                                <br>
+                                                <span *ngIf="incident.status_cd != 1" (click)="setDetail(incidentDetailModal, incident, idx);"
+                                                    class="text-default-svc"><b>완료예정일</b></span>
+                                                <span *ngIf="incident.status_cd != 1"class="p-w-xs">{{incident?.complete_reserve_date}}</span>
                                             </div>
                                             <a  (click)="setDetail(incidentDetailModal, incident, idx);" class="forum-item-title float-left">
                                                 <i class="md md-desktop-windows"></i>{{incident.title}}

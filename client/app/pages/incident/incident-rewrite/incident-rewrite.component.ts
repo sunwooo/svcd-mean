@@ -37,7 +37,8 @@ export class IncidentRewriteComponent implements OnInit {
     private formData: any = {}; //전송용 formData
     private attach_file: any = []; //mongodb 저장용 첨부파일 배열
     private dateChange = false; //완료요청일이 변경되었는지 여부
-
+    
+    public newTitle;
     public uploader: FileUploader = new FileUploader({ url: URL }); //file upload용 객체
     public processSpeed: { name: string; value: string; }[] = [
         { name: '보통', value: 'N' },
@@ -83,7 +84,7 @@ export class IncidentRewriteComponent implements OnInit {
                 }
         });
 
-        this.incidentDetail.title = "[재요청] "+this.incidentDetail.title;
+        this.newTitle = "[재요청] "+this.incidentDetail.title;
 
         $('#summernote').summernote('code', this.incidentDetail.content);
 
@@ -126,7 +127,8 @@ export class IncidentRewriteComponent implements OnInit {
 
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
-        form.value.incident.content = text;
+        var ctext = text.replace(/<img src=/gi,'<img class="summernote-img" src=');
+        form.value.incident.content = ctext;
 
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
@@ -136,6 +138,10 @@ export class IncidentRewriteComponent implements OnInit {
             tmpDate.setDate(tmpDate.getDate() + 1);
             this.formData.incident.request_complete_date = tmpDate;
         }
+
+        /////////////////////재등록 시 이전 object id /////////////////
+        this.formData.incident.pre_incident = this.incidentDetail._id;
+        //////////////////////////////////////////////////////////////
 
         //form.onReset();
 
@@ -164,6 +170,7 @@ export class IncidentRewriteComponent implements OnInit {
 
                 this.toast.open('등록되었습니다.', 'success');
                 this.outReload.emit();
+                this.router.navigate(['/svcd/1200']);
                 this.cValues('Close click');
 
             },

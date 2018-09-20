@@ -34,6 +34,8 @@ export class CompanyDetailAComponent implements OnInit {
     public zip_cd: string;
     public addr: string;
 
+    private dateFromChange = false; //유지보수시작일이 변경되었는지 여부
+    private dateToChange = false; //유지보수종료일이 변경되었는지 여부
 
     public groupFlagObj: { name: string; value: string; }[] = [
         { name: '외부고객사', value: 'out' },
@@ -74,14 +76,17 @@ export class CompanyDetailAComponent implements OnInit {
         console.log('=================================================================================================');
         console.log("this.formData >>>>>>>>>>>>>" , form.value);
       
-    
-        var tmpFromDate = new Date(form.value.company.date_from);
-        tmpFromDate.setDate(tmpFromDate.getDate() + 1);
-        form.value.company.date_from = tmpFromDate;
+        if(this.dateFromChange){
+            var tmpFromDate = new Date(form.value.company.date_from);
+            tmpFromDate.setDate(tmpFromDate.getDate() + 1);
+            form.value.company.date_from = tmpFromDate;
+        }
 
-        var tmpToDate = new Date(form.value.company.date_to);
-        tmpToDate.setDate(tmpToDate.getDate() + 1);
-        form.value.company.date_to = tmpToDate;
+        if(this.dateToChange){
+            var tmpToDate = new Date(form.value.company.date_to);
+            tmpToDate.setDate(tmpToDate.getDate() + 1);
+            form.value.company.date_to = tmpToDate;
+        }
 
         console.log("this.formData 2 >>>>>>>>>>>>>", form.value);
    
@@ -129,17 +134,18 @@ export class CompanyDetailAComponent implements OnInit {
      * @param type
      * @param event 
      */
-    addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-
-        console.log("================================");
-        console.log("type: ", type);
-        console.log("event: ", event);
-
-        console.log("================================");
-
-        //this.onSubmit();
-
+    changeFrom(type: string, event: MatDatepickerInputEvent<Date>) {
+        this.dateFromChange = true;
     }
+
+    /**
+     * 달력 이벤트 처리
+     * @param type
+     * @param event 
+     */
+    changeTo(type: string, event: MatDatepickerInputEvent<Date>) {
+        this.dateToChange = true;
+    }    
 
     /**
      * 우편번호 주소 세팅

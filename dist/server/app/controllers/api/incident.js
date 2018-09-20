@@ -562,7 +562,7 @@ module.exports = {
           .limit(perPage);
       });
     } catch (err) {
-        console.log("xxxxxxxxxxxxx err : ",err);
+        console.log("err : ",err);
     } finally {}
 
   },
@@ -775,6 +775,9 @@ module.exports = {
       //if (req.files) {
       //    newincident.attach_file = req.files;
       //}
+
+      console.log("xxxxxxxxxxxxx newincident : ", newincident);
+
       Incident.create(newincident, function (err, newincident) {
         if (err) {
           //console.log("trace err ", err);

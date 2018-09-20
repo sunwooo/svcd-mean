@@ -48,6 +48,7 @@ export class IncidentModifyComponent implements OnInit {
 
     //public serializedDate = new FormControl((new Date()).toISOString());
 
+
     constructor(private auth: AuthService,
         public toast: ToastComponent,
         private incidentService: IncidentService,
@@ -56,7 +57,7 @@ export class IncidentModifyComponent implements OnInit {
     }
 
     ngOnInit() {
-     
+
         //$('#summernote').summernote();
         $('#summernote').summernote({
             height: 350, // set editor height;
@@ -138,18 +139,20 @@ export class IncidentModifyComponent implements OnInit {
 
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
-        form.value.incident.content = text;
+        var ctext = text.replace(/<img src=/gi,'<img class="summernote-img" src=');
+        form.value.incident.content = ctext;
+
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
         this.formData.incident._id = this.incidentDetail._id;
         this.formData.incident.process_speed = this.incidentDetail.process_speed;
 
         if(this.dateChange){
+            this.incidentDetail.request_complete_date = this.formData.incident.request_complete_date;
             var tmpDate = new Date(this.formData.incident.request_complete_date);
             tmpDate.setDate(tmpDate.getDate() + 1);
             this.formData.incident.request_complete_date = tmpDate;
         }
-
         
         //Template form을 전송용 formData에 저장 
         this.incidentService.fileUpdate(this.formData).subscribe(
@@ -157,7 +160,7 @@ export class IncidentModifyComponent implements OnInit {
                 
                 this.incidentDetail.title = this.formData.incident.title;
                 this.incidentDetail.process_speed = this.formData.incident.process_speed;
-                this.incidentDetail.request_complete_date = this.formData.incident.request_complete_date;
+                //this.incidentDetail.request_complete_date = this.formData.incident.request_complete_date;
                 this.incidentDetail.content = this.formData.incident.content;
                 this.toast.open('수정되었습니다.', 'success');
                 this.cValues('Close click');
@@ -226,11 +229,11 @@ export class IncidentModifyComponent implements OnInit {
         //Template form을 전송용 formData에 저장 
         this.incidentService.fileUpdate(this.formData).subscribe(
             (res) => {
-                console.log("res ",res);
+                //console.log("res ",res);
                 this.toast.open('파일이 삭제되었습니다.', 'success');
             },
             (error: HttpErrorResponse) => {
-                console.log(error);
+                //console.log(error);
             }
         );
     

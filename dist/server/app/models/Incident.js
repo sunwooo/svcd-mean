@@ -89,11 +89,13 @@ var IncidentSchema = new Schema({
     nc_date           : {type : String, default : ''},  //미처리 코멘트일 
 
     created_at              : {type : String},
-    updated_at              : {type : Date},
-    deleted_at             : {type : Date}
+    updated_at              : {type : String},
+    deleted_at             : {type : String},
+    pre_incident           : {type:mongoose.Schema.Types.ObjectId, ref:'incident', required:false} //재등록 시 이전 object_id
 });
 
 IncidentSchema.pre("save", setCreateAt);
+IncidentSchema.pre("findOneAndUpdate", setPreUpdate);
 
 function isEmpty(value){
     var isValid = false;
@@ -124,7 +126,21 @@ function setCreateAt(next){
     schema.register_mm = m.format("MM");
     schema.register_dd = m.format("DD");
 
-    schema.request_complete_date = schema.request_complete_date.substring(0,10);
+    if(schema.request_complete_date)
+        schema.request_complete_date = schema.request_complete_date.substring(0,10);
+
+    return next();
+}
+
+function setPreUpdate(next){
+
+    var schema = this._update;
+    var m = moment();    
+    var date = m.format("YYYY-MM-DD HH:mm:ss");
+
+    schema.updated_at = date;
+    if(schema.request_complete_date)
+        schema.request_complete_date = schema.request_complete_date.substring(0,10);
 
     return next();
 }

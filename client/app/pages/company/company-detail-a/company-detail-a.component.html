@@ -39,7 +39,6 @@
                                                 </span>
                                                 <input matInput 
                                                         [(ngModel)]="group_flag"
-                                                        id="group_flag"
                                                         type="text" 
                                                         maxlength="20" 
                                                         name="group_flag" 
@@ -67,7 +66,6 @@
                                                 </span>
                                                 <input matInput 
                                                         [ngModel]="companyDetail?.company_cd"
-                                                        id="company_cd"
                                                         type="text" 
                                                         maxlength="30" 
                                                         name="company_cd" 
@@ -85,7 +83,6 @@
                                                 </span>
                                                 <input matInput 
                                                         [ngModel]="companyDetail?.company_nm"
-                                                        id="company_nm"
                                                         type="text"
                                                         name="company_nm" 
                                                         placeholder="회사명"
@@ -119,7 +116,6 @@
                                                 </span>
                                                 <input matInput 
                                                         [ngModel]="companyDetail?.type"
-                                                        id="type"
                                                         type="text" 
                                                         name="type" 
                                                         placeholder="업태" 
@@ -140,7 +136,6 @@
                                                 </span>
                                                 <input matInput 
                                                         [ngModel]="companyDetail?.ceo_nm"
-                                                        id="ceo_nm"
                                                         type="text" 
                                                         name="ceo_nm" 
                                                         placeholder="대표이사명"
@@ -161,7 +156,6 @@
                                                 </span>
                                                 <input matInput 
                                                         [ngModel]="companyDetail?.tel_no"
-                                                        id="tel_no"
                                                         type="text" 
                                                         name="tel_no" 
                                                         placeholder="전화번호" 
@@ -177,7 +171,6 @@
                                                 </span>
                                                 <input matInput 
                                                         [ngModel]="companyDetail?.fax_no"
-                                                        id="fax_no"
                                                         type="text" 
                                                         name="fax_no" 
                                                         placeholder="팩스번호" 
@@ -195,7 +188,6 @@
                                                         </span>
                                                         <input matInput 
                                                                 [ngModel]="companyDetail?.addr"
-                                                                id="addr"
                                                                 type="text" 
                                                                 name="addr" 
                                                                 placeholder="회사주소1" 
@@ -215,7 +207,6 @@
                                                 </span>
                                                 <input matInput 
                                                         [ngModel]="companyDetail?.addr2"
-                                                        id="addr2"
                                                         type="text" 
                                                         name="addr2" 
                                                         placeholder="회사주소2" 
@@ -230,7 +221,6 @@
                                                 </span>
                                                 <input matInput 
                                                         [ngModel]="companyDetail?.bigo"
-                                                        id="bigo"
                                                         type="text" 
                                                         name="bigo" 
                                                         placeholder="비고" 
@@ -249,7 +239,7 @@
                                                         [min]="minDate" 
                                                         [max]="maxDate" 
                                                         [matDatepicker]="pickerf"
-                                                        (dateChange)="addEvent('change', $event)"
+                                                        (dateChange)="changeFrom('change', $event)"
                                                         placeholder="유지보수 시작일"
                                                 >
                                                 <mat-datepicker-toggle matSuffix [for]="pickerf"></mat-datepicker-toggle>
@@ -266,7 +256,7 @@
                                                         [min]="minDate" 
                                                         [max]="maxDate" 
                                                         [matDatepicker]="pickert"
-                                                        (dateChange)="addEvent('change', $event)"
+                                                        (dateChange)="changeTo('change', $event)"
                                                         placeholder="유지보수 종료일"
                                                 >
                                                 <mat-datepicker-toggle matSuffix [for]="pickert"></mat-datepicker-toggle>
@@ -281,7 +271,6 @@
                                                 </span>
                                                 <input matInput 
                                                         [ngModel]="companyDetail?.id"
-                                                        id="id"
                                                         type="id" 
                                                         name="id" 
                                                         placeholder="objectId" 
