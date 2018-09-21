@@ -42,7 +42,7 @@ function setCreateAt(next){
 }
 
 function setUpdateAt(next){
-    var schema = this._update;;
+    var schema = this._update;
     var m = moment();    
     var date = m.format("YYYY-MM-DD HH:mm:ss");
     schema.updated_at = date;
