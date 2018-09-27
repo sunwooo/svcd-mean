@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DetailChart2Component } from './detail-chart2.component';
+import { Dashboard3Component } from './dashboard3.component';
 
-describe('DetailChart2Component', () => {
-  let component: DetailChart2Component;
-  let fixture: ComponentFixture<DetailChart2Component>;
+describe('Dashboard3Component', () => {
+  let component: Dashboard3Component;
+  let fixture: ComponentFixture<Dashboard3Component>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DetailChart2Component ]
+      declarations: [ Dashboard3Component ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DetailChart2Component);
+    fixture = TestBed.createComponent(Dashboard3Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
