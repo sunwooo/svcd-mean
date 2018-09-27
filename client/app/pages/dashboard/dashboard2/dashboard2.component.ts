@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Dashboard2Service } from '../../../services/dashboard2.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Input, Output } from "@angular/core";
 
 @Component({
   selector: 'app-dashboard2',
@@ -9,17 +10,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard2.component.css']
 })
 export class Dashboard2Component implements OnInit {
+  @Input() searchYyyy;
+  @Input() searchMm;
+  @Input() searhHigherCd;
+  @Input() searchCompany;
+
+  private formData: any = {}; //전송용 formData
+
   public single = [];
   /** being chart setting */
   public view: any[] = [700, 300];
 
   public colorScheme = {
-        //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
-        domain: ['#01579b', '#7aa3e5', '#00bfa5', '#e1d248', '#b1b1b1' ,'#a8385d']
-    };
+    //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
+    domain: ['#01579b', '#7aa3e5', '#00bfa5', '#e1d248', '#b1b1b1', '#a8385d']
+  };
 
   constructor(private dashboard2Service: Dashboard2Service
-              ,private router: Router) { }
+    , private router: Router) { }
 
   ngOnInit() {
 
@@ -59,30 +67,35 @@ export class Dashboard2Component implements OnInit {
    * 상위업무(1순위 요청) 조회
   **/
 
-    getMaxHigherCnt() {
-       console.log("getMaxHigherCnt function call!!!");
-      //this.dashboard2Service.getMaxHigherCnt({ scope: "*" }).subscribe(
-        this.dashboard2Service.getChart2({ company_cd : "*" }).subscribe(
-         
-          (res) => {
-              
-              //console.log("getCompany res ====>" , JSON.stringify(res));
-              //console.log("getCompany res ====>" , JSON.stringify(res));
-              /*
-              this.companyObj = res;
-              for (var i = 0; i < this.companyObj.length; i++) {
+  getMaxHigherCnt() {
+    console.log("getMaxHigherCnt function call!!!");
+    this.formData.yyyy = this.searchYyyy;
+    this.formData.mm = this.searchMm;
+    this.formData.higher_cd = this.searhHigherCd;
+    this.formData.company_cd = this.searchCompany;
 
-                  var text = { id: "" + this.companyObj[i].company_cd + "", itemName: "" + this.companyObj[i].company_nm + "" };
-                  //console.log("text :" + text);
-                  // {id:"7",itemName:"France"},
+    //this.dashboard2Service.getMaxHigherCnt({ scope: "*" }).subscribe(
+    this.dashboard2Service.getChart2(this.formData).subscribe(
 
-                  this.dropdownList.push(text);
-              }
-                */
-          },
-          (error: HttpErrorResponse) => {
-          }
-      );
-    }
+      (res) => {
+
+        //console.log("getCompany res ====>" , JSON.stringify(res));
+        //console.log("getCompany res ====>" , JSON.stringify(res));
+        /*
+        this.companyObj = res;
+        for (var i = 0; i < this.companyObj.length; i++) {
+
+            var text = { id: "" + this.companyObj[i].company_cd + "", itemName: "" + this.companyObj[i].company_nm + "" };
+            //console.log("text :" + text);
+            // {id:"7",itemName:"France"},
+
+            this.dropdownList.push(text);
+        }
+          */
+      },
+      (error: HttpErrorResponse) => {
+      }
+    );
+  }
 
 }
