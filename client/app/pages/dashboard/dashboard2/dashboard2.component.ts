@@ -17,7 +17,7 @@ export class Dashboard2Component implements OnInit {
 
   private formData: any = {}; //전송용 formData
 
-  public single = [];
+  public bubble = [];
   /** being chart setting */
   public view: any[] = [700, 300];
 
@@ -34,32 +34,100 @@ export class Dashboard2Component implements OnInit {
     this.getMaxHigherCnt();
 
     //single[]
-    this.single = [
+    this.bubble = [
+  {
+    "name": "Germany",
+    "series": [
       {
-        name: 'Germany',
-        value: 40632
+        "name": "2010",
+        "x": "2009-12-31T15:00:00.000Z",
+        "y": 80.3,
+        "r": 80.4
       },
       {
-        name: 'United States',
-        value: 49737
+        "name": "2000",
+        "x": "1999-12-31T15:00:00.000Z",
+        "y": 80.3,
+        "r": 78
       },
       {
-        name: 'France',
-        value: 36745
-      },
-      {
-        name: 'United Kingdom',
-        value: 36240
-      },
-      {
-        name: 'Spain',
-        value: 33000
-      },
-      {
-        name: 'Italy',
-        value: 35800
+        "name": "1990",
+        "x": "1989-12-31T15:00:00.000Z",
+        "y": 75.4,
+        "r": 79
       }
-    ];
+    ]
+  },
+  {
+    "name": "United States",
+    "series": [
+      {
+        "name": "2010",
+        "x": "2009-12-31T15:00:00.000Z",
+        "y": 78.8,
+        "r": 310
+      },
+      {
+        "name": "2000",
+        "x": "1999-12-31T15:00:00.000Z",
+        "y": 76.9,
+        "r": 283
+      },
+      {
+        "name": "1990",
+        "x": "1989-12-31T15:00:00.000Z",
+        "y": 75.4,
+        "r": 253
+      }
+    ]
+  },
+  {
+    "name": "France",
+    "series": [
+      {
+        "name": "2010",
+        "x": "2009-12-31T15:00:00.000Z",
+        "y": 81.4,
+        "r": 63
+      },
+      {
+        "name": "2000",
+        "x": "1999-12-31T15:00:00.000Z",
+        "y": 79.1,
+        "r": 59.4
+      },
+      {
+        "name": "1990",
+        "x": "1989-12-31T15:00:00.000Z",
+        "y": 77.2,
+        "r": 56.9
+      }
+    ]
+  },
+  {
+    "name": "United Kingdom",
+    "series": [
+      {
+        "name": "2010",
+        "x": "2009-12-31T15:00:00.000Z",
+        "y": 80.2,
+        "r": 62.7
+      },
+      {
+        "name": "2000",
+        "x": "1999-12-31T15:00:00.000Z",
+        "y": 77.8,
+        "r": 58.9
+      },
+      {
+        "name": "1990",
+        "x": "1989-12-31T15:00:00.000Z",
+        "y": 75.7,
+        "r": 57.1
+      }
+    ]
+  }
+];
 
   }
 
@@ -69,11 +137,16 @@ export class Dashboard2Component implements OnInit {
 
   getMaxHigherCnt() {
     console.log("getMaxHigherCnt function call!!!");
+    /*
     this.formData.yyyy = this.searchYyyy;
     this.formData.mm = this.searchMm;
     this.formData.higher_cd = this.searhHigherCd;
     this.formData.company_cd = this.searchCompany;
-
+    */
+    //this.formData.yyyy = "2018";
+    //this.formData.mm = "*";
+    this.formData.higher_cd = "*";
+    this.formData.company_cd = "*";
     //this.dashboard2Service.getMaxHigherCnt({ scope: "*" }).subscribe(
     this.dashboard2Service.getChart2(this.formData).subscribe(
 

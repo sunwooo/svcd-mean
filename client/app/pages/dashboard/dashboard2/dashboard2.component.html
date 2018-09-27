@@ -20,17 +20,33 @@
       <div class="card-box">
         <div class="row">
           <h4 class="text-dark header-title float-left m-l-30">만족도 현황</h4>
-            <ngx-charts-pie-grid
-                class="chart-container"
-                [view]="view"
-                [scheme]="colorScheme"
-                (legendLabelClick)="onLegendLabelClick($event)"
-                [results]="single"
-                [animations]="true"
-                [tooltipDisabled]="tooltipDisabled"
-                [tooltipText]="pieTooltipText"
-                (select)="select($event)">
-            </ngx-charts-pie-grid>
+            <ngx-charts-bubble-chart
+              
+              [view]="view"
+              class="chart-container"
+              [results]="bubble"
+              [animations]="'true'"
+              [showGridLines]="showGridLines"
+              [legend]="showLegend"
+              [legendTitle]="legendTitle"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              [xAxisLabel]="xAxisLabel"
+              [yAxisLabel]="yAxisLabel"
+              [autoScale]="autoScale"
+              [xScaleMin]="xScaleMin"
+              [xScaleMax]="xScaleMax"
+              [yScaleMin]="yScaleMin"
+              [yScaleMax]="yScaleMax"
+              [scheme]="colorScheme"
+              [schemeType]="schemeType"
+              [roundDomains]="roundDomains"
+              [tooltipDisabled]="tooltipDisabled"
+              [minRadius]="minRadius"
+              [maxRadius]="maxRadius">
+          </ngx-charts-bubble-chart>
         </div>
       </div>
     </div>

@@ -123,7 +123,7 @@ chart2: (req, res, next) => {
                         console.log("data.valAvg : ", data.valAvg);
                         console.log("==================================================");
 
-                    });
+                    })
 
                     res.json(incident);
                 }
