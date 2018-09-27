@@ -82,8 +82,6 @@ module.exports = {
                                     //logger.debug("util/alimi/sendAlimi, manager : ", manager);
                                     //logger.debug("=============================================")
 
-                                     //운영 시 해제
-                                    /* 
                                     request({
                                         uri: alimi + "/alimi/call_alimi.jsp?msgtype=CSD&users_id=" + manager + "&title=1&link_url=" + gw + "/CoviWeb/Main.aspx?type=helpdesK" + manager,
                                         headers: {
@@ -93,7 +91,6 @@ module.exports = {
                                     }, function (err, response, body) {
                                         //todo
                                     });
-                                    */
                                 }else{
 
                                     //logger.debug("=============================================");
