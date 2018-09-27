@@ -18,7 +18,7 @@ module.exports = {
 
     //접수메일
     receiveSend: (req, req2, res, next) => {
-        /*
+        
         var receiver = req.request_nm + " <" + req.request_id + ">";
         var mailTitle = "[서비스데스크 접수 처리] " + req.title;
         var html = "";
@@ -63,12 +63,12 @@ module.exports = {
             }
             transporter.close();
         });
-        */
+        
     },
 
     //완료메일
     finishSend: (req, req2, res, next) => {
-        /*
+        
         var receiver = req.request_nm + " <" + req.request_id + ">";
         var mailTitle = "[서비스데스크 완료 처리] " + req.title;
         var html = "";
@@ -112,12 +112,12 @@ module.exports = {
             }
             transporter.close();
         });
-        */
+    
     },
 
     //평가메일
     evaluationSend: (req, req2, res, next) => {
-        /*
+
         var evaluationValue = req2.valuation;
         var evaluationValueNM = "";
 
@@ -172,6 +172,6 @@ module.exports = {
             }
             transporter.close();
         });
-        */
+
     }
 }

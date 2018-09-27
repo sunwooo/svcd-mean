@@ -10,20 +10,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class HigherCdComponent implements OnInit {
 
     @Input() scope: string; //상위업무 전체 조회면 '*',
-    @Input() initHigherCd: string; //초기 상세업무
+    @Input() initHigherCd: string = "*"; //초기 상세업무
     @Input() required: boolean = false;
     @Input() placeholder: string;
     @Input() company: string;
+    @Input() type: string;
     @Output() outHigherCd = new EventEmitter<string>();
 
-    public higherCd: any;
+    public higherCd: any = {};
     public condition: any = {};
     public selecedIdx;
 
     constructor(private commonApi: CommonApiService) { }
 
     ngOnInit() {       
-        if(this.scope == "*") this.initHigherCd = "*";
         //console.log("xxxxxxxxxxx this.initHigherCd ",this.initHigherCd);
         this.getHigherCd(this.company);
     }
@@ -34,7 +34,7 @@ export class HigherCdComponent implements OnInit {
      */
     onSelect(idx){   
         if(idx != '-1'){
-            if(idx == '*'){
+            if(idx == '0'){
                 var higherCd: any = {'higher_cd':'*','higher_nm':'전체'};
                 this.outHigherCd.emit(higherCd);
             }else{
@@ -52,10 +52,11 @@ export class HigherCdComponent implements OnInit {
 
         this.commonApi.getHigher(this.condition).subscribe(
             (res) => {
-                //console.log('============= higher-cd.commonApi.getHigherCd(this.condition).subscribe ===============');
-                //console.log(res);
-                //console.log('===================================================================================');
+                console.log('============= higher-cd.commonApi.getHigherCd(this.condition).subscribe ===============');
+                console.log(res);
+                console.log('===================================================================================');
                 this.higherCd = res;
+                if(this.type == "search") this.initHigherCd = "*";
             },
             (error: HttpErrorResponse) => {
                 console.log('error : ',error);
