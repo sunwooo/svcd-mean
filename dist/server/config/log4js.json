@@ -9,7 +9,7 @@
                 "category": "http"
             },
             {
-                "type": "file",
+                "type": "dateFile",
                 "filename": "logs/app.log",
                 "level": "DEBUG",
                 "pattern": "-yyyy-MM-dd",
