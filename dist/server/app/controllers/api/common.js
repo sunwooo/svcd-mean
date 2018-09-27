@@ -30,57 +30,91 @@ higherProcess: (req, res, next) => {
 
         if (scope == "*") {
 
-        condition.user_flag = {
-            $ne: '0'
-        };
+            condition.user_flag = {
+                $ne: '0'
+            };
 
-        HigherProcess.find(condition, function (err, higherProcess) {
-            if (err) {
-            return res.json(null);
-            } else {
-            res.json(higherProcess);
-            }
-        }).sort('sort_lvl');
+            HigherProcess.find(condition, function (err, higherProcess) {
+                if (err) {
+                    return res.json(null);
+                } else {
+                    res.json(higherProcess);
+                }
+            }).sort('sort_lvl');
 
         } else if (scope == "user") {
 
-        condition.company_cd = req.session.company_cd; //회사코드
-        condition.email = req.session.email; //이메일
+            condition.company_cd = req.session.company_cd; //회사코드
+            condition.email = req.session.email; //이메일
 
-        MyProcess.find(condition, function (err, myProcess) {
-            if (err) {
-            res.json({
-                success: false,
-                message: err
+            var aggregatorOpts = [{
+                $match: condition
+            }, {
+                $group: { //그룹
+                    _id: {
+                        higher_cd: "$higher_cd",
+                        higher_nm: "$higher_nm"
+                    }
+                }
+            }];
+
+            MyProcess.aggregate(aggregatorOpts).exec(function (err, myProcess) {
+                if (err) {
+                    res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                    
+                    var rtnArr = [];
+                    myProcess.forEach((mp) => {
+                        var tmp = {};
+                        tmp.higher_nm = mp._id.higher_nm;
+                        tmp.higher_cd = mp._id.higher_cd;
+                        rtnArr.push(tmp);
+                    });
+
+                    res.json(rtnArr);
+                }
             });
-            } else {
-            res.json(myProcess);
-            }
-        }).sort('sort_lvl');
+
 
         } else if (scope == "company") {
 
-        if (req.query.company_cd != null) {
-            condition.company_cd = req.query.company_cd;
-        }
-
-        CompanyProcess.find(condition, function (err, companyProcess) {
-            if (err) {
-            return res.json({
-                success: false,
-                message: err
-            });
-            } else {
-
-            //logger.debug("======================================CompanyProcessModel.find======================================");
-            //logger.debug("companyProcess : ", companyProcess);
-            //logger.debug("====================================================================================================");
-
-            res.json(companyProcess);
+            if (req.query.company_cd != null) {
+                condition.company_cd = req.query.company_cd;
             }
-        }).sort({
-            sort_lvl: 1
-        });
+
+            var aggregatorOpts = [{
+                $match: condition
+            }, {
+                $group: { //그룹
+                    _id: {
+                        higher_cd: "$higher_cd",
+                        higher_nm: "$higher_nm"
+                    }
+                }
+            }];
+
+            CompanyProcess.aggregate(aggregatorOpts).exec(function (err, myProcess) {
+                if (err) {
+                    res.json({
+                        success: false,
+                        message: err
+                    });
+                } else {
+                    
+                    var rtnArr = [];
+                    myProcess.forEach((mp) => {
+                        var tmp = {};
+                        tmp.higher_nm = mp._id.higher_nm;
+                        tmp.higher_cd = mp._id.higher_cd;
+                        rtnArr.push(tmp);
+                    });
+
+                    res.json(rtnArr);
+                }
+            });
 
         }
     } catch (err) {
@@ -180,17 +214,17 @@ companyList: (req, res, next) => {
         var condition = {};
 
         if (req.session.user_flag == "5") {
-        condition.company_cd = req.session.company_cd;
+            condition.company_cd = req.session.company_cd;
         }
 
         Company.find(condition, function (err, companyJsonData) {
             if (err) {
-            return res.json({
-                success: false,
-                message: err
-            });
+                return res.json({
+                    success: false,
+                    message: err
+                });
             } else {
-            res.json(companyJsonData);
+                res.json(companyJsonData);
             };
 
         })

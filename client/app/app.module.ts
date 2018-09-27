@@ -104,6 +104,7 @@ import { Dashboard1Component } from './pages/dashboard/dashboard1/dashboard1.com
 import { DetailChart1Component } from './paes/dashboard/detail-chart1/detail-chart1.component';
 import { DetailChart2Component } from './paes/dashboard/detail-chart2/detail-chart2.component';
 import { DetailChart3Component } from './paes/dashboard/detail-chart3/detail-chart3.component';
+import { Dashboard3Component } from './pages/dashboard/dashboard3/dashboard3.component';
 
 const PAGES = [
     HomeComponent,
@@ -180,7 +181,8 @@ const PAGES = [
         Dashboard1Component,
         DetailChart1Component,
         DetailChart2Component,
-        DetailChart3Component    ],
+        DetailChart3Component,
+        Dashboard3Component    ],
     imports: [
         BrowserModule,
         RoutingModule,
