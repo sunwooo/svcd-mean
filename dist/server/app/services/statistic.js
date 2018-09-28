@@ -440,8 +440,7 @@ module.exports = {
                     },
                     valuationSum: {
                         $sum: "$valuation"
-                    },
-                    avg:
+                    }
                 }
             }
             , {
@@ -463,7 +462,7 @@ module.exports = {
                     }
                 }
             }
-            ,{ "$sort": { "valuationSum" : -1, "register_yyyy" : 1} }
+            ,{ "$sort": { "valuationSum" : -1, "_id.register_yyyy" : 1}}
             ,{ "$limit": 5 }
 
             //,{ "$sort": { "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
