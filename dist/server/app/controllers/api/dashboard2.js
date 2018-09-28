@@ -20,6 +20,7 @@ module.exports = {
  */
 chart2: (req, res, next) => {
     try {
+        /*
         console.log("==================================================");
         console.log(" Dashboard chart2 : ");
         console.log("==================================================");
@@ -128,6 +129,7 @@ chart2: (req, res, next) => {
                     res.json(incident);
                 }
             })
+            */
     } catch (err) {
         logger.error("chart2 error : ", err);
 

@@ -18,119 +18,184 @@ export class Dashboard2Component implements OnInit {
   private formData: any = {}; //전송용 formData
 
   public bubble = [];
-  /** being chart setting */
-  public view: any[] = [700, 300];
 
+  /** being chart setting */
+  //public view: any[] = [700, 300];
+  public view: any[];
+  public width: number = 700;
+  public height: number = 300;
+  public fitContainer: boolean = false;
+
+  // options
+  public showXAxis = true;
+  public showYAxis = true;
+  public gradient = true;
+  public showLegend = true;
+  public legendTitle = 'Company';
+  public showXAxisLabel = true;
+  public tooltipDisabled = false;
+  public xAxisLabel = 'Year';
+  public showYAxisLabel = true;
+  public yAxisLabel = 'Valuation';
+  public showGridLines = true;
+  public innerPadding = '30%';
+  public barPadding = 8;
+  public groupPadding = 16;
+  public roundDomains = true;
+  public maxRadius = 20;
+  public minRadius = 3;
+  public showSeriesOnHover = true;
+  public roundEdges: boolean = true;
+  public animations: boolean = true;
+  public xScaleMin: any;
+  public xScaleMax: any;
+  public yScaleMin: number;
+  public yScaleMax: number;
+  public showDataLabel = true;
+
+  
   public colorScheme = {
-    //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
+  //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
     domain: ['#01579b', '#7aa3e5', '#00bfa5', '#e1d248', '#b1b1b1', '#a8385d']
   };
+  
+
 
   constructor(private dashboard2Service: Dashboard2Service
     , private router: Router) { }
 
   ngOnInit() {
 
-    this.getMaxHigherCnt();
+    //this.getMaxHigherCnt();
 
-    //single[]
+    //this.setColorScheme('cool');
+    
+
+    //bubble[]
     this.bubble = [
-  {
-    "name": "Germany",
-    "series": [
       {
-        "name": "2010",
-        "x": "2009-12-31T15:00:00.000Z",
-        "y": 80.3,
-        "r": 80.4
+        "name": "Germany",
+        "series": [
+          {
+            "name": "2010",
+            "x": "2009-12-31T15:00:00.000Z",
+            "y": 5,
+            "r": 80.4
+          },
+          {
+            "name": "2000",
+            "x": "1999-12-31T15:00:00.000Z",
+            "y": 4.5,
+            "r": 78
+          },
+          {
+            "name": "1990",
+            "x": "1989-12-31T15:00:00.000Z",
+            "y": 2,
+            "r": 79
+          }
+        ]
       },
       {
-        "name": "2000",
-        "x": "1999-12-31T15:00:00.000Z",
-        "y": 80.3,
-        "r": 78
+        "name": "United States",
+        "series": [
+          {
+            "name": "2010",
+            "x": "2009-12-31T15:00:00.000Z",
+            "y": 4,
+            "r": 310
+          },
+          {
+            "name": "2000",
+            "x": "1999-12-31T15:00:00.000Z",
+            "y": 3,
+            "r": 283
+          },
+          {
+            "name": "1990",
+            "x": "1989-12-31T15:00:00.000Z",
+            "y": 2,
+            "r": 253
+          }
+        ]
       },
       {
-        "name": "1990",
-        "x": "1989-12-31T15:00:00.000Z",
-        "y": 75.4,
-        "r": 79
+        "name": "France",
+        "series": [
+          {
+            "name": "2010",
+            "x": "2009-12-31T15:00:00.000Z",
+            "y": 5,
+            "r": 63
+          },
+          {
+            "name": "2000",
+            "x": "1999-12-31T15:00:00.000Z",
+            "y": 4,
+            "r": 59.4
+          },
+          {
+            "name": "1990",
+            "x": "1989-12-31T15:00:00.000Z",
+            "y": 3,
+            "r": 56.9
+          }
+        ]
+      },
+      {
+        "name": "United Kingdom",
+        "series": [
+          {
+            "name": "2010",
+            "x": "2009-12-31T15:00:00.000Z",
+            "y": 4.5,
+            "r": 62.7
+          },
+          {
+            "name": "2000",
+            "x": "1999-12-31T15:00:00.000Z",
+            "y": 3,
+            "r": 58.9
+          },
+          {
+            "name": "1990",
+            "x": "1989-12-31T15:00:00.000Z",
+            "y": 1,
+            "r": 57.1
+          }
+        ]
       }
-    ]
-  },
-  {
-    "name": "United States",
-    "series": [
-      {
-        "name": "2010",
-        "x": "2009-12-31T15:00:00.000Z",
-        "y": 78.8,
-        "r": 310
-      },
-      {
-        "name": "2000",
-        "x": "1999-12-31T15:00:00.000Z",
-        "y": 76.9,
-        "r": 283
-      },
-      {
-        "name": "1990",
-        "x": "1989-12-31T15:00:00.000Z",
-        "y": 75.4,
-        "r": 253
-      }
-    ]
-  },
-  {
-    "name": "France",
-    "series": [
-      {
-        "name": "2010",
-        "x": "2009-12-31T15:00:00.000Z",
-        "y": 81.4,
-        "r": 63
-      },
-      {
-        "name": "2000",
-        "x": "1999-12-31T15:00:00.000Z",
-        "y": 79.1,
-        "r": 59.4
-      },
-      {
-        "name": "1990",
-        "x": "1989-12-31T15:00:00.000Z",
-        "y": 77.2,
-        "r": 56.9
-      }
-    ]
-  },
-  {
-    "name": "United Kingdom",
-    "series": [
-      {
-        "name": "2010",
-        "x": "2009-12-31T15:00:00.000Z",
-        "y": 80.2,
-        "r": 62.7
-      },
-      {
-        "name": "2000",
-        "x": "1999-12-31T15:00:00.000Z",
-        "y": 77.8,
-        "r": 58.9
-      },
-      {
-        "name": "1990",
-        "x": "1989-12-31T15:00:00.000Z",
-        "y": 75.7,
-        "r": 57.1
-      }
-    ]
-  }
-];
+    ];
+    /*
+    if (this.bubble.length > 1) {
+      const index = Math.floor(Math.random() * this.bubble.length);
+      this.bubble.splice(index, 1);
+      this.bubble = [...this.bubble];
+    }
 
+    // bubble
+      const bubbleYear = Math.floor((2010 - 1990) * Math.random() + 1990);
+      const bubbleEntry = {
+        name: "AAA",
+        series: [
+          {
+            name: '' + bubbleYear,
+            x: new Date(bubbleYear, 0, 1),
+            y: Math.floor(30 + Math.random() * 70),
+            r: Math.floor(30 + Math.random() * 20)
+          }
+        ]
+      };
+
+      this.bubble = [...this.bubble, bubbleEntry];
+
+      */
   }
 
+
+
+  
+ 
   /**
    * 상위업무(1순위 요청) 조회
   **/
