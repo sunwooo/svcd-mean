@@ -16,17 +16,17 @@ module.exports = {
 /**
  * 차트2
  * 상위별 하위업무 통계 데이타 조회
- * 상위업무 중 요청건수 가장 많은 것 중 하위업무별 만족도 현황 가져오기
+ * 상위업무 중 요청건수 가장 많은 것 상위 5개 만족도 현황 가져오기
  */
 chart2: (req, res, next) => {
     try {
-        /*
+        
         console.log("==================================================");
         console.log(" Dashboard chart2 : ");
         console.log("==================================================");
 
 
-        var svc = service.high_lower(req);
+        var svc = service.higher_valuation(req);
 
         Incident.aggregate(svc.aggregatorOpts)
             .exec(function (err, incident) {
@@ -108,18 +108,18 @@ chart2: (req, res, next) => {
 
                         //평점
                         if (data.valuationSum > 0) {
-                            data.valAvg = (data.valuationSum / stCnt4).toFixed(2);
+                            data.valAvg = (data.valuationSum / totalCnt).toFixed(2);
                         } else {
                             data.valAvg = 0;
                         }
 
                         console.log("==================================================");
                         console.log("data.totalCnt : ", data.totalCnt);
-                        console.log("data.stCnt1 : ", data.stCnt1);
-                        console.log("data.stCnt2 : ", data.stCnt2);
-                        console.log("data.stCnt3 : ", data.stCnt3);
-                        console.log("data.stCnt4 : ", data.stCnt4);
-                        console.log("data.solRatio : ", data.solRatio);
+                        //console.log("data.stCnt1 : ", data.stCnt1);
+                        //console.log("data.stCnt2 : ", data.stCnt2);
+                        //console.log("data.stCnt3 : ", data.stCnt3);
+                        //console.log("data.stCnt4 : ", data.stCnt4);
+                        //console.log("data.solRatio : ", data.solRatio);
                         console.log("data.valuationSum : ", data.valuationSum);
                         console.log("data.valAvg : ", data.valAvg);
                         console.log("==================================================");
@@ -129,7 +129,7 @@ chart2: (req, res, next) => {
                     res.json(incident);
                 }
             })
-            */
+            
     } catch (err) {
         logger.error("chart2 error : ", err);
 

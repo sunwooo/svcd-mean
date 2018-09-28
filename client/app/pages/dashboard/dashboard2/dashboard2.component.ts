@@ -15,7 +15,8 @@ export class Dashboard2Component implements OnInit {
   @Input() searhHigherCd;
   @Input() searchCompany;
 
-  private formData: any = {}; //전송용 formData
+  private formData: any = {};   //전송용 formData
+  public higherObj: any = [];  //상위업무 리스트
 
   public bubble = [];
 
@@ -53,12 +54,18 @@ export class Dashboard2Component implements OnInit {
   public yScaleMax: number;
   public showDataLabel = true;
 
-  
+  /*
   public colorScheme = {
   //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
     domain: ['#01579b', '#7aa3e5', '#00bfa5', '#e1d248', '#b1b1b1', '#a8385d']
   };
-  
+  */
+
+
+  //public colorScheme = [{name:'OPTI-HR',value:'#e1d248'}];
+  //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
+  //domain: ['#01579b', '#7aa3e5', '#00bfa5', '#e1d248', '#b1b1b1', '#a8385d']
+  //};
 
 
   constructor(private dashboard2Service: Dashboard2Service
@@ -66,30 +73,153 @@ export class Dashboard2Component implements OnInit {
 
   ngOnInit() {
 
-    //this.getMaxHigherCnt();
+    this.getMaxHigherCnt();
 
     //this.setColorScheme('cool');
     
 
     //bubble[]
+    //name : 상위업무
+    //x: 년도
+    //y: 평점
+    //r: 요청 건수
     this.bubble = [
+      {
+        "name": "OPTI-HR",
+        "series": [
+          {
+            "name": "2016",
+            "x": "2016",
+            "y": 2,
+            "r": 3000
+          },
+          {
+            "name": "2017",
+            "x": "2017",
+            "y": 4.5,
+            "r": 3500
+          },
+          {
+            "name": "2018",
+            "x": "2018",
+            "y": 5,
+            "r": 3905
+          }
+          
+        ]
+      },
+      {
+        "name": "PC 및 주변기기 장애",
+        "series": [
+          {
+            "name": "2016",
+            "x": "2016",
+            "y": 2,
+            "r": 600
+          },
+          {
+            "name": "2017",
+            "x": "2017",
+            "y": 3,
+            "r": 1800
+          },
+          {
+            "name": "2018",
+            "x": "2018",
+            "y": 4,
+            "r": 1700
+          }
+          
+        ]
+      },
+      {
+        "name": "그룹웨어",
+        "series": [
+          {
+            "name": "2016",
+            "x": "2016",
+            "y": 3,
+            "r": 1500
+          },
+          {
+            "name": "2017",
+            "x": "2017",
+            "y": 4,
+            "r": 650
+          },
+          {
+            "name": "2018",
+            "x": "2018",
+            "y": 5,
+            "r": 2500
+          }
+          
+        ]
+      },
+      {
+        "name": "SAP ERP",
+        "series": [
+          {
+            "name": "2016",
+            "x": "2016",
+            "y": 1,
+            "r": 500
+          },
+          {
+            "name": "2017",
+            "x": "2017",
+            "y": 3,
+            "r": 800
+          },
+          {
+            "name": "2018",
+            "x": "2018",
+            "y": 4.5,
+            "r": 1000
+          }          
+        ]
+      },
+      {
+        "name": "오라클 ERP",
+        "series": [
+          {
+            "name": "2016",
+            "x": "2016",
+            "y": 2,
+            "r": 900
+          },
+          {
+            "name": "2017",
+            "x": "2017",
+            "y": 3,
+            "r": 1800
+          },
+          {
+            "name": "2018",
+            "x": "2018",
+            "y": 4.2,
+            "r": 2000
+          }          
+        ]
+      }
+      /*
       {
         "name": "Germany",
         "series": [
           {
-            "name": "2010",
+            "name": "2018",
             "x": "2009-12-31T15:00:00.000Z",
             "y": 5,
             "r": 80.4
           },
           {
-            "name": "2000",
+            "name": "2017",
             "x": "1999-12-31T15:00:00.000Z",
             "y": 4.5,
             "r": 78
           },
           {
-            "name": "1990",
+            "name": "2016",
             "x": "1989-12-31T15:00:00.000Z",
             "y": 2,
             "r": 79
@@ -164,7 +294,8 @@ export class Dashboard2Component implements OnInit {
             "r": 57.1
           }
         ]
-      }
+      }*/
+
     ];
     /*
     if (this.bubble.length > 1) {
@@ -217,6 +348,53 @@ export class Dashboard2Component implements OnInit {
 
       (res) => {
 
+        this.higherObj = res;
+        for (var i = 0; i < this.higherObj.length; i++) {
+            /**
+             * {
+                "name": "OPTI-HR",
+                "series": [
+                  {
+                    "name": "2016",
+                    "x": "2016",
+                    "y": 2,
+                    "r": 3000
+                  },
+                  {
+                    "name": "2017",
+                    "x": "2017",
+                    "y": 4.5,
+                    "r": 3500
+                  },
+                  {
+                    "name": "2018",
+                    "x": "2018",
+                    "y": 5,
+                    "r": 3905
+                  }
+                  
+                ]
+              },
+             */
+            //var text = { id: "" + this.higherObj[i].company_cd + "", itemName: "" + this.higherObj[i].company_nm + "" };
+            var text = { name: "" + this.higherObj[i]._id.higher_nm + "", series:  "" + this.higherObj[i].totalCnt + "" };
+
+            console.log("this.higherObj[i].grp.length :" , this.higherObj[i].grp.length);
+
+            console.log("this.higherObj[i].grp.register_yyyy :" , this.higherObj[i].grp.register_yyyy);
+            console.log("this.higherObj[i].grp.count :" , this.higherObj[i].grp.count);
+
+            
+            console.log("text :" + JSON.stringify(text));
+
+            
+    
+            //{"name":"OPTI-HR","series":"12028"}
+            
+
+            //this.dropdownList.push(text);
+        }
+        
         //console.log("getCompany res ====>" , JSON.stringify(res));
         //console.log("getCompany res ====>" , JSON.stringify(res));
         /*
