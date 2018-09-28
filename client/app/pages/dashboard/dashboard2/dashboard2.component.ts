@@ -381,10 +381,13 @@ export class Dashboard2Component implements OnInit {
 
             console.log("this.higherObj[i].grp.length :" , this.higherObj[i].grp.length);
 
-            console.log("this.higherObj[i].grp.register_yyyy :" , this.higherObj[i].grp.register_yyyy);
-            console.log("this.higherObj[i].grp.count :" , this.higherObj[i].grp.count);
+            console.log("this.higherObj[0].grp.register_yyyy :" , this.higherObj[0].grp.register_yyyy);
+            console.log("this.higherObj[0].grp.count :" , this.higherObj[i].grp[0].count);
 
-            
+            console.log("this.higherObj[1].grp.register_yyyy :" , this.higherObj[1].grp.register_yyyy);
+            console.log("this.higherObj[1].grp.count :" , this.higherObj[i].grp[1].count);
+
+
             console.log("text :" + JSON.stringify(text));
 
             
