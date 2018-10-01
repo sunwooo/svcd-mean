@@ -127,6 +127,7 @@ chart2: (req, res, next) => {
                     })
 
                     res.json(incident);
+                    console.log("incident AAA : ", incident);
                 }
             })
             

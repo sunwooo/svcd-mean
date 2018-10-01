@@ -349,52 +349,42 @@ export class Dashboard2Component implements OnInit {
       (res) => {
 
         this.higherObj = res;
+        console.log("this.higherObj.length : ", this.higherObj.length);
+        var tmpBubble = [];
         for (var i = 0; i < this.higherObj.length; i++) {
-            /**
-             * {
-                "name": "OPTI-HR",
-                "series": [
-                  {
-                    "name": "2016",
-                    "x": "2016",
-                    "y": 2,
-                    "r": 3000
-                  },
-                  {
-                    "name": "2017",
-                    "x": "2017",
-                    "y": 4.5,
-                    "r": 3500
-                  },
-                  {
-                    "name": "2018",
-                    "x": "2018",
-                    "y": 5,
-                    "r": 3905
-                  }
-                  
-                ]
-              },
-             */
-            //var text = { id: "" + this.higherObj[i].company_cd + "", itemName: "" + this.higherObj[i].company_nm + "" };
-            var text = { name: "" + this.higherObj[i]._id.higher_nm + "", series:  "" + this.higherObj[i].totalCnt + "" };
+          var obj1: any = {};
+          obj1.name = this.higherObj[i]._id.higher_nm;
+          console.log("obj1 : ", obj1);
+          var series = []; 
+          for (var j=0; j< this.higherObj[i].grp.length; j++){
+            var obj2:any = {};
+            obj2.name = this.higherObj[i].grp[j].register_yyyy;
+            obj2.x = this.higherObj[i].grp[j].register_yyyy;
+            obj2.y = this.higherObj[i].grp[j].count;
+            obj2.r = (this.higherObj[i].grp[j].avg).toFixed(2);
+            console.log("obj2 : ", obj2);
+            series.push(obj2);
+            console.log("series : ", series);
+            //if(j >= this.higherObj[i].grp.length){
+            //  i++;
+            //}
+            
+            
+          }
+          obj1.series = series;
+          console.log("obj1 : ", obj1);
+          tmpBubble.push(obj1);
+           console.log("tmpBubble : ", JSON.stringify(tmpBubble));  
 
-            console.log("this.higherObj[i].grp.length :" , this.higherObj[i].grp.length);
-
-            console.log("this.higherObj[0].grp.register_yyyy :" , this.higherObj[0].grp.register_yyyy);
-            console.log("this.higherObj[0].grp.count :" , this.higherObj[i].grp[0].count);
-
-            console.log("this.higherObj[1].grp.register_yyyy :" , this.higherObj[1].grp.register_yyyy);
-            console.log("this.higherObj[1].grp.count :" , this.higherObj[i].grp[1].count);
+            //var bubble = { name: "" + this.higherObj[i]._id.higher_nm + "", series:  text3 };
+            //console.log("bubble : >>>>>>", bubble);
 
 
-            console.log("text :" + JSON.stringify(text));
+            //console.log("bubble :" + JSON.stringify(bubble));
 
             
     
-            //{"name":"OPTI-HR","series":"12028"}
             
-
             //this.dropdownList.push(text);
         }
         

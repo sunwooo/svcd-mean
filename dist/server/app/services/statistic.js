@@ -438,6 +438,9 @@ module.exports = {
                     count: {
                         $sum: 1
                     },
+                    avgValuation: { 
+                        $avg: "$valuation" 
+                    },
                     valuationSum: {
                         $sum: "$valuation"
                     }
@@ -448,13 +451,15 @@ module.exports = {
                     _id: {
                         higher_cd: "$_id.higher_cd",
                         higher_nm: "$_id.higher_nm",
+                        register_yyyy: "$register_yyyy",
                         //lower_cd: "$_id.lower_cd",
                         //lower_nm: "$_id.lower_nm"
                     },
                     grp: {
                         $push: {
                             register_yyyy: "$_id.register_yyyy",
-                            count: "$count"
+                            count: "$count",
+                            avg:"$avgValuation",
                         }
                     },
                     valuationSum: {
@@ -464,6 +469,9 @@ module.exports = {
             }
             ,{ "$sort": { "valuationSum" : -1, "_id.register_yyyy" : 1}}
             ,{ "$limit": 5 }
+
+
+            //,{ "$sort": { "_id.register_mm" : 1, "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
 
             //,{ "$sort": { "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
             //,{ "$sort": { "valuationSum" : 1 } }
