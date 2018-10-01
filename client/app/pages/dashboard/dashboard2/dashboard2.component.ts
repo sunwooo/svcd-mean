@@ -352,29 +352,29 @@ export class Dashboard2Component implements OnInit {
         console.log("this.higherObj.length : ", this.higherObj.length);
         var tmpBubble = [];
         for (var i = 0; i < this.higherObj.length; i++) {
-          var obj1: any = {};
-          obj1.name = this.higherObj[i]._id.higher_nm;
-          console.log("obj1 : ", obj1);
-          var series = []; 
-          for (var j=0; j< this.higherObj[i].grp.length; j++){
-            var obj2:any = {};
-            obj2.name = this.higherObj[i].grp[j].register_yyyy;
-            obj2.x = this.higherObj[i].grp[j].register_yyyy;
-            obj2.y = this.higherObj[i].grp[j].count;
-            obj2.r = (this.higherObj[i].grp[j].avg).toFixed(2);
-            console.log("obj2 : ", obj2);
-            series.push(obj2);
-            console.log("series : ", series);
-            //if(j >= this.higherObj[i].grp.length){
-            //  i++;
-            //}
-            
-            
-          }
+            var obj1: any = {};
+            obj1.name = this.higherObj[i]._id.higher_nm;
+            console.log("obj1 : ", obj1);
+            var series = []; 
+            for (var j=0; j< this.higherObj[i].grp.length; j++){
+              var obj2:any = {};
+              obj2.name = this.higherObj[i].grp[j].register_yyyy;
+              obj2.x = this.higherObj[i].grp[j].register_yyyy;
+              obj2.y = this.higherObj[i].grp[j].count;
+              obj2.r = (this.higherObj[i].grp[j].avg).toFixed(2);
+              console.log("obj2 : ", obj2);
+              series.push(obj2);
+              console.log("series : ", series);
+              //if(j >= this.higherObj[i].grp.length){
+              //  i++;
+              //}
+              
+              
+            }
           obj1.series = series;
           console.log("obj1 : ", obj1);
           tmpBubble.push(obj1);
-           console.log("tmpBubble : ", JSON.stringify(tmpBubble));  
+          console.log("tmpBubble : ", JSON.stringify(tmpBubble));  
 
             //var bubble = { name: "" + this.higherObj[i]._id.higher_nm + "", series:  text3 };
             //console.log("bubble : >>>>>>", bubble);
