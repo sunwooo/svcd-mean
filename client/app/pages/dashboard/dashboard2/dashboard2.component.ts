@@ -358,7 +358,7 @@ export class Dashboard2Component implements OnInit {
         }
         this.bubble = tmpBubble;
 
-        alert(JSON.stringify(this.bubble));
+        //alert(JSON.stringify(this.bubble));
       },
       (error: HttpErrorResponse) => {
       }
