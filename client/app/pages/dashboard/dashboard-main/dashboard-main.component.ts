@@ -23,6 +23,10 @@ import { Dashboard2Component } from '../dashboard2/dashboard2.component';
 })
 export class DashboardMainComponent implements OnInit {
 
+    //@ViewChild(Dashboard1Component) dashboard1: Dashboard1Component;
+    @ViewChild(Dashboard2Component) dashboard2: Dashboard2Component;
+    //@ViewChild(Dashboard3Component) dashboard3: Dashboard3Component;
+
     private formData: any = {};                 //전송용 formData
     public today = new Date();
     public yyyy: string ="";           //검색년도
@@ -52,9 +56,6 @@ export class DashboardMainComponent implements OnInit {
         private empInfo: EmpInfoComponent,
         private modalService: NgbModal,
         private excelService:ExcelService,
-        //private dashboard1:Dashboard1Component,
-        private dashboard2:Dashboard2Component,
-        //private dashboard3:Dashboard3Component,
         private router: Router) { }
 
     ngOnInit() {
@@ -82,9 +83,9 @@ export class DashboardMainComponent implements OnInit {
      * 데이타 조회
      */
     getData(){
-        //this.dashboard1.reload();
-        this.dashboard2.reload();
-        //this.dashboard3.reload();
+        //this.dashboard1.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
+        this.dashboard2.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
+        //this.dashboard3.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
     }
 
  
