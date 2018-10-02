@@ -32,6 +32,8 @@ import { CompanyProcessService } from './services/company-process.service';
 import { LowerProcessService } from './services/lower-process.service';
 import { ProcessGubunCodeService } from './services/process-gubun-code.service';
 import { Dashboard2Service } from './services/dashboard2.service';
+import { Dashboard1Service } from './services/dashboard1.service';
+
 
 /** Components */
 import { AppComponent } from './app.component';
@@ -215,7 +217,8 @@ const PAGES = [
         PopUpComponent,
         LowerProcessService,
         ProcessGubunCodeService,
-        Dashboard2Service
+        Dashboard2Service,
+        Dashboard1Service
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]
