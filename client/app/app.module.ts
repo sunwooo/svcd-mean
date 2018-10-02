@@ -102,6 +102,7 @@ import { ProcessGubunCodeNewComponent } from './pages/process/process-gubun-code
 import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
 import { Dashboard1Component } from './pages/dashboard/dashboard1/dashboard1.component';
 import { Dashboard3Component } from './pages/dashboard/dashboard3/dashboard3.component';
+import { IncidentListModalComponent } from './pages/incident/incident-list-modal/incident-list-modal.component';
 
 const PAGES = [
     HomeComponent,
@@ -176,7 +177,8 @@ const PAGES = [
         ProcessGubunCodeNewComponent,
         Dashboard2Component,
         Dashboard1Component,
-        Dashboard3Component
+        Dashboard3Component,
+        IncidentListModalComponent
     ],
     imports: [
         BrowserModule,

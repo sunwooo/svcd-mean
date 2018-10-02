@@ -469,6 +469,8 @@ module.exports = {
     var search = service.createSearch(req);
 
     //console.log("=================================================");
+    //console.log("req.query.page : ", req.query);
+    //console.log("req.query.page : ", req.query.page);
     //console.log("search : ", JSON.stringify(search));
     //console.log("=================================================");
 
@@ -522,6 +524,11 @@ module.exports = {
 
         },
         function (callback) {
+
+          //console.log("================================================================");
+          //console.log("===================> search.findIncident : ", search.findIncident);
+          //console.log("================================================================");
+
           Incident.count(search.findIncident, function (err, totalCnt) {
             if (err) {
               logger.error("incident : ", err);
@@ -542,6 +549,14 @@ module.exports = {
         //console.log("=================================================");
 
         Incident.find(search.findIncident, function (err, incident) {
+
+            //console.log("=================================================");
+            //console.log("totalCnt : ",totalCnt);
+            //console.log("(page - 1) * perPage : ",(page - 1) * perPage);
+            //console.log("perPage : ",perPage);
+            //console.log("incident : ",incident);
+            //console.log("=================================================");
+
             if (err) {
               return res.json({
                 success: false,
@@ -704,7 +719,7 @@ module.exports = {
 
           if (incident.attach_file.length > 0) {
             for (var i = 0; i < incident.attach_file.length; i++) {
-              var path = incident.attach_file[i].path
+              var path = incident.attach_file[i].path;
               if (path.indexOf(CONFIG.fileUpload.directory) > -1) {
                 incident.attach_file[i].path = path.substring(path.indexOf(CONFIG.fileUpload.directory) + CONFIG.fileUpload.directory.length + 1);
               } else {
@@ -747,7 +762,7 @@ module.exports = {
       var newincident = req.body.incident;
       var request_info = req.body.request_info;
 
-      console.log("newincident ", newincident);
+      //console.log("newincident ", newincident);
       //console.log("req.body.request_info ", req.body.request_info);
 
       //TODO
@@ -776,7 +791,7 @@ module.exports = {
       //    newincident.attach_file = req.files;
       //}
 
-      console.log("xxxxxxxxxxxxx newincident : ", newincident);
+      //console.log("xxxxxxxxxxxxx newincident : ", newincident);
 
       Incident.create(newincident, function (err, newincident) {
         if (err) {

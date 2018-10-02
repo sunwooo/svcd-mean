@@ -6,7 +6,7 @@
     <ol class="breadcrumb">
       <li>
         <a href="#">
-          <i class="fa fa-dashboard"></i>&nbsp;인원현황</a>
+          <i class="fa fa-dashboard"></i>인원현황</a>
       </li>
       <li class="active"></li>
     </ol>
@@ -16,47 +16,177 @@
   <section class="content">
     <!-- 상태 차트 시작-->
     <div class="row">
-      <div class="col-sm-12 col-lg-6">
-        <div class="card-box">
-          <div class="row">
-            <div class="col-sm-6 col-lg-6">
-              <h4 class="text-dark header-title float-left m-l-30">접수 처리 현황</h4>
-              <ngx-charts-pie-grid [view]="view1" 
-                                   [scheme]="colorScheme1" 
-                                   [label]="'건수'" 
-                                   [results]="statusChart1" 
-                                   (select)="onSelect(content, $event)"
-              >
-              </ngx-charts-pie-grid>
+        <div class="col-lg-6">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <h4 class="text-dark header-title float-left m-l-30">요청/담당자</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <ngx-charts-bar-vertical-2d
+                                    class="chart-container"
+                                    [view]="view1"
+                                    [scheme]="colorScheme3"
+                                    [results]="chartData1"
+                                    [animations]="'true'"
+                                    [gradient]="'true'"
+                                    [xAxis]="'false'"
+                                    [yAxis]="'false'"
+                                    [legend]="'true'"
+                                    [legendTitle]="'구분'"
+                                    [showXAxisLabel]="'false'"
+                                    [showYAxisLabel]="'false'"
+                                    [tooltipDisabled]="'false'"
+                                    [xAxisLabel]="'연도'"
+                                    [yAxisLabel]="'인원수'"
+                                    (legendLabelClick)="onLegendLabelClick($event)"
+                                    [showGridLines]="'true'"
+                                    [barPadding]="'7'"
+                                    [groupPadding]="'20'"
+                                    [roundDomains]="'false'"
+                                    [roundEdges]="'true'"
+                                    [yScaleMax]="'16'"
+                                    [showDataLabel]="'false'"
+                                    (select)="select($event)"
+                        >
+                        </ngx-charts-bar-vertical-2d> 
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-6 col-lg-6">
-              <h4 class="text-dark header-title  float-left m-l-30">완료 평가 현황</h4>
-              <ngx-charts-pie-grid [view]="view1" 
-                                   [scheme]="colorScheme2" 
-                                   [label]="'건수'" 
-                                   [results]="statusChart2" 
-                                   (select)="onSelect(content, $event)"
-              >
-              </ngx-charts-pie-grid>
+        </div>
+    
+        <div class="col-sm-12 col-lg-6">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-3">
+                        <div class="row">
+                            <h4 class="text-dark header-title float-left m-l-30">문의</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-12">
+                                <table class="table table-sm table-primary">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">홍길동</th>
+                                        <th scope="col">231</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-3">
+                        <div class="row">
+                            <h4 class="text-dark header-title float-left m-l-30">접수</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-12">
+                                <table class="table table-sm table-secondary">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">홍길동</th>
+                                        <th scope="col">231</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-3">
+                        <div class="row">
+                            <h4 class="text-dark header-title float-left m-l-30">만족</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-12">
+                                <table class="table table-sm table-success">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">홍길동</th>
+                                        <th scope="col">231</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-3">
+                        <div class="row">
+                            <h4 class="text-dark header-title float-left m-l-30">불만</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-12">
+                                <table class="table table-sm table-danger">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">홍길동</th>
+                                        <th scope="col">231</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                        <tr>
+                                        <td scope="row">이순신</td>
+                                        <td scope="row">123</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-  
-      <div class="col-sm-12 col-lg-6">
-        <div class="card-box">
-          <div class="row">
-            <h4 class="text-dark header-title float-left m-l-30">만족도 현황</h4>
-            <ngx-charts-advanced-pie-chart [view]="view2" 
-                                           [scheme]="colorScheme3" 
-                                           [results]="valuationChart" 
-                                           [gradient]="gradient"
-                                           (select)="onSelect(content, $event)"
-              >
-            </ngx-charts-advanced-pie-chart>
-          </div>
-        </div>
-      </div>
   
     </div>
     <!-- 상태 차트 끝-->
@@ -64,44 +194,47 @@
     <!-- 만족도, 요청 현황 차트 시작-->
     <div class="row">
   
-      <div class="col-lg-12 col-sm-12">
-        <div class="card-box">
-          <div class="row">
-            <div class="col-sm-12 col-lg-6 m-t-60">
-              <h4 class="text-dark header-title float-left m-l-30">월별 요청건 현황</h4>
-              <ngx-charts-line-chart [view]="view3" 
-                                      [scheme]="colorScheme3" 
-                                      [results]="monthlyCntChart" 
-                                      [gradient]="gradient" 
-                                      [xAxis]="showXAxis"
-                                      [yAxis]="showYAxis" 
-                                      [legend]="showLegend"
-                                      [legendTitle]="''"
-                                      [showXAxisLabel]="showXAxisLabel" 
-                                      [showYAxisLabel]="showYAxisLabel" 
-                                      [xAxisLabel]="xAxisLabel"
-                                      [yAxisLabel]="yAxisLabel" 
-                                      [autoScale]="autoScale" 
-                                      [timeline]="timeline" 
-                                      (select)="onSelect(content, $event)"
-              >
-              </ngx-charts-line-chart>
+        <div class="col-lg-12 col-sm-12">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <h4 class="text-dark header-title float-left m-l-30">업무별 현황</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12 m-t-60">
+                        <ngx-charts-bar-vertical-2d
+                                    class="chart-container"
+                                    [view]="view3"
+                                    [scheme]="colorScheme1"
+                                    [results]="chartData3"
+                                    [animations]="'true'"
+                                    [gradient]="'true'"
+                                    [xAxis]="'false'"
+                                    [yAxis]="'false'"
+                                    [legend]="'true'"
+                                    [legendTitle]="'구분'"
+                                    [showXAxisLabel]="'false'"
+                                    [showYAxisLabel]="'false'"
+                                    [tooltipDisabled]="'false'"
+                                    [xAxisLabel]="'업무'"
+                                    [yAxisLabel]="'인원수'"
+                                    (legendLabelClick)="onLegendLabelClick($event)"
+                                    [showGridLines]="'true'"
+                                    [barPadding]="'5'"
+                                    [groupPadding]="'20'"
+                                    [roundDomains]="'false'"
+                                    [roundEdges]="'true'"
+                                    [yScaleMax]="'1'"
+                                    [showDataLabel]="'false'"
+                                    (select)="select($event)"
+                        >
+                        </ngx-charts-bar-vertical-2d> 
+
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-12 col-lg-6 float-left">
-              <h4 class="text-dark header-title float-left m-l-30">총요청 현황</h4>  
-              <ngx-charts-pie-chart [view]="view3" 
-                  [scheme]="colorScheme3" 
-                  [results]="higherCntChart" 
-                  [explodeSlices]="true" 
-                  [gradient]="gradient"
-                  [labels]="true"
-                  (select)="onSelect(content, $event)" 
-              >
-              </ngx-charts-pie-chart>
-            </div>
-          </div>
         </div>
-      </div>
   
     </div>
     <!-- 만족도, 요청 현황 차트 끝-->
