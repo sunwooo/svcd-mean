@@ -460,19 +460,22 @@ module.exports = {
                             register_yyyy: "$_id.register_yyyy",
                             count: "$count",
                             avg:"$avgValuation",
-                        }
+                        },
                     },
                     valuationSum: {
                         $sum: "$valuationSum"
+                    },
+                    countSum: {
+                        $sum: "$count"
                     }
                 }
             }
-            ,{ "$sort": { "valuationSum" : -1, "_id.register_yyyy" : 1}}
+            //,{ "$sort": { "valuationSum" : -1, "_id.register_yyyy" : 1}}
+            ,{ "$sort": {  "countSum" : -1} }
             ,{ "$limit": 5 }
 
 
             //,{ "$sort": { "_id.register_mm" : 1, "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
-
             //,{ "$sort": { "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
             //,{ "$sort": { "valuationSum" : 1 } }
 

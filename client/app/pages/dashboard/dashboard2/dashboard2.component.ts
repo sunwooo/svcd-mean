@@ -81,9 +81,11 @@ export class Dashboard2Component implements OnInit {
     //bubble[]
     //name : 상위업무
     //x: 년도
-    //y: 평점
-    //r: 요청 건수
-    this.bubble = [
+    //y: 요청 건수
+    //r: 평점
+    //this.bubble = 
+    /*[
+
       {
         "name": "OPTI-HR",
         "series": [
@@ -203,6 +205,7 @@ export class Dashboard2Component implements OnInit {
         ]
       }
       /*
+      /*
       {
         "name": "Germany",
         "series": [
@@ -294,33 +297,10 @@ export class Dashboard2Component implements OnInit {
             "r": 57.1
           }
         ]
-      }*/
+      }
 
-    ];
-    /*
-    if (this.bubble.length > 1) {
-      const index = Math.floor(Math.random() * this.bubble.length);
-      this.bubble.splice(index, 1);
-      this.bubble = [...this.bubble];
-    }
-
-    // bubble
-      const bubbleYear = Math.floor((2010 - 1990) * Math.random() + 1990);
-      const bubbleEntry = {
-        name: "AAA",
-        series: [
-          {
-            name: '' + bubbleYear,
-            x: new Date(bubbleYear, 0, 1),
-            y: Math.floor(30 + Math.random() * 70),
-            r: Math.floor(30 + Math.random() * 20)
-          }
-        ]
-      };
-
-      this.bubble = [...this.bubble, bubbleEntry];
-
-      */
+    ];*/
+   
   }
 
 
@@ -341,66 +321,44 @@ export class Dashboard2Component implements OnInit {
     */
     //this.formData.yyyy = "2018";
     //this.formData.mm = "*";
-    this.formData.higher_cd = "*";
-    this.formData.company_cd = "*";
+    //this.formData.higher_cd = "*";
+    //this.formData.company_cd = "*";
     //this.dashboard2Service.getMaxHigherCnt({ scope: "*" }).subscribe(
     this.dashboard2Service.getChart2(this.formData).subscribe(
 
       (res) => {
 
         this.higherObj = res;
-        console.log("this.higherObj.length : ", this.higherObj.length);
+        //console.log("this.higherObj.length : ", this.higherObj.length);
         var tmpBubble = [];
         for (var i = 0; i < this.higherObj.length; i++) {
             var obj1: any = {};
             obj1.name = this.higherObj[i]._id.higher_nm;
-            console.log("obj1 : ", obj1);
+            //console.log("obj1 : ", obj1);
             var series = []; 
             for (var j=0; j< this.higherObj[i].grp.length; j++){
               var obj2:any = {};
               obj2.name = this.higherObj[i].grp[j].register_yyyy;
               obj2.x = this.higherObj[i].grp[j].register_yyyy;
-              obj2.y = this.higherObj[i].grp[j].count;
-              obj2.r = (this.higherObj[i].grp[j].avg).toFixed(2);
-              console.log("obj2 : ", obj2);
+              /**Y축에 Count가 나오도록*/
+              //obj2.y = this.higherObj[i].grp[j].count;
+              //obj2.r = (this.higherObj[i].grp[j].avg).toFixed(2);
+              /**Y축에 Valuation이 나오도록*/
+              obj2.y = (this.higherObj[i].grp[j].avg).toFixed(2);
+              obj2.r = this.higherObj[i].grp[j].count;
+              //console.log("obj2 : ", obj2);
               series.push(obj2);
-              console.log("series : ", series);
-              //if(j >= this.higherObj[i].grp.length){
-              //  i++;
-              //}
-              
+              //console.log("series : ", series);
               
             }
           obj1.series = series;
-          console.log("obj1 : ", obj1);
+          //console.log("obj1 : ", obj1);
           tmpBubble.push(obj1);
-          console.log("tmpBubble : ", JSON.stringify(tmpBubble));  
-
-            //var bubble = { name: "" + this.higherObj[i]._id.higher_nm + "", series:  text3 };
-            //console.log("bubble : >>>>>>", bubble);
-
-
-            //console.log("bubble :" + JSON.stringify(bubble));
-
-            
-    
-            
-            //this.dropdownList.push(text);
+          //console.log("tmpBubble : ", JSON.stringify(tmpBubble));  
         }
-        
-        //console.log("getCompany res ====>" , JSON.stringify(res));
-        //console.log("getCompany res ====>" , JSON.stringify(res));
-        /*
-        this.companyObj = res;
-        for (var i = 0; i < this.companyObj.length; i++) {
+        this.bubble = tmpBubble;
 
-            var text = { id: "" + this.companyObj[i].company_cd + "", itemName: "" + this.companyObj[i].company_nm + "" };
-            //console.log("text :" + text);
-            // {id:"7",itemName:"France"},
-
-            this.dropdownList.push(text);
-        }
-          */
+        alert(JSON.stringify(this.bubble));
       },
       (error: HttpErrorResponse) => {
       }
