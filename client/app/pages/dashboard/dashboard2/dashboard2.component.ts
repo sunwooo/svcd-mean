@@ -53,6 +53,7 @@ export class Dashboard2Component implements OnInit {
   public yScaleMin: number;
   public yScaleMax: number;
   public showDataLabel = true;
+  public autoScale = true;
 
   /*
   public colorScheme = {
@@ -345,6 +346,9 @@ export class Dashboard2Component implements OnInit {
               //obj2.r = (this.higherObj[i].grp[j].avg).toFixed(2);
               /**Y축에 Valuation이 나오도록*/
               obj2.y = (this.higherObj[i].grp[j].avg).toFixed(2);
+
+              //obj2.y = 100*j*i;
+              
               obj2.r = this.higherObj[i].grp[j].count;
               //console.log("obj2 : ", obj2);
               series.push(obj2);
@@ -354,7 +358,7 @@ export class Dashboard2Component implements OnInit {
           obj1.series = series;
           //console.log("obj1 : ", obj1);
           tmpBubble.push(obj1);
-          //console.log("tmpBubble : ", JSON.stringify(tmpBubble));  
+          console.log("tmpBubble : ", JSON.stringify(tmpBubble));  
         }
         this.bubble = tmpBubble;
 
