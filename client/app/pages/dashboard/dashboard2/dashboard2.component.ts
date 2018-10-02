@@ -74,7 +74,7 @@ export class Dashboard2Component implements OnInit {
 
   ngOnInit() {
 
-    this.getMaxHigherCnt();
+    this.getValuation();
 
     //this.setColorScheme('cool');
     
@@ -82,228 +82,18 @@ export class Dashboard2Component implements OnInit {
     //bubble[]
     //name : 상위업무
     //x: 년도
-    //y: 요청 건수
-    //r: 평점
-    //this.bubble = 
-    /*[
-
-      {
-        "name": "OPTI-HR",
-        "series": [
-          {
-            "name": "2016",
-            "x": "2016",
-            "y": 2,
-            "r": 3000
-          },
-          {
-            "name": "2017",
-            "x": "2017",
-            "y": 4.5,
-            "r": 3500
-          },
-          {
-            "name": "2018",
-            "x": "2018",
-            "y": 5,
-            "r": 3905
-          }
-          
-        ]
-      },
-      {
-        "name": "PC 및 주변기기 장애",
-        "series": [
-          {
-            "name": "2016",
-            "x": "2016",
-            "y": 2,
-            "r": 600
-          },
-          {
-            "name": "2017",
-            "x": "2017",
-            "y": 3,
-            "r": 1800
-          },
-          {
-            "name": "2018",
-            "x": "2018",
-            "y": 4,
-            "r": 1700
-          }
-          
-        ]
-      },
-      {
-        "name": "그룹웨어",
-        "series": [
-          {
-            "name": "2016",
-            "x": "2016",
-            "y": 3,
-            "r": 1500
-          },
-          {
-            "name": "2017",
-            "x": "2017",
-            "y": 4,
-            "r": 650
-          },
-          {
-            "name": "2018",
-            "x": "2018",
-            "y": 5,
-            "r": 2500
-          }
-          
-        ]
-      },
-      {
-        "name": "SAP ERP",
-        "series": [
-          {
-            "name": "2016",
-            "x": "2016",
-            "y": 1,
-            "r": 500
-          },
-          {
-            "name": "2017",
-            "x": "2017",
-            "y": 3,
-            "r": 800
-          },
-          {
-            "name": "2018",
-            "x": "2018",
-            "y": 4.5,
-            "r": 1000
-          }          
-        ]
-      },
-      {
-        "name": "오라클 ERP",
-        "series": [
-          {
-            "name": "2016",
-            "x": "2016",
-            "y": 2,
-            "r": 900
-          },
-          {
-            "name": "2017",
-            "x": "2017",
-            "y": 3,
-            "r": 1800
-          },
-          {
-            "name": "2018",
-            "x": "2018",
-            "y": 4.2,
-            "r": 2000
-          }          
-        ]
-      }
-      /*
-      /*
-      {
-        "name": "Germany",
-        "series": [
-          {
-            "name": "2018",
-            "x": "2009-12-31T15:00:00.000Z",
-            "y": 5,
-            "r": 80.4
-          },
-          {
-            "name": "2017",
-            "x": "1999-12-31T15:00:00.000Z",
-            "y": 4.5,
-            "r": 78
-          },
-          {
-            "name": "2016",
-            "x": "1989-12-31T15:00:00.000Z",
-            "y": 2,
-            "r": 79
-          }
-        ]
-      },
-      {
-        "name": "United States",
-        "series": [
-          {
-            "name": "2010",
-            "x": "2009-12-31T15:00:00.000Z",
-            "y": 4,
-            "r": 310
-          },
-          {
-            "name": "2000",
-            "x": "1999-12-31T15:00:00.000Z",
-            "y": 3,
-            "r": 283
-          },
-          {
-            "name": "1990",
-            "x": "1989-12-31T15:00:00.000Z",
-            "y": 2,
-            "r": 253
-          }
-        ]
-      },
-      {
-        "name": "France",
-        "series": [
-          {
-            "name": "2010",
-            "x": "2009-12-31T15:00:00.000Z",
-            "y": 5,
-            "r": 63
-          },
-          {
-            "name": "2000",
-            "x": "1999-12-31T15:00:00.000Z",
-            "y": 4,
-            "r": 59.4
-          },
-          {
-            "name": "1990",
-            "x": "1989-12-31T15:00:00.000Z",
-            "y": 3,
-            "r": 56.9
-          }
-        ]
-      },
-      {
-        "name": "United Kingdom",
-        "series": [
-          {
-            "name": "2010",
-            "x": "2009-12-31T15:00:00.000Z",
-            "y": 4.5,
-            "r": 62.7
-          },
-          {
-            "name": "2000",
-            "x": "1999-12-31T15:00:00.000Z",
-            "y": 3,
-            "r": 58.9
-          },
-          {
-            "name": "1990",
-            "x": "1989-12-31T15:00:00.000Z",
-            "y": 1,
-            "r": 57.1
-          }
-        ]
-      }
-
-    ];*/
+    //y: 평점
+    //r: 요청건수
    
   }
 
+
+  /**
+   * 인터페이스용 API(부모에서 호출)
+   */
+  reload(){
+    this.getValuation();
+  }
 
 
   
@@ -311,15 +101,16 @@ export class Dashboard2Component implements OnInit {
   /**
    * 상위업무(1순위 요청) 조회
   **/
-
-  getMaxHigherCnt() {
-    console.log("getMaxHigherCnt function call!!!");
-    /*
+  getValuation() {
+    //console.log("getMaxHigherCnt function call!!!");
+    console.log("bbbbbbbbbbbbbb this.searchYyyy :", this.searchYyyy);
     this.formData.yyyy = this.searchYyyy;
     this.formData.mm = this.searchMm;
     this.formData.higher_cd = this.searhHigherCd;
     this.formData.company_cd = this.searchCompany;
-    */
+
+    console.log("this.formData >>>>>>>>>", this.formData);
+    
     //this.formData.yyyy = "2018";
     //this.formData.mm = "*";
     //this.formData.higher_cd = "*";
@@ -345,7 +136,7 @@ export class Dashboard2Component implements OnInit {
               //obj2.y = this.higherObj[i].grp[j].count;
               //obj2.r = (this.higherObj[i].grp[j].avg).toFixed(2);
               /**Y축에 Valuation이 나오도록*/
-              obj2.y = (this.higherObj[i].grp[j].avg).toFixed(2);
+              obj2.y = Number((this.higherObj[i].grp[j].avg).toFixed(1));
 
               //obj2.y = 100*j*i;
               
