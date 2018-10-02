@@ -70,6 +70,7 @@ module.exports = {
                     }
                 }
             }
+            ,{ "$sort": {  "_id.register_yyyy" : 1  } }
             , {
                 $group: { //상태별 집계
                     _id: {
@@ -86,15 +87,7 @@ module.exports = {
                             avg:"$avgValuation",
                         },
                     },
-                    /*
-                    grpSort: {
-                        $push: {
-                            register_yyyy: "$_id.register_yyyy",
-                            count: "$count",
-                            avg:"$avgValuation",
-                        },
-                    },
-                    */
+                    
                     valuationSum: {
                         $sum: "$valuationSum"
                     },
@@ -103,10 +96,11 @@ module.exports = {
                     }
                 }
             }
-            //{ $unwind: '$grp' }
+            //,{ $unwind: '$register_yyyy' }
             //,{ "$sort": { "valuationSum" : -1, "_id.register_yyyy" : 1}}
             // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             //$sort: { score: 1 }
+
             ,{ "$sort": {  "countSum" : -1  } }
             ,{ "$limit": 5 }
 

@@ -12,6 +12,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonApiService } from '../../../services/common-api.service';
 import { LowerCdComponent } from '../../../shared/lower-cd/lower-cd.component';
 import { ExcelService } from '../../../services/excel.service';
+//import { Dashboard1Component } from '../dashboard1/dashboard1.component';
+import { Dashboard2Component } from '../dashboard2/dashboard2.component';
+//import { Dashboard3Component } from '../dashboard3/dashboard3.component';
 
 @Component({
     selector: 'app-dashboard-main',
@@ -22,8 +25,8 @@ export class DashboardMainComponent implements OnInit {
 
     private formData: any = {};                 //전송용 formData
     public today = new Date();
-    public yyyy: string;           //검색년도
-    public mm: string;             //검색월
+    public yyyy: string ="";           //검색년도
+    public mm: string = "*";            //검색월
     public higher_cd: string = "*";     //상위코드
     public company_cd: string = "*";    //회사코드
     public yyyyObj: any = [];           //문의년도 리스트
@@ -49,9 +52,15 @@ export class DashboardMainComponent implements OnInit {
         private empInfo: EmpInfoComponent,
         private modalService: NgbModal,
         private excelService:ExcelService,
+        //private dashboard1:Dashboard1Component,
+        private dashboard2:Dashboard2Component,
+        //private dashboard3:Dashboard3Component,
         private router: Router) { }
 
     ngOnInit() {
+        var today = new Date();
+        this.yyyy = this.today.getFullYear().toString();
+        console.log(" AAAAAAAAAAAAAAAAAA   this.yyyy  : ", this.yyyy );
         this.getRegisterYyyy();
         this.getCompanyList();
     }
@@ -63,7 +72,6 @@ export class DashboardMainComponent implements OnInit {
         this.commonApi.getRegisterYyyy().subscribe(
             (res) => {
                 this.yyyyObj = res;
-                this.yyyy = this.today.getFullYear().toString();
             },
             (error: HttpErrorResponse) => {
             }
@@ -74,7 +82,9 @@ export class DashboardMainComponent implements OnInit {
      * 데이타 조회
      */
     getData(){
-
+        //this.dashboard1.reload();
+        this.dashboard2.reload();
+        //this.dashboard3.reload();
     }
 
  
