@@ -3,40 +3,280 @@
 var async = require('async');
 var Incident = require('../../models/Incident');
 var MyProcess = require('../../models/MyProcess');
-var User = require('../../models/User');
-var service = require('../../services/incident');
 var alimi = require('../../util/alimi');
 var CONFIG = require('../../../config/config.json');
 var moment = require('moment');
 var logger = require('log4js').getLogger('app');
 var path = require('path');
 
+
 module.exports = {
 
-/**
- * 차트1 데이타 조회
- */
-chart1: (req, res, next) => {
+  /**
+   * 월별 문의 건수
+   */
+  chart1: (req, res, next) => {
+
     try {
-        async.waterfall([function (callback) {
+      async.waterfall([function (callback) {
 
+        var today = new Date();
+        var thisYear = today.getFullYear();
+        var preYear = thisYear - 2;
+        var condition = {};
 
-        }], function (err, upIncident) {
+        if (req.session.user_flag == 3 || req.session.user_flag == 4) {
 
-            return res.json({
-                success: true,
-                message: "수정되었습니다."
+          //나의업무지정 상위업무 처리 위한 조건
+          var condition2 = {};
+          condition2.email = req.session.email;
+          MyProcess.find(condition2).distinct('higher_cd').exec(function (err, myHigherProcess) {
+
+            if (condition.$and == null) {
+              condition.$and = [{
+                "higher_cd": {
+                  "$in": myHigherProcess
+                }
+              }];
+            } else {
+              condition.$and.push({
+                "higher_cd": {
+                  "$in": myHigherProcess
+                }
+              });
+            }
+
+            if (condition.$and == null) {
+              condition.$and = [{
+                register_yyyy: {
+                  $gte: preYear.toString(),
+                  $lte: thisYear.toString()
+                }
+              }];
+            } else {
+              condition.$and.push({
+                register_yyyy: {
+                  $gte: preYear.toString(),
+                  $lte: thisYear.toString()
+                }
+              });
+            }
+            callback(null, condition);
+          });
+
+        } else {
+          if (req.session.user_flag == 1) { //전체관리자
+            //} else if (req.session.user_flag == 3) {  //업무관리
+            //    condition.manager_dept_cd = req.session.dept_cd;
+          } else if (req.session.user_flag == 5) { //고객사관리자
+            condition.request_company_cd = req.session.company_cd;
+          } else if (req.session.user_flag == 9) { //일반사용자
+            condition.request_id = req.session.email;
+          }
+
+          if (condition.$and == null) {
+            condition.$and = [{
+              register_yyyy: {
+                $gte: preYear.toString(),
+                $lte: thisYear.toString()
+              }
+            }];
+          } else {
+            condition.$and.push({
+              register_yyyy: {
+                $gte: preYear.toString(),
+                $lte: thisYear.toString()
+              }
             });
-        });
-    } catch (err) {
-        logger.error("incident control update error : ", err);
-        return res.json({
-            success: false,
-            message: err
-        });
-    }
-},
+          }
+          callback(null, condition);
+        }
+
+      }], function (err, condition) {
+        if (!err) {
+          var aggregatorOpts = [{
+              $match: condition
+            }, {
+              $group: { //그룹
+                _id: {
+                  register_yyyy: "$register_yyyy",
+                  register_mm: "$register_mm"
+                },
+                count: {
+                  $sum: 1
+                }
+              }
+            },
+            {
+              $group: { //그룹
+                _id: "$_id.register_yyyy",
+                name: {
+                  $first: "$_id.register_yyyy"
+                },
+                series: {
+                  $push: {
+                    name: "$_id.register_mm",
+                    value: "$count"
+                  }
+                }
+              }
+            },
+            {
+              $project: {
+                "name": 1,
+                "series": 1
+              }
+            },
+            {
+              $sort: {
+                "name": -1,
+              }
+            },
+          ];
+
+          Incident.aggregate(aggregatorOpts).exec(function (err, incident) {
+            if (!err) {
+              res.json(incident);
+            }
+          });
+        }
+      });
+    } catch (e) {} finally {}
+  },
+
+  chart1_1: (req, res, next) => {
+
+    try {
+        console.log("deshboard1 chart1_1 req !!!!!!!!!!!!!!!!!!!", req);
+      /*
+      async.waterfall([function (callback) {
+
+        console.log("deshboard1 chart1_1 req", req);
+
+        var today = new Date();
+        var thisYear = today.getFullYear();
+        var preYear = thisYear - 2;
+        var condition = {};
+
+        if (req.session.user_flag == 3 || req.session.user_flag == 4) {
+
+          //나의업무지정 상위업무 처리 위한 조건
+          var condition2 = {};
+          condition2.email = req.session.email;
+          MyProcess.find(condition2).distinct('higher_cd').exec(function (err, myHigherProcess) {
+
+            if (condition.$and == null) {
+              condition.$and = [{
+                "higher_cd": {
+                  "$in": myHigherProcess
+                }
+              }];
+            } else {
+              condition.$and.push({
+                "higher_cd": {
+                  "$in": myHigherProcess
+                }
+              });
+            }
+
+            if (condition.$and == null) {
+              condition.$and = [{
+                register_yyyy: {
+                  $gte: preYear.toString(),
+                  $lte: thisYear.toString()
+                }
+              }];
+            } else {
+              condition.$and.push({
+                register_yyyy: {
+                  $gte: preYear.toString(),
+                  $lte: thisYear.toString()
+                }
+              });
+            }
+            callback(null, condition);
+          });
+
+        } else {
+          if (req.session.user_flag == 1) { //전체관리자
+            //} else if (req.session.user_flag == 3) {  //업무관리
+            //    condition.manager_dept_cd = req.session.dept_cd;
+          } else if (req.session.user_flag == 5) { //고객사관리자
+            condition.request_company_cd = req.session.company_cd;
+          } else if (req.session.user_flag == 9) { //일반사용자
+            condition.request_id = req.session.email;
+          }
+
+          if (condition.$and == null) {
+            condition.$and = [{
+              register_yyyy: {
+                $gte: preYear.toString(),
+                $lte: thisYear.toString()
+              }
+            }];
+          } else {
+            condition.$and.push({
+              register_yyyy: {
+                $gte: preYear.toString(),
+                $lte: thisYear.toString()
+              }
+            });
+          }
+          callback(null, condition);
+        }
+
+      }], function (err, condition) {
+        if (!err) {
+          var aggregatorOpts = [{
+              $match: condition
+            }, {
+              $group: { //그룹
+                _id: {
+                  register_yyyy: "$register_yyyy",
+                  register_mm: "$register_mm"
+                },
+                count: {
+                  $sum: 1
+                }
+              }
+            },
+            {
+              $group: { //그룹
+                _id: "$_id.register_yyyy",
+                name: {
+                  $first: "$_id.register_yyyy"
+                },
+                series: {
+                  $push: {
+                    name: "$_id.register_mm",
+                    value: "$count"
+                  }
+                }
+              }
+            },
+            {
+              $project: {
+                "name": 1,
+                "series": 1
+              }
+            },
+            {
+              $sort: {
+                "name": -1,
+              }
+            },
+          ];
+
+          Incident.aggregate(aggregatorOpts).exec(function (err, incident) {
+            if (!err) {
+              res.json(incident);
+            }
+          });
+        }
+      });
+      */
+    } catch (e) {} finally {}
+  },
 
 
-
-}
+};
