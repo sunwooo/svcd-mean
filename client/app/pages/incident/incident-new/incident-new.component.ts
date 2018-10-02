@@ -130,9 +130,7 @@ export class IncidentNewComponent implements OnInit {
 
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
-        var ctext = text.replace(/<img src=/gi,'<img class="summernote-img" src=');
-        form.value.incident.content = ctext;
-
+        form.value.incident.content = text;
         form.value.incident.higher_cd = this.higher.higher_cd;
         form.value.incident.higher_nm = this.higher.higher_nm;
         //Template form을 전송용 formData에 저장 

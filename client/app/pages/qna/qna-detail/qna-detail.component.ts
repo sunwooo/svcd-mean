@@ -185,9 +185,8 @@ export class QnaDetailComponent implements OnInit {
 
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
-        var ctext = text.replace(/<img src=/gi,'<img class="summernote-img" src=');
-        this.formData.qna.content = ctext;
-     
+        this.formData.qna.content = text;
+
         this.formData.qna.user_nm = this.employee_nm;
         if (this.isChecked) {
             this.formData.qna.pop_yn = "Y";

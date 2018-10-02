@@ -151,11 +151,9 @@ lowerProcess: (req, res, next) => {
         //var higher_cd = req.query.higher_cd;
         //if (count == 0) higher_cd = '000'; //상위코드용 업무처리가 없으면 공통으로 조회
 
-        //condition.user_flag = {
-        //    $ne: '0'
-        //};
-
-        condition.use_yn = '사용';
+        condition.user_flag = {
+            $ne: '0'
+        };
 
         LowerProcess.find(condition, function (err, lowerprocess) {
             if (err) {

@@ -31,6 +31,7 @@ import { MyProcessService } from './services/my-process.service';
 import { CompanyProcessService } from './services/company-process.service';
 import { LowerProcessService } from './services/lower-process.service';
 import { ProcessGubunCodeService } from './services/process-gubun-code.service';
+import { Dashboard2Service } from './services/dashboard2.service';
 
 /** Components */
 import { AppComponent } from './app.component';
@@ -103,6 +104,7 @@ import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.com
 import { Dashboard1Component } from './pages/dashboard/dashboard1/dashboard1.component';
 import { Dashboard3Component } from './pages/dashboard/dashboard3/dashboard3.component';
 import { IncidentListModalComponent } from './pages/incident/incident-list-modal/incident-list-modal.component';
+
 
 const PAGES = [
     HomeComponent,
@@ -212,7 +214,8 @@ const PAGES = [
         CompanyProcessService,
         PopUpComponent,
         LowerProcessService,
-        ProcessGubunCodeService
+        ProcessGubunCodeService,
+        Dashboard2Service
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]

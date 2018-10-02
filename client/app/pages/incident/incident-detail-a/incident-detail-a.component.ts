@@ -123,7 +123,7 @@ export class IncidentDetailAComponent implements OnInit {
      * @param event 
      */
     afterRewrite(){
-        //this.reload.emit();
+        this.reload.emit();
         this.cValues('Close click');
     }
 
