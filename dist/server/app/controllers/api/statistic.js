@@ -211,9 +211,9 @@ module.exports = {
 
       }], function (condition) {
 
-        console.log("========================================================");
-        console.log("=====================statusCdCnt condition : ", JSON.stringify(condition));
-        console.log("========================================================");
+        //console.log("========================================================");
+        //console.log("=====================statusCdCnt condition : ", JSON.stringify(condition));
+        //console.log("========================================================");
 
         var aggregatorOpts = [{
             $match: condition

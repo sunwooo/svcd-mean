@@ -21,9 +21,9 @@ module.exports = {
 chart2: (req, res, next) => {
     try {
         
-        console.log("==================================================");
-        console.log(" Dashboard chart2 : ");
-        console.log("==================================================");
+        //console.log("==================================================");
+        //console.log(" Dashboard chart2 : ");
+        //console.log("==================================================");
 
 
         var svc = service.higher_valuation(req);
@@ -33,9 +33,9 @@ chart2: (req, res, next) => {
 
                 if (err) {
 
-                    console.log("==================================================");
-                    console.log(" Dashboard.aggregate error ", err);
-                    console.log("==================================================");
+                    //console.log("==================================================");
+                    //console.log(" Dashboard.aggregate error ", err);
+                    //console.log("==================================================");
 
                     return res.json({
                         success: false,
@@ -46,10 +46,10 @@ chart2: (req, res, next) => {
 
                     incident.forEach(function (data, idx, incident) {
 
-                        console.log("==================================================");
-                        console.log("data ", JSON.stringify(data));
-                        console.log("data.grp.length ", data.grp.length);
-                        console.log("==================================================");
+                        //console.log("==================================================");
+                        //console.log("data ", JSON.stringify(data));
+                        //console.log("data.grp.length ", data.grp.length);
+                        //console.log("==================================================");
 
 
                         var totalCnt = 0; //전체 개수
@@ -113,22 +113,22 @@ chart2: (req, res, next) => {
                             data.valAvg = 0;
                         }
 
-                        console.log("==================================================");
-                        console.log("data.totalCnt : ", data.totalCnt);
+                        //console.log("==================================================");
+                        //console.log("data.totalCnt : ", data.totalCnt);
                         //console.log("data.stCnt1 : ", data.stCnt1);
                         //console.log("data.stCnt2 : ", data.stCnt2);
                         //console.log("data.stCnt3 : ", data.stCnt3);
                         //console.log("data.stCnt4 : ", data.stCnt4);
                         //console.log("data.solRatio : ", data.solRatio);
-                        console.log("data.valuationSum : ", data.valuationSum);
-                        console.log("data.valAvg : ", data.valAvg);
-                        console.log("==================================================");
+                        //console.log("data.valuationSum : ", data.valuationSum);
+                        //console.log("data.valAvg : ", data.valAvg);
+                        //console.log("==================================================");
 
-                    })
+                    });
 
                     res.json(incident);
                     
-                    console.log("incident AAA : ", JSON.stringify(incident));
+                    //console.log("incident AAA : ", JSON.stringify(incident));
                 }
             })
             
