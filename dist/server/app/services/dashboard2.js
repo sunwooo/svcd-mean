@@ -102,7 +102,7 @@ module.exports = {
                         $sum: "$count"
                     }
                 }
-            },
+            }
             //{ $unwind: '$grp' }
             //,{ "$sort": { "valuationSum" : -1, "_id.register_yyyy" : 1}}
             // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
