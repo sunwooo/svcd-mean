@@ -17,7 +17,7 @@ export class HigherCdComponent implements OnInit {
     @Input() type: string;
     @Output() outHigherCd = new EventEmitter<string>();
 
-    public higherCd: any = {};
+    public higherCd: any = [];
     public condition: any = {};
     public selecedIdx;
 
@@ -34,7 +34,7 @@ export class HigherCdComponent implements OnInit {
      */
     onSelect(idx){   
         if(idx != '-1'){
-            if(idx == '0'){
+            if(idx == '*'){
                 var higherCd: any = {'higher_cd':'*','higher_nm':'전체'};
                 this.outHigherCd.emit(higherCd);
             }else{
@@ -52,9 +52,9 @@ export class HigherCdComponent implements OnInit {
 
         this.commonApi.getHigher(this.condition).subscribe(
             (res) => {
-                console.log('============= higher-cd.commonApi.getHigherCd(this.condition).subscribe ===============');
-                console.log(res);
-                console.log('===================================================================================');
+                //console.log('============= higher-cd.commonApi.getHigherCd(this.condition).subscribe ===============');
+                //console.log(res);
+                //console.log('===================================================================================');
                 this.higherCd = res;
                 if(this.type == "search") this.initHigherCd = "*";
             },
