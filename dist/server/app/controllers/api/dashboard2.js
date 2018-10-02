@@ -4,7 +4,7 @@ var async = require('async');
 var Incident = require('../../models/Incident');
 var MyProcess = require('../../models/MyProcess');
 var User = require('../../models/User');
-var service = require('../../services/statistic');
+var service = require('../../services/dashboard2');
 var alimi = require('../../util/alimi');
 var CONFIG = require('../../../config/config.json');
 var moment = require('moment');
@@ -127,7 +127,8 @@ chart2: (req, res, next) => {
                     })
 
                     res.json(incident);
-                    console.log("incident AAA : ", incident);
+                    
+                    console.log("incident AAA : ", JSON.stringify(incident));
                 }
             })
             
