@@ -91,7 +91,12 @@ export class Dashboard2Component implements OnInit {
   /**
    * 인터페이스용 API(부모에서 호출)
    */
-  reload(){
+  reload(yyyy, mm, higher_cd, company_cd){
+    this.searchYyyy = yyyy;
+    this.searchMm = mm;
+    this.searhHigherCd = higher_cd;
+    this.searchCompany = company_cd;
+    
     this.getValuation();
   }
 
@@ -104,7 +109,7 @@ export class Dashboard2Component implements OnInit {
   getValuation() {
     //console.log("getMaxHigherCnt function call!!!");
     console.log("bbbbbbbbbbbbbb this.searchYyyy :", this.searchYyyy);
-    this.formData.yyyy = this.searchYyyy;
+    //this.formData.yyyy = this.searchYyyy;
     this.formData.mm = this.searchMm;
     this.formData.higher_cd = this.searhHigherCd;
     this.formData.company_cd = this.searchCompany;
@@ -156,6 +161,12 @@ export class Dashboard2Component implements OnInit {
         //alert(JSON.stringify(this.bubble));
       },
       (error: HttpErrorResponse) => {
+      },
+      ()=>{
+        console.log("this.searchYyyy : ", this.searchYyyy);
+        console.log("this.searchMm : ", this.searchMm);
+        console.log("this.searhHigherCd : ", this.searhHigherCd);
+        console.log("this.searchCompany : ", this.searchCompany);
       }
     );
   }
