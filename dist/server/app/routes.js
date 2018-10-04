@@ -19,7 +19,7 @@ var oftenQnaCtrl = require("../app/controllers/api/oftenqna");
 var processGubunCtrl = require("../app/controllers/api/processGubun");
 var dashboard1Ctrl = require("../app/controllers/api/dashboard1");
 var dashboard2Ctrl = require("../app/controllers/api/dashboard2");
-var dashboardCtrl = require("../app/controllers/api/dashboard");
+var dashboard3Ctrl = require("../app/controllers/api/dashboard3");
 
 
 // Login route
@@ -128,21 +128,24 @@ router.get('/dashboard/chart1_4', ssc.sessionCheck, dashboard1Ctrl.chart1);
 router.get('/dashboard/chart1_5', ssc.sessionCheck, dashboard1Ctrl.chart1);
 router.get('/dashboard/chart1_6', ssc.sessionCheck, dashboard1Ctrl.chart1);
 router.get('/dashboard/chart1_7', ssc.sessionCheck, dashboard1Ctrl.chart1);
-router.get('/dashboard2/chart2', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard2/chart2_1', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard2/chart2_2', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard2/chart2_3', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard2/chart2_4', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard2/chart2_5', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard2/chart2_6', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard2/chart2_7', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard/chart3', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_1', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_2', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_3', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_4', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_5', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_6', ssc.sessionCheck, dashboardCtrl.chart3);
+
+router.get('/dashboard/chart2', ssc.sessionCheck, dashboard2Ctrl.chart2);
+router.get('/dashboard/chart2_1', ssc.sessionCheck, dashboard2Ctrl.chart2);
+router.get('/dashboard/chart2_2', ssc.sessionCheck, dashboard2Ctrl.chart2);
+router.get('/dashboard/chart2_3', ssc.sessionCheck, dashboard2Ctrl.chart2);
+router.get('/dashboard/chart2_4', ssc.sessionCheck, dashboard2Ctrl.chart2);
+router.get('/dashboard/chart2_5', ssc.sessionCheck, dashboard2Ctrl.chart2);
+router.get('/dashboard/chart2_6', ssc.sessionCheck, dashboard2Ctrl.chart2);
+router.get('/dashboard/chart2_7', ssc.sessionCheck, dashboard2Ctrl.chart2);
+
+router.get('/dashboard/chart3', ssc.sessionCheck, dashboard3Ctrl.chart3);
+router.get('/dashboard/chart3_1', ssc.sessionCheck, dashboard3Ctrl.chart3);
+router.get('/dashboard/chart3_2', ssc.sessionCheck, dashboard3Ctrl.chart3);
+router.get('/dashboard/chart3_3', ssc.sessionCheck, dashboard3Ctrl.chart3);
+router.get('/dashboard/chart3_4', ssc.sessionCheck, dashboard3Ctrl.chart3);
+router.get('/dashboard/chart3_5', ssc.sessionCheck, dashboard3Ctrl.chart3);
+router.get('/dashboard/chart3_6', ssc.sessionCheck, dashboard3Ctrl.chart3);
+
 
 //upload incident attach file 
 router.post('/upload-file', ssc.sessionCheck, function (req, res) {
