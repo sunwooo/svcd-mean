@@ -47,8 +47,7 @@
                 </div>
                 <div class="col-lg-2">
                     <mat-form-field class="mat-form-field2">
-                            <mat-select [ngModel]="company_cd"
-                                        name="company_cd" 
+                            <mat-select name="company_cd" 
                                         (selectionChange)="setCompany($event.value)"
                                         placeholder="회사명">
                                 <mat-option value="*">전체</mat-option>

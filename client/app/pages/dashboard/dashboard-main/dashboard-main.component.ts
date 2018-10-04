@@ -23,6 +23,10 @@ import { Dashboard2Component } from '../dashboard2/dashboard2.component';
 })
 export class DashboardMainComponent implements OnInit {
 
+    //@ViewChild(Dashboard1Component) dashboard1: Dashboard1Component;
+    @ViewChild(Dashboard2Component) dashboard2: Dashboard2Component;
+    //@ViewChild(Dashboard3Component) dashboard3: Dashboard3Component;
+
     private formData: any = {};                 //전송용 formData
     public today = new Date();
     public yyyy: string ="";           //검색년도
@@ -52,15 +56,10 @@ export class DashboardMainComponent implements OnInit {
         private empInfo: EmpInfoComponent,
         private modalService: NgbModal,
         private excelService:ExcelService,
-        //private dashboard1:Dashboard1Component,
-        private dashboard2:Dashboard2Component,
-        //private dashboard3:Dashboard3Component,
         private router: Router) { }
 
     ngOnInit() {
-        var today = new Date();
         this.yyyy = this.today.getFullYear().toString();
-        console.log(" AAAAAAAAAAAAAAAAAA   this.yyyy  : ", this.yyyy );
         this.getRegisterYyyy();
         this.getCompanyList();
     }
@@ -82,9 +81,9 @@ export class DashboardMainComponent implements OnInit {
      * 데이타 조회
      */
     getData(){
-        //this.dashboard1.reload();
-        this.dashboard2.reload();
-        //this.dashboard3.reload();
+        //this.dashboard1.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
+        this.dashboard2.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
+        //this.dashboard3.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
     }
 
  
@@ -132,8 +131,13 @@ export class DashboardMainComponent implements OnInit {
      * 회사 선택 시 처리
      */
     setCompany(index){
-        this.company_cd = this.companyObj[index].company_cd;
-        this.company_nm = this.companyObj[index].company_nm;
+        if(index == 0){
+            this.company_cd = '*';
+            this.company_nm = '전체';
+        }else{
+            this.company_cd = this.companyObj[index].company_cd;
+            this.company_nm = this.companyObj[index].company_nm;
+        }
         this.getData();
     }
 

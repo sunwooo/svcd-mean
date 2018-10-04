@@ -120,8 +120,8 @@ router.put('/companyProcess/update', ssc.sessionCheck, companyProcessCtrl.update
 
 
 //dashboard
-router.get('/dashboard/chart1', ssc.sessionCheck, dashboard1Ctrl.chart1);
-router.get('/dashboard/chart1_1', ssc.sessionCheck, dashboard1Ctrl.chart1);
+router.get('/dashboard1/chart1', ssc.sessionCheck, dashboard1Ctrl.chart1);
+router.get('/dashboard1/chart1_1', ssc.sessionCheck, dashboard1Ctrl.chart1_1);
 router.get('/dashboard/chart1_2', ssc.sessionCheck, dashboard1Ctrl.chart1);
 router.get('/dashboard/chart1_3', ssc.sessionCheck, dashboard1Ctrl.chart1);
 router.get('/dashboard/chart1_4', ssc.sessionCheck, dashboard1Ctrl.chart1);
