@@ -23,9 +23,9 @@ export class Dashboard3Component implements OnInit {
     private formData: any = {};   //전송용 formData
     public higherObj: any = [];  //상위업무 리스트
 
-    public chartData1: any[];
-    public chartData2: any[];
-    public chartData3: any[];
+    public chartData1: any = [];
+    public chartData2: any = [];
+    public chartData3: any = [];
 
     public noticeList = [];
 
@@ -90,83 +90,22 @@ export class Dashboard3Component implements OnInit {
 
     ngOnInit() {
 
-        console.log("====================================================================");
-        console.log("====================================================================");
-        console.log("====================================================================");
-        console.log("====================================================================");
-
-
-  this.chartData1 = [
-    {
-      "name": "2015",
-      "series": [
-        {
-          "name": "요청자",
-          "value": 70
-        },
-        {
-          "name": "담당자",
-          "value": 30
-        }
-      ]
-    },
-    {
-      "name": "2016",
-      "series": [
-        {
-            "name": "요청자",
-            "value": 80
-          },
-          {
-            "name": "담당자",
-            "value": 32
-          }
-      ]
-    },
-    {
-      "name": "2017",
-      "series": [
-        {
-            "name": "요청자",
-            "value": 100
-          },
-          {
-            "name": "담당자",
-            "value": 33
-          }
-      ]
-    },
-    {
-      "name": "2018",
-      "series": [
-        {
-            "name": "요청자",
-            "value": 150
-          },
-          {
-            "name": "담당자",
-            "value": 35
-          }
-      ]
-    }
-  ];
-
 
   this.chartData3 = [
     {
-      "name": "OPTI-HR",
-      "series": [
+      name: "OPTI-HR",
+      series: [
         {
-          "name": "요청자",
-          "value": 70
+          name: "요청자",
+          value: 70
         },
         {
-          "name": "담당자",
-          "value": 30
+          name: "담당자",
+          value: 30
         },
         {
-            "name": "외부담당자",
-            "value": 30
+            name: "외부담당자",
+            value: 30
           }
       ]
     },
@@ -301,40 +240,43 @@ export class Dashboard3Component implements OnInit {
      * 년도별 요청/접수 건수
      */
     getChart1(){
-        console.log("====================================================================");
-        console.log("====================================================================");
-        console.log("====================================================================");
-        console.log("====================================================================");
-        console.log("====================================================================");
+
 
         this.dashboardService.getChart3(this.formData).subscribe(
             (res) => {
-                console.log("====================================================================");
-                console.log("====================================================================");
-                console.log("====================================================================");
-                console.log("====================================================================");
-                console.log("====================================================================");
-                console.log("xxxxxxxxxxxxx res ", res);
+                
+                //console.log("=======================================");
+                //console.log("res : ",res);
+                //console.log("=======================================");
 
-                /*
-                var initChart1 = [{ "name": "접수대기", "value": 0 },
-                { "name": "처리중", "value": 0 },];
-                var initChart2 = [{ "name": "미평가", "value": 0 },
-                { "name": "처리완료", "value": 0 }];
+                var dataArr = res;
+                var tempArr = [];
+                if(dataArr){
+                    dataArr.forEach((data) => {
+                        var obj1: any = {};
+                       
+                        var series = [];
+                        var reqCnt: any = {};
+                        var mngCnt: any = {};
+                        
+                        reqCnt.name = "요청자";
+                        reqCnt.value = data.req;
+                        series.push(reqCnt);
+                        
+                        mngCnt.name = "담당자";
+                        mngCnt.value = data.mng;
+                        series.push(mngCnt);
 
-                var statusArray = res;
+                        obj1.name = data._id.register_yyyy; //년도
+                        obj1.series = series;
 
-                statusArray.forEach((val, idx) => {
-                    var chartIdx = parseInt(val._id.status_cd) - 1;
-                    if (chartIdx < 2) {//접수대기, 처리중 차트에 매핑
-                        initChart1[chartIdx].value = val.count;
-                    } else {          //미평가, 처리완료 차트에 매핑
-                        initChart2[chartIdx - 2].value = val.count;
-                    }
-                });
-                this.statusChart1 = initChart1;
-                this.statusChart2 = initChart2;
-                */
+                        tempArr.push(obj1);
+
+                    });
+                    this.chartData1 = tempArr;
+                    
+                }
+                
             },
             (error: HttpErrorResponse) => {
             }
