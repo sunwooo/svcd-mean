@@ -19,12 +19,13 @@ export class Dashboard2Component implements OnInit {
   public higherObj: any = [];  //상위업무 리스트
 
   public bubble = [];
+  public single = [];
 
   /** being chart setting */
-  //public view: any[] = [700, 300];
-  public view: any[];
-  public width: number = 700;
-  public height: number = 300;
+  public view: any[] = [700, 300];
+  //public view: any[];
+  //public width: number = 700;
+  //public height: number = 300;
   public fitContainer: boolean = false;
 
   // options
@@ -55,12 +56,16 @@ export class Dashboard2Component implements OnInit {
   public showDataLabel = true;
   public autoScale = true;
 
-  /*
+
+  public gradient2: boolean = false;
+  public showLegend2 = true;
+
+  
   public colorScheme = {
   //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
-    domain: ['#01579b', '#7aa3e5', '#00bfa5', '#e1d248', '#b1b1b1', '#a8385d']
+    domain: ['#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963']
   };
-  */
+  
 
 
   //public colorScheme = [{name:'OPTI-HR',value:'#e1d248'}];
@@ -84,6 +89,33 @@ export class Dashboard2Component implements OnInit {
     //x: 년도
     //y: 평점
     //r: 요청건수
+
+    this.single =[
+    {
+      "name": "Germany",
+      "value": 40632
+    },
+    {
+      "name": "United States",
+      "value": 49737
+    },
+    {
+      "name": "France",
+      "value": 36745
+    },
+    {
+      "name": "United Kingdom",
+      "value": 36240
+    },
+    {
+      "name": "Spain",
+      "value": 33000
+    },
+    {
+      "name": "Italy",
+      "value": 35800
+    }
+  ];
    
   }
 
@@ -104,7 +136,7 @@ export class Dashboard2Component implements OnInit {
   
  
   /**
-   * 상위업무(1순위 요청) 조회
+   * 상위업무 5개 만족도 현황 조회
   **/
   getValuation() {
     //console.log("getMaxHigherCnt function call!!!");
