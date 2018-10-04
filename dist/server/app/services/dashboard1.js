@@ -59,7 +59,7 @@ module.exports = {
                 }
             }
             , { "$sort": {  "count" : -1 } }
-            , { "$limit": 3 }
+            , { "$limit": 10 }
             , {
                 $group: { 
                     _id: {
@@ -85,8 +85,7 @@ module.exports = {
             // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             //$sort: { score: 1 }
 
-            ,{ "$sort": {  "countSum" : -1 } }
-            ,{ "$limit": 10 }
+            ,{ "$sort": {  "countSum" : -1 , "count" : -1 } }
 
 
             //,{ "$sort": { "_id.register_mm" : 1, "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
