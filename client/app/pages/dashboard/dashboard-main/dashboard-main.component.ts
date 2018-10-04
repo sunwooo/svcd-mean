@@ -47,7 +47,8 @@ export class DashboardMainComponent implements OnInit {
     public higher_nm = "전체";
     public company_nm = "전체";
 
-    public user_flag: string = "user";           //사용자 구분(상위업무 항목용)
+    //public user_flag: string = "user";           //사용자 구분(상위업무 항목용)
+    public user_flag: string = "*";           //사용자 구분(상위업무 항목용)
 
     constructor(private auth: AuthService,
         private toast: ToastComponent,
