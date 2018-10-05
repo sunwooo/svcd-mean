@@ -70,7 +70,7 @@ export class Dashboard2Component implements OnInit {
   //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
     domain: ['#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963' 
               ,'#bf9d76','#e99450','#d89f59','#f2dfa7','#a5d7c6','#7794b1'
-              ,'#647c8a', '#3f51b5','#a7b61a']
+              ,'#647c8a', '#3f51b5','#a7b61a', '#DBED91']
   };
   
 
@@ -101,62 +101,6 @@ export class Dashboard2Component implements OnInit {
     
     //single[]
     //업무별 만족도 조회
-    /*
-    this.single =[
-    {
-      "name": "Germany",
-      "value": 40632
-    },
-    {
-      "name": "United States",
-      "value": 49737
-    },
-    {
-      "name": "France",
-      "value": 36745
-    },
-    {
-      "name": "United Kingdom",
-      "value": 36240
-    },
-    {
-      "name": "Spain",
-      "value": 33000
-    },
-    {
-      "name": "Italy",
-      "value": 35800
-    },
-    {
-      "name": "Italy2",
-      "value": 32800
-    },
-    {
-      "name": "Italy3",
-      "value": 31800
-    },
-    {
-      "name": "Italy4",
-      "value": 49737
-    }
-    ,
-    {
-      "name": "Italy5",
-      "value": 50800
-    }
-    ,
-    {
-      "name": "Italy6",
-      "value": 40800
-    }
-    ,
-    {
-      "name": "Italy7",
-      "value": 32800
-    }
-
-  ];
-  */
    
   }
 
