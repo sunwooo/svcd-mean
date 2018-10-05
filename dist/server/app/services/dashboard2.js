@@ -112,9 +112,9 @@ module.exports = {
 
         ]
 
-        //console.log("==========================================================");
-        //console.log('higher_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        console.log("==========================================================");
+        console.log('higher_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -222,9 +222,9 @@ module.exports = {
 
         ]
 
-        //console.log("==========================================================");
-        //console.log('task_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        console.log("==========================================================");
+        console.log('task_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
