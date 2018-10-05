@@ -12,6 +12,7 @@ export class Dashboard1Component implements OnInit {
     // being chart setting
     private formData: any = {};   //전송용 formData
     public monthlyCntChart = [];
+    public higherObj: any = [];  //상위업무 리스트
     public selectedItem;                        //차트 선택 시 아이템명
     public view3: any[] = [880, 350];
     public chartData3: any[];
@@ -49,7 +50,7 @@ export class Dashboard1Component implements OnInit {
                 var yearArray = res;
                 var yearTmp = [];
                 yearArray.forEach((yyyy, yIdx, result) => {
-                    var tmp = new Array(yyyy.series.length) ;
+                    var tmp = new Array(yyyy.series.length);
                     yyyy.series.forEach((mm, mIdx) => {
                         tmp.splice(Number(mm.name) - 1, 1, { name: mm.name, value: mm.value });
                     });
@@ -67,142 +68,142 @@ export class Dashboard1Component implements OnInit {
 
         this.chartData3 = [
             {
-              "name": "OPTI-HR",
-              "series": [
-                {
-                  "name": "요청자",
-                  "value": 70
-                },
-                {
-                  "name": "담당자",
-                  "value": 30
-                },
-                {
-                    "name": "외부담당자",
-                    "value": 30
-                  }
-              ]
+                "name": "OPTI-HR",
+                "series": [
+                    {
+                        "name": "요청자",
+                        "value": 70
+                    },
+                    {
+                        "name": "담당자",
+                        "value": 30
+                    },
+                    {
+                        "name": "외부담당자",
+                        "value": 30
+                    }
+                ]
             },
             {
-              "name": "그룹웨어",
-              "series": [
-                {
-                    "name": "요청자",
-                    "value": 80
-                  },
-                  {
-                    "name": "담당자",
-                    "value": 32
-                  },
-                  {
-                      "name": "외부담당자",
-                      "value": 30
+                "name": "그룹웨어",
+                "series": [
+                    {
+                        "name": "요청자",
+                        "value": 80
+                    },
+                    {
+                        "name": "담당자",
+                        "value": 32
+                    },
+                    {
+                        "name": "외부담당자",
+                        "value": 30
                     }
-              ]
+                ]
             },
             {
-              "name": "SAP ERP",
-              "series": [
-                {
-                    "name": "요청자",
-                    "value": 100
-                  },
-                  {
-                    "name": "담당자",
-                    "value": 33
-                  },
-                  {
-                      "name": "외부담당자",
-                      "value": 30
+                "name": "SAP ERP",
+                "series": [
+                    {
+                        "name": "요청자",
+                        "value": 100
+                    },
+                    {
+                        "name": "담당자",
+                        "value": 33
+                    },
+                    {
+                        "name": "외부담당자",
+                        "value": 30
                     }
-              ]
+                ]
             },
             {
-              "name": "PC 유지보수",
-              "series": [
-                {
-                    "name": "요청자",
-                    "value": 150
-                  },
-                  {
-                    "name": "담당자",
-                    "value": 35
-                  },
-                  {
-                      "name": "외부담당자",
-                      "value": 30
+                "name": "PC 유지보수",
+                "series": [
+                    {
+                        "name": "요청자",
+                        "value": 150
+                    },
+                    {
+                        "name": "담당자",
+                        "value": 35
+                    },
+                    {
+                        "name": "외부담당자",
+                        "value": 30
                     }
-              ]
+                ]
             },
             {
                 "name": "OPTI-HR1",
                 "series": [
-                  {
-                    "name": "요청자",
-                    "value": 70
-                  },
-                  {
-                    "name": "담당자",
-                    "value": 30
-                  },
-                  {
-                      "name": "외부담당자",
-                      "value": 30
+                    {
+                        "name": "요청자",
+                        "value": 70
+                    },
+                    {
+                        "name": "담당자",
+                        "value": 30
+                    },
+                    {
+                        "name": "외부담당자",
+                        "value": 30
                     }
                 ]
-              },
-              {
+            },
+            {
                 "name": "그룹웨어2",
                 "series": [
-                  {
-                      "name": "요청자",
-                      "value": 80
+                    {
+                        "name": "요청자",
+                        "value": 80
                     },
                     {
-                      "name": "담당자",
-                      "value": 32
+                        "name": "담당자",
+                        "value": 32
                     },
                     {
                         "name": "외부담당자",
                         "value": 30
-                      }
+                    }
                 ]
-              },
-              {
+            },
+            {
                 "name": "SAP ERP3",
                 "series": [
-                  {
-                      "name": "요청자",
-                      "value": 100
+                    {
+                        "name": "요청자",
+                        "value": 100
                     },
                     {
-                      "name": "담당자",
-                      "value": 33
+                        "name": "담당자",
+                        "value": 33
                     },
                     {
                         "name": "외부담당자",
                         "value": 30
-                      }
+                    }
                 ]
-              },
-              {
+            },
+            {
                 "name": "PC 유지보수4",
                 "series": [
-                  {
-                      "name": "요청자",
-                      "value": 150
+                    {
+                        "name": "요청자",
+                        "value": 150
                     },
                     {
-                      "name": "담당자",
-                      "value": 35
+                        "name": "담당자",
+                        "value": 35
                     },
                     {
                         "name": "외부담당자",
                         "value": 30
-                      }
+                    }
                 ]
-              }
-          ];
+            }
+        ];
     }
 
     /**
@@ -211,7 +212,7 @@ export class Dashboard1Component implements OnInit {
      * @param data 
      */
     onSelect(modalId, data) {
-        this.formData = data; 
+        this.formData = data;
         //console.log("onSelect this.formData : ", this.formData);
         /*
         this.selectedItem = data.name;
@@ -221,37 +222,98 @@ export class Dashboard1Component implements OnInit {
         //월별 요청 건수 상위 리스트
         this.dashboard1Service.getChart1_1(this.formData).subscribe(
             (res) => {
-               
+
                 console.log("=======================================");
-                console.log("res : ",res);
+                console.log("res : ", res);
                 console.log("=======================================");
 
                 var dataArr = res;
                 var tempArr = [];
-                if(dataArr){
-                    dataArr.forEach((data) => {
-                        var obj1: any = {};
-                       
-                        var series = [];
-                        var higherCnt: any = {};
-                        var higher2Cnt: any = {};
-                        
-                        higherCnt = data.grp;
-                        higher2Cnt.name = higherCnt.higher_nm;
-                        higher2Cnt.value = higherCnt.count;
+                var series = [];
 
-                        series.push(higher2Cnt);
-                        console.log("higherCnt >>>>> ", higher2Cnt);
+
+                dataArr.forEach((data) => {
+                    var obj1: any = {};
+                   
+                    var series = [];
+                    console.log("=========================================");
+                    console.log("===================data ",data);
+                    console.log("=========================================");
+                    /*
+                    data.grp.forEach((higher)=>{
+                        var higherObj: any = {};
+                        higherObj.name = higher.higher_nm;
+                        higherObj.
+                    })
+                    
+                    
+                    var Cnt1: any = {};
+                    var Cnt2: any = {};
+                    var Cnt2: any = {};
+                    
+
+
+
+                    reqCnt.name = "요청자";
+                    reqCnt.value = data.req;
+                    series.push(reqCnt);
+                    
+                    mngCnt.name = "담당자";
+                    mngCnt.value = data.mng;
+                    series.push(mngCnt);
+
+                    obj1.name = data._id.higher_nm; //업무명
+                    obj1.series = series;
+
+                    tempArr.push(obj1);
+                    */
+
+                });
+
+
+                /*
+                if (dataArr) {
+                    
+
+              
+                    for (var i = 0; i < dataArr.length; i++) {
+                        var obj1: any = {};
+                        var higherCnt: any = {};
+
+                       
+                        for (var j = 0; j < 3; j++) {
+                            if (dataArr[i].grp[j] == null) {
+                                higherCnt = {
+                                    name: "",
+                                    value: 0
+                                };
+                            } else {
+                                higherCnt = {
+                                    name: "" + dataArr[i].grp[j].request_company_nm + "",
+                                    value: "" + Number((dataArr[i].grp[j].count).toFixed(2)) + ""
+                                };
+                            }
+                            console.log("dataArr["+i+"].grp["+j+"] : ", dataArr[i].grp[j]);
+                            
+                        }
                         
-                        obj1.name = data._id.request_company_nm;
-                        obj1.series = series;
+
+                        console.log("series : ", series);
+
+                        obj1.name = 0[i]._id.higher_nm;
+                        obj1.series = higherCnt;
 
                         tempArr.push(obj1);
 
-                    });
-                    this.chartData3 = tempArr;
+                    }
                     
+
+                    console.log("tempArr : ", tempArr);
+
+                    //this.chartData3 = tempArr;
+
                 }
+                */
             },
             (error: HttpErrorResponse) => {
                 console.log('error :', error);

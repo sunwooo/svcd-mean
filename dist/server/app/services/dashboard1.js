@@ -80,28 +80,28 @@ module.exports = {
             , {
                 $group: { 
                     _id: {
-                        request_company_nm: "$_id.request_company_nm"
+                        higher_nm: "$_id.higher_nm"
                     },
                     grp: {
                         $push: {
-                            higher_nm: "$_id.higher_nm",
+                            request_company_nm: "$_id.request_company_nm",
                             count: "$count"
                         },
                     },
 
                     countSum: {
                         $sum: "$count"
-                    }
+                    },
+
                 }
             }
-            
+
             //,{ $unwind: '$register_yyyy' }
             //,{ "$sort": { "valuationSum" : -1, "_id.register_yyyy" : 1}}
             // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             //$sort: { score: 1 }
 
             ,{ "$sort": {  "countSum" : -1 } }
-            ,{ "$limit": 10 }
         ]
 
         console.log("==========================================================");
