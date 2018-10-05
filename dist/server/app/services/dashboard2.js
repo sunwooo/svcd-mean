@@ -19,9 +19,11 @@ module.exports = {
         if (req.query.higher_cd != null && req.query.higher_cd != '*') {
             condition.higher_cd = req.query.higher_cd;
         }
+        /*
         if (req.query.yyyy != null) {
             condition.register_yyyy = req.query.yyyy;
         }
+        */
         if (req.query.mm != null && req.query.mm != '*') {
             condition.register_mm = req.query.mm;
         }
@@ -42,9 +44,9 @@ module.exports = {
 
         condition.$or = OrQueries;
         
-        logger.debug("==========================================statistic service=========================================");
-        logger.debug("condifion : ", condition);
-        logger.debug("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("condifion : ", condition);
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -108,15 +110,11 @@ module.exports = {
             ,{ "$limit": 5 }
 
 
-            //,{ "$sort": { "_id.register_mm" : 1, "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
-            //,{ "$sort": { "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
-            //,{ "$sort": { "valuationSum" : 1 } }
-
         ]
 
-        console.log("==========================================================");
-        console.log('higher_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        console.log("==========================================================");
+        //console.log("==========================================================");
+        //console.log('higher_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -141,9 +139,11 @@ module.exports = {
         if (req.query.yyyy != null) {
             condition.register_yyyy = req.query.yyyy;
         }
+        /*
         if (req.query.mm != null && req.query.mm != '*') {
             condition.register_mm = req.query.mm;
         }
+        */
 
         //[접수대기] 건 제외
         OrQueries.push({
@@ -161,9 +161,9 @@ module.exports = {
 
         condition.$or = OrQueries;
         
-        logger.debug("==========================================statistic service=========================================");
-        logger.debug("condifion : ", condition);
-        logger.debug("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("condifion : ", condition);
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -220,16 +220,11 @@ module.exports = {
             ,{ "$sort": {  "_id.higher_cd" : 1  } }
             //,{ "$limit": 5 }
 
-
-            //,{ "$sort": { "_id.register_mm" : 1, "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
-            //,{ "$sort": { "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
-            //,{ "$sort": { "valuationSum" : 1 } }
-
         ]
 
-        console.log("==========================================================");
-        console.log('task_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        console.log("==========================================================");
+        //console.log("==========================================================");
+        //console.log('task_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
