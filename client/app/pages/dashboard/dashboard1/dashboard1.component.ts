@@ -222,7 +222,32 @@ export class Dashboard1Component implements OnInit {
         this.dashboard1Service.getChart1_1(this.formData).subscribe(
             (res) => {
                
-                console.log("onSelect getChart1_1 : ", data);
+                //console.log("=======================================");
+                //console.log("res : ",res);
+                //console.log("=======================================");
+
+                var dataArr = res;
+                var tempArr = [];
+                if(dataArr){
+                    dataArr.forEach((data) => {
+                        var obj1: any = {};
+                       
+                        var series = [];
+                        var higherCnt: any = {};
+                        
+                        higherCnt.name = data.higher_nm;
+                        higherCnt.value = data.grp.count;
+                        series.push(higherCnt);
+                        
+                        obj1.name = data._id.request_company_nm;
+                        obj1.series = series;
+
+                        tempArr.push(obj1);
+
+                    });
+                    this.chartData3 = tempArr;
+                    
+                }
             },
             (error: HttpErrorResponse) => {
                 console.log('error :', error);

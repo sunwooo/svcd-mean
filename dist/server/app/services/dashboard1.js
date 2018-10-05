@@ -37,11 +37,31 @@ module.exports = {
 
         //condition.$or = OrQueries;
         
-        logger.debug("==========================================statistic service=========================================");
-        logger.debug("condifion : ", condition);
-        logger.debug("====================================================================================================");
-
+        /*
         var aggregatorOpts = [
+            {
+                $match: condition
+            },
+            {
+                $group:{ 
+                         _id: {request_company_nm : "$request_company_nm"},
+                         process_nm: {$addToSet: "$process_nm"},
+                        }
+            },
+            { 
+                $sort: { "_id.request_company_nm" : 1 } 
+            },
+            { 
+                $project: {
+                          "_id.request_company_nm" : 1,
+                          name: "$process_nm",
+                          req: { $size: "$process_nm" },
+                          }
+            }
+        */
+
+
+       var aggregatorOpts = [
             {
                 $match: condition
             }
@@ -49,9 +69,7 @@ module.exports = {
                 $group: { //요청 회사별 집계
                     _id: {
                         request_company_nm: "$request_company_nm",
-                        process_nm: "$process_nm",
-                        register_yyyy: "$register_yyyy",
-                        register_mm: "$register_mm"
+                        higher_nm: "$higher_nm"
                     },
                     count: {
                         $sum: 1
@@ -59,18 +77,14 @@ module.exports = {
                 }
             }
             , { "$sort": {  "count" : -1 } }
-            , { "$limit": 10 }
             , {
                 $group: { 
                     _id: {
-                        request_company_nm: "$_id.request_company_nm",
-                        process_nm: "$process_nm",
-                        register_yyyy: "$register_yyyy",
-                        register_mm: "$register_mm"
+                        request_company_nm: "$_id.request_company_nm"
                     },
                     grp: {
                         $push: {
-                            process_nm: "$_id.process_nm",
+                            higher_nm: "$_id.higher_nm",
                             count: "$count"
                         },
                     },
@@ -80,18 +94,14 @@ module.exports = {
                     }
                 }
             }
+            
             //,{ $unwind: '$register_yyyy' }
             //,{ "$sort": { "valuationSum" : -1, "_id.register_yyyy" : 1}}
             // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             //$sort: { score: 1 }
 
-            ,{ "$sort": {  "countSum" : -1 , "count" : -1 } }
-
-
-            //,{ "$sort": { "_id.register_mm" : 1, "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
-            //,{ "$sort": { "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
-            //,{ "$sort": { "valuationSum" : 1 } }
-
+            ,{ "$sort": {  "countSum" : -1 } }
+            ,{ "$limit": 10 }
         ]
 
         console.log("==========================================================");
