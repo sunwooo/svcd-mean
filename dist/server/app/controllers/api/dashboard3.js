@@ -22,10 +22,9 @@ module.exports = {
     chart3: (req, res, next) => {
         try {
             
-            console.log("==================================================");
-            console.log(" Dashboard chart3 : ");
-            console.log("==================================================");
-
+            //console.log("==================================================");
+            //console.log("Dashboard chart3 : ");
+            //console.log("==================================================");
 
             var svc = service.chart3(req);
 
@@ -34,9 +33,9 @@ module.exports = {
 
                     if (!err) {
 
-                        console.log("=================================");
-                        console.log("chartData : " , JSON.stringify(chartData));
-                        console.log("=================================");
+                        //console.log("=================================");
+                        //console.log("chart3 : " , JSON.stringify(chartData));
+                        //console.log("=================================");
 
                         res.json(chartData);
                         

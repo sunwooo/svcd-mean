@@ -10,10 +10,6 @@ module.exports = {
     */
     chart3: (req) => {
 
-        console.log("==========================================statistic service=========================================");
-        console.log("chart3 condifion : ");
-        console.log("====================================================================================================");
-
         //조건 처리
         var condition = {};
         if (req.query.company_cd != null && req.query.company_cd != '*') {
@@ -32,42 +28,34 @@ module.exports = {
         //삭제가 안된것만 조회
         condition.delete_flag = {$ne: 'Y'};
 
-        console.log("==========================================statistic service=========================================");
-        console.log("chart3 condifion : ", condition);
-        console.log("====================================================================================================");
+        //console.log("==========================================statistic service=========================================");
+        //console.log("chart3 condifion : ", condition);
+        //console.log("====================================================================================================");
 
         var aggregatorOpts = [
             {
                 $match: condition
             },
             {
-                $group: { //업무별 상태별 집계
-                    _id: {
-                        register_yyyy: "$register_yyyy",
-                        request_id: "$request_id"
-                    },
-                    count: {
-                        $sum: 1
-                    }
-                }
+                $group:{ 
+                         _id:{register_yyyy: "$register_yyyy"},
+                         requset_id: {$addToSet: "$request_id"},
+                         manager_email: {$addToSet: "$manager_email"}
+                        }
             },
-            //{ $unwind: '$grp' }
-            //,{ "$sort": { "valuationSum" : -1, "_id.register_yyyy" : 1}}
-            // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
-            //$sort: { score: 1 }
-            { "$sort": {  "countSum" : -1  } },
-            { "$limit": 5 }
+            { $sort: {  "_id.register_yyyy" : 1  } 
+            },
+            { $project : {
+                          "_id.register_yyyy" : 1,
+                          req: { $size: "$requset_id" },
+                          mng: { $size: "$manager_email" }
+                         }
+            }
+        ];
 
-
-            //,{ "$sort": { "_id.register_mm" : 1, "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
-            //,{ "$sort": { "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
-            //,{ "$sort": { "valuationSum" : 1 } }
-
-        ]
-
-        console.log("==========================================================");
-        console.log("chart3 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        console.log("==========================================================");
+        //console.log("==========================================================");
+        //console.log("chart3 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts

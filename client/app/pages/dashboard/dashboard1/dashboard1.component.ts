@@ -44,14 +44,17 @@ export class Dashboard1Component implements OnInit {
         //월별 요청 건수
         this.dashboard1Service.getChart1(this.formData).subscribe(
             (res) => {
+                console.log("res : ", res);
+
                 var yearArray = res;
                 var yearTmp = [];
                 yearArray.forEach((yyyy, yIdx, result) => {
-                    var tmp = new Array(yyyy.series.length);
+                    var tmp = new Array(yyyy.series.length) ;
                     yyyy.series.forEach((mm, mIdx) => {
                         tmp.splice(Number(mm.name) - 1, 1, { name: mm.name, value: mm.value });
                     });
                     yearTmp.push({ name: yyyy.name, series: tmp });
+                    //yearTmp.push({ series: tmp });
                 });
                 this.monthlyCntChart = yearTmp;
                 console.log("monthlyCntChart : ", this.monthlyCntChart);
@@ -209,7 +212,7 @@ export class Dashboard1Component implements OnInit {
      */
     onSelect(modalId, data) {
         this.formData = data; 
-        console.log("onSelect this.formData : ", this.formData);
+        //console.log("onSelect this.formData : ", this.formData);
         /*
         this.selectedItem = data.name;
         this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});
@@ -219,7 +222,32 @@ export class Dashboard1Component implements OnInit {
         this.dashboard1Service.getChart1_1(this.formData).subscribe(
             (res) => {
                
-                //console.log("onSelect getChart1_1 : ", data);
+                //console.log("=======================================");
+                //console.log("res : ",res);
+                //console.log("=======================================");
+
+                var dataArr = res;
+                var tempArr = [];
+                if(dataArr){
+                    dataArr.forEach((data) => {
+                        var obj1: any = {};
+                       
+                        var series = [];
+                        var higherCnt: any = {};
+                        
+                        higherCnt.name = data.higher_nm;
+                        higherCnt.value = data.grp.count;
+                        series.push(higherCnt);
+                        
+                        obj1.name = data._id.request_company_nm;
+                        obj1.series = series;
+
+                        tempArr.push(obj1);
+
+                    });
+                    this.chartData3 = tempArr;
+                    
+                }
             },
             (error: HttpErrorResponse) => {
                 console.log('error :', error);

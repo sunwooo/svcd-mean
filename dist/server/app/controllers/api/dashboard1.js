@@ -150,16 +150,16 @@ module.exports = {
     try {
       var svc = service.requestCompany_count(req);
 
-      console.log("chart1_1 svc : ", JSON.stringify(svc));
+      //console.log("chart1_1 svc : ", JSON.stringify(svc));
 
       Incident.aggregate(svc.aggregatorOpts)
         .exec(function (err, incident) {
 
           if (err) {
 
-            console.log("==================================================");
-            console.log(" Dashboard.aggregate error ", err);
-            console.log("==================================================");
+            //console.log("==================================================");
+            //console.log(" Dashboard.aggregate error ", err);
+            //console.log("==================================================");
 
             return res.json({
               success: false,
@@ -168,14 +168,14 @@ module.exports = {
 
           } else {
 
-            console.log("incident : ", JSON.stringify(incident));
+            res.json(incident);
+
+            //console.log("incident : ", JSON.stringify(incident));
 
           }
         });
 
     } catch (err) {
-      logger.error("chart1_1 error : ", err);
-
       return res.json({
         success: false,
         message: err
