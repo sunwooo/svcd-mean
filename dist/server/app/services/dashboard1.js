@@ -10,30 +10,22 @@ module.exports = {
     */
     requestCompany_count: (req) => {
 
+        //조건 처리
         var condition = {};
-        var OrQueries = [];
-
-        if (req.query.series != null) {
-            condition.register_yyyy = req.query.series;
+        if (req.query.company_cd != null && req.query.company_cd != '*') {
+            condition.request_company_cd = req.query.company_cd;
         }
-        if (req.query.name != null && req.query.name != '*') {
-            condition.register_mm = req.query.name;
+        if (req.query.yyyy != null) {
+            condition.register_yyyy = req.query.yyyy;
+        }
+        if (req.query.mm != null && req.query.mm != '*') {
+            condition.register_mm = req.query.mm;
+        }
+        if (req.query.higher_cd != null && req.query.higher_cd != '*') {
+            condition.higher_cd = req.query.higher_cd;
         }
 
-        //[접수대기] 건 제외
-        /*
-        OrQueries.push({
-            $or: [
-                status_cd: "2"
-            }, 
-            {
-                status_cd: "3"
-            }, 
-            {
-                status_cd: "4"
-            }]
-        });
-        */
+        //condition.higher_cd = 'H008';
 
         //condition.$or = OrQueries;
         
