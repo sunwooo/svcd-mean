@@ -222,9 +222,9 @@ export class Dashboard1Component implements OnInit {
         this.dashboard1Service.getChart1_1(this.formData).subscribe(
             (res) => {
                
-                //console.log("=======================================");
-                //console.log("res : ",res);
-                //console.log("=======================================");
+                console.log("=======================================");
+                console.log("res : ",res);
+                console.log("=======================================");
 
                 var dataArr = res;
                 var tempArr = [];
@@ -234,10 +234,14 @@ export class Dashboard1Component implements OnInit {
                        
                         var series = [];
                         var higherCnt: any = {};
+                        var higher2Cnt: any = {};
                         
-                        higherCnt.name = data.higher_nm;
-                        higherCnt.value = data.grp.count;
-                        series.push(higherCnt);
+                        higherCnt = data.grp;
+                        higher2Cnt.name = higherCnt.higher_nm;
+                        higher2Cnt.value = higherCnt.count;
+
+                        series.push(higher2Cnt);
+                        console.log("higherCnt >>>>> ", higher2Cnt);
                         
                         obj1.name = data._id.request_company_nm;
                         obj1.series = series;
