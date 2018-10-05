@@ -8,7 +8,7 @@ module.exports = {
      * 상위업무별 만족도 통계 옵션 및 그룹
      * higher_valuation
     */
-    higher_valuation: (req) => {task_valuation
+    higher_valuation: (req) => {
 
         var condition = {};
         var OrQueries = [];
@@ -174,33 +174,28 @@ module.exports = {
                     _id: {
                         higher_cd: "$higher_cd",
                         higher_nm: "$higher_nm",
-                        //lower_cd: "$lower_cd",
-                        //lower_nm: "$lower_nm",
-                        //status_cd: "$status_cd",
-                        //status_nm: "$status_nm",
                         register_yyyy: "$register_yyyy",
-                        //register_mm: "$register_mm"
+                       
                     },
-                    count: {
-                        $sum: 1
-                    },
+                    //count: {
+                    //    $sum: 1
+                    //},
                     avgValuation: { 
                         $avg: "$valuation" 
                     },
-                    valuationSum: {
-                        $sum: "$valuation"
-                    }
+                    //valuationSum: {
+                    //    $sum: "$valuation"
+                    //}
                 }
             }
-            ,{ "$sort": {  "_id.register_yyyy" : 1  } }
+            ,{ "$sort": {  "_id.register_yyyy" : -1  } }
             , {
                 $group: { //상태별 집계
                     _id: {
                         higher_cd: "$_id.higher_cd",
                         higher_nm: "$_id.higher_nm",
                         register_yyyy: "$register_yyyy",
-                        //lower_cd: "$_id.lower_cd",
-                        //lower_nm: "$_id.lower_nm"
+                      
                     },
                     grp: {
                         $push: {
@@ -209,12 +204,12 @@ module.exports = {
                             avg:"$avgValuation",
                         },
                     },
-                    valuationSum: {
-                        $sum: "$valuationSum"
-                    },
-                    countSum: {
-                        $sum: "$count"
-                    }
+                    //valuationSum: {
+                    //    $sum: "$valuationSum"
+                    //},
+                    //countSum: {
+                    //    $sum: "$count"
+                    //}
                 }
             }
             //,{ $unwind: '$register_yyyy' }
@@ -222,8 +217,8 @@ module.exports = {
             // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             //$sort: { score: 1 }
 
-            ,{ "$sort": {  "countSum" : -1  } }
-            ,{ "$limit": 5 }
+            ,{ "$sort": {  "_id.higher_cd" : 1  } }
+            //,{ "$limit": 5 }
 
 
             //,{ "$sort": { "_id.register_mm" : 1, "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }

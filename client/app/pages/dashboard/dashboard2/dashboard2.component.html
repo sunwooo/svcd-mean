@@ -19,7 +19,7 @@
     <div class="col-lg-12 col-sm-12">
       <div class="card-box">
         <div class="row">
-          <h4 class="text-dark header-title float-left m-l-30">상위5개 만족도 현황</h4>
+          <h4 class="text-dark header-title float-left m-l-30">상위5개 만족도</h4>
             <ngx-charts-bubble-chart
               [view]="[700,300]"
               class="chart-container"
@@ -53,8 +53,9 @@
       <div class="card-box">
         <div class="row">
           <h4 class="text-dark header-title float-left m-l-30">업무별 만족도</h4>  
+            <!--
             <ngx-charts-bar-vertical
-              [view]="[900,300]"
+              [view]="[800,300]"
               [scheme]="colorScheme"
               [results]="single"
               [gradient]="gradient2"
@@ -62,11 +63,37 @@
               [yAxis]="showYAxis"
               [legend]="showLegend2"
               [legendTitle]="legendTitle2"
-              [showXAxisLabel]="showXAxisLabel"
-              [showYAxisLabel]="showYAxisLabel"
+              [showXAxisLabel]="showXAxisLabel2"
+              [showYAxisLabel]="yAxisLabel"
               [xAxisLabel]="xAxisLabel2"
               [yAxisLabel]="yAxisLabel"
               (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>
+            -->
+            <ngx-charts-bar-vertical
+              [view]="[1000,350]"
+              [scheme]="colorScheme"
+              [customColors]="customColors"
+              [results]="single"
+              [animations]="animations"
+              [gradient]="gradient2"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend2"
+              [legendTitle]="legendTitle"
+              [showXAxisLabel]="showXAxisLabel2"
+              [showYAxisLabel]="showYAxisLabel"
+              [tooltipDisabled]="tooltipDisabled"
+              [xAxisLabel]="xAxisLabel2"
+              [yAxisLabel]="yAxisLabel"
+              [showGridLines]="showGridLines"
+              [barPadding]="barPadding"
+              [roundDomains]="roundDomains"
+              [roundEdges]="roundEdges"
+              [yScaleMax]="yScaleMax"
+              [showDataLabel]="showDataLabel"
+              (select)="select($event)"
+              (legendLabelClick)="onLegendLabelClick($event)">
             </ngx-charts-bar-vertical>
         </div>
       </div>

@@ -150,11 +150,11 @@ chart2: (req, res, next) => {
 chart2_1: (req, res, next) => {
     try {
         
-        //console.log("==================================================");
-        //console.log(" Dashboard chart2 : ");
-        //console.log("==================================================");
+        console.log("==================================================");
+        console.log(" Dashboard chart2_1: ");
+        console.log("==================================================");
 
-        /*
+        
         var svc = service.task_valuation(req);
 
         Incident.aggregate(svc.aggregatorOpts)
@@ -257,10 +257,10 @@ chart2_1: (req, res, next) => {
 
                     res.json(incident);
                     
-                    console.log("incident AAA : ", JSON.stringify(incident));
+                    console.log("incident BBB : ", JSON.stringify(incident));
                 }
             })
-    */
+    
             
     } catch (err) {
         logger.error("chart2_1 error : ", err);
