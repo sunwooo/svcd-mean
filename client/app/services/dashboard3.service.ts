@@ -24,5 +24,12 @@ export class Dashboard3Service {
         return this.http.get<any>('/api/dashboard/chart3_1', {params: httpParams});
     }
 
+    /**
+     * 업무별 요청자/담당자 수
+     */
+    getChart3_2(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/dashboard/chart3_2', {params: httpParams});
+    }
 
 }

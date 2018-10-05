@@ -53,5 +53,77 @@ module.exports = {
     },
 
 
+    /**
+     * 
+     */
+    chart3_1: (req, res, next) => {
+        try {
+            
+            //console.log("==================================================");
+            //console.log("Dashboard chart3 : ");
+            //console.log("==================================================");
+
+            var svc = service.chart3_1(req);
+
+            Incident.aggregate(svc.aggregatorOpts)
+                .exec(function (err, chartData) {
+
+                    if (!err) {
+
+                        //console.log("=================================");
+                        //console.log("chart3 : " , JSON.stringify(chartData));
+                        //console.log("=================================");
+
+                        res.json(chartData);
+                        
+                    }
+                })
+                
+        } catch (err) {
+            logger.error("chart3_1 error : ", err);
+
+            return res.json({
+                success: false,
+                message: err
+            });
+        }
+    },
+
+
+    /**
+     * 
+     */
+    chart3_2: (req, res, next) => {
+        try {
+            
+            //console.log("==================================================");
+            //console.log("Dashboard chart3 : ");
+            //console.log("==================================================");
+
+            var svc = service.chart3_2(req);
+
+            Incident.aggregate(svc.aggregatorOpts)
+                .exec(function (err, chartData) {
+
+                    if (!err) {
+
+                        //console.log("=================================");
+                        //console.log("chart3 : " , JSON.stringify(chartData));
+                        //console.log("=================================");
+
+                        res.json(chartData);
+                        
+                    }
+                })
+                
+        } catch (err) {
+            logger.error("chart3_2 error : ", err);
+
+            return res.json({
+                success: false,
+                message: err
+            });
+        }
+    },
 
 }

@@ -14,7 +14,7 @@ import { LowerCdComponent } from '../../../shared/lower-cd/lower-cd.component';
 import { ExcelService } from '../../../services/excel.service';
 //import { Dashboard1Component } from '../dashboard1/dashboard1.component';
 import { Dashboard2Component } from '../dashboard2/dashboard2.component';
-//import { Dashboard3Component } from '../dashboard3/dashboard3.component';
+import { Dashboard3Component } from '../dashboard3/dashboard3.component';
 
 @Component({
     selector: 'app-dashboard-main',
@@ -25,7 +25,7 @@ export class DashboardMainComponent implements OnInit {
 
     //@ViewChild(Dashboard1Component) dashboard1: Dashboard1Component;
     @ViewChild(Dashboard2Component) dashboard2: Dashboard2Component;
-    //@ViewChild(Dashboard3Component) dashboard3: Dashboard3Component;
+    @ViewChild(Dashboard3Component) dashboard3: Dashboard3Component;
 
     private formData: any = {};                 //전송용 formData
     public today = new Date();
@@ -45,6 +45,7 @@ export class DashboardMainComponent implements OnInit {
     public mmInit = 0;
     public mmDesc = "전체";
     public higher_nm = "전체";
+    public companyInit = "-1";
     public company_nm = "전체";
 
     //public user_flag: string = "user";           //사용자 구분(상위업무 항목용)
@@ -84,7 +85,7 @@ export class DashboardMainComponent implements OnInit {
     getData(){
         //this.dashboard1.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
         this.dashboard2.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
-        //this.dashboard3.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
+        this.dashboard3.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
     }
 
  
@@ -132,7 +133,7 @@ export class DashboardMainComponent implements OnInit {
      * 회사 선택 시 처리
      */
     setCompany(index){
-        if(index == 0){
+        if(index == -1){
             this.company_cd = '*';
             this.company_nm = '전체';
         }else{

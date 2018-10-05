@@ -231,8 +231,7 @@ export class Dashboard3Component implements OnInit {
   ];
 
 
-    //년도별 요청자/담당자 조회
-    this.getChart1();
+    this.getChart();
 
     }
 
@@ -240,8 +239,6 @@ export class Dashboard3Component implements OnInit {
      * 년도별 요청/접수 건수
      */
     getChart1(){
-
-
         this.dashboardService.getChart3(this.formData).subscribe(
             (res) => {
                 
@@ -283,6 +280,90 @@ export class Dashboard3Component implements OnInit {
         );
     }
 
+
+    /**
+     * 
+     */
+    getChart2(){
+        this.dashboardService.getChart3_1(this.formData).subscribe(
+            (res) => {
+            },
+            (error: HttpErrorResponse) => {
+            }
+        );
+    }
+
+
+    /**
+     * 업무별 요청자/담당자 수
+     */
+    getChart3(){
+        this.dashboardService.getChart3_2(this.formData).subscribe(
+            (res) => {
+                
+                //console.log("=======================================");
+                //console.log("res : ",res);
+                //console.log("=======================================");
+
+                var dataArr = res;
+                var tempArr = [];
+                if(dataArr){
+                    dataArr.forEach((data) => {
+                        var obj1: any = {};
+                       
+                        var series = [];
+                        var reqCnt: any = {};
+                        var mngCnt: any = {};
+                        
+                        reqCnt.name = "요청자";
+                        reqCnt.value = data.req;
+                        series.push(reqCnt);
+                        
+                        mngCnt.name = "담당자";
+                        mngCnt.value = data.mng;
+                        series.push(mngCnt);
+
+                        obj1.name = data._id.higher_nm; //업무명
+                        obj1.series = series;
+
+                        tempArr.push(obj1);
+
+                    });
+                    this.chartData3 = tempArr;
+                    
+                }
+                
+            },
+            (error: HttpErrorResponse) => {
+            }
+        );
+    }
+
+    /**
+     * 인터페이스용 API(부모에서 호출)
+     */
+    reload(yyyy, mm, higher_cd, company_cd){
+
+        this.formData.yyyy = this.searchYyyy = yyyy;
+        this.formData.mm = this.searchMm = mm;
+        this.formData.higher_cd = this.searhHigherCd = higher_cd;
+        this.formData.company_cd = this.searchCompany = company_cd;
+
+        this.getChart();
+    }
+
+    /**
+     * 차트 데이타 호출
+     */
+    getChart(){
+        //년도별 요청자/담당자 조회
+        this.getChart1();
+        //
+        this.getChart2();
+        //업무별 요청자/담당자 조회
+        this.getChart3();
+    }
+
     /**
      * chart 선택 시
      * @param modalId 
@@ -302,6 +383,8 @@ export class Dashboard3Component implements OnInit {
         this.empEmail = email;
         this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
     }
+
+
 
 
     onLegendLabelClick(entry) {
