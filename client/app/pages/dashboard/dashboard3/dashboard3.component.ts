@@ -239,14 +239,6 @@ export class Dashboard3Component implements OnInit {
      * 년도별 요청/접수 건수
      */
     getChart1(){
-        //this.formData.yyyy = this.searchYyyy;
-        //this.formData.mm = this.searchMm;
-        this.formData.higher_cd = this.searhHigherCd;
-        this.formData.company_cd = this.searchCompany;
-        this.formData.limit = 5; //최대조회 개수
-
-        console.log("======== this.formData ",this.formData);
-
         this.dashboardService.getChart3(this.formData).subscribe(
             (res) => {
                 
@@ -306,11 +298,6 @@ export class Dashboard3Component implements OnInit {
      * 업무별 요청자/담당자 수
      */
     getChart3(){
-        this.formData.yyyy = this.searchYyyy;
-        this.formData.mm = this.searchMm;
-        this.formData.higher_cd = this.searhHigherCd;
-        this.formData.company_cd = this.searchCompany;
-
         this.dashboardService.getChart3_2(this.formData).subscribe(
             (res) => {
                 
@@ -357,10 +344,10 @@ export class Dashboard3Component implements OnInit {
      */
     reload(yyyy, mm, higher_cd, company_cd){
 
-        this.searchYyyy = yyyy;
-        this.searchMm = mm;
-        this.searhHigherCd = higher_cd;
-        this.searchCompany = company_cd;
+        this.formData.yyyy = this.searchYyyy = yyyy;
+        this.formData.mm = this.searchMm = mm;
+        this.formData.higher_cd = this.searhHigherCd = higher_cd;
+        this.formData.company_cd = this.searchCompany = company_cd;
 
         this.getChart();
     }

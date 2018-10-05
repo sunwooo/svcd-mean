@@ -14,12 +14,6 @@ module.exports = {
         //console.log("chart3 req.query : ", req.query);
         //console.log("====================================================================================================");
 
-        //조회개수
-        var limit = 999999;
-        if (req.query.limit != null) {
-            this.limit = req.query.limit;
-        }
-
         //조건 처리
         var condition = {};
         if (req.query.company_cd != null && req.query.company_cd != '*') {
@@ -61,7 +55,7 @@ module.exports = {
                           mng: { $size: "$manager_email" }
                          }
             },
-            { $limit: limit
+            { $limit: 5
             },
         ];
 
@@ -78,12 +72,6 @@ module.exports = {
      * 
      */
     chart3_1: (req) => {
-
-        //조회개수
-        var limit = 999999;
-        if (req.query.limit != null) {
-            this.limit = req.query.limit;
-        }
 
         //조건 처리
         var condition = {};
@@ -126,7 +114,7 @@ module.exports = {
                           mng: { $size: "$manager_email" }
                          }
             },
-            { $limit: limit
+            { $limit: 5
             },
         ];
 
@@ -145,13 +133,7 @@ module.exports = {
      */
     chart3_2: (req) => {
 
-        //조회개수
-        var limit = 999999;
-        if (req.query.limit != null) {
-            this.limit = req.query.limit;
-        }
-
-        //조건 처리
+         //조건 처리
         var condition = {};
         if (req.query.company_cd != null && req.query.company_cd != '*') {
             condition.request_company_cd = req.query.company_cd;
@@ -191,9 +173,7 @@ module.exports = {
                           req: { $size: "$requset_id" },
                           mng: { $size: "$manager_email" }
                          }
-            },
-            { $limit: limit
-            },
+            }
         ];
 
         //console.log("==========================================================");
