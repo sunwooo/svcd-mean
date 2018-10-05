@@ -159,7 +159,7 @@ export class Dashboard2Component implements OnInit {
               //obj2.y = this.higherObj[i].grp[j].count;
               //obj2.r = (this.higherObj[i].grp[j].avg).toFixed(2);
               /**Y축에 Valuation이 나오도록*/
-              obj2.y = Number((this.higherObj[i].grp[j].avg).toFixed(1));
+              obj2.y = Number((this.higherObj[i].grp[j].avg).toFixed(2));
 
               //obj2.y = 100*j*i;
               
