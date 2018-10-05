@@ -22,7 +22,7 @@ export class Dashboard2Component implements OnInit {
   public single = [];
 
   /** being chart setting */
-  public view: any[] = [700, 300];
+  //public view: any[] = [700, 300];
   //public view: any[];
   //public width: number = 700;
   //public height: number = 300;
@@ -59,11 +59,13 @@ export class Dashboard2Component implements OnInit {
 
   public gradient2: boolean = false;
   public showLegend2 = true;
+  public xAxisLabe2 = 'Task';
+  public legendTitle2 = 'Task';
 
   
   public colorScheme = {
   //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
-    domain: ['#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963']
+    domain: ['#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963' ,'#bf9d76','#e99450','#d89f59','#f2dfa7','#a5d7c6','#7794b1']
   };
   
 
@@ -85,11 +87,14 @@ export class Dashboard2Component implements OnInit {
     
 
     //bubble[]
+    //상위 5개 만족도 조회
     //name : 상위업무
     //x: 년도
     //y: 평점
     //r: 요청건수
-
+    
+    //single[]
+    //업무별 만족도 조회
     this.single =[
     {
       "name": "Germany",
@@ -114,7 +119,35 @@ export class Dashboard2Component implements OnInit {
     {
       "name": "Italy",
       "value": 35800
+    },
+    {
+      "name": "Italy2",
+      "value": 32800
+    },
+    {
+      "name": "Italy3",
+      "value": 31800
+    },
+    {
+      "name": "Italy4",
+      "value": 49737
     }
+    ,
+    {
+      "name": "Italy5",
+      "value": 50800
+    }
+    ,
+    {
+      "name": "Italy6",
+      "value": 40800
+    }
+    ,
+    {
+      "name": "Italy7",
+      "value": 32800
+    }
+
   ];
    
   }

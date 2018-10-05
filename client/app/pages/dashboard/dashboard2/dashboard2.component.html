@@ -49,21 +49,22 @@
       </div>
     </div>
 
-    <div class="col-sm-12 col-sm-12">
+    <div class="col-lg-12 col-sm-12">
       <div class="card-box">
         <div class="row">
           <h4 class="text-dark header-title float-left m-l-30">업무별 만족도</h4>  
             <ngx-charts-bar-vertical
-              [view]="view"
+              [view]="[900,300]"
               [scheme]="colorScheme"
               [results]="single"
               [gradient]="gradient2"
               [xAxis]="showXAxis"
               [yAxis]="showYAxis"
               [legend]="showLegend2"
+              [legendTitle]="legendTitle2"
               [showXAxisLabel]="showXAxisLabel"
               [showYAxisLabel]="showYAxisLabel"
-              [xAxisLabel]="xAxisLabel"
+              [xAxisLabel]="xAxisLabel2"
               [yAxisLabel]="yAxisLabel"
               (select)="onSelect($event)">
             </ngx-charts-bar-vertical>
