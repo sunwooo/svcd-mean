@@ -19,12 +19,13 @@ export class Dashboard2Component implements OnInit {
   public higherObj: any = [];  //상위업무 리스트
 
   public bubble = [];
+  public single :any = [];
 
   /** being chart setting */
   //public view: any[] = [700, 300];
-  public view: any[];
-  public width: number = 700;
-  public height: number = 300;
+  //public view: any[];
+  //public width: number = 700;
+  //public height: number = 300;
   public fitContainer: boolean = false;
 
   // options
@@ -40,7 +41,7 @@ export class Dashboard2Component implements OnInit {
   public yAxisLabel = 'Valuation';
   public showGridLines = true;
   public innerPadding = '30%';
-  public barPadding = 8;
+  public barPadding = 20;
   public groupPadding = 16;
   public roundDomains = true;
   public maxRadius = 20;
@@ -52,15 +53,26 @@ export class Dashboard2Component implements OnInit {
   public xScaleMax: any;
   public yScaleMin: number;
   public yScaleMax: number;
-  public showDataLabel = true;
+
   public autoScale = true;
 
-  /*
+
+  public gradient2: boolean = false;
+  public showLegend2 = true;
+  public xAxisLabel2 = 'Task';
+  public showXAxisLabel2 = true;
+  public showYAxisLabel2 = true;
+  public legendTitle2 = 'Task';
+  public showDataLabel: boolean = false;
+
+  
   public colorScheme = {
   //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
-    domain: ['#01579b', '#7aa3e5', '#00bfa5', '#e1d248', '#b1b1b1', '#a8385d']
+    domain: ['#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963' 
+              ,'#bf9d76','#e99450','#d89f59','#f2dfa7','#a5d7c6','#7794b1'
+              ,'#647c8a', '#3f51b5','#a7b61a']
   };
-  */
+  
 
 
   //public colorScheme = [{name:'OPTI-HR',value:'#e1d248'}];
@@ -74,16 +86,77 @@ export class Dashboard2Component implements OnInit {
 
   ngOnInit() {
 
-    this.getValuation();
+    this.getValuation_1();
+    this.getValuation_2();
 
     //this.setColorScheme('cool');
     
 
     //bubble[]
+    //상위 5개 만족도 조회
     //name : 상위업무
     //x: 년도
     //y: 평점
     //r: 요청건수
+    
+    //single[]
+    //업무별 만족도 조회
+    /*
+    this.single =[
+    {
+      "name": "Germany",
+      "value": 40632
+    },
+    {
+      "name": "United States",
+      "value": 49737
+    },
+    {
+      "name": "France",
+      "value": 36745
+    },
+    {
+      "name": "United Kingdom",
+      "value": 36240
+    },
+    {
+      "name": "Spain",
+      "value": 33000
+    },
+    {
+      "name": "Italy",
+      "value": 35800
+    },
+    {
+      "name": "Italy2",
+      "value": 32800
+    },
+    {
+      "name": "Italy3",
+      "value": 31800
+    },
+    {
+      "name": "Italy4",
+      "value": 49737
+    }
+    ,
+    {
+      "name": "Italy5",
+      "value": 50800
+    }
+    ,
+    {
+      "name": "Italy6",
+      "value": 40800
+    }
+    ,
+    {
+      "name": "Italy7",
+      "value": 32800
+    }
+
+  ];
+  */
    
   }
 
@@ -97,24 +170,25 @@ export class Dashboard2Component implements OnInit {
     this.searhHigherCd = higher_cd;
     this.searchCompany = company_cd;
     
-    this.getValuation();
+    this.getValuation_1();
+    this.getValuation_2();
   }
 
 
   
  
   /**
-   * 상위업무(1순위 요청) 조회
+   * 상위업무 5개 만족도 현황 조회
   **/
-  getValuation() {
-    //console.log("getMaxHigherCnt function call!!!");
-    console.log("bbbbbbbbbbbbbb this.searchYyyy :", this.searchYyyy);
+  getValuation_1() {
+    console.log("getMaxHigherCnt function call!!!");
+    //console.log("bbbbbbbbbbbbbb this.searchYyyy :", this.searchYyyy);
     //this.formData.yyyy = this.searchYyyy;
     this.formData.mm = this.searchMm;
     this.formData.higher_cd = this.searhHigherCd;
     this.formData.company_cd = this.searchCompany;
 
-    console.log("this.formData >>>>>>>>>", this.formData);
+    //console.log("this.formData >>>>>>>>>", this.formData);
     
     //this.formData.yyyy = "2018";
     //this.formData.mm = "*";
@@ -154,7 +228,7 @@ export class Dashboard2Component implements OnInit {
           obj1.series = series;
           //console.log("obj1 : ", obj1);
           tmpBubble.push(obj1);
-          console.log("tmpBubble : ", JSON.stringify(tmpBubble));  
+          //console.log("tmpBubble : ", JSON.stringify(tmpBubble));  
         }
         this.bubble = tmpBubble;
 
@@ -163,10 +237,54 @@ export class Dashboard2Component implements OnInit {
       (error: HttpErrorResponse) => {
       },
       ()=>{
-        console.log("this.searchYyyy : ", this.searchYyyy);
-        console.log("this.searchMm : ", this.searchMm);
-        console.log("this.searhHigherCd : ", this.searhHigherCd);
-        console.log("this.searchCompany : ", this.searchCompany);
+        console.log("this.searchYyyy1 : ", this.searchYyyy);
+        console.log("this.searchMm1 : ", this.searchMm);
+        console.log("this.searhHigherCd1 : ", this.searhHigherCd);
+        console.log("this.searchCompany1 : ", this.searchCompany);
+      }
+    );
+  }
+
+  /**
+   * 업무별 만족도 현황 조회
+  **/
+  getValuation_2() {
+    
+    this.formData.yyyy = this.searchYyyy;
+    //this.formData.mm = this.searchMm;
+    this.formData.higher_cd = this.searhHigherCd;
+    this.formData.company_cd = this.searchCompany;
+
+    console.log("this.formData >>>>>>>>>", JSON.stringify(this.formData));
+    
+
+    this.dashboard2Service.getChart2_1(this.formData).subscribe(
+      (res) => {
+
+        this.higherObj = res;
+        //console.log("this.higherObj.length : ", this.higherObj.length);
+        
+        var tmpSingle = [];
+      
+        for (var i = 0; i < this.higherObj.length; i++) {
+            for(var j=0; j< this.higherObj[i].grp.length; j++){
+                if(this.higherObj[i].grp[j].register_yyyy == this.searchYyyy){
+                  //obj1.value =  Number((this.higherObj[i].grp[j].avg).toFixed(1));
+                  var obj1 = { name: "" + this.higherObj[i]._id.higher_nm + "", value: "" +  Number((this.higherObj[i].grp[j].avg).toFixed(2)) + "" };
+                  //console.log("obj1 : >>>>>>>>>", obj1);
+                }
+            }
+            tmpSingle.push(obj1);   
+        }
+        this.single = tmpSingle;
+      },
+      (error: HttpErrorResponse) => {
+      },
+      ()=>{
+        console.log("this.searchYyyy2 : ", this.searchYyyy);
+        console.log("this.searchMm2 : ", this.searchMm);
+        console.log("this.searhHigherCd2 : ", this.searhHigherCd);
+        console.log("this.searchCompany2 : ", this.searchCompany);
       }
     );
   }
