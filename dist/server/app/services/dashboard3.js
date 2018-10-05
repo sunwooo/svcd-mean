@@ -19,12 +19,12 @@ module.exports = {
         if (req.query.company_cd != null && req.query.company_cd != '*') {
             condition.request_company_cd = req.query.company_cd;
         }
-        if (req.query.yyyy != null) {
-            condition.register_yyyy = req.query.yyyy;
-        }
-        if (req.query.mm != null && req.query.mm != '*') {
-            condition.register_mm = req.query.mm;
-        }
+        //if (req.query.yyyy != null) {
+        //    condition.register_yyyy = req.query.yyyy;
+        //}
+        //if (req.query.mm != null && req.query.mm != '*') {
+        //    condition.register_mm = req.query.mm;
+        //}
         if (req.query.higher_cd != null && req.query.higher_cd != '*') {
             condition.higher_cd = req.query.higher_cd;
         }
@@ -32,9 +32,9 @@ module.exports = {
         //삭제가 안된것만 조회
         condition.delete_flag = {$ne: 'Y'};
 
-        console.log("==========================================statistic service=========================================");
-        console.log("chart3 condifion : ", condition);
-        console.log("====================================================================================================");
+        //console.log("==========================================statistic service=========================================");
+        //console.log("chart3 condifion : ", condition);
+        //console.log("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -176,9 +176,9 @@ module.exports = {
             }
         ];
 
-        //console.log("==========================================================");
-        //console.log("chart3_2 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        console.log("==========================================================");
+        console.log("chart3_2 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
