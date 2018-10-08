@@ -81,68 +81,123 @@
       </div>
     </div>
     <div class="col-lg-6">
-      <div class="card-box">
-        <div class="row">
-          <h4 class="text-dark header-title float-left m-l-30" text-align="left">{{searchYyyy}} 상위 만족도</h4>
-          <ngx-charts-bar-vertical
-              [view]="[700,300]"
-              [scheme]="colorScheme2"
-              [customColors]="customColors"
-              [results]="com_high"
-              [animations]="animations"
-              [gradient]="gradient"
-              [xAxis]="showXAxis"
-              [yAxis]="showYAxis"
-              [legend]="showLegend2"
-              [legendTitle]="legendTitle"
-              [showXAxisLabel]="showXAxisLabel2"
-              [showYAxisLabel]="showYAxisLabel"
-              [tooltipDisabled]="tooltipDisabled"
-              [xAxisLabel]="legendTitle"
-              [yAxisLabel]="yAxisLabel"
-              [showGridLines]="showGridLines"
-              [barPadding]="'30'"
-              [roundDomains]="roundDomains"
-              [roundEdges]="roundEdges"
-              [yScaleMax]="yScaleMax"
-              [showDataLabel]="showDataLabel"
-              (select)="select($event)"
-              (legendLabelClick)="onLegendLabelClick($event)">
-            </ngx-charts-bar-vertical> 
-        </div>
-      </div>
+      alfjadlfjdlkfjdalkfkjaflkadsjflkas
     </div>
     <div class="col-lg-6">
-      <div class="card-box">
-        <div class="row">
-          <h4 class="text-dark header-title float-left m-l-30" text-align="left">{{searchYyyy}} 하위 만족도</h4>
-          <ngx-charts-bar-vertical
-              [view]="[700,300]"
-              [scheme]="colorScheme3"
-              [customColors]="customColors"
-              [results]="com_low"
-              [animations]="animations"
-              [gradient]="gradient"
-              [xAxis]="showXAxis"
-              [yAxis]="showYAxis"
-              [legend]="showLegend2"
-              [legendTitle]="legendTitle"
-              [showXAxisLabel]="showXAxisLabel2"
-              [showYAxisLabel]="showYAxisLabel"
-              [tooltipDisabled]="tooltipDisabled"
-              [xAxisLabel]="legendTitle"
-              [yAxisLabel]="yAxisLabel"
-              [showGridLines]="showGridLines"
-              [barPadding]="'30'"
-              [roundDomains]="roundDomains"
-              [roundEdges]="roundEdges"
-              [yScaleMax]="yScaleMax"
-              [showDataLabel]="showDataLabel"
-              (select)="select($event)"
-              (legendLabelClick)="onLegendLabelClick($event)">
-            </ngx-charts-bar-vertical> 
-        </div>
-      </div>
+      
+      
+
+
+            <mat-accordion>
+                    <mat-expansion-panel>
+
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                  
+                  
+                  
+                  <mat-tab-group>
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        <mat-icon class="tab-icon1">thumb_up</mat-icon>
+                        {{searchYyyy}} 상위 만족도
+                      </ng-template>
+                      <div class="card-box">
+                            <div class="row">
+                              <ngx-charts-bar-vertical
+                                  [view]="[700,300]"
+                                  [scheme]="colorScheme2"
+                                  [customColors]="customColors"
+                                  [results]="com_high"
+                                  [animations]="animations"
+                                  [gradient]="gradient"
+                                  [xAxis]="showXAxis"
+                                  [yAxis]="showYAxis"
+                                  [legend]="showLegend2"
+                                  [legendTitle]="legendTitle"
+                                  [showXAxisLabel]="showXAxisLabel2"
+                                  [showYAxisLabel]="showYAxisLabel"
+                                  [tooltipDisabled]="tooltipDisabled"
+                                  [xAxisLabel]="legendTitle"
+                                  [yAxisLabel]="yAxisLabel"
+                                  [showGridLines]="showGridLines"
+                                  [barPadding]="'30'"
+                                  [roundDomains]="roundDomains"
+                                  [roundEdges]="roundEdges"
+                                  [yScaleMax]="yScaleMax"
+                                  [showDataLabel]="showDataLabel"
+                                  (select)="select($event)"
+                                  (legendLabelClick)="onLegendLabelClick($event)">
+                                </ngx-charts-bar-vertical> 
+                            </div>
+                          </div>
+                    </mat-tab>
+                  
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        <mat-icon class="tab-icon2">thumb_down</mat-icon>
+                        {{searchYyyy}} 하위 만족도
+                      </ng-template>
+                      
+
+                      <div class="card-box">
+                            <div class="row">
+                              <ngx-charts-bar-vertical
+                                  [view]="[700,300]"
+                                  [scheme]="colorScheme3"
+                                  [customColors]="customColors"
+                                  [results]="com_low"
+                                  [animations]="animations"
+                                  [gradient]="gradient"
+                                  [xAxis]="showXAxis"
+                                  [yAxis]="showYAxis"
+                                  [legend]="showLegend2"
+                                  [legendTitle]="legendTitle"
+                                  [showXAxisLabel]="showXAxisLabel2"
+                                  [showYAxisLabel]="showYAxisLabel"
+                                  [tooltipDisabled]="tooltipDisabled"
+                                  [xAxisLabel]="legendTitle"
+                                  [yAxisLabel]="yAxisLabel"
+                                  [showGridLines]="showGridLines"
+                                  [barPadding]="'30'"
+                                  [roundDomains]="roundDomains"
+                                  [roundEdges]="roundEdges"
+                                  [yScaleMax]="yScaleMax"
+                                  [showDataLabel]="showDataLabel"
+                                  (select)="select($event)"
+                                  (legendLabelClick)="onLegendLabelClick($event)">
+                                </ngx-charts-bar-vertical> 
+                            </div>
+                          </div>
+
+
+
+                    </mat-tab>
+                  
+
+                  </mat-tab-group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+      
+      
+        
     </div>
   </div>
 
