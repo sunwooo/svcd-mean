@@ -68,10 +68,7 @@ export class Dashboard2Component implements OnInit {
   public legendTitle2 = 'Task';
   public showDataLabel: boolean = false;
 
-  //3
-  public xAxisLabel3 = 'Company (상위)';
-  //4
-  public xAxisLabel4 = 'Company (하위)';
+ 
   /*
   //3 Combo Chart
   barChart: any[] = this.barChart;
@@ -101,6 +98,22 @@ export class Dashboard2Component implements OnInit {
     domain: ['#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963' 
               ,'#bf9d76','#e99450','#d89f59','#f2dfa7','#a5d7c6','#7794b1'
               ,'#647c8a', '#3f51b5','#a7b61a', '#DBED91']
+  };
+
+  public colorScheme2 = {
+    domain: ['#7aa3e5']
+  //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
+    //domain: ['#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963'] 
+              //,'#bf9d76','#e99450','#d89f59','#f2dfa7','#a5d7c6','#7794b1'
+              //,'#647c8a', '#3f51b5','#a7b61a', '#DBED91']
+  };
+
+  public colorScheme3 = {
+    domain: ['#a8385d']
+  //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5', '#ffbb00', '#99e000']
+    //domain: ['#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5', '#adcded', '#a95963'] 
+              //,'#bf9d76','#e99450','#d89f59','#f2dfa7','#a5d7c6','#7794b1'
+              //,'#647c8a', '#3f51b5','#a7b61a', '#DBED91']
   };
 
   

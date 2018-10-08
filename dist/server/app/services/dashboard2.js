@@ -240,9 +240,9 @@ module.exports = {
         var condition = {};
         var OrQueries = [];
 
-        if (req.query.company_cd != null && req.query.company_cd != '*') {
-            condition.request_company_cd = req.query.company_cd;
-        }
+        //if (req.query.company_cd != null && req.query.company_cd != '*') {
+        //    condition.request_company_cd = req.query.company_cd;
+        //}
         if (req.query.higher_cd != null && req.query.higher_cd != '*') {
             condition.higher_cd = req.query.higher_cd;
         }
@@ -250,7 +250,6 @@ module.exports = {
         if (req.query.yyyy != null) {
             condition.register_yyyy = req.query.yyyy;
         }
-        
         
         if (req.query.mm != null && req.query.mm != '*') {
             condition.register_mm = req.query.mm;
@@ -289,9 +288,9 @@ module.exports = {
                         register_yyyy: "$register_yyyy",
                        
                     },
-                    //count: {
-                    //    $sum: 1
-                    //},
+                    count: {
+                        $sum: 1
+                    },
                     avgValuation: { 
                         $avg: "$valuation" 
                     },
@@ -330,14 +329,14 @@ module.exports = {
             // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             //$sort: { score: 1 }
 
-            ,{ "$sort": {  "grp.avg" : -1  } }
-            ,{ "$limit": 7 }
+            ,{ "$sort": {  "grp.avg" : -1 , "grp.count" : -1  } }
+            ,{ "$limit": 10 }
 
         ]
 
-        //console.log("==========================================================");
-        //console.log('com_valuation1  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        console.log("==========================================================");
+        console.log('com_valuation1  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -353,9 +352,9 @@ module.exports = {
         var condition = {};
         var OrQueries = [];
 
-        if (req.query.company_cd != null && req.query.company_cd != '*') {
-            condition.request_company_cd = req.query.company_cd;
-        }
+        //if (req.query.company_cd != null && req.query.company_cd != '*') {
+        //    condition.request_company_cd = req.query.company_cd;
+        //}
         if (req.query.higher_cd != null && req.query.higher_cd != '*') {
             condition.higher_cd = req.query.higher_cd;
         }
@@ -395,9 +394,9 @@ module.exports = {
                         register_yyyy: "$register_yyyy",
                        
                     },
-                    //count: {
-                    //    $sum: 1
-                    //},
+                    count: {
+                        $sum: 1
+                    },
                     avgValuation: { 
                         $avg: "$valuation" 
                     },
@@ -436,8 +435,8 @@ module.exports = {
             // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             //$sort: { score: 1 }
 
-            ,{ "$sort": {  "grp.avg" : 1  } }
-            ,{ "$limit": 7 }
+            ,{ "$sort": {  "grp.avg" : 1 , "grp.count" : -1 } }
+            ,{ "$limit": 10 }
 
         ]
 

@@ -51,7 +51,7 @@
     <div class="col-lg-6 col-sm-6">
       <div class="card-box">
         <div class="row">
-          <h4 class="text-dark header-title float-left m-l-30">업무별 만족도</h4>  
+          <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 업무별 만족도</h4>  
             <ngx-charts-bar-vertical
               [view]="[700,300]"
               [scheme]="colorScheme"
@@ -83,14 +83,14 @@
     <div class="col-lg-6">
       <div class="card-box">
         <div class="row">
-          <h4 class="text-dark header-title float-left m-l-30" text-align="left">회사별 만족도</h4>
+          <h4 class="text-dark header-title float-left m-l-30" text-align="left">{{searchYyyy}} 상위 만족도</h4>
           <ngx-charts-bar-vertical
               [view]="[700,300]"
-              [scheme]="colorScheme"
+              [scheme]="colorScheme2"
               [customColors]="customColors"
               [results]="com_high"
               [animations]="animations"
-              [gradient]="gradient2"
+              [gradient]="gradient"
               [xAxis]="showXAxis"
               [yAxis]="showYAxis"
               [legend]="showLegend2"
@@ -98,10 +98,10 @@
               [showXAxisLabel]="showXAxisLabel2"
               [showYAxisLabel]="showYAxisLabel"
               [tooltipDisabled]="tooltipDisabled"
-              [xAxisLabel]="xAxisLabel3"
+              [xAxisLabel]="legendTitle"
               [yAxisLabel]="yAxisLabel"
               [showGridLines]="showGridLines"
-              [barPadding]="barPadding"
+              [barPadding]="'30'"
               [roundDomains]="roundDomains"
               [roundEdges]="roundEdges"
               [yScaleMax]="yScaleMax"
@@ -115,14 +115,14 @@
     <div class="col-lg-6">
       <div class="card-box">
         <div class="row">
-          <h4 class="text-dark header-title float-left m-l-30" text-align="left">회사별 만족도</h4>
+          <h4 class="text-dark header-title float-left m-l-30" text-align="left">{{searchYyyy}} 하위 만족도</h4>
           <ngx-charts-bar-vertical
               [view]="[700,300]"
-              [scheme]="colorScheme"
+              [scheme]="colorScheme3"
               [customColors]="customColors"
               [results]="com_low"
               [animations]="animations"
-              [gradient]="gradient2"
+              [gradient]="gradient"
               [xAxis]="showXAxis"
               [yAxis]="showYAxis"
               [legend]="showLegend2"
@@ -130,10 +130,10 @@
               [showXAxisLabel]="showXAxisLabel2"
               [showYAxisLabel]="showYAxisLabel"
               [tooltipDisabled]="tooltipDisabled"
-              [xAxisLabel]="xAxisLabel4"
+              [xAxisLabel]="legendTitle"
               [yAxisLabel]="yAxisLabel"
               [showGridLines]="showGridLines"
-              [barPadding]="barPadding"
+              [barPadding]="'30'"
               [roundDomains]="roundDomains"
               [roundEdges]="roundEdges"
               [yScaleMax]="yScaleMax"
@@ -149,6 +149,7 @@
   <!-- 상태 차트 끝-->
 
   <!-- 만족도 현황 차트 시작-->
+  <!--
   <div class="row">
 
     <div class="col-lg-12 col-sm-12">
@@ -167,6 +168,7 @@
     </div>
 
   </div>
+  -->
   <!-- 만족도 현황 차트 끝-->
 
   <!-- 처리현황 시작-->
