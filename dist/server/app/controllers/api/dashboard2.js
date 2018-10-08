@@ -150,9 +150,9 @@ chart2: (req, res, next) => {
 chart2_1: (req, res, next) => {
     try {
         
-        console.log("==================================================");
-        console.log(" Dashboard chart2_1: ");
-        console.log("==================================================");
+        //console.log("==================================================");
+        //console.log(" Dashboard chart2_1: ");
+        //console.log("==================================================");
 
         
         var svc = service.task_valuation(req);
@@ -280,9 +280,9 @@ chart2_1: (req, res, next) => {
 chart2_2: (req, res, next) => {
     try {
         
-        console.log("==================================================");
-        console.log(" Dashboard chart2_2: ");
-        console.log("==================================================");
+        //console.log("==================================================");
+        //console.log(" Dashboard chart2_2: ");
+        //console.log("==================================================");
 
         
         var svc = service.com_valuation1(req);
@@ -410,9 +410,9 @@ chart2_2: (req, res, next) => {
 chart2_3: (req, res, next) => {
     try {
         
-        console.log("==================================================");
-        console.log(" Dashboard chart2_3: ");
-        console.log("==================================================");
+        //console.log("==================================================");
+        //console.log(" Dashboard chart2_3: ");
+        //console.log("==================================================");
 
         
         var svc = service.com_valuation2(req);
@@ -517,7 +517,7 @@ chart2_3: (req, res, next) => {
 
                     res.json(incident);
                     
-                    console.log("incident DDD : ", JSON.stringify(incident));
+                    //console.log("incident DDD : ", JSON.stringify(incident));
                 }
             })
     

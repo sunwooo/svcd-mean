@@ -217,7 +217,7 @@ module.exports = {
             // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             //$sort: { score: 1 }
 
-            ,{ "$sort": {  "_id.higher_cd" : 1  } }
+            ,{ "$sort": {  "grp.avg" : -1  , "grp.count" : -1 ,  "_id.higher_cd" : 1 } }
             //,{ "$limit": 5 }
 
         ]
@@ -334,9 +334,9 @@ module.exports = {
 
         ]
 
-        console.log("==========================================================");
-        console.log('com_valuation1  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        console.log("==========================================================");
+        //console.log("==========================================================");
+        //console.log('com_valuation1  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -440,9 +440,9 @@ module.exports = {
 
         ]
 
-        console.log("==========================================================");
-        console.log('com_valuation2  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        console.log("==========================================================");
+        //console.log("==========================================================");
+        //console.log('com_valuation2  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
