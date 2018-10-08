@@ -23,7 +23,7 @@ module.exports = {
 
         var today = new Date();
         var thisYear = today.getFullYear();
-        var preYear = thisYear - 2;
+        var preYear = thisYear - 4;
         var condition = {};
 
         if (req.session.user_flag == 3 || req.session.user_flag == 4) {
@@ -179,6 +179,63 @@ module.exports = {
       return res.json({
         success: false,
         message: err
+      });
+    }
+  },
+
+  /**
+   * 상위업무별 문의 건수
+   */
+  chart1_2: (req, res, next) => {
+
+    try {
+      var svc = service.company_reqcnt(req);
+
+      Incident.aggregate(svc.aggregatorOpts).exec(function (err, incident) {
+
+        if (err) {
+          return res.json({
+            success: false,
+            message: err
+          });
+        } else {
+          res.json(incident);
+        }
+      });
+
+    } catch (e) {
+      return res.json({
+        success: false,
+        message: e
+      });
+    }
+  },
+
+  /**
+   * 상위업무별 문의 건수
+   */
+  chart1_3: (req, res, next) => {
+
+    try {
+      var svc = service.process_cnt(req);
+      console.log("svc >>>>>>>> ", JSON.stringify(svc));
+
+      Incident.aggregate(svc.aggregatorOpts).exec(function (err, incident) {
+
+        if (err) {
+          return res.json({
+            success: false,
+            message: err
+          });
+        } else {
+          res.json(incident);
+        }
+      });
+
+    } catch (e) {
+      return res.json({
+        success: false,
+        message: e
       });
     }
   },

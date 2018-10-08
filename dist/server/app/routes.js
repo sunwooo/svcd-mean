@@ -122,8 +122,8 @@ router.put('/companyProcess/update', ssc.sessionCheck, companyProcessCtrl.update
 //dashboard
 router.get('/dashboard/chart1', ssc.sessionCheck, dashboard1Ctrl.chart1);
 router.get('/dashboard/chart1_1', ssc.sessionCheck, dashboard1Ctrl.chart1_1);
-router.get('/dashboard/chart1_2', ssc.sessionCheck, dashboard1Ctrl.chart1);
-router.get('/dashboard/chart1_3', ssc.sessionCheck, dashboard1Ctrl.chart1);
+router.get('/dashboard/chart1_2', ssc.sessionCheck, dashboard1Ctrl.chart1_2);
+router.get('/dashboard/chart1_3', ssc.sessionCheck, dashboard1Ctrl.chart1_3);
 router.get('/dashboard/chart1_4', ssc.sessionCheck, dashboard1Ctrl.chart1);
 router.get('/dashboard/chart1_5', ssc.sessionCheck, dashboard1Ctrl.chart1);
 router.get('/dashboard/chart1_6', ssc.sessionCheck, dashboard1Ctrl.chart1);
@@ -131,8 +131,8 @@ router.get('/dashboard/chart1_7', ssc.sessionCheck, dashboard1Ctrl.chart1);
 
 router.get('/dashboard/chart2', ssc.sessionCheck, dashboard2Ctrl.chart2);
 router.get('/dashboard/chart2_1', ssc.sessionCheck, dashboard2Ctrl.chart2_1);
-router.get('/dashboard/chart2_2', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard/chart2_3', ssc.sessionCheck, dashboard2Ctrl.chart2);
+router.get('/dashboard/chart2_2', ssc.sessionCheck, dashboard2Ctrl.chart2_2);
+router.get('/dashboard/chart2_3', ssc.sessionCheck, dashboard2Ctrl.chart2_3);
 router.get('/dashboard/chart2_4', ssc.sessionCheck, dashboard2Ctrl.chart2);
 router.get('/dashboard/chart2_5', ssc.sessionCheck, dashboard2Ctrl.chart2);
 router.get('/dashboard/chart2_6', ssc.sessionCheck, dashboard2Ctrl.chart2);

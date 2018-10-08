@@ -41,50 +41,106 @@
                                             [timeline]="timeline" 
                                             (select)="onSelect(content, $event)">
                     </ngx-charts-line-chart>
-            </div>
-
-        </div> <!-- row end-->
-
-        <div class="row">
-            <div class="col-sm-12 col-lg-12">
-                <h4 class="text-dark header-title float-left m-l-30">업무별 상위 회사</h4>
-            </div>
+                </div>
+            </div> <!-- row end-->
         </div>
-        <div class="row">
-            <div class="col-sm-12 col-lg-12 m-t-60">
-                <ngx-charts-bar-vertical-2d
-                            class="chart-container"
-                            [view]="[1750, 1000]"
-                            [scheme]="colorScheme1"
-                            [results]="chartData3"
-                            [animations]="true"
-                            [gradient]="true"
-                            [xAxis]="showXAxis"
-                            [yAxis]="showYAxis"
-                            [legend]="false"
-                            [legendTitle]="''"
-                            [showXAxisLabel]="showXAxisLabel"
-                            [showYAxisLabel]="showYAxisLabel"
-                            [tooltipDisabled]="false"
-                            [xAxisLabel]="xAxisLabel"
-                            [yAxisLabel]="yAxisLabel"
-                            (legendLabelClick)="onLegendLabelClick($event)"
-                            [showGridLines]="true"
-                            [barPadding]="'5'"
-                            [groupPadding]="'10'"
-                            [roundDomains]="false"
-                            [roundEdges]="true"
-                            [yScaleMax]="'1'"
-                            [showDataLabel]="false"
-                            (select)="select($event)"
-                >
-                </ngx-charts-bar-vertical-2d> 
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="col-lg-12 col-sm-12">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-sm-12 col-lg-12">
+                    <h4 class="text-dark header-title float-left m-l-30">업무별 현황 Top 5</h4>
+                </div>
             </div>
-        </div><!-- row end-->
+            <div class="row">
+                <div class="col-sm-12 col-lg-12 m-t-60">
+                    <ngx-charts-bar-vertical-stacked
+                                class="chart-container"
+                                [view]="[1700, 800]"
+                                [scheme]="colorScheme1"
+                                [results]="chartData3"
+                                [animations]="true"
+                                [gradient]="true"
+                                [xAxis]="showXAxis"
+                                [yAxis]="showYAxis"
+                                [legend]="false"
+                                [legendTitle]="''"
+                                [showXAxisLabel]="showXAxisLabel"
+                                [showYAxisLabel]="showYAxisLabel"
+                                [tooltipDisabled]="false"
+                                [xAxisLabel]="xAxisLabel"
+                                [yAxisLabel]="yAxisLabel"
+                                (legendLabelClick)="onLegendLabelClick($event)"
+                                [showGridLines]="true"
+                                [barPadding]="'5'"
+                                [groupPadding]="'10'"
+                                [roundDomains]="false"
+                                [roundEdges]="true"
+                                [yScaleMax]="'1'"
+                                [showDataLabel]="false"
+                                (select)="select($event)"
+                    >
+                    </ngx-charts-bar-vertical-stacked> 
+
+                </div>
+            </div><!-- row end-->
+        </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+        <div class="card-box">
+
+            <div class="row">
+                <div class="col-sm-12 col-lg-6">
+                    <h4 class="text-dark header-title float-left m-l-30">회사별 요청건 Top 5</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-lg-6 m-t-60">
+                    <ngx-charts-pie-chart [view]="[800, 300]" 
+                                        [scheme]="colorScheme3" 
+                                        [results]="comCntChart" 
+                                        [explodeSlices]="true" 
+                                        [gradient]="gradient"
+                                        [labels]="true"
+                                        (select)="onSelect(content, $event)" 
+                    >
+                    </ngx-charts-pie-chart>
+                </div>
+            </div><!-- row end-->
 
       </div> <!-- card-box end-->
     </div>
+
+    <div class="col-lg-6 col-sm-12">
+        <div class="card-box">
+
+            <div class="row">
+                <div class="col-sm-12 col-lg-6">
+                    <h4 class="text-dark header-title float-left m-l-30">업무별 요청건 Top 5</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-lg-6 m-t-60">
+                    <ngx-charts-pie-chart [view]="[800, 300]" 
+                                        [scheme]="colorScheme3" 
+                                        [results]="precessCntChart" 
+                                        [explodeSlices]="true" 
+                                        [gradient]="gradient"
+                                        [labels]="true"
+                                        (select)="onSelect(content, $event)" 
+                    >
+                    </ngx-charts-pie-chart>
+                </div>
+            </div><!-- row end-->
+        </div>
+
+    </div> <!-- card-box end-->
 
   </div> <!-- row end-->
 </section>
