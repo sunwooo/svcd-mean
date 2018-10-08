@@ -29,8 +29,8 @@ export class MainContentComponent implements OnInit {
 
     /** being chart setting */
     public view1: any[] = [350, 200];
-    public view2: any[] = [700, 223];
-    public view3: any[] = [880, 350];
+    public view2: any[] = [700, 200];
+    public view3: any[] = [880, 300];
 
     // options
     public showXAxis = true;

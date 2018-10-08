@@ -81,31 +81,39 @@
       </div>
     </div>
     <div class="col-lg-6">
-      alfjadlfjdlkfjdalkfkjaflkadsjflkas
+        <div class="card-box">
+            <div class="row">
+                    <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 만족도 현황</h4>
+            </div>
+            <div class="row">
+                <ngx-charts-advanced-pie-chart [view]="[700,300]" 
+                                                [scheme]="colorScheme4" 
+                                                [results]="valuationChart" 
+                                                [gradient]="gradient"
+                                                (select)="onSelect(content, $event)"
+                >
+                </ngx-charts-advanced-pie-chart>
+            </div>
+        </div>
     </div>
     <div class="col-lg-6">
-      
-      
-
-
+            
             <mat-accordion>
                     <mat-expansion-panel>
 
                     </mat-expansion-panel>
                   </mat-accordion>
                   
-                  
-                  
                   <mat-tab-group>
                     <mat-tab>
                       <ng-template mat-tab-label>
                         <mat-icon class="tab-icon1">thumb_up</mat-icon>
-                        {{searchYyyy}} 상위 만족도
+                        &nbsp;{{searchYyyy}} 상위 만족도
                       </ng-template>
                       <div class="card-box">
                             <div class="row">
                               <ngx-charts-bar-vertical
-                                  [view]="[700,300]"
+                                  [view]="[700,250]"
                                   [scheme]="colorScheme2"
                                   [customColors]="customColors"
                                   [results]="com_high"
@@ -136,14 +144,14 @@
                     <mat-tab>
                       <ng-template mat-tab-label>
                         <mat-icon class="tab-icon2">thumb_down</mat-icon>
-                        {{searchYyyy}} 하위 만족도
+                        &nbsp;{{searchYyyy}} 하위 만족도
                       </ng-template>
                       
 
                       <div class="card-box">
                             <div class="row">
                               <ngx-charts-bar-vertical
-                                  [view]="[700,300]"
+                                  [view]="[700,250]"
                                   [scheme]="colorScheme3"
                                   [customColors]="customColors"
                                   [results]="com_low"

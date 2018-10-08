@@ -215,7 +215,6 @@ export class Dashboard3Component implements OnInit {
                         obj1.name = data._id.request_nm;
                         obj1.value = data.count;
                         obj1.id = data._id.request_id;
-                        console.log("xxxxxxxxxx obj1 : ",obj1);
                         tempArr.push(obj1);
                     });
                     this.chartData3_1 = tempArr;

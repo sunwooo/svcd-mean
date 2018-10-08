@@ -10,7 +10,6 @@ export class Dashboard2Service {
     constructor(private http: HttpClient) { }
 
     getChart2(condition): Observable<any> {
-        console.log("Dashboard2Service getChart2 call!!!");
         var httpParams = new HttpParams({ fromObject: condition });
         return this.http.get<any>('/api/dashboard/chart2', {params: httpParams});
     }
@@ -31,5 +30,9 @@ export class Dashboard2Service {
         return this.http.get<any>('/api/dashboard/chart2_3', {params: httpParams});
     }
 
+    getChart2_4(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/dashboard/chart2_4', {params: httpParams});
+    }
 
 }

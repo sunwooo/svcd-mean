@@ -15,48 +15,58 @@
 
 <section class="content">
   <!-- 상태 차트 시작-->
-  <div class="row">
-    <div class="col-sm-12 col-lg-6">
-      <div class="card-box">
-        <div class="row">
-          <div class="col-sm-6 col-lg-6">
-            <h4 class="text-dark header-title float-left m-l-30">접수 처리 현황</h4>
-            <ngx-charts-pie-grid [view]="view1" 
-                                 [scheme]="colorScheme1" 
-                                 [label]="'건수'" 
-                                 [results]="statusChart1" 
-                                 (select)="onSelect(content, $event)"
-            >
-            </ngx-charts-pie-grid>
-          </div>
-          <div class="col-sm-6 col-lg-6">
-            <h4 class="text-dark header-title  float-left m-l-30">완료 평가 현황</h4>
-            <ngx-charts-pie-grid [view]="view1" 
-                                 [scheme]="colorScheme2" 
-                                 [label]="'건수'" 
-                                 [results]="statusChart2" 
-                                 (select)="onSelect(content, $event)"
-            >
-            </ngx-charts-pie-grid>
-          </div>
+    <div class="row">
+        <div class="col-sm-12 col-lg-6">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-6">
+                        <div class="row">
+                            <h4 class="text-dark header-title float-left m-l-30">접수 처리 현황</h4>
+                        </div>
+                        <div class="row">
+                            <ngx-charts-pie-grid [view]="view1" 
+                                                [scheme]="colorScheme1" 
+                                                [label]="'건수'" 
+                                                [results]="statusChart1" 
+                                                (select)="onSelect(content, $event)"
+                            >
+                            </ngx-charts-pie-grid>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-6">
+                        <div class="row">
+                            <h4 class="text-dark header-title  float-left m-l-30">완료 평가 현황</h4>
+                        </div>
+                        <div class="row">
+                            <ngx-charts-pie-grid [view]="view1" 
+                                                [scheme]="colorScheme2" 
+                                                [label]="'건수'" 
+                                                [results]="statusChart2" 
+                                                (select)="onSelect(content, $event)"
+                            >
+                            </ngx-charts-pie-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="col-sm-12 col-lg-6">
-      <div class="card-box">
-        <div class="row">
-          <h4 class="text-dark header-title float-left m-l-30">만족도 현황</h4>
-          <ngx-charts-advanced-pie-chart [view]="view2" 
-                                         [scheme]="colorScheme3" 
-                                         [results]="valuationChart" 
-                                         [gradient]="gradient"
-                                         (select)="onSelect(content, $event)"
-            >
-          </ngx-charts-advanced-pie-chart>
+        <div class="col-sm-12 col-lg-6">
+            <div class="card-box">
+                <div class="row">
+                        <h4 class="text-dark header-title float-left m-l-30">만족도 현황</h4>
+                </div>
+                <div class="row">
+                    <ngx-charts-advanced-pie-chart [view]="view2" 
+                                                    [scheme]="colorScheme3" 
+                                                    [results]="valuationChart" 
+                                                    [gradient]="gradient"
+                                                    (select)="onSelect(content, $event)"
+                    >
+                    </ngx-charts-advanced-pie-chart>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
   </div>
   <!-- 상태 차트 끝-->

@@ -184,9 +184,9 @@ module.exports = {
             },
         ];
 
-        console.log("==========================================================");
-        console.log("chart3_2 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        console.log("==========================================================");
+        //console.log("==========================================================");
+        //console.log("chart3_2 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -254,9 +254,9 @@ module.exports = {
             },
         ];
 
-        console.log("==========================================================");
-        console.log("chart3_3 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        console.log("==========================================================");
+        //console.log("==========================================================");
+        //console.log("chart3_3 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -324,9 +324,9 @@ module.exports = {
             },
         ];
 
-        console.log("==========================================================");
-        console.log("chart3_4 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        console.log("==========================================================");
+        //console.log("==========================================================");
+        //console.log("chart3_4 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts

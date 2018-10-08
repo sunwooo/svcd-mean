@@ -28,21 +28,25 @@ module.exports = {
             condition.register_mm = req.query.mm;
         }
 
+        //완료건만 조회
+        condition.status_cd = "4";
+
         //[접수대기] 건 제외
+        /*
         OrQueries.push({
             $or: [
-                /*{
+                {
                 status_cd: "2"
             }, {
                 status_cd: "3"
             }, 
-            */
             {
                 status_cd: "4"
             }]
         });
 
         condition.$or = OrQueries;
+        */
         
         //logger.debug("==========================================statistic service=========================================");
         //logger.debug("condifion : ", condition);
@@ -145,21 +149,26 @@ module.exports = {
         }
         */
 
+
+        //완료건만 조회
+        condition.status_cd = "4";
+
         //[접수대기] 건 제외
+        /*
         OrQueries.push({
             $or: [
-                /*{
+                {
                 status_cd: "2"
             }, {
                 status_cd: "3"
             }, 
-            */
             {
                 status_cd: "4"
             }]
         });
 
         condition.$or = OrQueries;
+        */
         
         //logger.debug("==========================================statistic service=========================================");
         //logger.debug("condifion : ", condition);
@@ -255,22 +264,25 @@ module.exports = {
             condition.register_mm = req.query.mm;
         }
         
+        //완료건만 조회
+        condition.status_cd = "4";
 
         //[접수대기] 건 제외
+        /*
         OrQueries.push({
             $or: [
-                /*{
+                {
                 status_cd: "2"
             }, {
                 status_cd: "3"
-            }, 
-            */
+            },        
             {
                 status_cd: "4"
             }]
         });
 
         condition.$or = OrQueries;
+        */
         
         //console.log("==========================================statistic service=========================================");
         //console.log("condifion : ", JSON.stringify(condition));
@@ -368,16 +380,21 @@ module.exports = {
             condition.register_mm = req.query.mm;
         }
         
+        //완료건만 조회
+        condition.status_cd = "4";
 
         //[접수대기] 건 제외
+        /*
         OrQueries.push({
             $or: [{
                 status_cd: "4"
             }]
         });
-
-        condition.$or = OrQueries;
         
+        condition.$or = OrQueries;
+        */
+
+
         //console.log("==========================================statistic service=========================================");
         //console.log("condifion : ", JSON.stringify(condition));
         //console.log("====================================================================================================");
@@ -447,5 +464,114 @@ module.exports = {
         return {
             aggregatorOpts: aggregatorOpts
         };
+    },
+
+    /**
+     * 조건별 만족도 현황
+     */
+    valuationCnt: (req) => {
+
+        var condition = {};
+        var OrQueries = [];
+
+        if (req.query.company_cd != null && req.query.company_cd != '*') {
+            condition.request_company_cd = req.query.company_cd;
+        }
+        if (req.query.higher_cd != null && req.query.higher_cd != '*') {
+            condition.higher_cd = req.query.higher_cd;
+        }
+        if (req.query.yyyy != null) {
+            condition.register_yyyy = req.query.yyyy;
+        }
+        if (req.query.mm != null && req.query.mm != '*') {
+            condition.register_mm = req.query.mm;
+        }
+
+        //완료건만 조회
+        condition.status_cd = "4";
+       
+        //logger.debug("==========================================dashboard2=========================================");
+        //logger.debug("condifion : ", condition);
+        //logger.debug("====================================================================================================");
+
+        var aggregatorOpts = [
+            {
+                $match: condition
+            },
+            {$group: { //그룹칼럼
+                _id: {
+                  valuation: "$valuation"
+                },
+                name: {
+                  $first: "$valuation"
+                },
+                value: {
+                  $sum: 1
+                }
+              }
+            },
+            {
+              $project: {
+                "value": 1,
+                "valuation": "$_id.valuation",
+                "name": {
+                  $switch: {
+                    branches: [{
+                        case: {
+                          $eq: ["$name", 1]
+                        },
+                        then: "매우불만족"
+                      },
+                      {
+                        case: {
+                          $eq: ["$name", 2]
+                        },
+                        then: "불만족"
+                      },
+                      {
+                        case: {
+                          $eq: ["$name", 3]
+                        },
+                        then: "보통"
+                      },
+                      {
+                        case: {
+                          $eq: ["$name", 4]
+                        },
+                        then: "만족"
+                      },
+                      {
+                        case: {
+                          $eq: ["$name", 5]
+                        },
+                        then: "매우만족"
+                      },
+                      {
+                        case: {
+                          $eq: ["$name", null]
+                        },
+                        then: "기타"
+                      }
+                    ],
+                    default: "기타"
+                  }
+                }
+              }
+            },
+            {
+              $sort: {
+                valuation: -1
+              }
+            }
+          ];
+
+        //console.log("==========================================================");
+        //console.log('valuationCnt  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
+
+        return {
+            aggregatorOpts: aggregatorOpts
+        };
     }
+
 };

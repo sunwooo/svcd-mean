@@ -5,16 +5,16 @@ const logger = require('log4js').getLogger('app');
 module.exports = {
 
   /**
-   * 요청회사별 건수
+   * 업무별 건수
    * requestCompany_count
    */
   requestCompany_count: (req) => {
 
     //조건 처리
     var condition = {};
-    if (req.query.company_cd != null && req.query.company_cd != '*') {
-      condition.request_company_cd = req.query.company_cd;
-    }
+    //if (req.query.company_cd != null && req.query.company_cd != '*') {
+    //  condition.request_company_cd = req.query.company_cd;
+    //}
     if (req.query.yyyy != null) {
       condition.register_yyyy = req.query.yyyy;
     }
@@ -111,6 +111,9 @@ module.exports = {
     };
   },
 
+  /**
+   * 회사별 요청 건
+   */
   company_reqcnt: (req) => {
     //조건 처리
     var condition = {};
@@ -126,6 +129,11 @@ module.exports = {
     if (req.query.higher_cd != null && req.query.higher_cd != '*') {
       condition.higher_cd = req.query.higher_cd;
     }
+
+    //console.log("==========================================dashboard1=========================================");
+    //console.log("condifion : ", condition);
+    //console.log("====================================================================================================");
+
 
     var aggregatorOpts = [{
         $match: condition
@@ -153,6 +161,7 @@ module.exports = {
       aggregatorOpts: aggregatorOpts
     };
   },
+
 
   process_cnt: (req) => {
     //조건 처리
@@ -200,4 +209,64 @@ module.exports = {
     //console.log('requestCompany_count  >>>>>>> ', JSON.stringify(aggregatorOpts));
     //console.log("==========================================================");
   },
+
+
+  /**
+   * 진행상태별 건수
+   */
+  chat1_4: (req) => {
+
+    //조건 처리
+    var condition = {};
+    if (req.query.company_cd != null && req.query.company_cd != '*') {
+      condition.request_company_cd = req.query.company_cd;
+    }
+    if (req.query.yyyy != null) {
+      condition.register_yyyy = req.query.yyyy;
+    }
+    if (req.query.mm != null && req.query.mm != '*') {
+      condition.register_mm = req.query.mm;
+    }
+    if (req.query.higher_cd != null && req.query.higher_cd != '*') {
+      condition.higher_cd = req.query.higher_cd;
+    }
+
+    condition.status_cd = {
+        "$in": ["1", "2", "3", "4"]
+    };
+
+    //console.log("==========================================dashboard1=========================================");
+    //console.log("condifion : ", condition);
+    //console.log("====================================================================================================");
+
+
+    var aggregatorOpts = [{
+        $match: condition
+      }, {
+        $group: { //그룹칼럼
+          _id: {
+            status_cd: "$status_cd"
+          },
+          count: {
+            $sum: 1
+          }
+
+        }
+      },
+      {
+        $sort: {
+          status_cd: -1
+        }
+      }
+    ];
+
+    //console.log("==========================================================");
+    //console.log('chat1_4  >>>>>>> ', JSON.stringify(aggregatorOpts));
+    //console.log("==========================================================");
+
+    return {
+      aggregatorOpts: aggregatorOpts
+    };
+  },
+
 };

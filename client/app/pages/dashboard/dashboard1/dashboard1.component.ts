@@ -23,6 +23,10 @@ export class Dashboard1Component implements OnInit {
     public chartData3: any[];
     public comCntChart = [];
     public precessCntChart = [];
+    public thisYyyy;  //당해년
+
+    public statusChart1 = [{"name":"접수대기", "value":0},{"name":"처리중", "value":0}];
+    public statusChart2 = [{"name":"미평가", "value":0},{"name":"평가완료", "value":0}];
 
     // line, area
     autoScale = true;
@@ -46,9 +50,21 @@ export class Dashboard1Component implements OnInit {
         domain: ['#008fd4', '#b4985a', '#99ca3c', '#a7a9ac', '#f04124']
     };
 
+
+    public colorScheme4 = {
+        domain: ['#f04124', '#99ca3c', '#e5e4e0', '#a7a9ac', '#f04124']
+    };
+
+    public colorScheme5 = {
+        domain: ['#008fd4', '#b4985a', '#e5e4e0', '#a7a9ac', '#f04124']
+    };
+
     constructor(private dashboard1Service: Dashboard1Service) { }
 
     ngOnInit() {
+        var date = new Date();
+        this.searchYyyy = date.getFullYear();
+        this.thisYyyy = date.getFullYear();
         this.getChart();
     }
 
@@ -80,6 +96,7 @@ export class Dashboard1Component implements OnInit {
         this.getChart2();
         this.getChart3();
         this.getChart4();
+        this.getChart5();
     }
 
     /**
@@ -198,6 +215,49 @@ export class Dashboard1Component implements OnInit {
             }
         )
     }
+
+
+    /**
+     * 상태별 건수
+     */
+    getChart5(){
+
+        //console.log("=======================================");
+        //console.log("getChart5 : ");
+        //console.log("=======================================");
+
+        //당해년도만 조회
+        this.formData.yyyy = this.thisYyyy;
+
+        this.dashboard1Service.getChart1_4(this.formData).subscribe(
+            (res) => {  
+                
+                //console.log("=======================================");
+                //console.log("res : ",res);
+                //console.log("=======================================");
+
+                var initChart1 = [{"name":"접수대기", "value":0},
+                              {"name":"처리중", "value":0},];
+                var initChart2 = [{"name":"미평가", "value":0},
+                              {"name":"처리완료", "value":0}];
+
+                var statusArray = res;
+
+                statusArray.forEach((val, idx) => {
+                    var chartIdx = parseInt(val._id.status_cd)-1;
+                    if(chartIdx < 2) {//접수대기, 처리중 차트에 매핑
+                        initChart1[chartIdx].value = val.count;
+                    } else {          //미평가, 처리완료 차트에 매핑
+                        initChart2[chartIdx-2].value = val.count;
+                    }
+                });
+                this.statusChart1 = initChart1;
+                this.statusChart2 = initChart2;
+            },
+            (error: HttpErrorResponse) => {
+            }
+    }
+
 
     /**
      * 차트 선택 시

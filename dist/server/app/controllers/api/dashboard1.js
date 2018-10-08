@@ -242,5 +242,33 @@ module.exports = {
     }
   },
 
+   /**
+   * 진행상태 건수
+   */
+  chart1_4: (req, res, next) => {
+
+    try {
+        var svc = service.chat1_4(req);
+  
+        Incident.aggregate(svc.aggregatorOpts).exec(function (err, incident) {
+  
+          if (!err) {
+
+            //console.log("==================================================");
+            //console.log(" incident chart2_4: ",JSON.stringify(incident));
+            //console.log("==================================================");
+
+            res.json(incident);
+          }
+        });
+  
+      } catch (e) {
+        return res.json({
+          success: false,
+          message: e
+        });
+      }
+  },
+
 
 };
