@@ -7,6 +7,7 @@ import { AuthService } from '../../../services/auth.service';
 import { QnaService } from '../../../services/qna.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Dashboard3Service } from '../../../services/dashboard3.service';
+import { ajaxPatch, ajaxGetJSON } from 'rxjs/internal-compatibility';
 
 @Component({
     selector: 'app-dashboard3',
@@ -23,19 +24,17 @@ export class Dashboard3Component implements OnInit {
     private formData: any = {};   //전송용 formData
     public higherObj: any = [];  //상위업무 리스트
 
-    public chartData1: any = [];
-    public chartData2: any = [];
     public chartData3: any = [];
+    public chartData3_1: any = [];
+    public chartData3_2: any = [];
+    public chartData3_3: any = [];
+    public chartData3_4: any = [];
+    public chartData3_5: any = [];
 
     public noticeList = [];
 
     private anyData: any;
     private anyDataForm: any;
-
-    /** being chart setting */
-    public view1: any[] = [770, 227];
-    public view2: any[] = [700, 225];
-    public view3: any[] = [1750, 350];
 
     // options
     public showXAxis = true;
@@ -49,20 +48,30 @@ export class Dashboard3Component implements OnInit {
     public timeline = true;
 
     public colorScheme1 = {
-        domain: ['#99ca3c', '#f04124', '#008fd4', '#a7a9ac', '#e5e4e0']
+        domain: ['#008fd4', '#b4985a', '#99ca3c', '#a7a9ac', '#f04124']
     };
 
-    public colorScheme2 = {
-        domain: ['#008fd4', '#b4985a', '#e5e4e0', '#a7a9ac', '#f04124']
+    public colorScheme2_1 = {
+        domain: ['#b4985a']
+    };
+
+    public colorScheme2_2 = {
+        domain: ['#99ca3c']
+    };
+
+    public colorScheme2_3 = {
+        domain: ['#008fd4']
+    };
+
+    public colorScheme2_4 = {
+        domain: ['#f04124']
     };
 
     public colorScheme3 = {
-        domain: ['#008fd4', '#b4985a', '#99ca3c', '#a7a9ac', '#f04124']
+        domain: ['#99ca3c', '#f04124', '#008fd4', '#a7a9ac', '#e5e4e0']
     };
 
-    public colorScheme4 = {
-        domain: ['#008fd4', '#b4985a', '#99ca3c', '#a7a9ac', '#f04124']
-    };
+
     // line, area
     autoScale = true;
     /** end chart setting */
@@ -80,6 +89,30 @@ export class Dashboard3Component implements OnInit {
     public empEmail: string = "";               //팝업 조회용 이메일
     public popupNotice: string = "";            //팝업 조회용 QNA공지
 
+    public aaa = [
+        {
+          "name": "홍길동",
+          "value": 50
+        },
+        {
+          "name": "이순신",
+          "value": 45
+        },
+        {
+          "name": "춘향이",
+          "value": 30
+        },
+        {
+          "name": "이도령",
+          "value": 29
+        },
+        {
+          "name": "변사또",
+          "value": 25
+        }
+      ];
+
+
     constructor(private auth: AuthService,
         private modalService: NgbModal,
         private dashboardService: Dashboard3Service,
@@ -91,16 +124,35 @@ export class Dashboard3Component implements OnInit {
     ngOnInit() {
         var date = new Date();
         this.searchYyyy = date.getFullYear();
-        console.log("xxxxxxxxxxxxxxxxxxx this.searchYyyyy ", this.searchYyyy);
         this.getChart();
 
     }
 
+    
+    /**
+     * 차트 데이타 호출
+     */
+    getChart(){
+
+        this.formData.yyyy = this.searchYyyy;
+        this.formData.mm = this.searchMm;
+        this.formData.higher_cd = this.searhHigherCd;
+        this.formData.company_cd = this.searchCompany;
+
+        this.getChart3();
+        this.getChart3_1();
+        this.getChart3_2();
+        this.getChart3_3();
+        this.getChart3_4();
+        this.getChart3_5();
+    }
+
+
     /**
      * 년도별 요청/접수 건수
      */
-    getChart1(){
-        this.chartData1 = [];
+    getChart3(){
+        this.chartData3 = [];
         this.dashboardService.getChart3(this.formData).subscribe(
             (res) => {
                 
@@ -132,7 +184,7 @@ export class Dashboard3Component implements OnInit {
                         tempArr.push(obj1);
 
                     });
-                    this.chartData1 = tempArr;
+                    this.chartData3 = tempArr;
                     
                 }
                 
@@ -144,11 +196,121 @@ export class Dashboard3Component implements OnInit {
 
 
     /**
-     * 
+     * 년도별 요청자 상위5
      */
-    getChart2(){
+    getChart3_1(){
+        this.chartData3_1 = [];
         this.dashboardService.getChart3_1(this.formData).subscribe(
             (res) => {
+                
+                //console.log("=======================================");
+                //console.log("getChart3_1() res : ",res);
+                //console.log("=======================================");
+                
+                var dataArr = res;
+                var tempArr = [];
+                if(dataArr){
+                    dataArr.forEach((data) => {
+                        var obj1: any = {};
+                        obj1.name = data._id.request_nm;
+                        obj1.value = data.count;
+                        obj1.id = data._id.request_id;
+                        console.log("xxxxxxxxxx obj1 : ",obj1);
+                        tempArr.push(obj1);
+                    });
+                    this.chartData3_1 = tempArr;
+                }
+            },
+            (error: HttpErrorResponse) => {
+            }
+        );
+    }
+
+    /**
+     * 년도별 접수자 상위5
+     */
+    getChart3_2(){
+        this.chartData3_2 = [];
+        this.dashboardService.getChart3_2(this.formData).subscribe(
+            (res) => {
+
+                //console.log("=======================================");
+                //console.log("getChart3_2() res : ",res);
+                //console.log("=======================================");
+                
+                var dataArr = res;
+                var tempArr = [];
+                if(dataArr){
+                    dataArr.forEach((data) => {
+                        var obj1: any = {};
+                        obj1.name = data._id.manager_nm;
+                        obj1.value = data.count;
+                        tempArr.push(obj1);
+                    });
+                    this.chartData3_2 = tempArr;
+                }
+            },
+            (error: HttpErrorResponse) => {
+            }
+        );
+    }
+
+    /**
+     * 년도별 만족도 상위5
+     */
+    getChart3_3(){
+        this.chartData3_3 = [];
+        this.dashboardService.getChart3_3(this.formData).subscribe(
+            (res) => {
+
+                //console.log("=======================================");
+                //console.log("getChart3_3() res : ",res);
+                //console.log("=======================================");
+                
+                var dataArr = res;
+                var tempArr = [];
+                if(dataArr){
+                    dataArr.forEach((data) => {
+                        var obj1: any = {};
+                        obj1.name = data._id.request_nm;
+                        obj1.value =  Number((data.avg).toFixed(2));
+                        tempArr.push(obj1);
+                    });
+                    this.chartData3_3 = tempArr;
+                }
+
+
+            },
+            (error: HttpErrorResponse) => {
+            }
+        );
+    }
+
+    /**
+     * 년도별 요청자 하위5
+     */
+    getChart3_4(){
+        this.chartData3_4 = [];
+        this.dashboardService.getChart3_4(this.formData).subscribe(
+            (res) => {
+
+                //console.log("=======================================");
+                //console.log("getChart3_4() res : ",res);
+                //console.log("=======================================");
+                
+                var dataArr = res;
+                var tempArr = [];
+                if(dataArr){
+                    dataArr.forEach((data) => {
+                        var obj1: any = {};
+                        obj1.name = data._id.request_nm;
+                        obj1.value =  Number((data.avg).toFixed(2));
+                        tempArr.push(obj1);
+                    });
+                    this.chartData3_4 = tempArr;
+                }
+
+
             },
             (error: HttpErrorResponse) => {
             }
@@ -159,10 +321,9 @@ export class Dashboard3Component implements OnInit {
     /**
      * 업무별 요청자/담당자 수
      */
-    getChart3(){
-        this.chartData3 = [];
-        console.log("xxxxxxxxxxxxxxxxx : ", this.formData);
-        this.dashboardService.getChart3_2(this.formData).subscribe(
+    getChart3_5(){
+        this.chartData3_5 = [];
+        this.dashboardService.getChart3_5(this.formData).subscribe(
             (res) => {
                 
                 //console.log("=======================================");
@@ -193,7 +354,7 @@ export class Dashboard3Component implements OnInit {
                         tempArr.push(obj1);
 
                     });
-                    this.chartData3 = tempArr;
+                    this.chartData3_5 = tempArr;
                     
                 }
                 
@@ -216,22 +377,15 @@ export class Dashboard3Component implements OnInit {
         this.getChart();
     }
 
+
     /**
-     * 차트 데이타 호출
+     * chart 선택 시
+     * @param modalId 
+     * @param data 
      */
-    getChart(){
-
-        this.formData.yyyy = this.searchYyyy;
-        this.formData.mm = this.searchMm;
-        this.formData.higher_cd = this.searhHigherCd;
-        this.formData.company_cd = this.searchCompany;
-
-        //년도별 요청자/담당자 조회
-        this.getChart1();
-        //
-        this.getChart2();
-        //업무별 요청자/담당자 조회
-        this.getChart3();
+    onSelect3(modalId, data) {
+        console.log('Item clicked', data);
+        this.modalService.open(modalId, { size: 'lg' });
     }
 
     /**
@@ -239,7 +393,8 @@ export class Dashboard3Component implements OnInit {
      * @param modalId 
      * @param data 
      */
-    onSelect(modalId, data) {
+    onSelect3_1(modalId, data) {
+        console.log('Item clicked', data);
         console.log('Item clicked', data);
         this.modalService.open(modalId, { size: 'lg' });
     }

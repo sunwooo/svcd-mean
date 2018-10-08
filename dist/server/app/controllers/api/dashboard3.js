@@ -54,13 +54,13 @@ module.exports = {
 
 
     /**
-     * 
+     * 년도별 요청자 상위5
      */
     chart3_1: (req, res, next) => {
         try {
             
             //console.log("==================================================");
-            //console.log("Dashboard chart3 : ");
+            //console.log("Dashboard chart3_1 : ");
             //console.log("==================================================");
 
             var svc = service.chart3_1(req);
@@ -71,13 +71,87 @@ module.exports = {
                     if (!err) {
 
                         //console.log("=================================");
-                        //console.log("chart3 : " , JSON.stringify(chartData));
+                        //console.log("chart3_1 : " , JSON.stringify(chartData));
                         //console.log("=================================");
 
                         res.json(chartData);
                         
                     }
                 })
+                
+        } catch (err) {
+            console.log("chart3_1 error : ", err);
+
+            return res.json({
+                success: false,
+                message: err
+            });
+        }
+    },
+
+
+    /**
+     * 년도별 접수자 상위5
+     */
+    chart3_2: (req, res, next) => {
+        try {
+            
+            //console.log("==================================================");
+            //console.log("Dashboard chart3_2 : ");
+            //console.log("==================================================");
+
+            var svc = service.chart3_2(req);
+
+            Incident.aggregate(svc.aggregatorOpts)
+                .exec(function (err, chartData) {
+
+                    if (!err) {
+
+                        //console.log("=================================");
+                        //console.log("chart3_2 : " , JSON.stringify(chartData));
+                        //console.log("=================================");
+
+                        res.json(chartData);
+                        
+                    }
+                });
+                
+        } catch (err) {
+            logger.error("chart3_2 error : ", err);
+
+            return res.json({
+                success: false,
+                message: err
+            });
+        }
+    },
+
+
+    /**
+     * 년도별 만족도 상위5
+     */
+    chart3_3: (req, res, next) => {
+        try {
+            
+            //console.log("==================================================");
+            //console.log("Dashboard chart3_3 : ");
+            //console.log("==================================================");
+
+            var svc = service.chart3_3(req);
+
+            Incident.aggregate(svc.aggregatorOpts)
+                .exec(function (err, chartData) {
+
+                    if (!err) {
+
+                        //console.log("=================================");
+                        //console.log("chart3_3 : " , JSON.stringify(chartData));
+                        //console.log("=================================");
+
+                        res.json(chartData);
+                        
+                    }
+                });
                 
         } catch (err) {
             logger.error("chart3_1 error : ", err);
@@ -91,16 +165,16 @@ module.exports = {
 
 
     /**
-     * 
+     * 년도별 접수자 하위5
      */
-    chart3_2: (req, res, next) => {
+    chart3_4: (req, res, next) => {
         try {
             
             //console.log("==================================================");
-            //console.log("Dashboard chart3 : ");
+            //console.log("Dashboard chart3_4 : ");
             //console.log("==================================================");
 
-            var svc = service.chart3_2(req);
+            var svc = service.chart3_4(req);
 
             Incident.aggregate(svc.aggregatorOpts)
                 .exec(function (err, chartData) {
@@ -108,16 +182,52 @@ module.exports = {
                     if (!err) {
 
                         //console.log("=================================");
-                        //console.log("chart3 : " , JSON.stringify(chartData));
+                        //console.log("chart3_4 : " , JSON.stringify(chartData));
                         //console.log("=================================");
 
                         res.json(chartData);
                         
                     }
-                })
+                });
                 
         } catch (err) {
-            logger.error("chart3_2 error : ", err);
+            logger.error("chart3_4 error : ", err);
+
+            return res.json({
+                success: false,
+                message: err
+            });
+        }
+    },
+
+    /**
+     * 년도별 업무별 요청자/접수자
+     */
+    chart3_5: (req, res, next) => {
+        try {
+            
+            //console.log("==================================================");
+            //console.log("Dashboard chart3_5 : ");
+            //console.log("==================================================");
+
+            var svc = service.chart3_5(req);
+
+            Incident.aggregate(svc.aggregatorOpts)
+                .exec(function (err, chartData) {
+
+                    if (!err) {
+
+                        //console.log("=================================");
+                        //console.log("chart3_5 : " , JSON.stringify(chartData));
+                        //console.log("=================================");
+
+                        res.json(chartData);
+                        
+                    }
+                });
+                
+        } catch (err) {
+            logger.error("chart3_5 error : ", err);
 
             return res.json({
                 success: false,

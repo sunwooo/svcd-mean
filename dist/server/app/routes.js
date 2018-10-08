@@ -141,10 +141,10 @@ router.get('/dashboard/chart2_7', ssc.sessionCheck, dashboard2Ctrl.chart2);
 router.get('/dashboard/chart3', ssc.sessionCheck, dashboard3Ctrl.chart3);
 router.get('/dashboard/chart3_1', ssc.sessionCheck, dashboard3Ctrl.chart3_1);
 router.get('/dashboard/chart3_2', ssc.sessionCheck, dashboard3Ctrl.chart3_2);
-router.get('/dashboard/chart3_3', ssc.sessionCheck, dashboard3Ctrl.chart3);
-router.get('/dashboard/chart3_4', ssc.sessionCheck, dashboard3Ctrl.chart3);
-router.get('/dashboard/chart3_5', ssc.sessionCheck, dashboard3Ctrl.chart3);
-router.get('/dashboard/chart3_6', ssc.sessionCheck, dashboard3Ctrl.chart3);
+router.get('/dashboard/chart3_3', ssc.sessionCheck, dashboard3Ctrl.chart3_3);
+router.get('/dashboard/chart3_4', ssc.sessionCheck, dashboard3Ctrl.chart3_4);
+router.get('/dashboard/chart3_5', ssc.sessionCheck, dashboard3Ctrl.chart3_5);
+//router.get('/dashboard/chart3_6', ssc.sessionCheck, dashboard3Ctrl.chart3_6);
 
 
 //upload incident attach file 

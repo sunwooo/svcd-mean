@@ -28,6 +28,8 @@ export class DashboardMainComponent implements OnInit {
     @ViewChild(Dashboard3Component) dashboard3: Dashboard3Component;
 
     private formData: any = {};                 //전송용 formData
+
+    public isLoading = true;
     public today = new Date();
     public yyyy: string ="";           //검색년도
     public mm: string = "*";            //검색월
@@ -64,6 +66,8 @@ export class DashboardMainComponent implements OnInit {
         this.yyyy = this.today.getFullYear().toString();
         this.getRegisterYyyy();
         this.getCompanyList();
+
+        this.isLoading = false;
     }
 
     /**
