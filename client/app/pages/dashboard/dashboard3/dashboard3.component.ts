@@ -35,7 +35,7 @@ export class Dashboard3Component implements OnInit {
     /** being chart setting */
     public view1: any[] = [770, 227];
     public view2: any[] = [700, 225];
-    public view3: any[] = [1700, 350];
+    public view3: any[] = [1750, 350];
 
     // options
     public showXAxis = true;
@@ -89,149 +89,10 @@ export class Dashboard3Component implements OnInit {
     }
 
     ngOnInit() {
-
-
-  this.chartData3 = [
-    {
-      name: "OPTI-HR",
-      series: [
-        {
-          name: "요청자",
-          value: 70
-        },
-        {
-          name: "담당자",
-          value: 30
-        },
-        {
-            name: "외부담당자",
-            value: 30
-          }
-      ]
-    },
-    {
-      "name": "그룹웨어",
-      "series": [
-        {
-            "name": "요청자",
-            "value": 80
-          },
-          {
-            "name": "담당자",
-            "value": 32
-          },
-          {
-              "name": "외부담당자",
-              "value": 30
-            }
-      ]
-    },
-    {
-      "name": "SAP ERP",
-      "series": [
-        {
-            "name": "요청자",
-            "value": 100
-          },
-          {
-            "name": "담당자",
-            "value": 33
-          },
-          {
-              "name": "외부담당자",
-              "value": 30
-            }
-      ]
-    },
-    {
-      "name": "PC 유지보수",
-      "series": [
-        {
-            "name": "요청자",
-            "value": 150
-          },
-          {
-            "name": "담당자",
-            "value": 35
-          },
-          {
-              "name": "외부담당자",
-              "value": 30
-            }
-      ]
-    },
-    {
-        "name": "OPTI-HR1",
-        "series": [
-          {
-            "name": "요청자",
-            "value": 70
-          },
-          {
-            "name": "담당자",
-            "value": 30
-          },
-          {
-              "name": "외부담당자",
-              "value": 30
-            }
-        ]
-      },
-      {
-        "name": "그룹웨어2",
-        "series": [
-          {
-              "name": "요청자",
-              "value": 80
-            },
-            {
-              "name": "담당자",
-              "value": 32
-            },
-            {
-                "name": "외부담당자",
-                "value": 30
-              }
-        ]
-      },
-      {
-        "name": "SAP ERP3",
-        "series": [
-          {
-              "name": "요청자",
-              "value": 100
-            },
-            {
-              "name": "담당자",
-              "value": 33
-            },
-            {
-                "name": "외부담당자",
-                "value": 30
-              }
-        ]
-      },
-      {
-        "name": "PC 유지보수4",
-        "series": [
-          {
-              "name": "요청자",
-              "value": 150
-            },
-            {
-              "name": "담당자",
-              "value": 35
-            },
-            {
-                "name": "외부담당자",
-                "value": 30
-              }
-        ]
-      }
-  ];
-
-
-    this.getChart();
+        var date = new Date();
+        this.searchYyyy = date.getFullYear();
+        console.log("xxxxxxxxxxxxxxxxxxx this.searchYyyyy ", this.searchYyyy);
+        this.getChart();
 
     }
 
@@ -239,6 +100,7 @@ export class Dashboard3Component implements OnInit {
      * 년도별 요청/접수 건수
      */
     getChart1(){
+        this.chartData1 = [];
         this.dashboardService.getChart3(this.formData).subscribe(
             (res) => {
                 
@@ -298,6 +160,8 @@ export class Dashboard3Component implements OnInit {
      * 업무별 요청자/담당자 수
      */
     getChart3(){
+        this.chartData3 = [];
+        console.log("xxxxxxxxxxxxxxxxx : ", this.formData);
         this.dashboardService.getChart3_2(this.formData).subscribe(
             (res) => {
                 
@@ -344,10 +208,10 @@ export class Dashboard3Component implements OnInit {
      */
     reload(yyyy, mm, higher_cd, company_cd){
 
-        this.formData.yyyy = this.searchYyyy = yyyy;
-        this.formData.mm = this.searchMm = mm;
-        this.formData.higher_cd = this.searhHigherCd = higher_cd;
-        this.formData.company_cd = this.searchCompany = company_cd;
+        this.searchYyyy = yyyy;
+        this.searchMm = mm;
+        this.searhHigherCd = higher_cd;
+        this.searchCompany = company_cd;
 
         this.getChart();
     }
@@ -356,6 +220,12 @@ export class Dashboard3Component implements OnInit {
      * 차트 데이타 호출
      */
     getChart(){
+
+        this.formData.yyyy = this.searchYyyy;
+        this.formData.mm = this.searchMm;
+        this.formData.higher_cd = this.searhHigherCd;
+        this.formData.company_cd = this.searchCompany;
+
         //년도별 요청자/담당자 조회
         this.getChart1();
         //

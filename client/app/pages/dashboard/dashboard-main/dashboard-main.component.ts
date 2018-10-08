@@ -12,7 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonApiService } from '../../../services/common-api.service';
 import { LowerCdComponent } from '../../../shared/lower-cd/lower-cd.component';
 import { ExcelService } from '../../../services/excel.service';
-//import { Dashboard1Component } from '../dashboard1/dashboard1.component';
+import { Dashboard1Component } from '../dashboard1/dashboard1.component';
 import { Dashboard2Component } from '../dashboard2/dashboard2.component';
 import { Dashboard3Component } from '../dashboard3/dashboard3.component';
 
@@ -23,7 +23,7 @@ import { Dashboard3Component } from '../dashboard3/dashboard3.component';
 })
 export class DashboardMainComponent implements OnInit {
 
-    //@ViewChild(Dashboard1Component) dashboard1: Dashboard1Component;
+    @ViewChild(Dashboard1Component) dashboard1: Dashboard1Component;
     @ViewChild(Dashboard2Component) dashboard2: Dashboard2Component;
     @ViewChild(Dashboard3Component) dashboard3: Dashboard3Component;
 
@@ -83,7 +83,7 @@ export class DashboardMainComponent implements OnInit {
      * 데이타 조회
      */
     getData(){
-        //this.dashboard1.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
+        this.dashboard1.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
         this.dashboard2.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
         this.dashboard3.reload(this.yyyy, this.mm, this.higher_cd, this.company_cd );
     }
