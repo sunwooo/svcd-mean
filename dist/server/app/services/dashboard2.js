@@ -112,9 +112,9 @@ module.exports = {
 
         ]
 
-        console.log("==========================================================");
-        console.log('higher_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        console.log("==========================================================");
+        //console.log("==========================================================");
+        //console.log('higher_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -222,8 +222,227 @@ module.exports = {
 
         ]
 
+        //console.log("==========================================================");
+        //console.log('task_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
+
+        return {
+            aggregatorOpts: aggregatorOpts
+        };
+    },
+
+    /**
+     * 회사별 만족도 통계 옵션 및 그룹
+     * com_valuation1 (상위10개사)
+    */
+    com_valuation1: (req) => {
+
+        var condition = {};
+        var OrQueries = [];
+
+        if (req.query.company_cd != null && req.query.company_cd != '*') {
+            condition.request_company_cd = req.query.company_cd;
+        }
+        if (req.query.higher_cd != null && req.query.higher_cd != '*') {
+            condition.higher_cd = req.query.higher_cd;
+        }
+        
+        if (req.query.yyyy != null) {
+            condition.register_yyyy = req.query.yyyy;
+        }
+        
+        
+        if (req.query.mm != null && req.query.mm != '*') {
+            condition.register_mm = req.query.mm;
+        }
+        
+
+        //[접수대기] 건 제외
+        OrQueries.push({
+            $or: [
+                /*{
+                status_cd: "2"
+            }, {
+                status_cd: "3"
+            }, 
+            */
+            {
+                status_cd: "4"
+            }]
+        });
+
+        condition.$or = OrQueries;
+        
+        //console.log("==========================================statistic service=========================================");
+        //console.log("condifion : ", JSON.stringify(condition));
+        //console.log("====================================================================================================");
+
+        var aggregatorOpts = [
+            {
+                $match: condition
+            },
+            {
+                $group: { //업무별 상태별 집계
+                    _id: {
+                        company_cd: "$request_company_cd",
+                        company_nm: "$request_company_nm",
+                        register_yyyy: "$register_yyyy",
+                       
+                    },
+                    //count: {
+                    //    $sum: 1
+                    //},
+                    avgValuation: { 
+                        $avg: "$valuation" 
+                    },
+                    //valuationSum: {
+                    //    $sum: "$valuation"
+                    //}
+                }
+            }
+            ,{ "$sort": {  "_id.register_yyyy" : -1  } }
+            , {
+                $group: { //상태별 집계
+                    _id: {
+                        company_cd: "$_id.company_cd",
+                        company_nm: "$_id.company_nm",
+                        register_yyyy: "$register_yyyy",
+                      
+                    },
+                    grp: {
+                        $push: {
+                            register_yyyy: "$_id.register_yyyy",
+                            //company_nm: "$_id.company_nm",
+                            count: "$count",
+                            avg:"$avgValuation",
+                        },
+                    },
+                    //valuationSum: {
+                    //    $sum: "$valuationSum"
+                    //},
+                    //countSum: {
+                    //    $sum: "$count"
+                    //}
+                }
+            }
+            //,{ $unwind: '$register_yyyy' }
+            //,{ "$sort": { "valuationSum" : -1, "_id.register_yyyy" : 1}}
+            // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
+            //$sort: { score: 1 }
+
+            ,{ "$sort": {  "grp.avg" : -1  } }
+            ,{ "$limit": 7 }
+
+        ]
+
+        //console.log("==========================================================");
+        //console.log('com_valuation1  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
+
+        return {
+            aggregatorOpts: aggregatorOpts
+        };
+    },
+
+    /**
+     * 회사별 만족도 통계 옵션 및 그룹
+     * com_valuation2 (하위10개사)
+    */
+    com_valuation2: (req) => {
+
+        var condition = {};
+        var OrQueries = [];
+
+        if (req.query.company_cd != null && req.query.company_cd != '*') {
+            condition.request_company_cd = req.query.company_cd;
+        }
+        if (req.query.higher_cd != null && req.query.higher_cd != '*') {
+            condition.higher_cd = req.query.higher_cd;
+        }
+        
+        if (req.query.yyyy != null) {
+            condition.register_yyyy = req.query.yyyy;
+        }
+        
+        
+        if (req.query.mm != null && req.query.mm != '*') {
+            condition.register_mm = req.query.mm;
+        }
+        
+
+        //[접수대기] 건 제외
+        OrQueries.push({
+            $or: [{
+                status_cd: "4"
+            }]
+        });
+
+        condition.$or = OrQueries;
+        
+        //console.log("==========================================statistic service=========================================");
+        //console.log("condifion : ", JSON.stringify(condition));
+        //console.log("====================================================================================================");
+
+        var aggregatorOpts = [
+            {
+                $match: condition
+            },
+            {
+                $group: { //업무별 상태별 집계
+                    _id: {
+                        company_cd: "$request_company_cd",
+                        company_nm: "$request_company_nm",
+                        register_yyyy: "$register_yyyy",
+                       
+                    },
+                    //count: {
+                    //    $sum: 1
+                    //},
+                    avgValuation: { 
+                        $avg: "$valuation" 
+                    },
+                    //valuationSum: {
+                    //    $sum: "$valuation"
+                    //}
+                }
+            }
+            ,{ "$sort": {  "_id.register_yyyy" : -1  } }
+            , {
+                $group: { //상태별 집계
+                    _id: {
+                        company_cd: "$_id.company_cd",
+                        company_nm: "$_id.company_nm",
+                        register_yyyy: "$register_yyyy",
+                      
+                    },
+                    grp: {
+                        $push: {
+                            register_yyyy: "$_id.register_yyyy",
+                            //company_nm: "$_id.company_nm",
+                            count: "$count",
+                            avg:"$avgValuation",
+                        },
+                    },
+                    //valuationSum: {
+                    //    $sum: "$valuationSum"
+                    //},
+                    //countSum: {
+                    //    $sum: "$count"
+                    //}
+                }
+            }
+            //,{ $unwind: '$register_yyyy' }
+            //,{ "$sort": { "valuationSum" : -1, "_id.register_yyyy" : 1}}
+            // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
+            //$sort: { score: 1 }
+
+            ,{ "$sort": {  "grp.avg" : 1  } }
+            ,{ "$limit": 7 }
+
+        ]
+
         console.log("==========================================================");
-        console.log('task_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        console.log('com_valuation2  >>>>>>> ', JSON.stringify(aggregatorOpts));
         console.log("==========================================================");
 
         return {

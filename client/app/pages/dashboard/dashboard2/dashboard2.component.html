@@ -16,7 +16,7 @@
 <section class="content">
   <!-- 상태 차트 시작-->
   <div class="row">
-    <div class="col-lg-12 col-sm-12">
+    <div class="col-lg-6 col-sm-6">
       <div class="card-box">
         <div class="row">
           <h4 class="text-dark header-title float-left m-l-30">상위5개 만족도</h4>
@@ -48,30 +48,12 @@
         </div>
       </div>
     </div>
-
-    <div class="col-lg-12 col-sm-12">
+    <div class="col-lg-6 col-sm-6">
       <div class="card-box">
         <div class="row">
           <h4 class="text-dark header-title float-left m-l-30">업무별 만족도</h4>  
-            <!--
             <ngx-charts-bar-vertical
-              [view]="[800,300]"
-              [scheme]="colorScheme"
-              [results]="single"
-              [gradient]="gradient2"
-              [xAxis]="showXAxis"
-              [yAxis]="showYAxis"
-              [legend]="showLegend2"
-              [legendTitle]="legendTitle2"
-              [showXAxisLabel]="showXAxisLabel2"
-              [showYAxisLabel]="yAxisLabel"
-              [xAxisLabel]="xAxisLabel2"
-              [yAxisLabel]="yAxisLabel"
-              (select)="onSelect($event)">
-            </ngx-charts-bar-vertical>
-            -->
-            <ngx-charts-bar-vertical
-              [view]="[1000,350]"
+              [view]="[700,300]"
               [scheme]="colorScheme"
               [customColors]="customColors"
               [results]="single"
@@ -95,6 +77,70 @@
               (select)="select($event)"
               (legendLabelClick)="onLegendLabelClick($event)">
             </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card-box">
+        <div class="row">
+          <h4 class="text-dark header-title float-left m-l-30" text-align="left">회사별 만족도</h4>
+          <ngx-charts-bar-vertical
+              [view]="[700,300]"
+              [scheme]="colorScheme"
+              [customColors]="customColors"
+              [results]="com_high"
+              [animations]="animations"
+              [gradient]="gradient2"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend2"
+              [legendTitle]="legendTitle"
+              [showXAxisLabel]="showXAxisLabel2"
+              [showYAxisLabel]="showYAxisLabel"
+              [tooltipDisabled]="tooltipDisabled"
+              [xAxisLabel]="xAxisLabel3"
+              [yAxisLabel]="yAxisLabel"
+              [showGridLines]="showGridLines"
+              [barPadding]="barPadding"
+              [roundDomains]="roundDomains"
+              [roundEdges]="roundEdges"
+              [yScaleMax]="yScaleMax"
+              [showDataLabel]="showDataLabel"
+              (select)="select($event)"
+              (legendLabelClick)="onLegendLabelClick($event)">
+            </ngx-charts-bar-vertical> 
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card-box">
+        <div class="row">
+          <h4 class="text-dark header-title float-left m-l-30" text-align="left">회사별 만족도</h4>
+          <ngx-charts-bar-vertical
+              [view]="[700,300]"
+              [scheme]="colorScheme"
+              [customColors]="customColors"
+              [results]="com_low"
+              [animations]="animations"
+              [gradient]="gradient2"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend2"
+              [legendTitle]="legendTitle"
+              [showXAxisLabel]="showXAxisLabel2"
+              [showYAxisLabel]="showYAxisLabel"
+              [tooltipDisabled]="tooltipDisabled"
+              [xAxisLabel]="xAxisLabel4"
+              [yAxisLabel]="yAxisLabel"
+              [showGridLines]="showGridLines"
+              [barPadding]="barPadding"
+              [roundDomains]="roundDomains"
+              [roundEdges]="roundEdges"
+              [yScaleMax]="yScaleMax"
+              [showDataLabel]="showDataLabel"
+              (select)="select($event)"
+              (legendLabelClick)="onLegendLabelClick($event)">
+            </ngx-charts-bar-vertical> 
         </div>
       </div>
     </div>

@@ -18,8 +18,11 @@ export class Dashboard2Component implements OnInit {
   private formData: any = {};   //전송용 formData
   public higherObj: any = [];  //상위업무 리스트
 
-  public bubble = [];
+  public bubble :any = [];
   public single :any = [];
+  public com_high :any =[];
+  public com_low :any =[];
+  
 
   /** being chart setting */
   //public view: any[] = [700, 300];
@@ -29,6 +32,7 @@ export class Dashboard2Component implements OnInit {
   public fitContainer: boolean = false;
 
   // options
+  //1
   public showXAxis = true;
   public showYAxis = true;
   public gradient = true;
@@ -53,17 +57,43 @@ export class Dashboard2Component implements OnInit {
   public xScaleMax: any;
   public yScaleMin: number;
   public yScaleMax: number;
-
   public autoScale = true;
 
-
+  //2
   public gradient2: boolean = false;
-  public showLegend2 = true;
+  public showLegend2 = false;
   public xAxisLabel2 = 'Task';
   public showXAxisLabel2 = true;
   public showYAxisLabel2 = true;
   public legendTitle2 = 'Task';
   public showDataLabel: boolean = false;
+
+  //3
+  public xAxisLabel3 = 'Company (상위)';
+  //4
+  public xAxisLabel4 = 'Company (하위)';
+  /*
+  //3 Combo Chart
+  barChart: any[] = this.barChart;
+  //public barChart :any = [];
+  lineChartSeries: any[] = this.lineChartSeries;
+  lineChart: any[] = this.lineChart;
+  lineChartScheme = {
+    name: 'coolthree',
+    selectable: true,
+    group: 'Ordinal',
+    //domain: ['#01579b', '#7aa3e5', '#a8385d', '#00bfa5']
+    domain: ['#a8385d', '#7aa3e5', '#a27ea8', '#aae3f5']
+  };
+
+  comboBarScheme = {
+    name: 'singleLightBlue',
+    selectable: true,
+    group: 'Ordinal',
+    domain: ['#01579b']
+  };
+  */
+  
 
   
   public colorScheme = {
@@ -72,6 +102,8 @@ export class Dashboard2Component implements OnInit {
               ,'#bf9d76','#e99450','#d89f59','#f2dfa7','#a5d7c6','#7794b1'
               ,'#647c8a', '#3f51b5','#a7b61a', '#DBED91']
   };
+
+  
   
 
 
@@ -86,12 +118,14 @@ export class Dashboard2Component implements OnInit {
 
   ngOnInit() {
 
-    this.getValuation_1();
-    this.getValuation_2();
+    this.getValuation_1();  //상위 5개 만족도 조회
+    this.getValuation_2();  //업무별 만족도 조회
+    this.getValuation_3();  //회사별 만족도 조회 (상위)
+    this.getValuation_4();  //회사별 만족도 조회 (하위)
+
 
     //this.setColorScheme('cool');
     
-
     //bubble[]
     //상위 5개 만족도 조회
     //name : 상위업무
@@ -101,7 +135,7 @@ export class Dashboard2Component implements OnInit {
     
     //single[]
     //업무별 만족도 조회
-   
+
   }
 
 
@@ -116,6 +150,9 @@ export class Dashboard2Component implements OnInit {
     
     this.getValuation_1();
     this.getValuation_2();
+    this.getValuation_3();
+    this.getValuation_4();
+
   }
 
 
@@ -181,10 +218,10 @@ export class Dashboard2Component implements OnInit {
       (error: HttpErrorResponse) => {
       },
       ()=>{
-        console.log("this.searchYyyy1 : ", this.searchYyyy);
-        console.log("this.searchMm1 : ", this.searchMm);
-        console.log("this.searhHigherCd1 : ", this.searhHigherCd);
-        console.log("this.searchCompany1 : ", this.searchCompany);
+        //console.log("this.searchYyyy1 : ", this.searchYyyy);
+        //console.log("this.searchMm1 : ", this.searchMm);
+        //console.log("this.searhHigherCd1 : ", this.searhHigherCd);
+        //console.log("this.searchCompany1 : ", this.searchCompany);
       }
     );
   }
@@ -206,7 +243,6 @@ export class Dashboard2Component implements OnInit {
       (res) => {
 
         this.higherObj = res;
-        //console.log("this.higherObj.length : ", this.higherObj.length);
         
         var tmpSingle = [];
       
@@ -225,10 +261,103 @@ export class Dashboard2Component implements OnInit {
       (error: HttpErrorResponse) => {
       },
       ()=>{
+        //console.log("this.searchYyyy2 : ", this.searchYyyy);
+        //console.log("this.searchMm2 : ", this.searchMm);
+        //console.log("this.searhHigherCd2 : ", this.searhHigherCd);
+        //console.log("this.searchCompany2 : ", this.searchCompany);
+      }
+    );
+  }
+
+  /**
+   * 회사별 만족도 현황 조회(상위10개사)
+  **/
+  getValuation_3() {
+    
+    this.formData.yyyy = this.searchYyyy;
+    this.formData.mm = this.searchMm;
+    this.formData.higher_cd = this.searhHigherCd;
+    this.formData.company_cd = this.searchCompany;
+
+    //console.log("this.formData >>>>>>>>>", JSON.stringify(this.formData));
+    
+    
+    this.dashboard2Service.getChart2_2(this.formData).subscribe(
+      (res) => {
+
+        this.higherObj = res;
+
+        var tmpCom1 = [];
+
+        for (var i = 0; i < this.higherObj.length; i++) {
+          for(var j=0; j< this.higherObj[i].grp.length; j++){
+            if(this.higherObj[i].grp[j].register_yyyy == this.searchYyyy){
+              var obj1 = { name: "" + this.higherObj[i]._id.company_nm + "", value: "" +  Number((this.higherObj[i].grp[j].avg).toFixed(2)) + "" };
+              //console.log("obj1 : >>>>>>>>>", JSON.stringify(obj1));
+            }
+          }
+          tmpCom1.push(obj1);
+              
+        }
+        this.com_high = tmpCom1;
+        //console.log("this.com1 : ", JSON.stringify(this.com_high));  
+      },
+      (error: HttpErrorResponse) => {
+      },
+      ()=>{
+        /*
         console.log("this.searchYyyy2 : ", this.searchYyyy);
         console.log("this.searchMm2 : ", this.searchMm);
         console.log("this.searhHigherCd2 : ", this.searhHigherCd);
         console.log("this.searchCompany2 : ", this.searchCompany);
+        */
+      }
+    );
+  }
+
+  /**
+   * 회사별 만족도 현황 조회(하위10개사)
+  **/
+  getValuation_4() {
+    
+    this.formData.yyyy = this.searchYyyy;
+    this.formData.mm = this.searchMm;
+    this.formData.higher_cd = this.searhHigherCd;
+    this.formData.company_cd = this.searchCompany;
+
+    //console.log("this.formData >>>>>>>>>", JSON.stringify(this.formData));
+    
+    
+    this.dashboard2Service.getChart2_3(this.formData).subscribe(
+      (res) => {
+
+        this.higherObj = res;
+
+        var tmpCom2 = [];
+
+        for (var i = 0; i < this.higherObj.length; i++) {
+          for(var j=0; j< this.higherObj[i].grp.length; j++){
+            if(this.higherObj[i].grp[j].register_yyyy == this.searchYyyy){
+              //obj1.value =  Number((this.higherObj[i].grp[j].avg).toFixed(1));
+              var obj1 = { name: "" + this.higherObj[i]._id.company_nm + "", value: "" +  Number((this.higherObj[i].grp[j].avg).toFixed(2)) + "" };
+              console.log("obj1 : >>>>>>>>>", JSON.stringify(obj1));
+            }
+          }
+          tmpCom2.push(obj1);
+              
+        }
+        this.com_low = tmpCom2;
+        console.log("this.com1 : ", JSON.stringify(this.com_low));  
+      },
+      (error: HttpErrorResponse) => {
+      },
+      ()=>{
+        /*
+        console.log("this.searchYyyy2 : ", this.searchYyyy);
+        console.log("this.searchMm2 : ", this.searchMm);
+        console.log("this.searhHigherCd2 : ", this.searhHigherCd);
+        console.log("this.searchCompany2 : ", this.searchCompany);
+        */
       }
     );
   }
