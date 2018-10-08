@@ -21,9 +21,11 @@ module.exports = {
     if (req.query.mm != null && req.query.mm != '*') {
       condition.register_mm = req.query.mm;
     }
+    /*
     if (req.query.higher_cd != null && req.query.higher_cd != '*') {
       condition.higher_cd = req.query.higher_cd;
     }
+    */
 
     //condition.higher_cd = 'H008';
 

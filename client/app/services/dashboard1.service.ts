@@ -27,7 +27,7 @@ export class Dashboard1Service {
 
     getChart1_3(condition): Observable<any> {
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/dashboard/chart1_3', {params: httpParams});
+        return this.http.get<any>('/api/dashboard/chart1_2', {params: httpParams});
     }
 
 

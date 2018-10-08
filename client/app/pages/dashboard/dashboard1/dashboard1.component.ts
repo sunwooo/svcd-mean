@@ -188,7 +188,7 @@ export class Dashboard1Component implements OnInit {
      * 건수별 상위 업체 리스트
      */
     getChart4() {
-        this.dashboard1Service.getChart1_2(this.formData).subscribe(
+        this.dashboard1Service.getChart1_3(this.formData).subscribe(
             (res) => {
                 //console.log("res !!!!!!!!! : ", res);
                 this.precessCntChart = res;
