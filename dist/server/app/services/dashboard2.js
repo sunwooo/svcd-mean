@@ -334,9 +334,9 @@ module.exports = {
 
         ]
 
-        console.log("==========================================================");
-        console.log('com_valuation1  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        console.log("==========================================================");
+        //console.log("==========================================================");
+        //console.log('com_valuation1  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -440,9 +440,9 @@ module.exports = {
 
         ]
 
-        console.log("==========================================================");
-        console.log('com_valuation2  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        console.log("==========================================================");
+        //console.log("==========================================================");
+        //console.log('com_valuation2  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts

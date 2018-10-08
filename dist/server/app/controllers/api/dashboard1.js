@@ -218,7 +218,8 @@ module.exports = {
 
     try {
       var svc = service.process_cnt(req);
-      console.log("svc >>>>>>>> ", JSON.stringify(svc));
+
+      /*
 
       Incident.aggregate(svc.aggregatorOpts).exec(function (err, incident) {
 
@@ -231,6 +232,7 @@ module.exports = {
           res.json(incident);
         }
       });
+      */
 
     } catch (e) {
       return res.json({

@@ -16,16 +16,16 @@
 <section class="content">
   <div class="row">
 
-    <div class="col-lg-12 col-sm-12">
+    <div class="col-lg-6 col-sm-12">
         <div class="card-box">
             <div class="row">
-                <div class="col-sm-12 col-lg-12">
+                <div class="col-sm-12 col-lg-6">
                     <h4 class="text-dark header-title float-left m-l-30">월별 요청건 현황</h4>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 col-lg-12 m-t-60">
-                    <ngx-charts-line-chart  [view]="[1700, 400]" 
+                <div class="col-sm-12 col-lg-6 m-t-60">
+                    <ngx-charts-line-chart  [view]="[700, 300]" 
                                             [scheme]="colorScheme3" 
                                             [results]="monthlyCntChart" 
                                             [gradient]="gradient"
@@ -45,6 +45,32 @@
             </div> <!-- row end-->
         </div>
     </div>
+
+    <div class="col-lg-6 col-sm-12">
+        <div class="card-box">
+
+            <div class="row">
+                <div class="col-sm-12 col-lg-6">
+                    <h4 class="text-dark header-title float-left m-l-30">회사별 현황 Top 5</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-lg-6 m-t-60">
+                    <ngx-charts-pie-chart [view]="[700, 300]" 
+                                        [scheme]="colorScheme3" 
+                                        [results]="comCntChart" 
+                                        [explodeSlices]="true" 
+                                        [gradient]="gradient"
+                                        [labels]="true"
+                                        (select)="onSelect(content, $event)" 
+                    >
+                    </ngx-charts-pie-chart>
+                </div>
+            </div><!-- row end-->
+
+      </div> <!-- card-box end-->
+    </div>
+
   </div>
 
   <div class="row">
@@ -59,7 +85,7 @@
                 <div class="col-sm-12 col-lg-12 m-t-60">
                     <ngx-charts-bar-vertical-stacked
                                 class="chart-container"
-                                [view]="[1700, 800]"
+                                [view]="[1700, 300]"
                                 [scheme]="colorScheme1"
                                 [results]="chartData3"
                                 [animations]="true"
@@ -91,58 +117,6 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-lg-6 col-sm-12">
-        <div class="card-box">
-
-            <div class="row">
-                <div class="col-sm-12 col-lg-6">
-                    <h4 class="text-dark header-title float-left m-l-30">회사별 요청건 Top 5</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 col-lg-6 m-t-60">
-                    <ngx-charts-pie-chart [view]="[800, 300]" 
-                                        [scheme]="colorScheme3" 
-                                        [results]="comCntChart" 
-                                        [explodeSlices]="true" 
-                                        [gradient]="gradient"
-                                        [labels]="true"
-                                        (select)="onSelect(content, $event)" 
-                    >
-                    </ngx-charts-pie-chart>
-                </div>
-            </div><!-- row end-->
-
-      </div> <!-- card-box end-->
-    </div>
-
-    <div class="col-lg-6 col-sm-12">
-        <div class="card-box">
-
-            <div class="row">
-                <div class="col-sm-12 col-lg-6">
-                    <h4 class="text-dark header-title float-left m-l-30">업무별 요청건 Top 5</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12 col-lg-6 m-t-60">
-                    <ngx-charts-pie-chart [view]="[800, 300]" 
-                                        [scheme]="colorScheme3" 
-                                        [results]="precessCntChart" 
-                                        [explodeSlices]="true" 
-                                        [gradient]="gradient"
-                                        [labels]="true"
-                                        (select)="onSelect(content, $event)" 
-                    >
-                    </ngx-charts-pie-chart>
-                </div>
-            </div><!-- row end-->
-        </div>
-
-    </div> <!-- card-box end-->
-
-  </div> <!-- row end-->
 </section>
 
 <ng-template #content let-c="close" let-d="dismiss">
