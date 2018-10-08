@@ -329,7 +329,7 @@ module.exports = {
             // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             //$sort: { score: 1 }
 
-            ,{ "$sort": {  "grp.avg" : -1 , "grp.count" : -1  } }
+            ,{ "$sort": {  "grp.avg" : -1 , "grp.count" : -1 , "_id.company_cd" : 1  } }
             ,{ "$limit": 10 }
 
         ]
@@ -435,7 +435,7 @@ module.exports = {
             // $each: [ { id: 3, score: 8 }, { id: 4, score: 7 }, { id: 5, score: 6 } ],
             //$sort: { score: 1 }
 
-            ,{ "$sort": {  "grp.avg" : 1 , "grp.count" : -1 } }
+            ,{ "$sort": {  "grp.avg" : 1 , "grp.count" : -1 , "_id.company_cd" : 1 } }
             ,{ "$limit": 10 }
 
         ]
