@@ -21,6 +21,8 @@ export class Dashboard1Component implements OnInit {
     public selectedItem;                        //차트 선택 시 아이템명
     public view3: any[] = [1750, 350];
     public chartData3: any[];
+    public comCntChart = [];
+    public precessCntChart = [];
 
     // line, area
     autoScale = true;
@@ -76,7 +78,8 @@ export class Dashboard1Component implements OnInit {
 
         this.getChart1();
         this.getChart2();
-        //this.getChart3();
+        this.getChart3();
+        this.getChart4();
     }
 
     /**
@@ -165,8 +168,35 @@ export class Dashboard1Component implements OnInit {
                 console.log('error :', error);
             }
         );
+    }
 
+    /**
+     * 건수별 상위 업체 리스트
+     */
+    getChart3() {
+        this.dashboard1Service.getChart1_2(this.formData).subscribe(
+            (res) => {
+                this.comCntChart = res;
+            },
+            (error : HttpErrorResponse) => {
 
+            }
+        )
+    }
+
+    /**
+     * 건수별 상위 업체 리스트
+     */
+    getChart4() {
+        this.dashboard1Service.getChart1_2(this.formData).subscribe(
+            (res) => {
+                //console.log("res !!!!!!!!! : ", res);
+                this.precessCntChart = res;
+            },
+            (error : HttpErrorResponse) => {
+
+            }
+        )
     }
 
     /**
