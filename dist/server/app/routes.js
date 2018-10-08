@@ -131,8 +131,8 @@ router.get('/dashboard/chart1_7', ssc.sessionCheck, dashboard1Ctrl.chart1);
 
 router.get('/dashboard/chart2', ssc.sessionCheck, dashboard2Ctrl.chart2);
 router.get('/dashboard/chart2_1', ssc.sessionCheck, dashboard2Ctrl.chart2_1);
-router.get('/dashboard/chart2_2', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard/chart2_3', ssc.sessionCheck, dashboard2Ctrl.chart2);
+router.get('/dashboard/chart2_2', ssc.sessionCheck, dashboard2Ctrl.chart2_2);
+router.get('/dashboard/chart2_3', ssc.sessionCheck, dashboard2Ctrl.chart2_3);
 router.get('/dashboard/chart2_4', ssc.sessionCheck, dashboard2Ctrl.chart2);
 router.get('/dashboard/chart2_5', ssc.sessionCheck, dashboard2Ctrl.chart2);
 router.get('/dashboard/chart2_6', ssc.sessionCheck, dashboard2Ctrl.chart2);

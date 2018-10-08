@@ -16,7 +16,7 @@
 <section class="content">
   <!-- 상태 차트 시작-->
   <div class="row">
-    <div class="col-lg-12 col-sm-12">
+    <div class="col-lg-6 col-sm-6">
       <div class="card-box">
         <div class="row">
           <h4 class="text-dark header-title float-left m-l-30">상위5개 만족도</h4>
@@ -48,30 +48,12 @@
         </div>
       </div>
     </div>
-
-    <div class="col-lg-12 col-sm-12">
+    <div class="col-lg-6 col-sm-6">
       <div class="card-box">
         <div class="row">
-          <h4 class="text-dark header-title float-left m-l-30">업무별 만족도</h4>  
-            <!--
+          <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 업무별 만족도</h4>  
             <ngx-charts-bar-vertical
-              [view]="[800,300]"
-              [scheme]="colorScheme"
-              [results]="single"
-              [gradient]="gradient2"
-              [xAxis]="showXAxis"
-              [yAxis]="showYAxis"
-              [legend]="showLegend2"
-              [legendTitle]="legendTitle2"
-              [showXAxisLabel]="showXAxisLabel2"
-              [showYAxisLabel]="yAxisLabel"
-              [xAxisLabel]="xAxisLabel2"
-              [yAxisLabel]="yAxisLabel"
-              (select)="onSelect($event)">
-            </ngx-charts-bar-vertical>
-            -->
-            <ngx-charts-bar-vertical
-              [view]="[1000,350]"
+              [view]="[700,300]"
               [scheme]="colorScheme"
               [customColors]="customColors"
               [results]="single"
@@ -98,11 +80,76 @@
         </div>
       </div>
     </div>
+    <div class="col-lg-6">
+      <div class="card-box">
+        <div class="row">
+          <h4 class="text-dark header-title float-left m-l-30" text-align="left">{{searchYyyy}} 상위 만족도</h4>
+          <ngx-charts-bar-vertical
+              [view]="[700,300]"
+              [scheme]="colorScheme2"
+              [customColors]="customColors"
+              [results]="com_high"
+              [animations]="animations"
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend2"
+              [legendTitle]="legendTitle"
+              [showXAxisLabel]="showXAxisLabel2"
+              [showYAxisLabel]="showYAxisLabel"
+              [tooltipDisabled]="tooltipDisabled"
+              [xAxisLabel]="legendTitle"
+              [yAxisLabel]="yAxisLabel"
+              [showGridLines]="showGridLines"
+              [barPadding]="'30'"
+              [roundDomains]="roundDomains"
+              [roundEdges]="roundEdges"
+              [yScaleMax]="yScaleMax"
+              [showDataLabel]="showDataLabel"
+              (select)="select($event)"
+              (legendLabelClick)="onLegendLabelClick($event)">
+            </ngx-charts-bar-vertical> 
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card-box">
+        <div class="row">
+          <h4 class="text-dark header-title float-left m-l-30" text-align="left">{{searchYyyy}} 하위 만족도</h4>
+          <ngx-charts-bar-vertical
+              [view]="[700,300]"
+              [scheme]="colorScheme3"
+              [customColors]="customColors"
+              [results]="com_low"
+              [animations]="animations"
+              [gradient]="gradient"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend2"
+              [legendTitle]="legendTitle"
+              [showXAxisLabel]="showXAxisLabel2"
+              [showYAxisLabel]="showYAxisLabel"
+              [tooltipDisabled]="tooltipDisabled"
+              [xAxisLabel]="legendTitle"
+              [yAxisLabel]="yAxisLabel"
+              [showGridLines]="showGridLines"
+              [barPadding]="'30'"
+              [roundDomains]="roundDomains"
+              [roundEdges]="roundEdges"
+              [yScaleMax]="yScaleMax"
+              [showDataLabel]="showDataLabel"
+              (select)="select($event)"
+              (legendLabelClick)="onLegendLabelClick($event)">
+            </ngx-charts-bar-vertical> 
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- 상태 차트 끝-->
 
   <!-- 만족도 현황 차트 시작-->
+  <!--
   <div class="row">
 
     <div class="col-lg-12 col-sm-12">
@@ -121,6 +168,7 @@
     </div>
 
   </div>
+  -->
   <!-- 만족도 현황 차트 끝-->
 
   <!-- 처리현황 시작-->
