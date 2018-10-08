@@ -85,12 +85,14 @@ export class Dashboard1Component implements OnInit {
     getChart1() {
         this.dashboard1Service.getChart1(this.formData).subscribe(
             (res) => {
-                console.log("res : ", res);
+                //console.log("res : ", res);
 
                 var yearArray = res;
                 var yearTmp = [];
                 yearArray.forEach((yyyy, yIdx, result) => {
                     var tmp = new Array(yyyy.series.length);
+                    //console.log("yyyy.series : ", yyyy.series);
+
                     yyyy.series.forEach((mm, mIdx) => {
                         tmp.splice(Number(mm.name) - 1, 1, { name: mm.name, value: mm.value });
                     });
@@ -98,7 +100,7 @@ export class Dashboard1Component implements OnInit {
                     //yearTmp.push({ series: tmp });
                 });
                 this.monthlyCntChart = yearTmp;
-                console.log("monthlyCntChart : ", this.monthlyCntChart);
+                //console.log("monthlyCntChart : ", this.monthlyCntChart);
             },
             (error: HttpErrorResponse) => {
                 console.log('error :', error);
@@ -113,9 +115,9 @@ export class Dashboard1Component implements OnInit {
         this.dashboard1Service.getChart1_1(this.formData).subscribe(
             (res) => {
 
-                console.log("=======================================");
-                console.log("res : ", res);
-                console.log("=======================================");
+                //console.log("=======================================");
+                //console.log("res : ", res);
+                //console.log("=======================================");
 
                 var dataArr = res;
                 var tempArr = [];
@@ -128,7 +130,7 @@ export class Dashboard1Component implements OnInit {
                     var loopCnt = 0;
                     data.grp.forEach((company)=>{
 
-                        if(loopCnt == 3){
+                        if(loopCnt == 5){
                             return;
                         }
                         var cmp: any = {};
@@ -154,56 +156,9 @@ export class Dashboard1Component implements OnInit {
                     //console.log("=========================================");
                 });
                 this.chartData3 = tempArr;
-                console.log("=========================================");
-                console.log("===================this.chartData3 ", this.chartData3);
-                console.log("=========================================");
-                
-   
-
-                /*
-                if (dataArr) {
-                    
-
-              
-                    for (var i = 0; i < dataArr.length; i++) {
-                        var obj1: any = {};
-                        var higherCnt: any = {};
-
-                       
-                        for (var j = 0; j < 3; j++) {
-                            if (dataArr[i].grp[j] == null) {
-                                higherCnt = {
-                                    name: "",
-                                    value: 0
-                                };
-                            } else {
-                                higherCnt = {
-                                    name: "" + dataArr[i].grp[j].request_company_nm + "",
-                                    value: "" + Number((dataArr[i].grp[j].count).toFixed(2)) + ""
-                                };
-                            }
-                            console.log("dataArr["+i+"].grp["+j+"] : ", dataArr[i].grp[j]);
-                            
-                        }
-                        
-
-                        console.log("series : ", series);
-
-                        obj1.name = 0[i]._id.higher_nm;
-                        obj1.series = higherCnt;
-
-                        tempArr.push(obj1);
-
-                    }
-                    
-
-                    console.log("tempArr : ", tempArr);
-
-                    //this.chartData3 = tempArr;
-
-                }
-                */
-
+                //console.log("=========================================");
+                //console.log("===================this.chartData3 ", this.chartData3);
+                //console.log("=========================================");
 
             },
             (error: HttpErrorResponse) => {

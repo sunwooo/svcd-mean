@@ -23,7 +23,7 @@ module.exports = {
 
         var today = new Date();
         var thisYear = today.getFullYear();
-        var preYear = thisYear - 2;
+        var preYear = thisYear - 4;
         var condition = {};
 
         if (req.session.user_flag == 3 || req.session.user_flag == 4) {

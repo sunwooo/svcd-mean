@@ -47,14 +47,14 @@
 
         <div class="row">
             <div class="col-sm-12 col-lg-12">
-                <h4 class="text-dark header-title float-left m-l-30">업무별 상위 회사</h4>
+                <h4 class="text-dark header-title float-left m-l-30">업무별 상위 Top 5 회사</h4>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 col-lg-12 m-t-60">
-                <ngx-charts-bar-vertical-2d
+                <ngx-charts-bar-vertical-stacked
                             class="chart-container"
-                            [view]="[1750, 1000]"
+                            [view]="[1700, 800]"
                             [scheme]="colorScheme1"
                             [results]="chartData3"
                             [animations]="true"
@@ -78,7 +78,7 @@
                             [showDataLabel]="false"
                             (select)="select($event)"
                 >
-                </ngx-charts-bar-vertical-2d> 
+                </ngx-charts-bar-vertical-stacked> 
 
             </div>
         </div><!-- row end-->
