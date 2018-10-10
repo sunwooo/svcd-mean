@@ -25,7 +25,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12 col-lg-6 m-t-60">
-                    <ngx-charts-line-chart  [view]="[700, 300]" 
+                    <ngx-charts-line-chart  [view]="[750, 300]" 
                                             [scheme]="colorScheme3" 
                                             [results]="monthlyCntChart" 
                                             [gradient]="gradient"
@@ -49,29 +49,15 @@
     <div class="col-sm-12 col-lg-6">
             <div class="card-box">
                 <div class="row">
-                    <div class="col-sm-6 col-lg-6">
+                    <div class="col-sm-12 col-lg-12">
                         <div class="row">
-                            <h4 class="text-dark header-title float-left m-l-30">{{thisYyyy}} 접수 처리 현황</h4>
+                            <h4 class="text-dark header-title float-left m-l-30">{{thisYyyy}} 처리 현황</h4>
                         </div>
                         <div class="row">
-                            <ngx-charts-pie-grid [view]="[350, 300]" 
+                            <ngx-charts-pie-grid [view]="[750, 300]" 
                                                 [scheme]="colorScheme4" 
                                                 [label]="'건수'" 
                                                 [results]="statusChart1" 
-                                                (select)="onSelect(content, $event)"
-                            >
-                            </ngx-charts-pie-grid>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-6">
-                        <div class="row">
-                            <h4 class="text-dark header-title  float-left m-l-30">{{thisYyyy}} 완료 평가 현황</h4>
-                        </div>
-                        <div class="row">
-                            <ngx-charts-pie-grid [view]="[350, 300]" 
-                                                [scheme]="colorScheme5" 
-                                                [label]="'건수'" 
-                                                [results]="statusChart2" 
                                                 (select)="onSelect(content, $event)"
                             >
                             </ngx-charts-pie-grid>

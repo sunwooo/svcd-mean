@@ -891,4 +891,116 @@ module.exports = {
 
   },
 
+  /**
+   * Dashboard용 Incident 리스트 조회
+   */
+  dashboard_list: (req, res, next) => {
+
+    var condition = {};
+    
+
+
+    if (req.query.request_company_cd != null && req.query.request_company_cd != '*') {
+      condition.request_company_cd = req.query.request_company_cd;
+    }
+
+    if (req.query.higher_cd != null && req.query.higher_cd != '*') {
+      condition.higher_cd = req.query.higher_cd;
+    }
+
+    if (req.query.register_yyyy != null && req.query.register_yyyy != '*') {
+      condition.register_yyyy = req.query.register_yyyy;
+    }
+    
+    if (req.query.register_mm != null && req.query.register_mm != '*') {
+      condition.register_mm = req.query.register_mm;
+    }
+    if (req.query.valuation != null && req.query.valuation != '*') {
+      condition.valuation = Number(req.query.valuation);
+    }
+    if (req.query.status_cd != null && req.query.status_cd != '*') {
+      condition.status_cd = req.query.status_cd;
+    }
+
+
+    console.log("================================================================");
+    console.log("===================> condition : ", JSON.stringify(condition));
+    console.log("================================================================");
+
+
+
+    console.log("=================================================");
+    console.log("req.query AAAAAAAA: ", req.query);
+    //console.log("req.query.page : ", req.query.page);
+    //console.log("search : ", JSON.stringify(search));
+    console.log("=================================================");
+
+    var page = 1;
+    var perPage = 15;
+
+    if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
+    if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
+
+    try {
+      async.waterfall([function (callback) {
+
+          
+
+          Incident.count(condition, function (err, totalCnt) {
+            if (err) {
+              logger.error("incident : ", err);
+
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+              callback(null, totalCnt);
+            }
+          });
+        }
+      ], function (err, totalCnt) {
+
+        console.log("=================================================");
+        console.log("totalCnt : ",totalCnt);
+        console.log("=================================================");
+
+        Incident.find(condition, function (err, incident) {
+
+            //console.log("=================================================");
+            //console.log("totalCnt : ",totalCnt);
+            //console.log("(page - 1) * perPage : ",(page - 1) * perPage);
+            //console.log("perPage : ",perPage);
+            //console.log("incident : ",incident);
+            //console.log("=================================================");
+
+            if (err) {
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+
+              //incident에 페이징 처리를 위한 전체 갯수전달
+              var rtnData = {};
+              rtnData.incident = incident;
+              rtnData.totalCnt = totalCnt;
+              console.log("=================================================");
+              console.log("rtnData : ",rtnData);
+              console.log("=================================================");
+
+              res.json(rtnData);
+
+            }
+          })
+          .sort('-register_date')
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+      });
+    } catch (err) {
+        console.log("err : ",err);
+    } finally {}
+
+  },
+
 }

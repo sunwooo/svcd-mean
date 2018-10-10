@@ -55,7 +55,6 @@
             <ngx-charts-bar-vertical
               [view]="[700,300]"
               [scheme]="colorScheme"
-              [customColors]="customColors"
               [results]="single"
               [animations]="animations"
               [gradient]="gradient2"
@@ -115,7 +114,6 @@
                               <ngx-charts-bar-vertical
                                   [view]="[700,250]"
                                   [scheme]="colorScheme2"
-                                  [customColors]="customColors"
                                   [results]="com_high"
                                   [animations]="animations"
                                   [gradient]="gradient"
@@ -153,7 +151,6 @@
                               <ngx-charts-bar-vertical
                                   [view]="[700,250]"
                                   [scheme]="colorScheme3"
-                                  [customColors]="customColors"
                                   [results]="com_low"
                                   [animations]="animations"
                                   [gradient]="gradient"
@@ -208,37 +205,18 @@
         
     </div>
   </div>
-
-  <!-- 상태 차트 끝-->
-
-  <!-- 만족도 현황 차트 시작-->
-  <!--
-  <div class="row">
-
-    <div class="col-lg-12 col-sm-12">
-      <div class="card-box">
-        <div class="row">
-          <div class="col-sm-12 col-lg-6 m-t-60">
-            <h4 class="text-dark header-title float-left m-l-30">만족도 현황</h4>
-            
-          </div>
-          <div class="col-sm-12 col-lg-6 float-left">
-            <h4 class="text-dark header-title float-left m-l-30">총요청 현황</h4>  
-            
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  -->
-  <!-- 만족도 현황 차트 끝-->
-
-  <!-- 처리현황 시작-->
-  <div class="row">
-  
-  </div>
-  <!-- 처리현황 끝-->
-
 </section>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <app-incident-list-modal [cValues]="this.c"
+                        [dValues]="this.d"
+                        [selectedItem]="selectedItem"
+                        [searchYyyy]="searchYyyy"
+                        [searchMm]="searchMm"
+                        [searhHigherCd]="searhHigherCd"
+                        [searchCompany]="searchCompany"
+
+    >
+    </app-incident-list-modal>
+</ng-template>
 

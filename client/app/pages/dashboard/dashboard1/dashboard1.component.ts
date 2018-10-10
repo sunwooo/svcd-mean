@@ -55,7 +55,7 @@ export class Dashboard1Component implements OnInit {
 
 
     public colorScheme4 = {
-        domain: ['#f04124', '#99ca3c', '#e5e4e0', '#a7a9ac', '#f04124']
+        domain: ['#f04124', '#008fd4', '#e5e4e0', '#99ca3c', '#a7a9ac','#b4985a']
     };
 
     public colorScheme5 = {
@@ -109,15 +109,21 @@ export class Dashboard1Component implements OnInit {
      * 월별 요청 건수
      */
     getChart1() {
+        
         this.dashboard1Service.getChart1(this.formData).subscribe(
             (res) => {
-                //console.log("res : ", res);
 
+                console.log("=======================================");
+                console.log("res : ", res);
+                console.log("=======================================");
+
+                
                 var yearArray = res;
                 var yearTmp = [];
+                
                 yearArray.forEach((yyyy, yIdx, result) => {
                     var tmp = new Array(yyyy.series.length);
-                    //console.log("yyyy.series : ", yyyy.series);
+                    console.log("yyyy.series : ", yyyy.series);
 
                     yyyy.series.forEach((mm, mIdx) => {
                         tmp.splice(Number(mm.name) - 1, 1, { name: mm.name, value: mm.value });
@@ -126,12 +132,14 @@ export class Dashboard1Component implements OnInit {
                     //yearTmp.push({ series: tmp });
                 });
                 this.monthlyCntChart = yearTmp;
-                //console.log("monthlyCntChart : ", this.monthlyCntChart);
+                console.log("monthlyCntChart : ", this.monthlyCntChart);
+                
             },
             (error: HttpErrorResponse) => {
                 console.log('error :', error);
             }
         );
+        
     }
 
     /**
@@ -243,27 +251,31 @@ export class Dashboard1Component implements OnInit {
                 //console.log("=======================================");
 
                 var initChart1 = [{"name":"접수대기", "value":0},
-                              {"name":"처리중", "value":0},];
-                var initChart2 = [{"name":"미평가", "value":0},
-                              {"name":"처리완료", "value":0}];
-
+                              {"name":"처리중", "value":0},
+                              {"name":"미평가", "value":0},
+                              {"name":"처리완료", "value":0},
+                              {"name":"협의필요", "value":0},
+                              {"name":"미처리", "value":0}
+                            ];
+                
                 var statusArray = res;
 
                 statusArray.forEach((val, idx) => {
-                    var chartIdx = parseInt(val._id.status_cd)-1;
-                    if(chartIdx < 2) {//접수대기, 처리중 차트에 매핑
+                    
+                    if(val._id.status_cd == '9'){//미처리면 6번째 배열에 담기
+                        initChart1[5].value = val.count;
+                    }else{
+                        var chartIdx = parseInt(val._id.status_cd)-1;
                         initChart1[chartIdx].value = val.count;
-                    } else {          //미평가, 처리완료 차트에 매핑
-                        initChart2[chartIdx-2].value = val.count;
                     }
+
                 });
                 this.statusChart1 = initChart1;
-                this.statusChart2 = initChart2;
             },
             (error: HttpErrorResponse) => {
-            }
-        )
+            });
     }
+    
 
 
     /**

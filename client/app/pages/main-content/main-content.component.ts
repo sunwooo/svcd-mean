@@ -228,13 +228,13 @@ export class MainContentComponent implements OnInit {
      */
     onSelect(modalId, data) {
         console.log("onSelect : ", modalId, data);
-        /*
+        
         var user_flag = this.cookieService.get("user_flag");
         if(user_flag == '1' || user_flag == '2' || user_flag == '3'){
             this.selectedItem = data.name;
             this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});
         }
-        */
+        
     }
 
     /**

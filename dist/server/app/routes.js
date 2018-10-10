@@ -63,6 +63,7 @@ router.put('/incident/n_complete', ssc.sessionCheck, incidentCtrl.setNComplete);
 router.put('/incident/hold', ssc.sessionCheck, incidentCtrl.setHold); //업무 협의
 router.delete('/incident/delete', ssc.sessionCheck, incidentCtrl.delete);  //삭제
 router.get('/incident/excelData', ssc.sessionCheck, incidentCtrl.excelData);    //엑셀데이타 조회
+router.get('/incident/dashboard_list', ssc.sessionCheck, incidentCtrl.dashboard_list);    //dashboard용 인시던트 조회
 
 
 //statistic route
