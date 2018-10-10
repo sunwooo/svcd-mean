@@ -64,7 +64,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-lg-3">
                         <div class="row">
-                            <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 문의</h4>
+                            <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 요청</h4>
                         </div>
                         <div class="row">
                             <div class="col-sm-12 col-lg-12 float-left">
@@ -92,7 +92,7 @@
                                     [xScaleMax]="'10'"
                                     [showDataLabel]="true"
                                     (legendLabelClick)="onLegendLabelClick($event)"
-                                    (select)="openPeopleModal(peopleModal, $event)"
+                                    (select)="openPeopleModal('요청', peopleModal, $event)"
                                 >
                                 </ngx-charts-bar-horizontal>
                             </div>
@@ -128,7 +128,7 @@
                                     [xScaleMax]="'10'"
                                     [showDataLabel]="true"
                                     (legendLabelClick)="onLegendLabelClick($event)"
-                                    (select)="openPeopleModal(peopleModal, $event)"
+                                    (select)="openPeopleModal('접수', peopleModal, $event)"
                                 >
                                 </ngx-charts-bar-horizontal>
                             </div>
@@ -164,7 +164,7 @@
                                     [xScaleMax]="'5'"
                                     [showDataLabel]="true"
                                     (legendLabelClick)="onLegendLabelClick($event)"
-                                    (select)="openPeopleModal(peopleModal, $event)"
+                                    (select)="openPeopleModal('만족', peopleModal, $event)"
                                 >
                                 </ngx-charts-bar-horizontal>
                             </div>
@@ -200,7 +200,7 @@
                                     [xScaleMax]="'1'"
                                     [showDataLabel]="true"
                                     (legendLabelClick)="onLegendLabelClick($event)"
-                                    (select)="openPeopleModal(peopleModal, $event)"
+                                    (select)="openPeopleModal('불만', peopleModal, $event)"
                                     >
                                 </ngx-charts-bar-horizontal>
                             </div>
@@ -266,7 +266,12 @@
 <ng-template #peopleModal let-c="close" let-d="dismiss">
     <app-incident-people-modal [cValues]="this.c"
                         [dValues]="this.d"
-                        [higher_nm]="higher_nm"
+                        [searchYyyy]="searchYyyy"
+                        [searchMm]="searchMm"
+                        [searhHigherCd]="searhHigherCd"
+                        [searchCompany]="searchCompany"
+                        [email]="email"
+                        [gubun]="gubun"
     >
     </app-incident-people-modal>
 </ng-template>

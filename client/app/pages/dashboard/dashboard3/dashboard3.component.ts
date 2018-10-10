@@ -31,6 +31,9 @@ export class Dashboard3Component implements OnInit {
     public chartData3_4: any = [];
     public chartData3_5: any = [];
 
+    public email; //팝업용 email
+    public gubun; //클릭 차트 구분
+
     public noticeList = [];
 
     private anyData: any;
@@ -191,7 +194,7 @@ export class Dashboard3Component implements OnInit {
                         var obj1: any = {};
                         obj1.name = data._id.request_nm;
                         obj1.value = data.count;
-                        obj1.id = data._id.request_id;
+                        obj1.email = data._id.request_id;
                         tempArr.push(obj1);
                     });
                     this.chartData3_1 = tempArr;
@@ -221,6 +224,7 @@ export class Dashboard3Component implements OnInit {
                         var obj1: any = {};
                         obj1.name = data._id.manager_nm;
                         obj1.value = data.count;
+                        obj1.email = data._id.request_id;
                         tempArr.push(obj1);
                     });
                     this.chartData3_2 = tempArr;
@@ -250,6 +254,7 @@ export class Dashboard3Component implements OnInit {
                         var obj1: any = {};
                         obj1.name = data._id.request_nm;
                         obj1.value =  Number((data.avg).toFixed(2));
+                        obj1.email = data._id.request_id;
                         tempArr.push(obj1);
                     });
                     this.chartData3_3 = tempArr;
@@ -281,6 +286,7 @@ export class Dashboard3Component implements OnInit {
                         var obj1: any = {};
                         obj1.name = data._id.request_nm;
                         obj1.value =  Number((data.avg).toFixed(2));
+                        obj1.email = data._id.request_id;
                         tempArr.push(obj1);
                     });
                     this.chartData3_4 = tempArr;
@@ -359,9 +365,48 @@ export class Dashboard3Component implements OnInit {
      * @param modalId 
      * @param data 
      */
-    openPeopleModal(modalId, data) {
-        console.log('Item clicked', data);
-        this.higher_nm = data.series;
+    openPeopleModal(gubun, modalId, data) {
+
+        //console.log('================================= Item clicked');
+        //console.log('=================================', data);
+        //console.log('================================= Item clicked');
+
+        if(gubun === '요청'){
+            this.chartData3_1.find((user) =>{
+                if(user.name === data.name){
+                    this.email = user.email;
+                    this.gubun = gubun;
+                }
+            })
+        }
+
+        if(gubun === '접수'){
+            this.chartData3_2.find((user) =>{
+                if(user.name === data.name){
+                    this.email = user.email;
+                    this.gubun = gubun;
+                }
+            })
+        }
+        
+        if(gubun === '만족'){
+            this.chartData3_3.find((user) =>{
+                if(user.name === data.name){
+                    this.email = user.email;
+                    this.gubun = gubun;
+                }
+            })
+        }
+
+        if(gubun === '불만'){
+            this.chartData3_3.find((user) =>{
+                if(user.name === data.name){
+                    this.email = user.email;
+                    this.gubun = gubun;
+                }
+            })
+        }
+
         this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true });
     }
 

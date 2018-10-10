@@ -10,12 +10,76 @@
                     <ol class="breadcrumb float-right">
                     <li class="breadcrumb-item m-t-5">HOME</li>
                     </ol>
-                    <h5 class="page-title">{{higher_nm}} 인원 현황</h5>
+                    <h5 class="page-title">aaaa</h5>
                 </div>
             </div>
         </div>
         <!-- End Page Title-->
-          
+        
+
+        <!-- start people info --> 
+        <div class="row">
+            <div class="col-lg-12 col-sm-12">
+                <div class="card-box">
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-12">
+                            <div class="card-box">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <p><span>{{userInfo?.company_nm}}</span></p>
+                                        <p><span>{{userInfo?.dept_nm}}</span></p>
+                                        <p><span>{{userInfo?.employee_nm}} {{userInfo?.position_nm}}</span></p>
+                                        <p><span>{{userInfo?.office_tel_no}}</span></p>
+                                        <p><span>{{userInfo?.hp_telno}}</span></p>
+                                        <p><span>{{userInfo?.email}}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-12">
+                            <div class="card-box">
+                                <div class="row">
+                                        <h4 class="text-dark header-title float-left m-l-30">????</h4>
+                                </div>
+                                <div class="row">
+                                    <ngx-charts-pie-chart [view]="[480,200]" 
+                                        [scheme]="colorScheme3" 
+                                        [results]="higherCntChart" 
+                                        [explodeSlices]="false" 
+                                        [gradient]="true"
+                                        [labels]="true"
+                                        (select)="onSelect($event)" 
+                                    >
+                                    </ngx-charts-pie-chart>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-sm-12">
+                            <div class="card-box">
+                                <div class="row">
+                                        <h4 class="text-dark header-title float-left m-l-30">????</h4>
+                                </div>
+                                <div class="row">
+                                    <ngx-charts-advanced-pie-chart [view]="[500,200]" 
+                                    [scheme]="colorScheme3" 
+                                    [results]="valuationChart" 
+                                    [gradient]="true"
+                                    (select)="onSelect($event)"
+                                >
+                                </ngx-charts-advanced-pie-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end people info -->        
+        
+
         <!-- start list-->
         <div class="row">
             <div class="col-lg-12 col-sm-12">

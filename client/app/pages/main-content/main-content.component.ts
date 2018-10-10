@@ -113,7 +113,7 @@ export class MainContentComponent implements OnInit {
         );
 
         //만족도현황
-        this.statisticService.valuationCnt().subscribe(
+        this.statisticService.valuationCnt({}).subscribe(
             (res) => {
 
                 var initChart1 = [{"name":"매우만족", "value":0},
@@ -154,7 +154,7 @@ export class MainContentComponent implements OnInit {
         )
 
         //신청건수 상위 업무
-        this.statisticService.higherCnt().subscribe(
+        this.statisticService.higherCnt({}).subscribe(
             (res) => {
                 this.higherCntChart = res;
             },
