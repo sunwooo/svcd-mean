@@ -92,7 +92,7 @@
                                     [xScaleMax]="'10'"
                                     [showDataLabel]="true"
                                     (legendLabelClick)="onLegendLabelClick($event)"
-                                    (select)="select($event)"
+                                    (select)="openPeopleModal(peopleModal, $event)"
                                 >
                                 </ngx-charts-bar-horizontal>
                             </div>
@@ -128,7 +128,7 @@
                                     [xScaleMax]="'10'"
                                     [showDataLabel]="true"
                                     (legendLabelClick)="onLegendLabelClick($event)"
-                                    (select)="select($event)"
+                                    (select)="openPeopleModal(peopleModal, $event)"
                                 >
                                 </ngx-charts-bar-horizontal>
                             </div>
@@ -164,7 +164,7 @@
                                     [xScaleMax]="'5'"
                                     [showDataLabel]="true"
                                     (legendLabelClick)="onLegendLabelClick($event)"
-                                    (select)="select($event)"
+                                    (select)="openPeopleModal(peopleModal, $event)"
                                 >
                                 </ngx-charts-bar-horizontal>
                             </div>
@@ -200,7 +200,8 @@
                                     [xScaleMax]="'1'"
                                     [showDataLabel]="true"
                                     (legendLabelClick)="onLegendLabelClick($event)"
-                                    (select)="select($event)">
+                                    (select)="openPeopleModal(peopleModal, $event)"
+                                    >
                                 </ngx-charts-bar-horizontal>
                             </div>
                         </div>
@@ -248,10 +249,9 @@
                                     [roundEdges]="true"
                                     [yScaleMax]="'300'"
                                     [showDataLabel]="true"
-                                    (select)="select($event)"
+                                    (select)="select($event)"                                    
                         >
                         </ngx-charts-bar-vertical-2d> 
-
                     </div>
                 </div>
             </div>
@@ -262,3 +262,11 @@
   
   </section>
  
+
+<ng-template #peopleModal let-c="close" let-d="dismiss">
+    <app-incident-people-modal [cValues]="this.c"
+                        [dValues]="this.d"
+                        [higher_nm]="higher_nm"
+    >
+    </app-incident-people-modal>
+</ng-template>

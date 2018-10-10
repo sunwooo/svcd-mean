@@ -80,6 +80,7 @@ export class Dashboard3Component implements OnInit {
     public statusChart2 = [{ "name": "미평가", "value": 0 }, { "name": "평가완료", "value": 0 }];
 
     public statusCntData;
+    public higher_nm;         //선택된 업무명
 
     public valuationChart = [];
     public monthlyCntChart = [];
@@ -88,30 +89,6 @@ export class Dashboard3Component implements OnInit {
     public incidentDetail: any;                 //선택 인시던트 id
     public empEmail: string = "";               //팝업 조회용 이메일
     public popupNotice: string = "";            //팝업 조회용 QNA공지
-
-    public aaa = [
-        {
-          "name": "홍길동",
-          "value": 50
-        },
-        {
-          "name": "이순신",
-          "value": 45
-        },
-        {
-          "name": "춘향이",
-          "value": 30
-        },
-        {
-          "name": "이도령",
-          "value": 29
-        },
-        {
-          "name": "변사또",
-          "value": 25
-        }
-      ];
-
 
     constructor(private auth: AuthService,
         private modalService: NgbModal,
@@ -382,21 +359,12 @@ export class Dashboard3Component implements OnInit {
      * @param modalId 
      * @param data 
      */
-    onSelect3(modalId, data) {
+    openPeopleModal(modalId, data) {
         console.log('Item clicked', data);
-        this.modalService.open(modalId, { size: 'lg' });
+        this.higher_nm = data.series;
+        this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true });
     }
 
-    /**
-     * chart 선택 시
-     * @param modalId 
-     * @param data 
-     */
-    onSelect3_1(modalId, data) {
-        console.log('Item clicked', data);
-        console.log('Item clicked', data);
-        this.modalService.open(modalId, { size: 'lg' });
-    }
 
     /**
      * 요청자/담당자 정보
@@ -407,8 +375,6 @@ export class Dashboard3Component implements OnInit {
         this.empEmail = email;
         this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
     }
-
-
 
 
     onLegendLabelClick(entry) {

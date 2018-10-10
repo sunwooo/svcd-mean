@@ -107,6 +107,7 @@ import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.com
 import { Dashboard1Component } from './pages/dashboard/dashboard1/dashboard1.component';
 import { Dashboard3Component } from './pages/dashboard/dashboard3/dashboard3.component';
 import { IncidentListModalComponent } from './pages/incident/incident-list-modal/incident-list-modal.component';
+import { IncidentPeopleModalComponent } from './pages/incident/incident-people-modal/incident-people-modal.component';
 
 
 const PAGES = [
@@ -183,7 +184,8 @@ const PAGES = [
         Dashboard2Component,
         Dashboard1Component,
         Dashboard3Component,
-        IncidentListModalComponent
+        IncidentListModalComponent,
+        IncidentPeopleModalComponent
     ],
     imports: [
         BrowserModule,

@@ -241,6 +241,9 @@ module.exports = {
                              }
                         }
             },
+            {
+                $match: {"count":{"$gt":3}}
+            },
             { $sort: {  "avg" : -1, "count" : -1  } 
             },
             { $project : {
@@ -310,6 +313,9 @@ module.exports = {
                                 $sum: 1 
                             }
                         }
+            },
+            {
+                $match: {"count":{"$gt":3}}
             },
             { $sort: {  "avg" : 1, "count" : -1 } 
             },
