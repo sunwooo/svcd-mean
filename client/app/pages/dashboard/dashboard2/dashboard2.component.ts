@@ -4,6 +4,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Input, Output } from "@angular/core";
 import { getOrCreateChangeDetectorRef } from '@angular/core/src/render3/di';
+import { CookieService } from 'ngx-cookie-service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-dashboard2',
@@ -24,6 +26,9 @@ export class Dashboard2Component implements OnInit {
     public com_high: any = [];
     public com_low: any = [];
     public valuationChart = [];
+
+    public selectedItem;                        //차트 선택 시 아이템명
+    
 
     /** being chart setting */
     //public view: any[] = [700, 300];
@@ -130,7 +135,9 @@ export class Dashboard2Component implements OnInit {
 
 
     constructor(private dashboard2Service: Dashboard2Service
-        , private router: Router) { }
+        , private router: Router
+        , public cookieService: CookieService
+        , private modalService: NgbModal) { }
 
     ngOnInit() {
 
@@ -418,6 +425,22 @@ export class Dashboard2Component implements OnInit {
 
             }
         );
+    }
+
+    /**
+     * 차트 선택 시
+     * @param modalId 
+     * @param data 
+     */
+    onSelect(modalId, data) {
+        console.log("onSelect : ", modalId, data);
+        
+        var user_flag = this.cookieService.get("user_flag");
+        //if(user_flag == '1' || user_flag == '2' || user_flag == '3'){
+            this.selectedItem = data.name;
+            this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});
+        //}
+        
     }
 
 
