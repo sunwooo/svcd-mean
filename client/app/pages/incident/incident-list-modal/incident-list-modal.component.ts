@@ -38,8 +38,6 @@ export class IncidentListModalComponent implements OnInit {
     public totlaPageCnt: number = 0;  // 총페이지 수 
     public pageDataSize: number = 10;   // 페이지당 출력 개수  
 
-    private status_cd: string = '1';    //진행상태값
-
 
     constructor(private auth: AuthService,
         private toast: ToastComponent,
@@ -49,13 +47,6 @@ export class IncidentListModalComponent implements OnInit {
         private router: Router) { }
 
     ngOnInit() {
-
-        if(this.auth.user_flag == "1"){ //SD 전체관리자
-            this.user_flag = "*";
-        }else if(this.auth.user_flag == "5"){//고객사 담당자
-            this.user_flag = "company";
-        }
-
         this.getIncident();
     }
 
@@ -65,27 +56,15 @@ export class IncidentListModalComponent implements OnInit {
     getIncident() {
 
         this.setTransForm();
-        console.log("this.formData >>>>>>>>>>>>>>>>>>", JSON.stringify(this.formData));
-
 
         this.incidentService.getIncidentDashboard(this.formData).subscribe(
             
             (res) => {
 
-                //this.incidents = [];
-                //var tmp = this.incidents.concat(res.incident);
-                //this.incidents = tmp;
-                //this.totalDataCnt = res.totalCnt;
-                
-                //this.totalDataCnt = res.totalCnt;
-                //this.totalPage = res.totalPage;
-                //console.log("this.totalPage : ", this.totalPage);
-                //this.incidents = res.incident;
-
-                //this.incident = res.incident;
-                
-                console.log("res : ", res);
-
+                this.incidents = [];
+                var tmp = this.incidents.concat(res.incident);
+                this.incidents = tmp;
+                this.totalDataCnt = res.totalCnt;
                 if (this.totalDataCnt == 0) {
                     this.toast.open('조회데이타가 없습니다..', 'success');
                 }
@@ -94,9 +73,7 @@ export class IncidentListModalComponent implements OnInit {
             (error: HttpErrorResponse) => {
             },
             () => {
-                if( this.totalDataCnt > 0){
-                    this.totlaPageCnt = Math.ceil(this.totalDataCnt / this.pageDataSize);
-                }
+                this.totlaPageCnt = Math.ceil(this.totalDataCnt / this.pageDataSize);
             }
         );
 
@@ -189,6 +166,14 @@ export class IncidentListModalComponent implements OnInit {
         }else if(this.selectedItem == '기타'){
             this.formData.valuation = null;
         }
+    }
+
+    /**
+     * 입력 개수 만큼 빈 Array생성( *ngFor문용)
+     * @param i 입력 개수
+     */
+    counter(i: number) {
+        return new Array(i);
     }
 
 }

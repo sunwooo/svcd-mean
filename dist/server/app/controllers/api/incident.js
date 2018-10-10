@@ -915,9 +915,11 @@ module.exports = {
     if (req.query.register_mm != null && req.query.register_mm != '*') {
       condition.register_mm = req.query.register_mm;
     }
+
     if (req.query.valuation != null && req.query.valuation != '*') {
       condition.valuation = Number(req.query.valuation);
     }
+    
     if (req.query.status_cd != null && req.query.status_cd != '*') {
       condition.status_cd = req.query.status_cd;
     }
@@ -945,7 +947,6 @@ module.exports = {
       async.waterfall([function (callback) {
 
           
-
           Incident.count(condition, function (err, totalCnt) {
             if (err) {
               logger.error("incident : ", err);
