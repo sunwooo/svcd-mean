@@ -4,6 +4,99 @@ const logger = require('log4js').getLogger('app');
 
 module.exports = {
 
+    /**
+     * 년도별 월별 건수
+     */
+    chart1: (req) => {
+
+        //조건 처리
+        var condition = {};
+
+        var today = new Date();
+        var thisYear = today.getFullYear();
+        var preYear = thisYear - 4;
+        var condition = {};
+
+        //5년치  데이타 조회
+        condition.register_yyyy = {
+            $gte: preYear.toString(),
+            $lte: thisYear.toString()
+        };
+
+
+        if (req.query.company_cd != null && req.query.company_cd != '*') {
+            condition.request_company_cd = req.query.company_cd;
+        }
+        //if (req.query.yyyy != null) {
+        //    condition.register_yyyy = req.query.yyyy;
+        //}
+        //if (req.query.mm != null && req.query.mm != '*') {
+        //    condition.register_mm = req.query.mm;
+        //}
+        if (req.query.higher_cd != null && req.query.higher_cd != '*') {
+            condition.higher_cd = req.query.higher_cd;
+        }
+
+        //처리완료만 처리
+        //condition.status_cd = '4';
+
+        //삭제가 안된것만 조회
+        condition.delete_flag = {$ne: 'Y'};
+
+        //console.log("==========================================statistic service=========================================");
+        //console.log("chart3_4 condifion : ", condition);
+        //console.log("====================================================================================================");
+
+        var aggregatorOpts = [{
+            $match: condition
+          }, {
+            $group: { //그룹
+              _id: {
+                register_yyyy: "$register_yyyy",
+                register_mm: "$register_mm"
+              },
+              count: {
+                $sum: 1
+              }
+            }
+          },
+          {
+            $group: { //그룹
+              _id: "$_id.register_yyyy",
+              name: {
+                $first: "$_id.register_yyyy"
+              },
+              series: {
+                $push: {
+                  name: "$_id.register_mm",
+                  value: "$count"
+                }
+              }
+            }
+          },
+          {
+            $project: {
+              "name": 1,
+              "series": 1
+            }
+          },
+          {
+            $sort: {
+              "name": -1,
+            }
+          },
+        ];
+
+        //console.log("==========================================================");
+        //console.log("chart3_4 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //console.log("==========================================================");
+
+        return {
+            aggregatorOpts: aggregatorOpts
+        };
+    },
+
+
   /**
    * 업무별 건수
    * requestCompany_count
@@ -12,9 +105,9 @@ module.exports = {
 
     //조건 처리
     var condition = {};
-    //if (req.query.company_cd != null && req.query.company_cd != '*') {
-    //  condition.request_company_cd = req.query.company_cd;
-    //}
+    if (req.query.company_cd != null && req.query.company_cd != '*') {
+      condition.request_company_cd = req.query.company_cd;
+    }
     if (req.query.yyyy != null) {
       condition.register_yyyy = req.query.yyyy;
     }
