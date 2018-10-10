@@ -269,7 +269,7 @@ export class Dashboard1Component implements OnInit {
             (error: HttpErrorResponse) => {
             });
     }
-
+    
 
 
     /**
