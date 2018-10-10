@@ -20,6 +20,10 @@ export class IncidentListModalComponent implements OnInit {
     @Input() selectedItem: any; //조회용 아이템
     @Input() cValues;  //모달창 닫기용
     @Input() dValues;  //모달창 무시용
+    @Input() searchYyyy;
+    @Input() searchMm;
+    @Input() searhHigherCd;
+    @Input() searchCompany;
 
     public incidentDetail: any;                 //선택 인시던트 id
     public selectedIdx: number = -1;            //삭제를 위한 인덱스, 상세보기 시 값변경
@@ -35,6 +39,7 @@ export class IncidentListModalComponent implements OnInit {
     public pageDataSize: number = 10;   // 페이지당 출력 개수  
 
     private status_cd: string = '1';    //진행상태값
+
 
     constructor(private auth: AuthService,
         private toast: ToastComponent,
@@ -60,14 +65,27 @@ export class IncidentListModalComponent implements OnInit {
     getIncident() {
 
         this.setTransForm();
+        console.log("this.formData >>>>>>>>>>>>>>>>>>", JSON.stringify(this.formData));
 
-        this.incidentService.getIncident(this.formData).subscribe(
+
+        this.incidentService.getIncidentDashboard(this.formData).subscribe(
+            
             (res) => {
 
-                this.incidents = [];
-                var tmp = this.incidents.concat(res.incident);
-                this.incidents = tmp;
-                this.totalDataCnt = res.totalCnt;
+                //this.incidents = [];
+                //var tmp = this.incidents.concat(res.incident);
+                //this.incidents = tmp;
+                //this.totalDataCnt = res.totalCnt;
+                
+                //this.totalDataCnt = res.totalCnt;
+                //this.totalPage = res.totalPage;
+                //console.log("this.totalPage : ", this.totalPage);
+                //this.incidents = res.incident;
+
+                //this.incident = res.incident;
+                
+                console.log("res : ", res);
+
                 if (this.totalDataCnt == 0) {
                     this.toast.open('조회데이타가 없습니다..', 'success');
                 }
@@ -134,10 +152,11 @@ export class IncidentListModalComponent implements OnInit {
         this.formData.page = this.page;
         this.formData.perPage = this.pageDataSize;
         
-        this.formData.user = 'manager';
-        this.formData.company_cd = '*';
-        this.formData.higher_cd = '*';
-        this.formData.lower_cd = '*';   
+        this.formData.register_yyyy = this.searchYyyy;
+        this.formData.register_mm = this.searchMm;
+        this.formData.higher_cd = this.searhHigherCd;
+        this.formData.request_company_cd = this.searchCompany;
+
         
         //조건추가
         this.setItem();

@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Dashboard1Service } from '../../../services/dashboard1.service';
+import { CookieService } from 'ngx-cookie-service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-dashboard1',
@@ -15,10 +17,11 @@ export class Dashboard1Component implements OnInit {
     @Input() searchCompany;
 
     // being chart setting
-    private formData: any = {};   //전송용 formData
+    private formData: any = {};         //전송용 formData
     public monthlyCntChart = [];
-    public higherObj: any = [];  //상위업무 리스트
-    public selectedItem;                        //차트 선택 시 아이템명
+    public higherObj: any = [];         //상위업무 리스트
+    public selectedItem;                //차트 선택 시 아이템명
+    public user;                        //차트 선택 시 유저 권한
     public view3: any[] = [1750, 350];
     public chartData3: any[];
     public comCntChart = [];
@@ -59,7 +62,10 @@ export class Dashboard1Component implements OnInit {
         domain: ['#008fd4', '#b4985a', '#e5e4e0', '#a7a9ac', '#f04124']
     };
 
-    constructor(private dashboard1Service: Dashboard1Service) { }
+    constructor(private dashboard1Service: Dashboard1Service,
+        public cookieService: CookieService,
+        private modalService: NgbModal
+        ) { }
 
     ngOnInit() {
         var date = new Date();
@@ -278,7 +284,8 @@ export class Dashboard1Component implements OnInit {
      * @param data 
      */
     onSelect(modalId, data) {
-        //console.log("onSelect this.formData : ", this.formData);
+        this.selectedItem = data.name;
+        this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});
     }
 
     onLegendLabelClick(entry) {

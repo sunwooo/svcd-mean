@@ -123,4 +123,13 @@ export class IncidentService {
     fileUpdate(incident){
         return this.http.put<any>('/api/incident/update', incident, {withCredentials:true});
     }
+
+    /**
+     * Dashboard용 Incident 조회
+     * @param condition 
+     */
+    getIncidentDashboard(condition): Observable<any> {//getIncidentDashboard
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/incident/dashboard_list', {params: httpParams});
+    }
 }
