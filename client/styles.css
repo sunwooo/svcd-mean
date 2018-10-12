@@ -126,6 +126,9 @@ body {
     margin-left: 1% !important;
 }
 
+.summernote-img{
+    width: 100% !important;
+}
 
 body div.cdk-overlay-container {
     z-index: 1000000;
