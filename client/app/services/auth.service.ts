@@ -30,6 +30,7 @@ export class AuthService {
 
         const token = this.cookieService.get('email');
         
+        /*
         console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
         console.log('xxxxxxxxxxxxxxxxxxxxxxx',this.cookieService.getAll());
         console.log('xxxxxxxxxxxxxxxxxxxxxxx',this.cookieService.get('email'));
@@ -38,19 +39,22 @@ export class AuthService {
         console.log("======== AuthService constructor ========");
         console.log("token... cookie.email : ", token);
         console.log("=========================================");
+        */
 
         if (token) {
 
-            console.log("================================================");
-            console.log("================= token true ================");
-            console.log("================================================");
+            //console.log("================================================");
+            //console.log("================= token true ================");
+            //console.log("================================================");
 
             this.loggedIn = true;
 
         }else{
-            console.log("=================================================");
-            console.log("================= token false ================");
-            console.log("=================================================");         
+
+            //console.log("=================================================");
+            //console.log("================= token false ================");
+            //console.log("=================================================");         
+        
         }
 
 
@@ -91,27 +95,31 @@ export class AuthService {
     checkCookies(){
         const token = this.cookieService.get('email');
         
+        /*
         console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
         console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxx',this.cookieService.getAll());
         console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxx',this.cookieService.get('email'));
         console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-
+        */
         console.log("checkCookies ======== AuthService constructor ========");
         console.log("checkCookies token... cookie.email : ", token);
         console.log("checkCookies =========================================");
+        
 
         if (token) {
 
-            console.log("checkCookies ================================================");
-            console.log("checkCookies ================= token true ================");
-            console.log("checkCookies ================================================");
+            //console.log("checkCookies ================================================");
+            //console.log("checkCookies ================= token true ================");
+            //console.log("checkCookies ================================================");
 
             this.loggedIn = true;
 
         }else{
-            console.log("checkCookies =================================================");
-            console.log("checkCookies ================= token false ================");
-            console.log("checkCookies ================================================="); 
+            
+            //console.log("checkCookies =================================================");
+            //console.log("checkCookies ================= token false ================");
+            //console.log("checkCookies ================================================="); 
+            
             this.logout();        
         }
 

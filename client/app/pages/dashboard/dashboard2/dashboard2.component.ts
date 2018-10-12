@@ -16,6 +16,7 @@ export class Dashboard2Component implements OnInit {
     @Input() searchYyyy;
     @Input() searchMm;
     @Input() searhHigherCd;
+    @Input() searhHigherNm;
     @Input() searchCompany;
 
     private formData: any = {};   //전송용 formData
@@ -440,5 +441,12 @@ export class Dashboard2Component implements OnInit {
         
     }
 
+    onLegendLabelClick(entry) {
+        console.log('Legend clicked', entry);
+    }
+
+    select(data) {
+        console.log('Item clicked', data);
+    }
 
 }

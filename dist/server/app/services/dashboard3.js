@@ -31,6 +31,8 @@ module.exports = {
 
         //삭제가 안된것만 조회
         condition.delete_flag = {$ne: 'Y'};
+        condition.manager_email = {$nin: [null,'']};
+        condition.manager_nm = {$nin: ['담당미지정','']};
 
         //console.log("==========================================statistic service=========================================");
         //console.log("chart3 condifion : ", condition);
@@ -153,6 +155,8 @@ module.exports = {
 
         //삭제가 안된것만 조회
         condition.delete_flag = {$ne: 'Y'};
+        condition.manager_email = {$nin: [null,'']};
+        condition.manager_nm = {$nin: ['담당미지정','']};
 
         //console.log("==========================================statistic service=========================================");
         //console.log("chart3_2 condifion : ", condition);
@@ -362,6 +366,8 @@ module.exports = {
 
         //삭제가 안된것만 조회
         condition.delete_flag = {$ne: 'Y'};
+        condition.manager_email = {$nin: [null,'']};
+        condition.manager_nm = {$nin: ['담당미지정','']};
 
         //console.log("==========================================statistic service=========================================");
         //console.log("chart3_2 condifion : ", condition);

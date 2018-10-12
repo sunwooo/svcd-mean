@@ -66,8 +66,7 @@
                 </div>
             </div>
         </div>
-
-  </div>
+    </div>
 
   <div class="row">
     <div class="col-lg-6 col-sm-12">
@@ -85,7 +84,6 @@
                                         [explodeSlices]="true" 
                                         [gradient]="gradient"
                                         [labels]="true"
-                                        (select)="onSelect(content, $event)" 
                     >
                     </ngx-charts-pie-chart>
                 </div>
@@ -125,7 +123,6 @@
                                     [roundEdges]="true"
                                     [yScaleMax]="'1'"
                                     [showDataLabel]="false"
-                                    (select)="select($event)"
                         >
                         </ngx-charts-bar-vertical-stacked> 
     
@@ -144,8 +141,8 @@
                         [searchYyyy]="searchYyyy"
                         [searchMm]="searchMm"
                         [searhHigherCd]="searhHigherCd"
+                        [searhHigherNm]="searhHigherNm"
                         [searchCompany]="searchCompany"
-
     >
     </app-incident-list-modal>
 </ng-template>

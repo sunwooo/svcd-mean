@@ -20,6 +20,7 @@ export class Dashboard3Component implements OnInit {
     @Input() searchMm;
     @Input() searhHigherCd;
     @Input() searchCompany;
+    @Input() searhHigherNm;
   
     private formData: any = {};   //전송용 formData
     public higherObj: any = [];  //상위업무 리스트
@@ -224,7 +225,7 @@ export class Dashboard3Component implements OnInit {
                         var obj1: any = {};
                         obj1.name = data._id.manager_nm;
                         obj1.value = data.count;
-                        obj1.email = data._id.request_id;
+                        obj1.email = data._id.manager_email;
                         tempArr.push(obj1);
                     });
                     this.chartData3_2 = tempArr;
@@ -367,9 +368,9 @@ export class Dashboard3Component implements OnInit {
      */
     openPeopleModal(gubun, modalId, data) {
 
-        //console.log('================================= Item clicked');
-        //console.log('=================================', data);
-        //console.log('================================= Item clicked');
+        console.log('================================= Item clicked');
+        console.log('=================================', data);
+        console.log('================================= Item clicked');
 
         if(gubun === '요청'){
             this.chartData3_1.find((user) =>{
@@ -399,7 +400,7 @@ export class Dashboard3Component implements OnInit {
         }
 
         if(gubun === '불만'){
-            this.chartData3_3.find((user) =>{
+            this.chartData3_4.find((user) =>{
                 if(user.name === data.name){
                     this.email = user.email;
                     this.gubun = gubun;

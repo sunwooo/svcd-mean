@@ -63,10 +63,10 @@ export class LoginComponent implements OnInit {
      */
     login() {
 
-        console.log('===================================================================================');
-        console.log('this.auth.loggedIn : ', this.auth.loggedIn);
-        console.log('this.email : ', this.formValue);
-        console.log('===================================================================================');
+        //console.log('===================================================================================');
+        //console.log('this.auth.loggedIn : ', this.auth.loggedIn);
+        //console.log('this.email : ', this.formValue);
+        //console.log('===================================================================================');
 
         //form.value 대신 {'email': this.mail, 'password': this.password} 사용가능
         this.auth.login(this.formValue).subscribe(
@@ -76,7 +76,7 @@ export class LoginComponent implements OnInit {
             },
             error => {
                 this.toast.open('등록된 계정이 없거나 비밀번호가 틀립니다.', 'danger');
-                console.log("=========>", this.toast);
+                //console.log("=========>", this.toast);
             }
         );
     }

@@ -10,7 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { EmpInfoComponent } from '../../../shared/emp-info/emp-info.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../../../services/user.service';
-import { StatisticService } from '../../../services/statistic.service';
+import { Dashboard0Service } from '../../../services/dashboard0.service';
 
 @Component({
     selector: 'app-incident-people-modal',
@@ -24,11 +24,17 @@ export class IncidentPeopleModalComponent implements OnInit {
     @Input() searchYyyy;        //조회연도
     @Input() searchMm;          //조회월
     @Input() searhHigherCd;     //조회업무
+    @Input() searhHigherNm;     //조회업무명
     @Input() searchCompany;     //조회회사
     @Input() email;             //이메일
     @Input() gubun;             //차트선택 구분
 
     public isLoading = true;
+    public title = "";
+    public subTitle1 = "";
+    public subTitle2 = "";
+    public searchManagerEmail = "*";             //접수자 이메일
+    public searchRequestId = "*";                //요청자 이메일
     public incidentDetail: any;                 //선택 인시던트 id
     public selectedIdx: number = -1;            //삭제를 위한 인덱스, 상세보기 시 값변경
     private formData: any = {};                 //전송용 formData
@@ -42,59 +48,9 @@ export class IncidentPeopleModalComponent implements OnInit {
     public totlaPageCnt: number = 0;  // 총페이지 수 
     public pageDataSize: number = 10;   // 페이지당 출력 개수  
 
-    public higherCntChart = [
-        {
-          "name": "Germany",
-          "value": 40632
-        },
-        {
-          "name": "United States",
-          "value": 49737
-        },
-        {
-          "name": "France",
-          "value": 36745
-        },
-        {
-          "name": "United Kingdom",
-          "value": 36240
-        },
-        {
-          "name": "Spain",
-          "value": 33000
-        },
-        {
-          "name": "Italy",
-          "value": 35800
-        }
-      ];
-
-      public valuationChart = [
-        {
-          "name": "Germany",
-          "value": 40632
-        },
-        {
-          "name": "United States",
-          "value": 49737
-        },
-        {
-          "name": "France",
-          "value": 36745
-        },
-        {
-          "name": "United Kingdom",
-          "value": 36240
-        },
-        {
-          "name": "Spain",
-          "value": 33000
-        },
-        {
-          "name": "Italy",
-          "value": 35800
-        }
-      ];
+    public higherCntChart = [];   //(요청/접수)업무 건수
+    public valuationChart = [];   //만족도 건수
+    public avg = 0;                   //만족도 평균
 
     public colorScheme3 = {
         domain: ['#008fd4', '#b4985a', '#99ca3c', '#a7a9ac', '#f04124']
@@ -106,7 +62,7 @@ export class IncidentPeopleModalComponent implements OnInit {
         private empInfo: EmpInfoComponent,
         private modalService: NgbModal,
         private userService: UserService,
-        private statisticService: StatisticService,
+        private dashboard0Service: Dashboard0Service,
         private router: Router) { }
 
     ngOnInit() {
@@ -115,10 +71,26 @@ export class IncidentPeopleModalComponent implements OnInit {
         console.log("searchYyyy : ", this.searchYyyy);
         console.log("searchMm : ", this.searchMm);
         console.log("searhHigherCd : ", this.searhHigherCd);
+        console.log("searhHigherNm : ", this.searhHigherNm);
         console.log("searchCompany : ", this.searchCompany);
         console.log("email : ", this.email);
         console.log("gubun : ", this.gubun);
         console.log("=======================================");
+
+        this.title = this.searchYyyy + "년 ";
+        if(this.searchMm != '*') this.title = this.title + this.searchMm+"월 ";
+        if(this.searhHigherCd != '*') this.title = this.title + this.searhHigherNm + " ";
+        if(this.gubun != '접수'){ 
+            this.title = this.title + "요청자"; 
+            this.subTitle1 = "요청건수";
+            this.subTitle2 = "만족도 평가";
+            this.searchRequestId = this.email;
+        }else{ 
+            this.title = this.title + "담당자";
+            this.subTitle1 = "요청건수";
+            this.subTitle2 = "획득 만족도";
+            this.searchManagerEmail = this.email;
+        }
 
         this.getSvcEmpInfo(this.email);
         this.getChart();
@@ -142,6 +114,7 @@ export class IncidentPeopleModalComponent implements OnInit {
 
         this.higherCnt();
         this.valuationCnt();
+        this.valuationAvg();
 
     }
 
@@ -150,7 +123,7 @@ export class IncidentPeopleModalComponent implements OnInit {
      */
     higherCnt(){
 
-        this.statisticService.higherCnt(this.formData).subscribe(
+        this.dashboard0Service.getIncidentCntChart(this.formData).subscribe(
             (res) => {
                 this.higherCntChart = res;
             },
@@ -164,8 +137,13 @@ export class IncidentPeopleModalComponent implements OnInit {
      * 요청자 평가 점수 건수/담당자 평가 결과 건수
      */
     valuationCnt(){
-        this.statisticService.valuationCnt(this.formData).subscribe(
+        this.dashboard0Service.getValuationChart(this.formData).subscribe(
             (res) => {
+
+                console.log("=======================================");
+                console.log("================valuationCnt res : ",res);
+                console.log("=======================================");
+
                 this.valuationChart = res;
             },
             (error : HttpErrorResponse) => {
@@ -174,6 +152,26 @@ export class IncidentPeopleModalComponent implements OnInit {
         );
     }    
 
+
+    /**
+     * 요청자/담당자 만족도 평균
+     */
+    valuationAvg(){
+        this.dashboard0Service.getAvgChart(this.formData).subscribe(
+            (res) => {
+
+                console.log("=======================================");
+                console.log("================valuationAvg res : ",res);
+                console.log("================valuationAvg res.avg : ",res[0].avg);
+                console.log("=======================================");
+                if(res.length > 0)  this.avg = Number((res[0].avg).toFixed(2));
+                //this.valuationChart = res;
+            },
+            (error : HttpErrorResponse) => {
+
+            }
+        );
+    }
 
     /**
      * 상세보기창 호출

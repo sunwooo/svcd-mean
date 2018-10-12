@@ -16,99 +16,13 @@
     </div>
     <!-- End Page Title-->
       
-    <!-- start list-->
-    <div class="row">
-        <div class="col-lg-12 col-sm-12">
-            <div class="card-box">
-                <div class="table-responsive">
-                <table class="table" style="height: 500px">
-                    <thead>
-                        <tr>
-                        <th width="15%" class="text-center">요청회사</th>
-                        <th width="17%" class="text-center">업무구분</th>
-                        <th class="text-center">제목</th>
-                        <th width="6%" class="text-center">요청자</th>
-                        <th width="10%" class="text-center">등록일</th>
-                        <th width="6%" class="text-center">담당자</th>
-                        <th width="7%" class="text-center">진행상태</th>
-                        <th width="10%" class="text-center">만족도</th>
-                        <!--th(class='text-center' width='14%') 접수(완료일)-->
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let incident of incidents" style="cursor:pointer" >
-                        <td (click)="getEmpInfo(empInfoModal,incident.request_id);" class="text-left">{{incident?.request_company_nm}}</td>
-                        <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">
-                            <span *ngIf="incident?.lower_nm == ''">{{incident?.higher_nm}}</span>
-                            <span *ngIf="incident?.lower_nm != ''">{{incident?.higher_nm}}&nbsp;{{incident?.lower_nm}}</span>
-                        </td>
-                        <td (click)="setDetail(incidentDetailModal, incident);" class="text-left">{{incident?.title}}</td>
-                        <td (click)="setDetail(incidentDetailModal, incident);" class="text-left">{{incident?.request_nm}}</td>
-                        <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.register_date}}</td>
-                        <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">{{incident?.manager_nm}}</td>
-                        <td (click)="setDetail(incidentDetailModal, incident);" class="text-center">
-                            <span *ngIf="incident?.status_cd == 1" class="label label-inverse">접수대기</span>
-                            <span *ngIf="incident?.status_cd == 2" class="label label-primary">처리중</span>
-                            <span *ngIf="incident?.status_cd == 3" class="label label-success">미평가</span>
-                            <span *ngIf="incident?.status_cd == 4" class="label label-purple">처리완료</span>
-                            <span *ngIf="incident?.status_cd == 5" class="label label-info">협의필요</span>
-                            <span *ngIf="incident?.status_cd == 6" class="label label-default">미처리</span>
-                        </td>
-                        <td (click)="setDetail(incidentDetailModal, incident);" class="text-left">
-                            <span *ngIf="incident?.status_cd == 4" class="m-l-15">
-                                <i *ngFor="let i of counter(incident?.valuation)" class="md md-star text-warning"></i>
-                                <i *ngFor="let i of counter(5-incident?.valuation)" class="md md-star text-muted"></i>
-                            </span>
-                        </td>
-                    </tr>
-                    <td *ngIf="totalDataCnt == 0" colspan='7' class='text-center'>조회된 데이타가 없습니다.</td>
-                    </tbody>
-                </table>
-                </div>
-        
-            </div>
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="dataTables_info">Showing 1 to 15 of {{totlaPageCnt}} pages
-                /
-                총 <span>{{totalDataCnt}}</span>개
-            </div>
-        </div>
-        <div class="col-sm-8">
-            <ngb-pagination [collectionSize]="totalDataCnt" pageChange 
-                            [(page)]="page" 
-                            [maxSize]="maxSize" 
-                            [pageSize]="pageDataSize"
-                            [rotate]="true" 
-                            [ellipses]="false" 
-                            [boundaryLinks]="true"
-                            (pageChange)="pageChange($event)"
-                            class="float-right"
-            ></ngb-pagination>
-        </div>
-    </div>        
-    <!-- End list-->
+    <!-- start list -->
+    <app-incident-list-injectable [selectedItem] = "selectedItem"
+                             [searchYyyy]="searchYyyy"
+                             [searchMm]="searchMm"
+                             [searhHigherCd]="searhHigherCd"
+                             [searchCompany]="searchCompany"
+    ></app-incident-list-injectable>
+    <!-- end list -->
 
 </div>
-      
-      
-<!-- start detail view modal -->
-<ng-template #incidentDetailModal let-c="close" let-d="dismiss">
-    <app-incident-detail-m [cValues]="this.c"
-                            [dValues]="this.d"
-                            [incidentDetail]="incidentDetail"
-    ></app-incident-detail-m>
-</ng-template>
-<!-- end detail view modal -->
-
-<!-- start empInfo modal -->
-<ng-template #empInfoModal let-c="close" let-d="dismiss">
-    <app-emp-info [cValues]="this.c"
-                    [dValues]="this.d"
-                    [email]="empEmail"
-    ></app-emp-info>
-</ng-template>
-<!-- end empInfo modal -->

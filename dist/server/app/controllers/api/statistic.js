@@ -398,36 +398,90 @@ module.exports = {
   valuationCnt: (req, res, next) => {
 
     try {
-        
+      async.waterfall([function (callback) {
+
         var today = new Date();
         var thisYear = today.getFullYear();
 
         var condition = {};
- 
-        
-        if (req.query.mm != null && req.query.mm != '*') {
-            condition.register_mm = req.query.mm;
-        }
-        if (req.query.higher_cd != null && req.query.higher_cd != '*') {
-            condition.higher_cd = req.query.higher_cd;
-        }
-        if (req.query.company_cd != null && req.query.company_cd != '*') {
-            condition.request_company_cd = req.query.company_cd;
-        }
-        if (req.query.yyyy != null && req.query.company_cd != '*') {
-            condition.register_yyyy = req.query.yyyy;
-        }else{
-            condition.register_yyyy = thisYear.toString();
+        var OrQueries = [];
+        var AndQueries = [];
+
+        if (req.session.user_flag == 3 || req.session.user_flag == 4) {
+
+          var condition2 = {};
+          condition2.email = req.session.email;
+          MyProcess.find(condition2).distinct('higher_cd').exec(function (err, myHigherProcess) {
+            if (condition.$and == null) {
+              condition.$and = [{
+                "higher_cd": {
+                  "$in": myHigherProcess
+                }
+              }];
+            } else {
+              condition.$and.push({
+                "higher_cd": {
+                  "$in": myHigherProcess
+                }
+              });
+            }
+
+            if (condition.$and == null) {
+              condition.$and = [{
+                "status_cd": "4"
+              }];
+            } else {
+              condition.$and.push({
+                "status_cd": "4"
+              });
+            }
+
+            if (condition.$and == null) {
+              condition.$and = [{
+                "register_yyyy": thisYear.toString()
+              }];
+            } else {
+              condition.$and.push({
+                "register_yyyy": thisYear.toString()
+              });
+            }
+            callback(condition);
+          });
+
+        } else {
+
+          if (req.session.user_flag == 1) { //전체관리자
+
+          } else if (req.session.user_flag == 5) { //고객사관리자
+            condition.request_company_cd = req.session.company_cd;
+          } else if (req.session.user_flag == 9) { //일반사용자
+            condition.request_id = req.session.email;
+          }
+
+          if (condition.$and == null) {
+            condition.$and = [{
+              "status_cd": "4"
+            }];
+
+          } else {
+            condition.$and.push({
+              "status_cd": "4"
+            });
+          }
+
+          if (condition.$and == null) {
+            condition.$and = [{
+              "register_yyyy": thisYear.toString()
+            }];
+          } else {
+            condition.$and.push({
+              "register_yyyy": thisYear.toString()
+            });
+          }
+          callback(condition);
         }
 
-
-        if (req.query.request_id != null && req.query.request_id != '*') {
-            condition.request_id = req.query.request_id;
-        }
-        if (req.query.manager_email != null && req.query.manager_email != '*') {
-            condition.manager_email = req.query.manager_email;
-        }
-
+      }], function (condition) {
         var aggregatorOpts = [{
             $match: condition
           }, {
@@ -509,6 +563,8 @@ module.exports = {
           res.json(incident);
         });
 
+      });
+
     } catch (e) {} finally {}
   },
 
@@ -519,36 +575,28 @@ module.exports = {
   higherCdCnt: (req, res, next) => {
 
     try {
+      async.waterfall([function (callback) {
 
         var today = new Date();
         var thisYear = today.getFullYear();
 
         var condition = {};
- 
-        
-        if (req.query.mm != null && req.query.mm != '*') {
-            condition.register_mm = req.query.mm;
-        }
-        if (req.query.higher_cd != null && req.query.higher_cd != '*') {
-            condition.higher_cd = req.query.higher_cd;
-        }
-        if (req.query.company_cd != null && req.query.company_cd != '*') {
-            condition.request_company_cd = req.query.company_cd;
-        }
-        if (req.query.yyyy != null && req.query.company_cd != '*') {
-            condition.register_yyyy = req.query.yyyy;
-        }else{
-            condition.register_yyyy = thisYear.toString();
-        }
+        var OrQueries = [];
+        var AndQueries = [];
 
 
-        if (req.query.request_id != null && req.query.request_id != '*') {
-            condition.request_id = req.query.request_id;
+        if (condition.$and == null) {
+          condition.$and = [{
+            "register_yyyy": thisYear.toString()
+          }];
+        } else {
+          condition.$and.push({
+            "register_yyyy": thisYear.toString()
+          });
         }
-        if (req.query.manager_email != null && req.query.manager_email != '*') {
-            condition.manager_email = req.query.manager_email;
-        }
+        callback(condition);
 
+      }], function (condition) {
         var aggregatorOpts = [{
             $match: condition
           }, {
@@ -582,6 +630,8 @@ module.exports = {
           }
           res.json(incident);
         });
+
+      });
 
     } catch (e) {} finally {}
   },

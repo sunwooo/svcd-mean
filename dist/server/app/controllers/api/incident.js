@@ -898,8 +898,6 @@ module.exports = {
 
     var condition = {};
     
-
-
     if (req.query.request_company_cd != null && req.query.request_company_cd != '*') {
       condition.request_company_cd = req.query.request_company_cd;
     }
@@ -924,18 +922,23 @@ module.exports = {
       condition.status_cd = req.query.status_cd;
     }
 
+    if (req.query.manager_email != null && req.query.manager_email != '*') {
+        condition.manager_email = req.query.manager_email;
+    }
 
-    console.log("================================================================");
-    console.log("===================> condition : ", JSON.stringify(condition));
-    console.log("================================================================");
+    if (req.query.request_id != null && req.query.request_id != '*') {
+        condition.request_id = req.query.request_id;
+    }  
 
-
-
-    console.log("=================================================");
-    console.log("req.query AAAAAAAA: ", req.query);
+    //console.log("=================================================");
+    //console.log("req.query : ", req.query);
     //console.log("req.query.page : ", req.query.page);
     //console.log("search : ", JSON.stringify(search));
-    console.log("=================================================");
+    //console.log("=================================================");
+
+    //console.log("================================================================");
+    //console.log("===================> condition : ", JSON.stringify(condition));
+    //console.log("================================================================");
 
     var page = 1;
     var perPage = 15;
@@ -962,9 +965,9 @@ module.exports = {
         }
       ], function (err, totalCnt) {
 
-        console.log("=================================================");
-        console.log("totalCnt : ",totalCnt);
-        console.log("=================================================");
+        //console.log("=================================================");
+        //console.log("totalCnt : ",totalCnt);
+        //console.log("=================================================");
 
         Incident.find(condition, function (err, incident) {
 
@@ -986,9 +989,10 @@ module.exports = {
               var rtnData = {};
               rtnData.incident = incident;
               rtnData.totalCnt = totalCnt;
-              console.log("=================================================");
-              console.log("rtnData : ",rtnData);
-              console.log("=================================================");
+              
+              //console.log("=================================================");
+              //console.log("rtnData : ",rtnData);
+              //console.log("=================================================");
 
               res.json(rtnData);
 

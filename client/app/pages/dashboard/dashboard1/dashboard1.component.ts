@@ -14,6 +14,7 @@ export class Dashboard1Component implements OnInit {
     @Input() searchYyyy;
     @Input() searchMm;
     @Input() searhHigherCd;
+    @Input() searhHigherNm;
     @Input() searchCompany;
 
     // being chart setting
@@ -55,7 +56,7 @@ export class Dashboard1Component implements OnInit {
 
 
     public colorScheme4 = {
-        domain: ['#f04124', '#008fd4', '#e5e4e0', '#99ca3c', '#a7a9ac','#b4985a']
+        domain: ['#f04124', '#008fd4', '#b4985a', '#99ca3c', '#a7a9ac','#e5e4e0']
     };
 
     public colorScheme5 = {
@@ -113,27 +114,28 @@ export class Dashboard1Component implements OnInit {
         this.dashboard1Service.getChart1(this.formData).subscribe(
             (res) => {
 
-                console.log("=======================================");
-                console.log("res : ", res);
-                console.log("=======================================");
-
+                //console.log("=======================================");
+                //console.log("res : ", res);
+                //console.log("=======================================");
                 
                 var yearArray = res;
                 var yearTmp = [];
-                
                 yearArray.forEach((yyyy, yIdx, result) => {
-                    var tmp = new Array(yyyy.series.length);
-                    console.log("yyyy.series : ", yyyy.series);
+                    
+                    var tmp = [
+                               {name: '01', value:0},{name: '02', value:0},{name: '03', value:0},{name: '04', value:0},
+                               {name: '05', value:0},{name: '06', value:0},{name: '07', value:0},{name: '08', value:0},
+                               {name: '09', value:0},{name: '10', value:0},{name: '11', value:0},{name: '12', value:0}
+                              ];
 
                     yyyy.series.forEach((mm, mIdx) => {
                         tmp.splice(Number(mm.name) - 1, 1, { name: mm.name, value: mm.value });
                     });
+                    
                     yearTmp.push({ name: yyyy.name, series: tmp });
-                    //yearTmp.push({ series: tmp });
                 });
                 this.monthlyCntChart = yearTmp;
-                console.log("monthlyCntChart : ", this.monthlyCntChart);
-                
+                //console.log("monthlyCntChart : ", this.monthlyCntChart);
             },
             (error: HttpErrorResponse) => {
                 console.log('error :', error);
@@ -276,7 +278,6 @@ export class Dashboard1Component implements OnInit {
             });
     }
     
-
 
     /**
      * 차트 선택 시
