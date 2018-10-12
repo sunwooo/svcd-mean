@@ -174,9 +174,9 @@ export class QnaNewComponent implements OnInit {
 
       //summernote 내용처리
       var text = $('#summernote').summernote('code');
-      var ctext = text.replace(/<img src=/gi,'<img class="summernote-img" src=');
-      form.value.qna.content = ctext;
+      console.log("saveQna() text : ", text);
 
+      form.value.qna.content = text;
       //form.value.qna.higher_cd = this.higher.higher_cd;
       //form.value.qna.higher_nm = this.higher.higher_nm;
       //Template form을 전송용 formData에 저장 

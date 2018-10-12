@@ -77,9 +77,7 @@ const routes: Routes = [
             { path: '4800', component: QnaMngComponent},
             { path: '4900', component: QnaNewComponent},
 
-            { path: '9100', component: DashboardMainComponent},
-            { path: '9200', component: Dashboard1Component},
-            { path: '9300', component: Dashboard2Component}
+            { path: '9100', component: DashboardMainComponent}
         ]
     },
 

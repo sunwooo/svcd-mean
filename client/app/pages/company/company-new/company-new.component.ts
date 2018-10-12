@@ -116,7 +116,7 @@ export class CompanyNewComponent implements OnInit {
   addCompany() {
     this.companyService.addCompany(this.formData).subscribe(
         (res) => {
-            
+
             if(res.success){
                 //리스트와 공유된 oftenqnaDetail 수정
                 //this.qnaDetail.title   = this.formData.title;
@@ -126,9 +126,6 @@ export class CompanyNewComponent implements OnInit {
 
                 this.toast.open('등록되었습니다.', 'success');
                 this.router.navigate(['/svcd/4300']);
-            }else{
-                console.log("errmsg : ",res.message.errmsg);
-                this.toast.open("이미 회사코드가 존재합니다.", 'danger');
             }
         },
         (error: HttpErrorResponse) => {

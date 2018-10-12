@@ -1,3 +1,226 @@
-<p>
-  dashboard2 works!
-</p>
+<!-- 제목 시작-->
+<section class="content-header">
+  <h1>
+    <small>Service Desk Dashboard</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i>&nbsp;만족도 현황</a>
+    </li>
+    <li class="active"></li>
+  </ol>
+</section>
+<!-- 제목 끝-->
+
+<section class="content">
+  <!-- 상태 차트 시작-->
+  <div class="row">
+    <div class="col-lg-6 col-sm-6">
+      <div class="card-box">
+        <div class="row">
+          <h4 class="text-dark header-title float-left m-l-30">상위5개 만족도</h4>
+            <ngx-charts-bubble-chart
+              [view]="[700,300]"
+              class="chart-container"
+              [results]="bubble"
+              [animations]="animations"
+              [showGridLines]="showGridLines"
+              [legend]="showLegend"
+              [legendTitle]="legendTitle"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel"
+              [xAxisLabel]="xAxisLabel"
+              [yAxisLabel]="yAxisLabel"
+              [autoScale]="autoScale"
+              [xScaleMin]="xScaleMin"
+              [xScaleMax]="xScaleMax"
+              [yScaleMin]="yScaleMin"
+              [yScaleMax]="yScaleMax"
+              [roundDomains]="roundDomains"
+              [tooltipDisabled]="tooltipDisabled"
+              [minRadius]="minRadius"
+              [maxRadius]="maxRadius">
+            </ngx-charts-bubble-chart>
+            
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-sm-6">
+      <div class="card-box">
+        <div class="row">
+          <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 업무별 만족도</h4>  
+            <ngx-charts-bar-vertical
+              [view]="[700,300]"
+              [scheme]="colorScheme"
+              [results]="single"
+              [animations]="animations"
+              [gradient]="gradient2"
+              [xAxis]="showXAxis"
+              [yAxis]="showYAxis"
+              [legend]="showLegend2"
+              [legendTitle]="legendTitle"
+              [showXAxisLabel]="showXAxisLabel2"
+              [showYAxisLabel]="showYAxisLabel"
+              [tooltipDisabled]="tooltipDisabled"
+              [xAxisLabel]="xAxisLabel2"
+              [yAxisLabel]="yAxisLabel"
+              [showGridLines]="showGridLines"
+              [barPadding]="barPadding"
+              [roundDomains]="roundDomains"
+              [roundEdges]="roundEdges"
+              [yScaleMax]="yScaleMax"
+              [showDataLabel]="showDataLabel"
+              (select)="select($event)"
+              (legendLabelClick)="onLegendLabelClick($event)"
+            >
+            </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card-box">
+            <div class="row">
+                    <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 만족도 현황</h4>
+            </div>
+            <div class="row">
+                <ngx-charts-advanced-pie-chart [view]="[700,300]" 
+                                                [scheme]="colorScheme4" 
+                                                [results]="valuationChart" 
+                                                [gradient]="gradient"
+                                                (select)="onSelect(content, $event)"
+                >
+                </ngx-charts-advanced-pie-chart>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+            
+            <mat-accordion>
+                    <mat-expansion-panel>
+
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                  
+                  <mat-tab-group>
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        <mat-icon class="tab-icon1">thumb_up</mat-icon>
+                        &nbsp;{{searchYyyy}} 상위 만족도
+                      </ng-template>
+                      <div class="card-box">
+                            <div class="row">
+                              <ngx-charts-bar-vertical
+                                  [view]="[700,250]"
+                                  [scheme]="colorScheme2"
+                                  [results]="com_high"
+                                  [animations]="animations"
+                                  [gradient]="gradient"
+                                  [xAxis]="showXAxis"
+                                  [yAxis]="showYAxis"
+                                  [legend]="showLegend2"
+                                  [legendTitle]="legendTitle"
+                                  [showXAxisLabel]="showXAxisLabel2"
+                                  [showYAxisLabel]="showYAxisLabel"
+                                  [tooltipDisabled]="tooltipDisabled"
+                                  [xAxisLabel]="legendTitle"
+                                  [yAxisLabel]="yAxisLabel"
+                                  [showGridLines]="showGridLines"
+                                  [barPadding]="'30'"
+                                  [roundDomains]="roundDomains"
+                                  [roundEdges]="roundEdges"
+                                  [yScaleMax]="yScaleMax"
+                                  [showDataLabel]="showDataLabel"
+                                  (select)="select($event)"
+                                  (legendLabelClick)="onLegendLabelClick($event)"
+                                >
+                                </ngx-charts-bar-vertical> 
+                            </div>
+                          </div>
+                    </mat-tab>
+                  
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        <mat-icon class="tab-icon2">thumb_down</mat-icon>
+                        &nbsp;{{searchYyyy}} 하위 만족도
+                      </ng-template>
+                      
+
+                      <div class="card-box">
+                            <div class="row">
+                              <ngx-charts-bar-vertical
+                                  [view]="[700,250]"
+                                  [scheme]="colorScheme3"
+                                  [results]="com_low"
+                                  [animations]="animations"
+                                  [gradient]="gradient"
+                                  [xAxis]="showXAxis"
+                                  [yAxis]="showYAxis"
+                                  [legend]="showLegend2"
+                                  [legendTitle]="legendTitle"
+                                  [showXAxisLabel]="showXAxisLabel2"
+                                  [showYAxisLabel]="showYAxisLabel"
+                                  [tooltipDisabled]="tooltipDisabled"
+                                  [xAxisLabel]="legendTitle"
+                                  [yAxisLabel]="yAxisLabel"
+                                  [showGridLines]="showGridLines"
+                                  [barPadding]="'30'"
+                                  [roundDomains]="roundDomains"
+                                  [roundEdges]="roundEdges"
+                                  [yScaleMax]="yScaleMax"
+                                  [showDataLabel]="showDataLabel"
+                                  (select)="select($event)"
+                                  (legendLabelClick)="onLegendLabelClick($event)"
+                                >
+                                </ngx-charts-bar-vertical> 
+                            </div>
+                          </div>
+
+
+
+                    </mat-tab>
+                  
+
+                  </mat-tab-group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+      
+      
+        
+    </div>
+  </div>
+</section>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <app-incident-list-modal [cValues]="this.c"
+                        [dValues]="this.d"
+                        [selectedItem]="selectedItem"
+                        [searchYyyy]="searchYyyy"
+                        [searchMm]="searchMm"
+                        [searhHigherCd]="searhHigherCd"
+                        [searhHigherNm]="searhHigherNm"
+                        [searchCompany]="searchCompany"
+
+    >
+    </app-incident-list-modal>
+</ng-template>
+

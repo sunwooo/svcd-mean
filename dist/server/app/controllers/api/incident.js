@@ -469,6 +469,8 @@ module.exports = {
     var search = service.createSearch(req);
 
     //console.log("=================================================");
+    //console.log("req.query.page : ", req.query);
+    //console.log("req.query.page : ", req.query.page);
     //console.log("search : ", JSON.stringify(search));
     //console.log("=================================================");
 
@@ -522,6 +524,11 @@ module.exports = {
 
         },
         function (callback) {
+
+          //console.log("================================================================");
+          //console.log("===================> search.findIncident : ", search.findIncident);
+          //console.log("================================================================");
+
           Incident.count(search.findIncident, function (err, totalCnt) {
             if (err) {
               logger.error("incident : ", err);
@@ -542,6 +549,14 @@ module.exports = {
         //console.log("=================================================");
 
         Incident.find(search.findIncident, function (err, incident) {
+
+            //console.log("=================================================");
+            //console.log("totalCnt : ",totalCnt);
+            //console.log("(page - 1) * perPage : ",(page - 1) * perPage);
+            //console.log("perPage : ",perPage);
+            //console.log("incident : ",incident);
+            //console.log("=================================================");
+
             if (err) {
               return res.json({
                 success: false,
@@ -704,7 +719,7 @@ module.exports = {
 
           if (incident.attach_file.length > 0) {
             for (var i = 0; i < incident.attach_file.length; i++) {
-              var path = incident.attach_file[i].path
+
               if (path.indexOf(CONFIG.fileUpload.directory) > -1) {
                 incident.attach_file[i].path = path.substring(path.indexOf(CONFIG.fileUpload.directory) + CONFIG.fileUpload.directory.length + 1);
               } else {
@@ -747,7 +762,7 @@ module.exports = {
       var newincident = req.body.incident;
       var request_info = req.body.request_info;
 
-      console.log("newincident ", newincident);
+      //console.log("newincident ", newincident);
       //console.log("req.body.request_info ", req.body.request_info);
 
       //TODO
@@ -776,7 +791,7 @@ module.exports = {
       //    newincident.attach_file = req.files;
       //}
 
-      console.log("xxxxxxxxxxxxx newincident : ", newincident);
+      //console.log("xxxxxxxxxxxxx newincident : ", newincident);
 
       Incident.create(newincident, function (err, newincident) {
         if (err) {
@@ -873,6 +888,123 @@ module.exports = {
 
     var filepath = path.join(__dirname, '../../../../../', CONFIG.fileUpload.directory, tmpPath);
     res.download(filepath, req.body.filename);
+
+  },
+
+  /**
+   * Dashboard용 Incident 리스트 조회
+   */
+  dashboard_list: (req, res, next) => {
+
+    var condition = {};
+    
+    if (req.query.request_company_cd != null && req.query.request_company_cd != '*') {
+      condition.request_company_cd = req.query.request_company_cd;
+    }
+
+    if (req.query.higher_cd != null && req.query.higher_cd != '*') {
+      condition.higher_cd = req.query.higher_cd;
+    }
+
+    if (req.query.register_yyyy != null && req.query.register_yyyy != '*') {
+      condition.register_yyyy = req.query.register_yyyy;
+    }
+    
+    if (req.query.register_mm != null && req.query.register_mm != '*') {
+      condition.register_mm = req.query.register_mm;
+    }
+
+    if (req.query.valuation != null && req.query.valuation != '*') {
+      condition.valuation = Number(req.query.valuation);
+    }
+    
+    if (req.query.status_cd != null && req.query.status_cd != '*') {
+      condition.status_cd = req.query.status_cd;
+    }
+
+    if (req.query.manager_email != null && req.query.manager_email != '*') {
+        condition.manager_email = req.query.manager_email;
+    }
+
+    if (req.query.request_id != null && req.query.request_id != '*') {
+        condition.request_id = req.query.request_id;
+    }  
+
+    //console.log("=================================================");
+    //console.log("req.query : ", req.query);
+    //console.log("req.query.page : ", req.query.page);
+    //console.log("search : ", JSON.stringify(search));
+    //console.log("=================================================");
+
+    //console.log("================================================================");
+    //console.log("===================> condition : ", JSON.stringify(condition));
+    //console.log("================================================================");
+
+    var page = 1;
+    var perPage = 15;
+
+    if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
+    if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
+
+    try {
+      async.waterfall([function (callback) {
+
+          
+          Incident.count(condition, function (err, totalCnt) {
+            if (err) {
+              logger.error("incident : ", err);
+
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+              callback(null, totalCnt);
+            }
+          });
+        }
+      ], function (err, totalCnt) {
+
+        //console.log("=================================================");
+        //console.log("totalCnt : ",totalCnt);
+        //console.log("=================================================");
+
+        Incident.find(condition, function (err, incident) {
+
+            //console.log("=================================================");
+            //console.log("totalCnt : ",totalCnt);
+            //console.log("(page - 1) * perPage : ",(page - 1) * perPage);
+            //console.log("perPage : ",perPage);
+            //console.log("incident : ",incident);
+            //console.log("=================================================");
+
+            if (err) {
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+
+              //incident에 페이징 처리를 위한 전체 갯수전달
+              var rtnData = {};
+              rtnData.incident = incident;
+              rtnData.totalCnt = totalCnt;
+              
+              //console.log("=================================================");
+              //console.log("rtnData : ",rtnData);
+              //console.log("=================================================");
+
+              res.json(rtnData);
+
+            }
+          })
+          .sort('-register_date')
+          .skip((page - 1) * perPage)
+          .limit(perPage);
+      });
+    } catch (err) {
+        console.log("err : ",err);
+    } finally {}
 
   },
 

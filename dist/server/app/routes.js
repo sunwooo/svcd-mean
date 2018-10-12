@@ -17,9 +17,10 @@ var companyProcessCtrl = require("../app/controllers/api/companyProcess");
 var apiCtrl = require("../app/controllers/api/common");
 var oftenQnaCtrl = require("../app/controllers/api/oftenqna");
 var processGubunCtrl = require("../app/controllers/api/processGubun");
+var dashboard0Ctrl = require("../app/controllers/api/dashboard0");
 var dashboard1Ctrl = require("../app/controllers/api/dashboard1");
 var dashboard2Ctrl = require("../app/controllers/api/dashboard2");
-var dashboardCtrl = require("../app/controllers/api/dashboard");
+var dashboard3Ctrl = require("../app/controllers/api/dashboard3");
 
 
 // Login route
@@ -63,6 +64,7 @@ router.put('/incident/n_complete', ssc.sessionCheck, incidentCtrl.setNComplete);
 router.put('/incident/hold', ssc.sessionCheck, incidentCtrl.setHold); //업무 협의
 router.delete('/incident/delete', ssc.sessionCheck, incidentCtrl.delete);  //삭제
 router.get('/incident/excelData', ssc.sessionCheck, incidentCtrl.excelData);    //엑셀데이타 조회
+router.get('/incident/dashboard_list', ssc.sessionCheck, incidentCtrl.dashboard_list);    //dashboard용 인시던트 조회
 
 
 //statistic route
@@ -120,29 +122,36 @@ router.put('/companyProcess/update', ssc.sessionCheck, companyProcessCtrl.update
 
 
 //dashboard
-router.get('/dashboard/chart1', ssc.sessionCheck, dashboard1Ctrl.chart1);
-router.get('/dashboard/chart1_1', ssc.sessionCheck, dashboard1Ctrl.chart1);
-router.get('/dashboard/chart1_2', ssc.sessionCheck, dashboard1Ctrl.chart1);
-router.get('/dashboard/chart1_3', ssc.sessionCheck, dashboard1Ctrl.chart1);
-router.get('/dashboard/chart1_4', ssc.sessionCheck, dashboard1Ctrl.chart1);
+router.get('/dashboard/chart0_1', ssc.sessionCheck, dashboard0Ctrl.chart0_1); //년도별 월별 업무별  (요청자/접수자)건수
+router.get('/dashboard/chart0_2', ssc.sessionCheck, dashboard0Ctrl.chart0_2); //년도별 월별 업무별 (요청자/접수자) 만족도별 건수
+router.get('/dashboard/chart0_3', ssc.sessionCheck, dashboard0Ctrl.chart0_3); //년도별 월별 업무별 (요청자/접수자) 만족도 평균
+
+router.get('/dashboard/chart1', ssc.sessionCheck, dashboard1Ctrl.chart1);     //년간 월별 차트5
+router.get('/dashboard/chart1_1', ssc.sessionCheck, dashboard1Ctrl.chart1_1); //년도별 월별 회사별 업무별 처리현황
+router.get('/dashboard/chart1_2', ssc.sessionCheck, dashboard1Ctrl.chart1_2); //년도별 월별 상위 회사5
+router.get('/dashboard/chart1_3', ssc.sessionCheck, dashboard1Ctrl.chart1_3); //년도별 월별 상위 업무5
+router.get('/dashboard/chart1_4', ssc.sessionCheck, dashboard1Ctrl.chart1_4);
 router.get('/dashboard/chart1_5', ssc.sessionCheck, dashboard1Ctrl.chart1);
 router.get('/dashboard/chart1_6', ssc.sessionCheck, dashboard1Ctrl.chart1);
 router.get('/dashboard/chart1_7', ssc.sessionCheck, dashboard1Ctrl.chart1);
-router.get('/dashboard/chart2', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard/chart2_1', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard/chart2_2', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard/chart2_3', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard/chart2_4', ssc.sessionCheck, dashboard2Ctrl.chart2);
+
+router.get('/dashboard/chart2', ssc.sessionCheck, dashboard2Ctrl.chart2);     //년도별 월별 업무별 만족도 상위5
+router.get('/dashboard/chart2_1', ssc.sessionCheck, dashboard2Ctrl.chart2_1); //년도별 업무별 회사별 만족도
+router.get('/dashboard/chart2_2', ssc.sessionCheck, dashboard2Ctrl.chart2_2); //년도별 월별 업무별 회사별 만족도 건수
+router.get('/dashboard/chart2_3', ssc.sessionCheck, dashboard2Ctrl.chart2_3); //년도별 월별 만족도 상위 회사 10 
+router.get('/dashboard/chart2_4', ssc.sessionCheck, dashboard2Ctrl.chart2_4); //년도별 월별 만족도 하위 회사 10 
 router.get('/dashboard/chart2_5', ssc.sessionCheck, dashboard2Ctrl.chart2);
 router.get('/dashboard/chart2_6', ssc.sessionCheck, dashboard2Ctrl.chart2);
 router.get('/dashboard/chart2_7', ssc.sessionCheck, dashboard2Ctrl.chart2);
-router.get('/dashboard/chart3', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_1', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_2', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_3', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_4', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_5', ssc.sessionCheck, dashboardCtrl.chart3);
-router.get('/dashboard/chart3_6', ssc.sessionCheck, dashboardCtrl.chart3);
+
+router.get('/dashboard/chart3', ssc.sessionCheck, dashboard3Ctrl.chart3);      //년도별 요청자/담당자 수
+router.get('/dashboard/chart3_1', ssc.sessionCheck, dashboard3Ctrl.chart3_1);  //년도별 요청자 상위5
+router.get('/dashboard/chart3_2', ssc.sessionCheck, dashboard3Ctrl.chart3_2);  //년도별 접수자 상위5
+router.get('/dashboard/chart3_3', ssc.sessionCheck, dashboard3Ctrl.chart3_3);  //년도별 만족도 상위5
+router.get('/dashboard/chart3_4', ssc.sessionCheck, dashboard3Ctrl.chart3_4);  //년도별 요청자 하위5
+router.get('/dashboard/chart3_5', ssc.sessionCheck, dashboard3Ctrl.chart3_5);  //업무별 요청자/담당자 수
+//router.get('/dashboard/chart3_6', ssc.sessionCheck, dashboard3Ctrl.chart3_6);
+
 
 //upload incident attach file 
 router.post('/upload-file', ssc.sessionCheck, function (req, res) {

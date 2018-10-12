@@ -21,8 +21,8 @@ var companySchema = mongoose.Schema({
     deleted_at: { type : String },                              //삭제일자
     use_yn: { type: String },                                   //사용여부(Y:사용, N:미사용)
     group_flag  : { type : String , default : 'out' },          //그룹사 여부(in:그룹사, out:외부고객사)
-    date_from: { type: String },                                //유지보수 시작일
-    date_to: { type: String },                                  //유지보수 종료일
+    date_from: { type: Date },                                //유지보수 시작일
+    date_to: { type: Date },                                  //유지보수 종료일
     contract_gubun : { type: String }                           //계약구분
 });
 
@@ -34,22 +34,14 @@ function setCreateAt(next){
     var m = moment();    
     var date = m.format("YYYY-MM-DD HH:mm:ss");
     schema.created_at = date;
-    if(schema.date_from)
-        schema.date_from = schema.date_from.substring(0,10);
-    if(schema.date_to)
-        schema.date_to = schema.date_to.substring(0,10);   
     return next();
 }
 
 function setUpdateAt(next){
-    var schema = this._update;
+    var schema = this;
     var m = moment();    
     var date = m.format("YYYY-MM-DD HH:mm:ss");
     schema.updated_at = date;
-    if(schema.date_from)
-        schema.date_from = schema.date_from.substring(0,10);
-    if(schema.date_to)
-        schema.date_to = schema.date_to.substring(0,10);
     return next();    
 }
 

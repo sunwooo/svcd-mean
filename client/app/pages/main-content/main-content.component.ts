@@ -29,8 +29,8 @@ export class MainContentComponent implements OnInit {
 
     /** being chart setting */
     public view1: any[] = [350, 200];
-    public view2: any[] = [700, 223];
-    public view3: any[] = [880, 350];
+    public view2: any[] = [700, 200];
+    public view3: any[] = [880, 300];
 
     // options
     public showXAxis = true;
@@ -71,6 +71,7 @@ export class MainContentComponent implements OnInit {
     public monthlyCntChart = [];
     public higherCntChart = [];
     public incidentList;
+    public selectedItem;                        //차트 선택 시 아이템명
     public incidentDetail: any;                 //선택 인시던트 id
     public empEmail: string = "";               //팝업 조회용 이메일
     public popupNotice: string = "";            //팝업 조회용 QNA공지
@@ -85,8 +86,6 @@ export class MainContentComponent implements OnInit {
 
     ngOnInit() {
         
-        
-
         //상태별 건수
         this.statisticService.getStatusCdCnt().subscribe(
             (res) => {  
@@ -114,17 +113,16 @@ export class MainContentComponent implements OnInit {
         );
 
         //만족도현황
-        this.statisticService.valuationCnt().subscribe(
+        this.statisticService.valuationCnt({}).subscribe(
             (res) => {
 
-                var initChart1 = [{"name":"매우 만족", "value":0},
+                var initChart1 = [{"name":"매우만족", "value":0},
                                   {"name":"만족", "value":0},
                                   {"name":"보통", "value":0},
                                   {"name":"불만족", "value":0},
                                   {"name":"매우불만족", "value":0}];
 
                 var valuationArray = res;
-                console.log("xxxxxxxxxxxxxx valuationArray : ", valuationArray);
                 valuationArray.forEach((val, idx) => {
                     var chartIdx = 5-parseInt(val.valuation);
                     initChart1[chartIdx].value = val.value;
@@ -156,7 +154,7 @@ export class MainContentComponent implements OnInit {
         )
 
         //신청건수 상위 업무
-        this.statisticService.higherCnt().subscribe(
+        this.statisticService.higherCnt({}).subscribe(
             (res) => {
                 this.higherCntChart = res;
             },
@@ -178,8 +176,6 @@ export class MainContentComponent implements OnInit {
         condition.lower_cd = '*';        
 
 
-
-
         this.incidentService.getIncident(condition).subscribe(
             (res) => {
                 this.incidentList = res.incident;
@@ -192,8 +188,8 @@ export class MainContentComponent implements OnInit {
         //팝업공지 기능
         this.qnaService.popupCheck().subscribe(
             (res) => {
-                console.log("res:", res.oftenqna);
-                console.log("this.noticeModal : ", this.noticeModal1);
+                //console.log("res:", res.oftenqna);
+                //console.log("this.noticeModal : ", this.noticeModal1);
                 var loopCnt =5;
                 this.noticeList = res.oftenqna;
                 if(this.noticeList.length <5){
@@ -203,10 +199,7 @@ export class MainContentComponent implements OnInit {
                     if(this.noticeList[i]){
                         //console.log('xxxxxxxxxx',this.noticeList[i]._id);
                         //console.log('xxxxxxxxxx',this.cookieService.get(this.noticeList[i]._id));
-                        console.log("this.cookieService.get :", this.cookieService.getAll());
                         var ck = this.cookieService.get(this.noticeList[i]._id);
-                        console.log("i : ", i);
-                        console.log("ck : ", ck);
 
                         if(i == 0 && ck != 'N')
                             this.modalService.open(this.noticeModal1,  { windowClass: 'mdModal', centered: true, backdrop: 'static', keyboard: false });
@@ -228,11 +221,27 @@ export class MainContentComponent implements OnInit {
 
     }
 
+    /**
+     * 차트 선택 시
+     * @param modalId 
+     * @param data 
+     */
     onSelect(modalId, data) {
-        console.log('Item clicked', data);
-        this.modalService.open(modalId, { size: 'lg' });
+        console.log("onSelect : ", modalId, data);
+        
+        var user_flag = this.cookieService.get("user_flag");
+        if(user_flag == '1' || user_flag == '2' || user_flag == '3'){
+            this.selectedItem = data.name;
+            this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});
+        }
+        
     }
 
+    /**
+     * 요청사항 선택 시
+     * @param modalId 
+     * @param incident 
+     */
     setDetail(modalId, incident){
         this.incidentDetail = incident;
 
@@ -249,13 +258,16 @@ export class MainContentComponent implements OnInit {
         //}
     }
 
+    /**
+     * 등록자, 담당자 선택 시
+     * @param modalId 
+     * @param email 
+     */
     getEmpInfo(modalId, email){
         this.empEmail = email;
         this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
     }
 
-
-   
 
     /*
     openBackDropCustomClass(content) {

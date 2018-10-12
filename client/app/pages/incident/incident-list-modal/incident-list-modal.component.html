@@ -1,0 +1,28 @@
+<div class="modal-header" style="text-align:left">
+    <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
+</div>
+
+<div class="modal-body">
+    <!-- Start Page-Title-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-title-box">
+                <ol class="breadcrumb float-right">
+                <li class="breadcrumb-item m-t-5">HOME</li>
+                </ol>
+                <h5 class="page-title">{{selectedItem}} 리스트</h5>
+            </div>
+        </div>
+    </div>
+    <!-- End Page Title-->
+      
+    <!-- start list -->
+    <app-incident-list-injectable [selectedItem] = "selectedItem"
+                             [searchYyyy]="searchYyyy"
+                             [searchMm]="searchMm"
+                             [searhHigherCd]="searhHigherCd"
+                             [searchCompany]="searchCompany"
+    ></app-incident-list-injectable>
+    <!-- end list -->
+
+</div>

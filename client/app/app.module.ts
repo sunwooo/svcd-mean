@@ -31,6 +31,11 @@ import { MyProcessService } from './services/my-process.service';
 import { CompanyProcessService } from './services/company-process.service';
 import { LowerProcessService } from './services/lower-process.service';
 import { ProcessGubunCodeService } from './services/process-gubun-code.service';
+import { Dashboard0Service } from './services/dashboard0.service';
+import { Dashboard1Service } from './services/dashboard1.service';
+import { Dashboard2Service } from './services/dashboard2.service';
+import { Dashboard3Service } from './services/dashboard3.service';
+
 
 /** Components */
 import { AppComponent } from './app.component';
@@ -101,9 +106,10 @@ import { LowerProcessNewComponent } from './pages/process/lower-process-new/lowe
 import { ProcessGubunCodeNewComponent } from './pages/process/process-gubun-code-new/process-gubun-code-new.component';
 import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
 import { Dashboard1Component } from './pages/dashboard/dashboard1/dashboard1.component';
-import { DetailChart1Component } from './paes/dashboard/detail-chart1/detail-chart1.component';
-import { DetailChart2Component } from './paes/dashboard/detail-chart2/detail-chart2.component';
-import { DetailChart3Component } from './paes/dashboard/detail-chart3/detail-chart3.component';
+import { Dashboard3Component } from './pages/dashboard/dashboard3/dashboard3.component';
+import { IncidentListModalComponent } from './pages/incident/incident-list-modal/incident-list-modal.component';
+import { IncidentPeopleModalComponent } from './pages/incident/incident-people-modal/incident-people-modal.component';
+import { IncidentListInjectableComponent } from './shared/incident-list-injectable/incident-list-injectable.component';
 
 const PAGES = [
     HomeComponent,
@@ -178,9 +184,11 @@ const PAGES = [
         ProcessGubunCodeNewComponent,
         Dashboard2Component,
         Dashboard1Component,
-        DetailChart1Component,
-        DetailChart2Component,
-        DetailChart3Component    ],
+        Dashboard3Component,
+        IncidentListModalComponent,
+        IncidentPeopleModalComponent,
+        IncidentListInjectableComponent
+    ],
     imports: [
         BrowserModule,
         RoutingModule,
@@ -213,7 +221,11 @@ const PAGES = [
         CompanyProcessService,
         PopUpComponent,
         LowerProcessService,
-        ProcessGubunCodeService
+        ProcessGubunCodeService,
+        Dashboard0Service,
+        Dashboard1Service,
+        Dashboard2Service,
+        Dashboard3Service
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     bootstrap: [AppComponent]

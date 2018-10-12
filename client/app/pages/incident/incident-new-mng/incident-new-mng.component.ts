@@ -164,9 +164,7 @@ export class IncidentNewMngComponent implements OnInit {
 
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
-        var ctext = text.replace(/<img src=/gi,'<img class="summernote-img" src=');
-        form.value.incident.content = ctext;
-
+        form.value.incident.content = text;
         form.value.incident.higher_cd = this.higher.higher_cd;
         form.value.incident.higher_nm = this.higher.higher_nm;
         form.value.request_info = this.request_info;

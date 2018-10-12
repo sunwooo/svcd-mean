@@ -10,20 +10,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class HigherCdComponent implements OnInit {
 
     @Input() scope: string; //상위업무 전체 조회면 '*',
-    @Input() initHigherCd: string; //초기 상세업무
+    @Input() initHigherCd: string = "*"; //초기 상세업무
     @Input() required: boolean = false;
     @Input() placeholder: string;
     @Input() company: string;
+    @Input() type: string;
     @Output() outHigherCd = new EventEmitter<string>();
 
-    public higherCd: any;
+    public higherCd: any = [];
     public condition: any = {};
     public selecedIdx;
 
     constructor(private commonApi: CommonApiService) { }
 
     ngOnInit() {       
-        if(this.scope == "*") this.initHigherCd = "*";
         //console.log("xxxxxxxxxxx this.initHigherCd ",this.initHigherCd);
         this.getHigherCd(this.company);
     }
@@ -56,6 +56,7 @@ export class HigherCdComponent implements OnInit {
                 //console.log(res);
                 //console.log('===================================================================================');
                 this.higherCd = res;
+                if(this.type == "search") this.initHigherCd = "*";
             },
             (error: HttpErrorResponse) => {
                 console.log('error : ',error);

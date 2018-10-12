@@ -211,6 +211,10 @@ module.exports = {
 
       }], function (condition) {
 
+        //console.log("========================================================");
+        //console.log("=====================statusCdCnt condition : ", JSON.stringify(condition));
+        //console.log("========================================================");
+
         var aggregatorOpts = [{
             $match: condition
           }, {
@@ -503,7 +507,7 @@ module.exports = {
                       case: {
                         $eq: ["$name", 1]
                       },
-                      then: "매우 불만족"
+                      then: "매우불만족"
                     },
                     {
                       case: {
@@ -527,7 +531,13 @@ module.exports = {
                       case: {
                         $eq: ["$name", 5]
                       },
-                      then: "매우 만족"
+                      then: "매우만족"
+                    },
+                    {
+                      case: {
+                        $eq: ["$name", null]
+                      },
+                      then: "기타"
                     }
                   ],
                   default: "기타"

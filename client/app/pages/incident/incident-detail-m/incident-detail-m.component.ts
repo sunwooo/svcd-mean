@@ -16,9 +16,11 @@ export class IncidentDetailMComponent implements OnInit {
     @Input() incidentDetail: any; //조회 incident
     @Input() cValues;  //모달창 닫기용
     @Input() dValues;  //모달창 무시용
+    @Input() buttonHidden; //접수,업무변경,완료,평가 버튼 숨김
     @Output() openerReload = new EventEmitter<any>(); //삭제 후 다시 조회를 위한 이벤트
 
     public empEmail: string = "";               //팝업 조회용 이메일
+    public btnDisplay = true;
 
     constructor(private auth: AuthService,
         private modalService: NgbModal,
@@ -28,6 +30,14 @@ export class IncidentDetailMComponent implements OnInit {
     ngOnInit() {
         //console.log("incidentDetail",JSON.stringify(this.incidentDetail));
         //console.log("incidentDetail",this.incidentDetail.attach_file.length);
+
+        //console.log("=========================================");
+        //console.log("buttonHidden : ", this.buttonHidden);
+        //console.log("=========================================");
+
+        if(this.buttonHidden){
+            this.btnDisplay = !this.buttonHidden;
+        }
     }
 
     /**

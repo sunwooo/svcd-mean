@@ -22,17 +22,17 @@
     <div class="col-lg-12">
       <div role="toolbar" class="btn-toolbar m-t-10">
         <div class="float-left">
-          <button type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+          <button *ngIf="btnDisplay" type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-bars"></i>목록</button>
-          <button (click)="openModal(higherCngModal)" class="btn btn-warning waves-effect waves-light m-l-5 btn-sm">
+          <button *ngIf="btnDisplay" (click)="openModal(higherCngModal)" class="btn btn-warning waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-exchange"></i>업무변경</button>
-          <button *ngIf="incidentDetail?.status_cd == '1'" (click)="openModalLg(receipModal)" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
+          <button *ngIf="btnDisplay && incidentDetail?.status_cd == '1'" (click)="openModalLg(receipModal)" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-edit"></i>접수</button>
-          <button *ngIf="incidentDetail?.status_cd == '1'" (click)="openModalLg(holdModal)" type="button" data-toggle="modal" data-target="#hold_modal" class="btn btn btn-pink waves-effect waves-light m-l-5 btn-sm">
+          <button *ngIf="btnDisplay && incidentDetail?.status_cd == '1'" (click)="openModalLg(holdModal)" type="button" data-toggle="modal" data-target="#hold_modal" class="btn btn btn-pink waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-thumb-tack"></i>협의필요 </button>
-          <button *ngIf="incidentDetail?.status_cd != '1'" (click)="openModalLg(completeModal)" type="button" data-toggle="modal" data-target="#complete_modal" class="btn btn-purple waves-effect waves-light m-l-5 btn-sm">
+          <button *ngIf="btnDisplay && incidentDetail?.status_cd != '1'" (click)="openModalLg(completeModal)" type="button" data-toggle="modal" data-target="#complete_modal" class="btn btn-purple waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-check"></i>완료</button>
-          <button  *ngIf="incidentDetail?.status_cd == '2'" (click)="openModalLg(ncompleteModal)" type="button" data-toggle="modal" data-target="#n_complete_modal" class="btn btn-default waves-effect waves-light m-l-5 btn-sm">
+          <button *ngIf="btnDisplay && incidentDetail?.status_cd == '2'" (click)="openModalLg(ncompleteModal)" type="button" data-toggle="modal" data-target="#n_complete_modal" class="btn btn-default waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-check"></i>미처리 </button>
         </div>
       </div>

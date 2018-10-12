@@ -36,8 +36,9 @@ export class StatisticService {
     /**
      * 만족도 현황
      */
-    valuationCnt(): Observable<any>{
-        return this.http.get<any>('/api/statistic/valuationCnt');
+    valuationCnt(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/statistic/valuationCnt', {params: httpParams});
     }
 
     /**
@@ -50,8 +51,9 @@ export class StatisticService {
     /**
      * 신청건수 상위 업무
      */
-    higherCnt(): Observable<any>{
-        return this.http.get<any>('/api/statistic/higherCnt');
+    higherCnt(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/statistic/higherCnt', {params: httpParams});
     }
 
     

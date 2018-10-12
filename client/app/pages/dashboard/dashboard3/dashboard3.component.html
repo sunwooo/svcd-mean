@@ -1,0 +1,278 @@
+
+
+<!-- 제목 시작-->
+<section class="content-header">
+    <h1>
+      <small>Service Desk Dashboard</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li>
+        <a href="#">
+          <i class="fa fa-dashboard"></i>인원현황</a>
+      </li>
+      <li class="active"></li>
+    </ol>
+  </section>
+  <!-- 제목 끝-->
+  
+  <section class="content">
+    <!-- 상태 차트 시작-->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <h4 class="text-dark header-title float-left m-l-30">요청/담당자</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <ngx-charts-bar-vertical-2d
+                                    class="chart-container"
+                                    [view]="[770, 227]"
+                                    [scheme]="colorScheme1"
+                                    [results]="chartData3"
+                                    [animations]="true"
+                                    [gradient]="true"
+                                    [xAxis]="true"
+                                    [yAxis]="true"
+                                    [legend]="true"
+                                    [legendTitle]="'구분'"
+                                    [showXAxisLabel]="true"
+                                    [showYAxisLabel]="true"
+                                    [tooltipDisabled]="false"
+                                    [xAxisLabel]="''"
+                                    [yAxisLabel]="''"
+                                    [showGridLines]="true"
+                                    [barPadding]="'7'"
+                                    [groupPadding]="'20'"
+                                    [roundDomains]="true"
+                                    [roundEdges]="true"
+                                    [yScaleMax]="'200'"
+                                    [showDataLabel]="true"
+                                    (legendLabelClick)="onLegendLabelClick($event)"
+                                    (select)="select($event)"
+                        >
+                        </ngx-charts-bar-vertical-2d> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-sm-12 col-lg-6">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-3">
+                        <div class="row">
+                            <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 요청</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-12 float-left">
+                                <ngx-charts-bar-horizontal
+                                    class="chart-container"
+                                    [view]="[200,227]"
+                                    [scheme]="colorScheme2_1"
+                                    [schemeType]="'ordinal'"
+                                    [results]="chartData3_1"
+                                    [animations]="true"
+                                    [gradient]="true"
+                                    [xAxis]="false"
+                                    [yAxis]="true"
+                                    [legend]="false"
+                                    [legendTitle]="''"
+                                    [showXAxisLabel]="false"
+                                    [showYAxisLabel]="true"
+                                    [tooltipDisabled]="false"
+                                    [xAxisLabel]="''"
+                                    [yAxisLabel]="''"
+                                    [showGridLines]="true"
+                                    [barPadding]="'30'"
+                                    [roundDomains]="true"
+                                    [roundEdges]="true"
+                                    [xScaleMax]="'10'"
+                                    [showDataLabel]="true"
+                                    (legendLabelClick)="onLegendLabelClick($event)"
+                                    (select)="openPeopleModal('요청', peopleModal, $event)"
+                                >
+                                </ngx-charts-bar-horizontal>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-3">
+                        <div class="row">
+                            <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 접수</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-12">
+                                <ngx-charts-bar-horizontal
+                                    class="chart-container"
+                                    [view]="[200,227]"
+                                    [scheme]="colorScheme2_2"
+                                    [schemeType]="'ordinal'"
+                                    [results]="chartData3_2"
+                                    [animations]="true"
+                                    [gradient]="true"
+                                    [xAxis]="false"
+                                    [yAxis]="true"
+                                    [legend]="false"
+                                    [legendTitle]="''"
+                                    [showXAxisLabel]="false"
+                                    [showYAxisLabel]="true"
+                                    [tooltipDisabled]="false"
+                                    [xAxisLabel]="''"
+                                    [yAxisLabel]="''"
+                                    [showGridLines]="true"
+                                    [barPadding]="'30'"
+                                    [roundDomains]="true"
+                                    [roundEdges]="true"
+                                    [xScaleMax]="'10'"
+                                    [showDataLabel]="true"
+                                    (legendLabelClick)="onLegendLabelClick($event)"
+                                    (select)="openPeopleModal('접수', peopleModal, $event)"
+                                >
+                                </ngx-charts-bar-horizontal>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-3">
+                        <div class="row">
+                            <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 만족</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-12">
+                                <ngx-charts-bar-horizontal
+                                    class="chart-container"
+                                    [view]="[200,227]"
+                                    [scheme]="colorScheme2_3"
+                                    [schemeType]="'ordinal'"
+                                    [results]="chartData3_3"
+                                    [animations]="true"
+                                    [gradient]="true"
+                                    [xAxis]="false"
+                                    [yAxis]="true"
+                                    [legend]="false"
+                                    [legendTitle]="''"
+                                    [showXAxisLabel]="false"
+                                    [showYAxisLabel]="true"
+                                    [tooltipDisabled]="false"
+                                    [xAxisLabel]="''"
+                                    [yAxisLabel]="''"
+                                    [showGridLines]="true"
+                                    [barPadding]="'30'"
+                                    [roundDomains]="true"
+                                    [roundEdges]="true"
+                                    [xScaleMax]="'5'"
+                                    [showDataLabel]="true"
+                                    (legendLabelClick)="onLegendLabelClick($event)"
+                                    (select)="openPeopleModal('만족', peopleModal, $event)"
+                                >
+                                </ngx-charts-bar-horizontal>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-3">
+                        <div class="row">
+                            <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 불만</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-12">
+                                <ngx-charts-bar-horizontal
+                                    class="chart-container"
+                                    [view]="[200,227]"
+                                    [scheme]="colorScheme2_4"
+                                    [schemeType]="'ordinal'"
+                                    [results]="chartData3_4"
+                                    [animations]="true"
+                                    [gradient]="true"
+                                    [xAxis]="false"
+                                    [yAxis]="true"
+                                    [legend]="false"
+                                    [legendTitle]="''"
+                                    [showXAxisLabel]="false"
+                                    [showYAxisLabel]="true"
+                                    [tooltipDisabled]="true"
+                                    [xAxisLabel]="''"
+                                    [yAxisLabel]="''"
+                                    [showGridLines]="true"
+                                    [barPadding]="'30'"
+                                    [roundDomains]="true"
+                                    [roundEdges]="true"
+                                    [xScaleMax]="'1'"
+                                    [showDataLabel]="true"
+                                    (legendLabelClick)="onLegendLabelClick($event)"
+                                    (select)="openPeopleModal('불만', peopleModal, $event)"
+                                    >
+                                </ngx-charts-bar-horizontal>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+    </div>
+    <!-- 상태 차트 끝-->
+  
+    <!-- 만족도, 요청 현황 차트 시작-->
+    <div class="row">
+  
+        <div class="col-lg-12 col-sm-12">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 업무별 현황</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12 m-t-60">
+                        <ngx-charts-bar-vertical-2d
+                                    class="chart-container"
+                                    [view]="[1750, 300]"
+                                    [scheme]="colorScheme3"
+                                    [results]="chartData3_5"
+                                    [animations]="true"
+                                    [gradient]="true"
+                                    [xAxis]="true"
+                                    [yAxis]="true"
+                                    [legend]="true"
+                                    [legendTitle]="'구분'"
+                                    [showXAxisLabel]="true"
+                                    [showYAxisLabel]="true"
+                                    [tooltipDisabled]="true"
+                                    [xAxisLabel]="''"
+                                    [yAxisLabel]="''"
+                                    (legendLabelClick)="onLegendLabelClick($event)"
+                                    [showGridLines]="true"
+                                    [barPadding]="'3'"
+                                    [groupPadding]="'5'"
+                                    [roundDomains]="true"
+                                    [roundEdges]="true"
+                                    [yScaleMax]="'300'"
+                                    [showDataLabel]="true"
+                                    (select)="select($event)"                                    
+                        >
+                        </ngx-charts-bar-vertical-2d> 
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+    </div>
+    <!-- 만족도, 요청 현황 차트 끝-->
+  
+  </section>
+ 
+
+<ng-template #peopleModal let-c="close" let-d="dismiss">
+    <app-incident-people-modal [cValues]="this.c"
+                        [dValues]="this.d"
+                        [searchYyyy]="searchYyyy"
+                        [searchMm]="searchMm"
+                        [searhHigherCd]="searhHigherCd"
+                        [searhHigherNm]="searhHigherNm"
+                        [searchCompany]="searchCompany"
+                        [email]="email"
+                        [gubun]="gubun"
+    >
+    </app-incident-people-modal>
+</ng-template>

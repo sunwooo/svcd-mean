@@ -1,3 +1,148 @@
-<p>
-  dashboard1 works!
-</p>
+<!-- 제목 시작-->
+<section class="content-header">
+  <h1>
+    <small>Service Desk Dashboard</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li>
+      <a href="#">
+        <i class="fa fa-dashboard"></i>&nbsp;요청건 수 현황</a>
+    </li>
+    <li class="active"></li>
+  </ol>
+</section>
+<!-- 제목 끝-->
+
+<section class="content">
+  <div class="row">
+
+    <div class="col-lg-6 col-sm-12">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-sm-12 col-lg-6">
+                    <h4 class="text-dark header-title float-left m-l-30">월별 요청건 현황</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-lg-6 m-t-60">
+                    <ngx-charts-line-chart  [view]="[750, 300]" 
+                                            [scheme]="colorScheme3" 
+                                            [results]="monthlyCntChart" 
+                                            [gradient]="gradient"
+                                            [xAxis]="showXAxis" 
+                                            [yAxis]="showYAxis" 
+                                            [legend]="showLegend" 
+                                            [legendTitle]="''" 
+                                            [showXAxisLabel]="showXAxisLabel" 
+                                            [showYAxisLabel]="showYAxisLabel" 
+                                            [xAxisLabel]="xAxisLabel" 
+                                            [yAxisLabel]="yAxisLabel" 
+                                            [autoScale]="autoScale" 
+                                            [timeline]="timeline" 
+                                            (select)="onSelect(content, $event)">
+                    </ngx-charts-line-chart>
+                </div>
+            </div> <!-- row end-->
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-lg-6">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <div class="row">
+                            <h4 class="text-dark header-title float-left m-l-30">{{thisYyyy}} 처리 현황</h4>
+                        </div>
+                        <div class="row">
+                            <ngx-charts-pie-grid [view]="[750, 300]" 
+                                                [scheme]="colorScheme4" 
+                                                [label]="'건수'" 
+                                                [results]="statusChart1" 
+                                                (select)="onSelect(content, $event)"
+                            >
+                            </ngx-charts-pie-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-sm-12 col-lg-12">
+                    <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 회사별 현황 Top 5</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-lg-12 m-t-60">
+                    <ngx-charts-pie-chart [view]="[700, 250]" 
+                                        [scheme]="colorScheme3" 
+                                        [results]="comCntChart" 
+                                        [explodeSlices]="true" 
+                                        [gradient]="gradient"
+                                        [labels]="true"
+                    >
+                    </ngx-charts-pie-chart>
+                </div>
+            </div><!-- row end-->
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12">
+                        <h4 class="text-dark header-title float-left m-l-30">{{searchYyyy}} 업무별 현황 Top 5</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12 m-t-60">
+                        <ngx-charts-bar-vertical-stacked
+                                    class="chart-container"
+                                    [view]="[700, 250]"
+                                    [scheme]="colorScheme1"
+                                    [results]="chartData3"
+                                    [animations]="true"
+                                    [gradient]="true"
+                                    [xAxis]="showXAxis"
+                                    [yAxis]="showYAxis"
+                                    [legend]="false"
+                                    [legendTitle]="''"
+                                    [showXAxisLabel]="showXAxisLabel"
+                                    [showYAxisLabel]="showYAxisLabel"
+                                    [tooltipDisabled]="false"
+                                    [xAxisLabel]="xAxisLabel"
+                                    [yAxisLabel]="yAxisLabel"
+                                    (legendLabelClick)="onLegendLabelClick($event)"
+                                    [showGridLines]="true"
+                                    [barPadding]="'3'"
+                                    [groupPadding]="'5'"
+                                    [roundDomains]="false"
+                                    [roundEdges]="true"
+                                    [yScaleMax]="'1'"
+                                    [showDataLabel]="false"
+                        >
+                        </ngx-charts-bar-vertical-stacked> 
+    
+                    </div>
+                </div><!-- row end-->
+            </div>
+        </div>
+  </div>
+
+</section>
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <app-incident-list-modal [cValues]="this.c"
+                        [dValues]="this.d"
+                        [selectedItem]="selectedItem"
+                        [searchYyyy]="searchYyyy"
+                        [searchMm]="searchMm"
+                        [searhHigherCd]="searhHigherCd"
+                        [searhHigherNm]="searhHigherNm"
+                        [searchCompany]="searchCompany"
+    >
+    </app-incident-list-modal>
+</ng-template>

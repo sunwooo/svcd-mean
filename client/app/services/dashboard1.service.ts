@@ -20,5 +20,20 @@ export class Dashboard1Service {
         return this.http.get<any>('/api/dashboard/chart1_1', {params: httpParams});
     }
 
+    getChart1_2(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/dashboard/chart1_2', {params: httpParams});
+    }
+
+    getChart1_3(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/dashboard/chart1_2', {params: httpParams});
+    }
+
+    getChart1_4(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/dashboard/chart1_4', {params: httpParams});
+    }
+
 
 }
