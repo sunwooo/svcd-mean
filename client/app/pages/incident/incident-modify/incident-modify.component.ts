@@ -138,7 +138,9 @@ export class IncidentModifyComponent implements OnInit {
 
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
-        form.value.incident.content = text;
+        var ctext = text.replace(/<img src=/gi,'<img class="summernote-img" src=');
+        form.value.incident.content = ctext;
+
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
         this.formData.incident._id = this.incidentDetail._id;

@@ -91,9 +91,9 @@ export class IncidentNewComponent implements OnInit {
          */ 
         this.uploader.onCompleteItem = (item: any, res: any, status: any, headers: any) => {
 
-            console.log('=======================================uploader.onCompleteItem=======================================');
-            console.log("res ", res);
-            console.log('=================================================================================================');
+            //console.log('=======================================uploader.onCompleteItem=======================================');
+            //console.log("res ", res);
+            //console.log('=================================================================================================');
 
             this.attach_file.push(JSON.parse(res)); 
         }
@@ -103,9 +103,9 @@ export class IncidentNewComponent implements OnInit {
          */
         this.uploader.onCompleteAll = () => {
 
-            console.log('=======================================uploader.onCompleteAll=======================================');
-            console.log("this.formData ", this.formData);
-            console.log('=================================================================================================');
+            //console.log('=======================================uploader.onCompleteAll=======================================');
+            //console.log("this.formData ", this.formData);
+            //console.log('=================================================================================================');
 
             this.formData.incident.attach_file = this.attach_file;
             this.addIncident();
