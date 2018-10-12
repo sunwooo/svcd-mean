@@ -126,6 +126,10 @@ export class Dashboard2Component implements OnInit {
         domain: ['#008fd4', '#b4985a', '#99ca3c', '#a7a9ac', '#f04124']
     };
 
+    public colorScheme5 = {
+        domain: ['#008fd4', '#b4985a', '#99ca3c', '#a7a9ac', '#f04124']
+    };
+
 
 
     //public colorScheme = [{name:'OPTI-HR',value:'#e1d248'}];
