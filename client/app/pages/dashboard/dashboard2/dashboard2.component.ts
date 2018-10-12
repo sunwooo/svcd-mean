@@ -127,8 +127,10 @@ export class Dashboard2Component implements OnInit {
     };
 
     public colorScheme5 = {
-        domain: ['#008fd4', '#b4985a', '#99ca3c', '#a7a9ac', '#f04124']
+        domain: ['#a8385d', '#b4985a', '#99ca3c', '#a7a9ac', '#008fd4']
     };
+
+   
 
 
 
