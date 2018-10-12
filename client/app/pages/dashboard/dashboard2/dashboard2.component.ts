@@ -47,7 +47,6 @@ export class Dashboard2Component implements OnInit {
     public legendTitle = 'Company';
     public showXAxisLabel = true;
     public tooltipDisabled = false;
-    public xAxisLabel = 'Year';
     public showYAxisLabel = true;
     public yAxisLabel = 'Valuation';
     public showGridLines = true;
