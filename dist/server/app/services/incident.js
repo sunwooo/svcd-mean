@@ -69,11 +69,12 @@ function createOrCondition(req){
     }
     if (req.query.user == "general"){
         if(req.query.complete){
-            OrQueries.push({'status_cd':'3'});
+            //OrQueries.push({'status_cd':'3'});
             OrQueries.push({'status_cd':'4'});
         }else{
             OrQueries.push({'status_cd':'1'});
             OrQueries.push({'status_cd':'2'});
+            OrQueries.push({'status_cd':'3'});
             OrQueries.push({'status_cd':'5'});
             OrQueries.push({'status_cd':'9'});
         }
@@ -170,11 +171,14 @@ function createAndCondition(req){
     //gbn=complete 시, status=3,4만 가져오기
     if (req.query.gbn == "complete") {
         AndQueries.push({
-            $or: [{
-                "status_cd": "3"
-            }, {
-                "status_cd": "4"
-            }]
+            $or: [
+                //{
+                //    "status_cd": "3"
+                //}, 
+                {
+                    "status_cd": "4"
+                }   
+            ]
         });
     }
 

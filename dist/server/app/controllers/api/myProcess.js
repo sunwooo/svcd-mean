@@ -46,7 +46,12 @@ module.exports = {
             }], function (err, higherProcess, lowerProcess) {
 
                 var condition = {};
-                condition.email = req.session.email;
+
+                if(req.query.email == null){ //이메일 정보가 없으면 세션에 이메일로 처리
+                    condition.email = req.session.email;
+                }else{
+                    condition.email = req.query.email;
+                }
 
                 MyProcess.find(condition, function (err, mp) {
                     
@@ -55,7 +60,7 @@ module.exports = {
                         var rtnArr = [];
 
                         //비교용 myProcessArr 생성
-                        var myProcessArr = getMyprocess(req, mp);
+                        var myProcessArr = getMyprocess(condition.email, mp);
 
                         higherProcess.forEach(hp => {
 
@@ -76,7 +81,7 @@ module.exports = {
                                     val.company_nm = req.session.company_nm;
                                     val.dept_cd = req.session.dept_cd;
                                     val.dept_nm = req.session.dept_nm;
-                                    val.email = req.session.email;
+                                    val.email = condition.email;
                                     val.employee_nm = req.session.employee_nm;
 
                                     val.higher_cd = lp.higher_cd;
@@ -181,15 +186,15 @@ module.exports = {
 
 /**
  * 본인 하위 업무 조회
- * @param {*} req 
+ * @param {*} email 
  * @param {*} res 
  * @param {*} userInfo 
  */
-function getMyprocess(req, processInfo) {
+function getMyprocess(email, processInfo) {
 
     var rtnArr = [];
     processInfo.forEach((ps) => {
-        if (ps.email == req.session.email) {
+        if (ps.email == email) {
         rtnArr.push(ps.lower_cd);
         }
     });

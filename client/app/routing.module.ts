@@ -38,6 +38,7 @@ import { LowerProcessNewComponent } from './pages/process/lower-process-new/lowe
 import { ProcessGubunCodeNewComponent } from './pages/process/process-gubun-code-new/process-gubun-code-new.component';
 import { Dashboard1Component } from './pages/dashboard/dashboard1/dashboard1.component';
 import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
+import { UserProcessComponent } from './pages/process/user-process/user-process.component';
 
 const routes: Routes = [
 
@@ -72,6 +73,7 @@ const routes: Routes = [
             { path: '4450', component: UserNewComponent },
             { path: '4500', component: UserAccessComponent },
             { path: '4600', component: CompanyProcessComponent },
+            { path: '4610', component: UserProcessComponent },
             { path: '4700', component: ProcessGubunCodeComponent },
             { path: '4750', component: ProcessGubunCodeNewComponent },
             { path: '4800', component: QnaMngComponent},

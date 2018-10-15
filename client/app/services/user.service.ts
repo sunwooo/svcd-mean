@@ -13,9 +13,9 @@ export class UserService {
 
     login(credentials): Observable<any> {
 
-        console.log("========user.login()========");
-        console.log("credentials : ", credentials);
-        console.log("============================");
+        //console.log("========user.login()========");
+        //console.log("credentials : ", credentials);
+        //console.log("============================");
 
         return this.http.post<any>('/api/login', credentials, { withCredentials: true });
     }
@@ -27,9 +27,9 @@ export class UserService {
      */
     addUser(user: NgForm): Observable<any> {
 
-        console.log("========addUser(user: NgForm): Observable<any>========");
-        console.log("user : ", user.value);
-        console.log("======================================================");
+        //console.log("========addUser(user: NgForm): Observable<any>========");
+        //console.log("user : ", user.value);
+        //console.log("======================================================");
 
         return this.http.post<any>('/api/user/addUser', user.value, { withCredentials: true });
     }
@@ -41,9 +41,9 @@ export class UserService {
      */
     getGroupEmpInfo(email: string): Observable<any> {
 
-        console.log("========getGroupEmpInfo(email : string): Observable<any>========");
-        console.log("email : ", email);
-        console.log("======================================================");
+        //console.log("========getGroupEmpInfo(email : string): Observable<any>========");
+        //console.log("email : ", email);
+        //console.log("======================================================");
 
         var headers = new HttpHeaders();
         headers.set('Content-Type', 'application/json');
@@ -59,9 +59,9 @@ export class UserService {
     */
     getEmpInfo(email: string): Observable<any> {
 
-        console.log("========getEmpInfo(email : string): Observable<any>========");
-        console.log("email : ", email);
-        console.log("======================================================");
+        //console.log("========getEmpInfo(email : string): Observable<any>========");
+        //console.log("email : ", email);
+        //console.log("======================================================");
 
         return this.http.get<any>('/api/user/empInfo', { params: new HttpParams().set('email', email) });
     }
