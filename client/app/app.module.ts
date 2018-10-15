@@ -110,6 +110,7 @@ import { Dashboard3Component } from './pages/dashboard/dashboard3/dashboard3.com
 import { IncidentListModalComponent } from './pages/incident/incident-list-modal/incident-list-modal.component';
 import { IncidentPeopleModalComponent } from './pages/incident/incident-people-modal/incident-people-modal.component';
 import { IncidentListInjectableComponent } from './shared/incident-list-injectable/incident-list-injectable.component';
+import { UserProcessComponent } from './pages/process/user-process/user-process.component';
 
 const PAGES = [
     HomeComponent,
@@ -187,7 +188,8 @@ const PAGES = [
         Dashboard3Component,
         IncidentListModalComponent,
         IncidentPeopleModalComponent,
-        IncidentListInjectableComponent
+        IncidentListInjectableComponent,
+        UserProcessComponent
     ],
     imports: [
         BrowserModule,
