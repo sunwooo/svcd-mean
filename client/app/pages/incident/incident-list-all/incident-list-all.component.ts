@@ -250,20 +250,29 @@ export class IncidentListAllComponent implements OnInit {
      * 현재 페이지 excelDownload
      */
     excelDownloadAll(){
-        if(this.totalDataCnt <= 10000){
+
+        var maxCnt = 3000;
+
+        if(this.totalDataCnt <= maxCnt){
 
             this.setTransForm();
 
             //1페이지로 초기화
             this.formData.page = 1;
-            this.formData.perPage = 10000;
+            this.formData.perPage = maxCnt;
           
             this.incidentService.getExcelData(this.formData).subscribe(
                 (res) => {
-                    if(res.totalDataCnt != 0){
+
+
+                    //console.log("===================================================");
+                    //console.log("res : ",res);
+                    //console.log("===================================================");
+
+                    if(res.incident){
                         this.excelService.exportAsExcelFile(res.incident, '문의내용');
                     }else{
-                        this.toast.open('조회데이타가 없습니다.', 'danger');
+                        this.toast.open(JSON.stringify(res.message), 'danger');
                     }
 
                 },
@@ -271,7 +280,7 @@ export class IncidentListAllComponent implements OnInit {
                 }
             );
         }else{
-            this.toast.open('10000건 이하로 다운로드하세요.', 'primary');
+            this.toast.open(maxCnt+'건 이하로 다운로드하세요.', 'primary');
         }  
         
     }
