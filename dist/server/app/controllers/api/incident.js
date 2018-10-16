@@ -679,7 +679,7 @@ module.exports = {
             register_date: -1
           }
         }];
-        Incident.aggregate(aggregatorOpts).exec(function (err, incident) {
+        Incident.aggregate(aggregatorOpts).allowDiskUse(true).exec(function (err, incident) {
           if (err) {
             return res.json({
               success: false,
