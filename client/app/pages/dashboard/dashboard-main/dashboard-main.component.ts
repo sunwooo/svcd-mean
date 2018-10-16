@@ -147,4 +147,10 @@ export class DashboardMainComponent implements OnInit {
         this.getData();
     }
 
+    tabChanged(event){
+        console.log("============================");
+        console.log(event);
+        console.log("============================");
+    }
+
 }

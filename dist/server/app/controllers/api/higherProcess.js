@@ -20,11 +20,11 @@ module.exports = {
         var page = 1;
         var perPage = 15;
 
-        console.log("==========================================getHigherProcess=======================================");
-        console.log("req.query.page : ", req.query.page);
-        console.log("req.query.perPage : ", req.query.perPage);
-        console.log("req.query.searchText : ", req.query.searchText);
-        console.log("================================================================================================");
+        //console.log("==========================================getHigherProcess=======================================");
+        //console.log("req.query.page : ", req.query.page);
+        //console.log("req.query.perPage : ", req.query.perPage);
+        //console.log("req.query.searchText : ", req.query.searchText);
+        //console.log("================================================================================================");
 
         if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
         if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);

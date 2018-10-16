@@ -16,7 +16,7 @@ export class HigherProcessService {
     */
     
     getHigherProcessList(condition): Observable<any> {
-        console.log("===========================getHigherProcessList", condition);
+        //console.log("===========================getHigherProcessList", condition);
         var httpParams = new HttpParams({ fromObject: condition });
         return this.http.get<any>('/api/higherProcess/list', {params: httpParams});
     }
