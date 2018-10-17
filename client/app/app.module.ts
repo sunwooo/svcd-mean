@@ -111,6 +111,7 @@ import { IncidentListModalComponent } from './pages/incident/incident-list-modal
 import { IncidentPeopleModalComponent } from './pages/incident/incident-people-modal/incident-people-modal.component';
 import { IncidentListInjectableComponent } from './shared/incident-list-injectable/incident-list-injectable.component';
 import { UserProcessComponent } from './pages/process/user-process/user-process.component';
+import { QnaModifyComponent } from './pages/qna/qna-modify/qna-modify.component';
 
 const PAGES = [
     HomeComponent,
@@ -189,7 +190,8 @@ const PAGES = [
         IncidentListModalComponent,
         IncidentPeopleModalComponent,
         IncidentListInjectableComponent,
-        UserProcessComponent
+        UserProcessComponent,
+        QnaModifyComponent
     ],
     imports: [
         BrowserModule,

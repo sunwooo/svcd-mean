@@ -74,8 +74,17 @@ export class QnaService {
      * @param qna
      */
     fileUpdate(qna){
-        console.log("xxxxxxxxxxxxxxxx ", qna);
         return this.http.put<any>('/api/qna/update', qna, {withCredentials:true});
     }
+
+   /**
+     * 파일 다운로드
+     * @param filepath
+     */
+    fileDownLoad(filepath){
+        var body = {filepath:filepath};
+        var headers = new HttpHeaders().append('Content-Type','application/json');
+        return this.http.post('/api/qna/download', body, {responseType : 'blob', headers : headers});
+    }    
 
 }

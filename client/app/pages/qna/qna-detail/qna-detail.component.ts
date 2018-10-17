@@ -15,6 +15,7 @@ import { CommonApiService } from '../../../services/common-api.service';
 import { catchError, map, tap, startWith, switchMap, debounceTime, distinctUntilChanged, takeWhile, first } from 'rxjs/operators';
 import { HigherCdComponent } from '../../../shared/higher-cd/higher-cd.component';
 import { Input, Output } from "@angular/core";
+import { saveAs } from 'file-saver';
 const URL = '/api/upload-file';
 
 // Jquery declaration
@@ -61,184 +62,6 @@ export class QnaDetailComponent implements OnInit {
 
 
     ngOnInit() {
-
-        this.getCompany();
-
-        //pop_yn에 따른 체크박스 체크
-        if (this.qnaDetail.pop_yn == "Y") {
-            this.isChecked = true;
-        } else {
-            this.isChecked = false;
-        }
-
-        this.dropdownList = [
-            /*
-                { id: "1", itemName: "India" },
-                { id: "2", itemName: "Singapore" },
-                { id: "3", itemName: "Australia" },
-                { id: "4", itemName: "Canada" },
-                { id: "5", itemName: "South Korea" },
-                { id: "6", itemName: "Brazil" }
-            */
-        ];
-
-
-        this.selectedItems = this.qnaDetail.company_cd;
-        //console.log("this.selectedItems : ", this.selectedItems);
-        /*
-                [
-                    { "id": 1, "itemName": "India" },
-                    { "id": 2, "itemName": "Singapore" },
-                    { "id": 3, "itemName": "Australia" },
-                    { "id": 4, "itemName": "Canada" }
-                ];
-          */
-        this.dropdownSettings = {
-            singleSelection: false,
-            text: "Select on Companies",
-            selectAllText: 'Select All',
-            unSelectAllText: 'UnSelect All',
-            enableSearchFilter: true,
-            classes: "myclass custom-class"
-        };
-
-
-        $('#summernote').summernote({
-            height: 350, // set editor height;
-            minHeight: null, // set minimum height of editor
-            maxHeight: null, // set maximum height of editor
-            focus: false // set focus to editable area after initializing summernote
-            , toolbar: [
-                ['edit', ['undo', 'redo']],
-                ['headline', ['style']],
-                ['style', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
-                ['fontface', ['fontname']],
-                ['textsize', ['fontsize']],
-                ['fontclr', ['color']],
-                ['alignment', ['ul', 'ol', 'paragraph', 'lineheight']],
-                ['height', ['height']],
-                ['table', ['table']],
-                ['view', ['fullscreen', 'codeview']]
-            ]
-            , popover: {
-                image: [],
-                link: [],
-                air: []
-            }
-        });
-
-        $('#summernote').summernote('code', this.qnaDetail.content);
-
-        /**
-         * 개별 파일업로드 완료 시 db저장용 object배열에 저장
-         */
-        this.uploader.onCompleteItem = (item: any, res: any, status: any, headers: any) => {
-            //console.log('=======================================uploader.onCompleteItem=======================================');
-            //console.log("uploader.onCompleteItem res ", res);
-            //console.log('=================================================================================================');
-
-            this.attach_file.push(JSON.parse(res));
-        }
-
-        /**
-         * 첨부파일 전체 업로드 완료 시 db저장용 object배열을 fromData에 저장
-         */
-        this.uploader.onCompleteAll = () => {
-
-            this.attach_file.forEach(af => {
-                this.qnaDetail.attach_file.push(af);
-            });
-
-            this.formData = {
-                'qna': {
-                    '_id': this.qnaDetail._id,
-                    'attach_file': this.qnaDetail.attach_file
-                }
-            };
-
-            //console.log('=======================================uploader.onCompleteAll=======================================');
-            //console.log("this.formData ", this.formData);
-            //console.log('=================================================================================================');
-
-            //Template form을 전송용 formData에 저장 
-            this.qnaService.fileUpdate(this.formData).subscribe(
-                (res) => {
-                    this.uploader.clearQueue();
-                    this.toast.open('파일이 업로드되었습니다.', 'success');
-                },
-                (error: HttpErrorResponse) => {
-                    console.log(error);
-                });
-        }
-    }
-
-
-    /**
-     * formData 조합
-     * @param form 
-     */
-    updateQna(form: NgForm) {
-
-        //Template form을 전송용 formData에 저장 
-        this.formData = form.value;
-        this.formData.qna._id = this.qnaDetail._id;
-
-        //summernote 내용처리
-        var text = $('#summernote').summernote('code');
-        var ctext = text.replace(/<img src=/gi,'<img class="summernote-img" src=');
-        this.formData.qna.content = ctext;
-
-        this.formData.qna.user_nm = this.employee_nm;
-        if (this.isChecked) {
-            this.formData.qna.pop_yn = "Y";
-        } else {
-            this.formData.qna.pop_yn = "N";
-        }
-
-        this.formData.qna.company_cd = this.selectedItems;
-
-        this.qnaService.putQna(this.formData).subscribe(
-            (res) => {
-                if (res.success) {
-                    //리스트와 공유된 oftenqnaDetail 수정
-                    this.qnaDetail.title = this.formData.qna.title;
-                    this.qnaDetail.content = this.formData.qna.content;
-                    this.qnaDetail.pop_yn = this.formData.qna.pop_yn;
-                    //모달창 닫기
-                    this.cValues('Close click');
-                }
-            },
-            (error: HttpErrorResponse) => {
-                this.toast.open('오류입니다. ' + error.message, 'danger');
-            }
-        );
-
-    }
-
-
-    /**
-     * 자주묻는질문과답 삭제
-     * @param higherProcessId
-     */
-    deleteQna(qnaId) {
-        //console.log("deleteQna qnaId :", qnaId);
-
-        this.qnaService.delete(qnaId).subscribe(
-            (res) => {
-                if (res.success) {
-                    this.toast.open('삭제되었습니다.', 'success');
-                    this.router.navigate(['/svcd/4800']);
-                    this.openerReload.emit();
-                }
-
-            },
-            (error: HttpErrorResponse) => {
-                console.log(error);
-            },
-            () => {
-                this.cValues('Close click');
-            }
-        );
     }
 
 
@@ -250,77 +73,15 @@ export class QnaDetailComponent implements OnInit {
     }
 
 
-    onItemSelect(item: any) {
-        //console.log("onItemSelect selectedItems : ", this.selectedItems);
-        //console.log("onItemSelect item : ", item);
-
-        //this.selectedItems.push(item);
-        console.log("1 this.selectedItems: ", this.selectedItems);
-    }
-    OnItemDeSelect(item: any) {
-        //this.selectedItems.pop();
-        //console.log("2 this.selectedItems: ", this.selectedItems);
-
-    }
-    onSelectAll(items: any) {
-        //this.selectedItems.splice(0);
-        //this.selectedItems.push(items); //[{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
-        //this.selectedItems = this.selectedItems[0];
-        //console.log("3 this.selectedItems: ", this.selectedItems);
-    }
-    onDeSelectAll(items: any) {
-        //this.selectedItems.splice(0);
-        //console.log("4 this.selectedItems: ", this.selectedItems);
-    }
-
-    /**
-   * 회사리스트 조회
-   */
-
-    getCompany() {
-        this.commonApi.getCompany({ scope: "*" }).subscribe(
-            (res) => {
-                //console.log("getCompany res ====>" , JSON.stringify(res));
-                //console.log("getCompany res ====>" , JSON.stringify(res));
-                this.companyObj = res;
-                for (var i = 0; i < this.companyObj.length; i++) {
-
-                    var text = { id: "" + this.companyObj[i].company_cd + "", itemName: "" + this.companyObj[i].company_nm + "" };
-                    //console.log("text :" + text);
-                    // {id:"7",itemName:"France"},
-
-                    this.dropdownList.push(text);
-                }
-            },
-            (error: HttpErrorResponse) => {
-            }
-        );
-    }
-
-
     /**
      * 파일 다운로드
      * @param path 
      * @param filename 
      */
-    deleteFile(deletefile, index) {
-
-        //삭제할 파일을 attach_file 배열에서 제거 (DB저장용)
-        this.qnaDetail.attach_file.splice(index, 1);
-
-        this.formData = {
-            'qna': {
-                '_id': this.qnaDetail._id,
-                'attach_file': this.qnaDetail.attach_file
-            },
-            'deletefile': deletefile
-        };
-
-        //Template form을 전송용 formData에 저장 
-        this.qnaService.fileUpdate(this.formData).subscribe(
+    fileDownLoad(path, filename){
+        this.qnaService.fileDownLoad(path).subscribe(
             (res) => {
-                console.log("res ", res);
-                this.toast.open('파일이 삭제되었습니다.', 'success');
+                saveAs(res, filename);
             },
             (error: HttpErrorResponse) => {
                 console.log(error);
@@ -328,15 +89,5 @@ export class QnaDetailComponent implements OnInit {
         );
     }
 
-    /**
-     * 첨부파일 추가
-     */
-    addAttachFile() {
-        if (this.uploader.queue.length > 0) {
-            this.uploader.uploadAll(); //uploader 완료(this.uploader.onCompleteAll)
-        } else {
-            this.toast.open('올릴 파일을 선택하세요.', 'danger');
-        }
-    }
 
 }

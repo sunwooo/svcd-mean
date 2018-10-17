@@ -109,7 +109,7 @@ router.put('/qna/update', ssc.sessionCheck, oftenQnaCtrl.update);           //�
 router.delete('/qna/delete', ssc.sessionCheck, oftenQnaCtrl.delete);        //자주묻는질문과답 삭제
 router.post('/qna/new', ssc.sessionCheck, oftenQnaCtrl.insert);             //자주묻는질문과답 등록
 router.get('/qna/getPopUpYN', ssc.sessionCheck, oftenQnaCtrl.getPopUpYN);   //팝업공지 체크 조회
-
+router.post('/qna/download', ssc.sessionCheck, oftenQnaCtrl.download);  //첨부파일 다운로드
 
 //myProcess route
 router.get('/myProcess/myProcessTree', ssc.sessionCheck, myProcessCtrl.myProcessTree);    //나의업무 체계 조회
