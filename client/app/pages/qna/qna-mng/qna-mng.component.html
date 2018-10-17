@@ -116,11 +116,11 @@
 <!-- start detail view modal -->
 
 <ng-template #qnaDetailModal let-c="close" let-d="dismiss">
-    <app-qna-detail [cValues]="this.c"
+    <app-qna-modify [cValues]="this.c"
                         [dValues]="this.d"
                         [qnaDetail]="qnaDetail"
                         (openerReload) = "reload()" 
-    ></app-qna-detail>
+    ></app-qna-modify>
 </ng-template>
 
 <!-- end detail view modal -->

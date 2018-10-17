@@ -443,5 +443,18 @@ module.exports = {
             console.log('****************', e);
         }
         
-    }
+    },
+
+    /**
+     * 첨부파일 다운로드
+     */
+    download: (req, res, next) => {
+
+        var tmpPath = req.body.filepath;
+        tmpPath = tmpPath.substring(tmpPath.indexOf(CONFIG.fileUpload.directory) + CONFIG.fileUpload.directory.length + 1);
+
+        var filepath = path.join(__dirname, '../../../../../', CONFIG.fileUpload.directory, tmpPath);
+        res.download(filepath, req.body.filename);
+
+    },
 }
