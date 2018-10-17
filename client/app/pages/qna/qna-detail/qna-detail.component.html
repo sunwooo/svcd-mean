@@ -7,21 +7,9 @@
 <div class="modal-body">
     <div class="row">
         <div class="col-sm-12">
-            <form novalidate #f="ngForm" (ngSubmit)="updateQna(f)" class="form-horizontal group-border-dashed">    
                 <!--<form #f="ngForm" (ngSubmit)="saveUser(f)" novalidate>-->
                 <div ngModelGroup="qna">
                     
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div role="toolbar" class="btn-toolbar m-b-10">
-                                <div class="float-right">
-                                    <button type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
-                                        <i class="fa fa-bars"></i>목록</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="card-box m-r-5">
@@ -71,7 +59,6 @@
                     </div>
 
                 </div><!-- ngModelGroup-->
-            </form>
         </div>
     </div>
 </div>
