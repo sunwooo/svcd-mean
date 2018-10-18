@@ -48,6 +48,7 @@ router.get('/myProcess', ssc.sessionCheck, apiCtrl.myProcess);            //본�
 router.get('/company', ssc.sessionCheck, apiCtrl.companyList);            //회사 조회
 router.get('/processStatus', ssc.sessionCheck, apiCtrl.processStatus);    //진행상태 조회
 router.get('/registerYyyy', ssc.sessionCheck, apiCtrl.registerYyyy);      //등록년도 조회
+router.get('/processGubun', ssc.sessionCheck, apiCtrl.processGubun);      //처리구분 조회
 
 
 //incident route
