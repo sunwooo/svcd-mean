@@ -30,9 +30,7 @@ module.exports = {
 
       if (scope == "*") {
 
-        condition.user_flag = {
-          $ne: '0'
-        };
+        condition.use_yn = '사용';
 
         HigherProcess.find(condition, function (err, higherProcess) {
           if (err) {
@@ -151,9 +149,7 @@ module.exports = {
         //var higher_cd = req.query.higher_cd;
         //if (count == 0) higher_cd = '000'; //상위코드용 업무처리가 없으면 공통으로 조회
 
-        condition.user_flag = {
-          $ne: '0'
-        };
+        condition.use_yn = '사용';
 
         LowerProcess.find(condition, function (err, lowerprocess) {
           if (err) {
@@ -267,32 +263,50 @@ module.exports = {
    */
   processGubun: (req, res, next) => {
 
+    var condition = {};
+    condition.higher_cd = req.query.higher_cd;
+    condition.use_yn = "사용";
+
+    //console.log('=======================================processGubun=======================================');
+    //console.log("condition ", condition);
+    //console.log('=================================================================================================');
+
     try {
       async.waterfall([function (callback) {
         //상위코드용 업무처리 개수 조회
-        ProcessGubun.count({
-          "higher_cd": req.query.higher_cd,
-          "use_yn": "사용"
-        }, function (err, count) {
+        ProcessGubun.count(condition, function (err, count) {
           if (err) return res.json({
             success: false,
             message: err
           });
-          callback(null, count)
+
+          //console.log('=======================================processGubun=======================================');
+          //console.log("count ", count);
+          //console.log('=================================================================================================');
+
+          callback(null, count);
         });
       }], function (err, count) {
         var higher_cd = req.query.higher_cd;
         if (count == 0) higher_cd = '000'; //상위코드용 업무처리가 없으면 공통으로 조회
-        ProcessGubun.find({
-          "higher_cd": higher_cd,
-          "use_yn": "사용"
-        }, function (err, processGubun) {
+        condition.higher_cd = higher_cd;
+
+        //console.log('=======================================processGubun=======================================');
+        //console.log("condition ", condition);
+        //console.log('=================================================================================================');
+
+        ProcessGubun.find(condition, function (err, processGubun) {
           if (err) {
             return res.json({
               success: false,
               message: err
             });
           } else {
+
+              //console.log('=======================================processGubun=======================================');
+              //console.log("processGubun ", processGubun);
+              //console.log('=================================================================================================');
+
             res.json(processGubun);
           }
         }).sort('-process_nm');

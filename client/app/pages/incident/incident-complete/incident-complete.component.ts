@@ -131,7 +131,7 @@ export class IncidentCompleteComponent implements OnInit {
                 this.processGubunObj = res;
             },
             (error: HttpErrorResponse) => {
-                console.log('error : ');
+                console.log('error : ',error);
             }
         );
     }
