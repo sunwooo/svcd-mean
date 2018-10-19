@@ -126,17 +126,19 @@
                 </div>
                 <hr>
                 <div style="min-height:0;" class="widget-user">
-                  <div>
+                  <div class="col-lg-2">
                     <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
+                  </div>
+                  <div class="col-lg-10 ">
                     <div class="wid-u-info" (click)="getEmpInfo(empInfoModal, incidentDetail?.manager_email);" style="cursor: pointer">
-                      <small class="text-primary-svc">
-                        <b>담당자</b>
-                      </small>
-                      <h6 class="m-t-5 m-b-5">{{incidentDetail?.manager_dept_nm}} {{incidentDetail?.manager_nm}} {{incidentDetail?.manager_position}}</h6>
-                      <p class="text-muted m-b-5 font-13">
-                        <i class="md md-mail m-r-5 text-primary-svc">{{incidentDetail?.manager_email}}</i>
-                      </p>
-                    </div>
+                        <small class="text-primary-svc">
+                            &nbsp;&nbsp;<b>담당자</b>
+                        </small>
+                        <h6 class="m-t-5 m-b-5">&nbsp;&nbsp;{{incidentDetail?.manager_dept_nm}} {{incidentDetail?.manager_nm}} {{incidentDetail?.manager_position}}</h6>
+                        <p class="text-muted m-b-5 font-13">
+                            &nbsp;&nbsp;<i class="md md-mail m-r-5 text-primary-svc">{{incidentDetail?.manager_email}}</i>
+                        </p>
+                      </div>
                   </div>
                 </div>
               </div>
