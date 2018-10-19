@@ -564,6 +564,7 @@ module.exports = {
               });
             } else {
 
+
               //incident에 페이징 처리를 위한 전체 갯수전달
               var rtnData = {};
               rtnData.incident = incident;
