@@ -501,22 +501,12 @@ module.exports = {
                     "$in": myHigherProcess
                   }
                 }];
-                if (req.query.status_cd != "1" && req.query.status_cd != "5" && req.query.user != "managerall") {
-                  search.findIncident.$and.push({
-                    "manager_email": req.session.email
-                  });
-                }
               } else {
                 search.findIncident.$and.push({
                   "higher_cd": {
                     "$in": myHigherProcess
                   }
                 });
-                if (req.query.status_cd != "1" && req.query.status_cd != "5" && req.query.user != "managerall") {
-                  search.findIncident.$and.push({
-                    "manager_email": req.session.email
-                  });
-                }
               }
               callback(null);
             });

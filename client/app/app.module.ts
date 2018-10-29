@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Nl2BrPipeModule} from 'nl2br-pipe';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 /** Modules */
 import { MaterialModule } from './material/material.module';
@@ -206,7 +207,8 @@ const PAGES = [
         NgxChartsModule,
         Nl2BrPipeModule,
         TreeviewModule.forRoot(),
-        AngularMultiSelectModule
+        AngularMultiSelectModule,
+        NgxMatSelectSearchModule
     ],
     providers: [
         AuthService,
