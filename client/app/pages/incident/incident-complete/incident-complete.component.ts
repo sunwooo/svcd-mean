@@ -105,6 +105,11 @@ export class IncidentCompleteComponent implements OnInit {
      */
     complete(form: NgForm) {
 
+        if(!this.process_cd){
+            this.toast.open('처리구분을 선택하세요. ', 'danger');
+            return;
+        }
+
         form.value.incident.id = this.incidentDetail._id;
         form.value.incident.process_cd = this.process_cd;
         form.value.incident.process_nm = this.process_nm;
