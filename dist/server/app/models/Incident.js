@@ -5,7 +5,7 @@ var moment = require('moment');
 var logger = require('log4js').getLogger('app');
 
 var IncidentSchema = new Schema({
-    register_num            : {type : Number, require : true},                                                                                                                      
+    register_num            : {type : Number},                                                                                                                      
     status_cd               : {type : String, default : '1'},  //진행상태(processStatus 모델)  
     status_nm               : {type : String, default : '접수대기'},  //진행상태명            
     process_speed           : {type : String},  //긴급구분                                                                   
@@ -130,5 +130,5 @@ function setCreateAt(next){
 }
 
 autoIncrement.initialize(mongoose.connection);
-IncidentSchema.plugin( autoIncrement.plugin , { model : "incident", field : "register_num" , startAt : 51100 } );
+/* IncidentSchema.plugin( autoIncrement.plugin , { model : "incident", field : "register_num" , startAt : 61100 } ); */
 module.exports = mongoose.model('incident' , IncidentSchema);

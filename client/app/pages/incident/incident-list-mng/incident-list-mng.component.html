@@ -14,33 +14,29 @@
                     <form novalidate #f="ngForm" (ngSubmit)="getIncident()" class="form-horizontal group-border-dashed">
                         
                         <div class="form-group  row">
-                            <div class="col-lg-6 col-sm-12">
-                                <mat-form-field class="mat-form-field2">
-                                    <mat-select [formControl]="statusCdCtrl"
-                                                multiple
-                                                (selectionChange)="selectedStatusCd($event)"
+                            <div class="col-lg-3 col-sm-12">
+                                <app-process-status
+                                                [condition]="'*'"
+                                                [initValue]="'1'"
                                                 [placeholder]="'진행구분'"
-                                    >
-                                        <mat-option *ngFor="let opt of processStatus" 
-                                                    [value]="opt"
-                                        >{{opt.name}}</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                                                (outProcessStatus)="onSelected($event)"
+                                ></app-process-status>
                             </div>
                             <div class="col-lg-6 col-sm-12">
                                 <mat-form-field class="mat-form-field2">
-                                    <mat-select [formControl]="companyCtrl"
-                                                #singleSelect
-                                                placeholder="회사명" 
-                                                (selectionChange)="selectedCom($event)">
-                                        <ngx-mat-select-search [formControl]="companyFilterCtrl"></ngx-mat-select-search>
-                                        <mat-option *ngFor="let company of filteredCompany | async" [value]="company">
-                                        {{company.name}}
-                                        </mat-option>
+                                    <mat-select [(ngModel)]="company_cd"
+                                                name="company_cd" 
+                                                (selectionChange)="getIncident()"
+                                                placeholder="회사명">
+                                        <mat-option value="*">전체</mat-option>
+                                        <mat-option *ngFor="let obj of companyObj" [value]="obj.company_cd">{{obj.company_nm}}</mat-option>
                                     </mat-select>
-                                </mat-form-field> 
+                                </mat-form-field>    
+                            </div>
+                            <div class="col-lg-3">
                             </div>
                         </div>
+
                         <div class="form-group  row">
                             <div class="col-lg-6 col-sm-12">
                                 <mat-form-field class="mat-form-field2">
@@ -88,15 +84,11 @@
                         <div class="form-group row">
                             <div class="col-lg-3 col-sm-12">
                                 <mat-form-field>
-                                    <mat-select [formControl]="searchTypeCtrl"
-                                                multiple
-                                                [compareWith]="compareWithFunc"
-                                                (selectionChange)="selectedSearchType($event)"
-                                                [placeholder]="'검색구분'"
-                                    >
-                                        <mat-option *ngFor="let opt of searchTypeObj" 
-                                                    [value]="opt"
-                                        >{{opt.name}}</mat-option>
+                                    <mat-select [(ngModel)]="searchType"
+                                                name="searchType" 
+                                                (selectionChange)="getIncident()"
+                                                placeholder="검색구분">
+                                        <mat-option *ngFor="let obj of searchTypeObj" [value]="obj.value">{{obj.name}}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
