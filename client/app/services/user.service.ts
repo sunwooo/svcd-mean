@@ -113,7 +113,25 @@ export class UserService {
     insertUser(form): Observable<any>{
         //console.log("=== user.services insertUser form.value : ", form);
         return this.http.post<any>('/api/user/insertUser', form, { withCredentials: true });
-    }     
+    }   
+
+    /**
+     * 사용자 비밀번호 초기화
+     * @param form 
+     */
+    putInitPassword(form): Observable<any>{
+        //console.log("=== user.services putInitPassword userId : ", userId);
+        return this.http.put<any>('/api/user/initPassword', form, { withCredentials: true });
+    }
+
+    /**
+     * 사용자 계정승인
+     * @param form 
+     */
+    putAccessConfirm(form): Observable<any>{
+        //console.log("=== user.services putAccessConfirm userId : ", userId);
+        return this.http.put<any>('/api/user/accessConfirm',  form, { withCredentials: true });
+    }
     
     /**
      * 사용자 삭제

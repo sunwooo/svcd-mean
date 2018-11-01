@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, Renderer } from '@angular/core';
 import { Input, Output } from "@angular/core";
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../../services/user.service';
@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { CommonApiService } from '../../../services/common-api.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-user-detail-a',
@@ -21,7 +22,7 @@ export class UserDetailAComponent implements OnInit {
 
     public companyObj: any = [];                //회사리스트 Object
     public selectedComIdx = 0;                  //회사리스트 Object내 회사  index
-
+    public user_flag ="9";                      //사용자 구분
     public userFlagObj: { name: string; value: string; }[] = [
         { name: '그룹관리자', value: '1' },
         { name: '업무관리자(팀장)', value: '3' },
@@ -46,12 +47,16 @@ export class UserDetailAComponent implements OnInit {
         { name: '미사용', value: 'N' }
     ];
 
+
     constructor(private userService: UserService
         , private commonApi: CommonApiService
         , private toast: ToastComponent
+        , private renderer: Renderer
+        , public cookieService: CookieService
         , private router: Router) { }
 
     ngOnInit() {
+        this.user_flag = this.cookieService.get("user_flag");
         this.getCompanyList();
     }
 
@@ -62,11 +67,13 @@ export class UserDetailAComponent implements OnInit {
         this.commonApi.getCompany(this.userDetail).subscribe(
             (res) => {
                 //console.log("res : ", res);
-                this.companyObj = res;
+                this.companyObj.push({'company_cd':'','company_nm':'선택하세요'});
 
                 //idx를 찾아서 조회시 초기값 세팅
-                var tmpIdx = 0;
-                this.companyObj.forEach(element => {
+                var tmpIdx = 1;
+                res.forEach(element => {
+                    this.companyObj.push({'company_cd':element.company_cd,'company_nm':element.company_nm});
+
                     if (element.company_cd == this.userDetail.company_cd) {
                         this.selectedComIdx = tmpIdx;
                     }
@@ -87,10 +94,74 @@ export class UserDetailAComponent implements OnInit {
     }
 
     /**
+     * 비밀번호 초기화
+     */
+    initPassword(form: NgForm){
+        //console.log("================ initPassword() ==============-");
+        form.value.user.id = this.userDetail._id;
+        this.userService.putInitPassword(form.value).subscribe(
+            (res) => {
+                if (res.success) {
+
+                    this.toast.open('비밀번호가 초기화 되었습니다.', 'success');
+                    this.openerReload.emit();
+
+                    //모달창 닫기
+                    this.cValues('Close click');
+                }
+            },
+            (error: HttpErrorResponse) => {
+                this.toast.open('오류입니다. ' + error.message, 'danger');
+            }
+        );
+
+    }
+
+    /**
+     * 계정승인
+     */
+    accessConfirm(form: NgForm){
+        //console.log("================ accessConfirm() ==============-");
+        
+        if(!this.userDetail.company_cd){
+            this.toast.open('매핑할 회사명을 선택하세요. ', 'danger');
+            
+            //매핑할 회사 포커스
+            //let onElement = this.renderer.selectRootElement('#company_select');
+            //onElement.focus();
+            
+            return;
+        }
+
+        form.value.user.id = this.userDetail._id;
+        console.log("================ form.value.user ==============", form.value.user);
+        this.userService.putAccessConfirm(form.value).subscribe(
+            (res) => {
+                if (res.success) {
+
+                    this.toast.open('계정이 승인되었습니다.', 'success');
+                    this.openerReload.emit();
+
+                    //모달창 닫기
+                    this.cValues('Close click');
+                }
+            },
+            (error: HttpErrorResponse) => {
+                this.toast.open('오류입니다. ' + error.message, 'danger');
+            }
+        );
+    }
+
+    /**
      * 사원정보 수정
      * @param form 
      */
     updateUser(form: NgForm) {
+
+        if(this.userDetail.company_cd == 'ISU_ST'){
+            this.toast.open('사원번호을 반드시 입력하세요. ', 'danger');          
+            return;
+        }
 
         form.value.user.id = this.userDetail._id;
 

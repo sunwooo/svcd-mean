@@ -40,13 +40,19 @@ var userSchema = mongoose.Schema({
 userSchema.pre("save", hashPassword);
 userSchema.pre("findOneAndUpdate", function hashPassword(next){
     var user = this._update;
+
+    var m = moment();    
+    var date = m.format("YYYY-MM-DD HH:mm:ss");
+
     if(user.password == ''){ //새 비밀번호가 없을 시 비밀번호는 변경하지 않음.
         var user = this._update;
         delete user.password;
+        user.updated_at = date;
         return next();
     } else {
         var user = this._update;
         user.password = bcrypt.hashSync(user.password);
+        user.updated_at = date;
         return next();
     }
 });

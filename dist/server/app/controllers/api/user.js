@@ -5,6 +5,7 @@ var jwt = require('jsonwebtoken');
 var User = require('../../models/User');
 var UserToken = require('../../models/UserToken');
 var service = require('../../services/user');
+var mailer = require('../../util/nodemailer');
 var AccessUserService = require('../../services/userAccess');
 var request = require("request");
 var CONFIG = require('../../../config/config.json');
@@ -461,6 +462,79 @@ module.exports = {
         console.log("user controller update error > ", e);
       }
     },
+
+    /**
+     * 사용자 비밀번호 초기화
+     */
+    initPassword: (req, res, next) => {
+
+        console.log("===========User controllers initPassword()===========");
+        console.log(" req.body.user.id : ",  req.body.user.id);
+        console.log(" req.body.user.email.indexOf('@') : ",  req.body.user.email.indexOf('@'));
+        console.log(" req.body.user.email.substring(0,req.body.user.email.indexOf('@')) : ",  req.body.user.email.substring(0,req.body.user.email.indexOf('@')));
+        console.log("=============================================");
+
+        var initPW = req.body.user.email.substring(0,req.body.user.email.indexOf("@"));
+        var updateData = {'password':initPW};
+
+        try {
+          User.findOneAndUpdate({
+            _id: req.body.user.id
+          }, updateData, function (err, user) {
+            if (err) {
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+              mailer.initPassword(req.body.user);  
+              return res.json({
+                success: true,
+                message: "initPassword successed"
+              });
+            }
+          });
+        } catch (e) {
+          console.log("user controller initPassword error > ", e);
+        }
+      },
+
+    /**
+     * 사용자 계정승인
+     */
+    accessConfirm: (req, res, next) => {
+   
+        //console.log("===========User controllers accessConfirm()===========");
+        //console.log("req.body : ", req.body);
+        //console.log("=============================================");
+
+        var updateData = {'access_yn':'Y',
+                          'using_yn':'Y',
+                          'company_cd':req.body.user.company_cd,
+                          'company_nm':req.body.user.company_nm
+                         };
+
+        try {
+          User.findOneAndUpdate({
+            _id: req.body.user.id
+          }, updateData, function (err, user) {
+            if (err) {
+              return res.json({
+                success: false,
+                message: err
+              });
+            } else {
+              mailer.accessConfirm(req.body.user);    
+              return res.json({
+                success: true,
+                message: "accessConfirm successed"
+              });
+            }
+          });
+        } catch (e) {
+          console.log("user controller accessConfirm error > ", e);
+        }
+      },
 
     /**
      * 사용자 삭제

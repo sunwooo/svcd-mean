@@ -8,6 +8,7 @@ module.exports = {
 
     createSearch: (req) => {
 
+
         var findIncident = {};
 
         // or 조건 생성
@@ -19,44 +20,57 @@ module.exports = {
         var andArr = createAndCondition(req);
         if(andArr.length > 0)
         findIncident.$and = andArr;
+    
+        console.log("=============================== createSearch ==================================");
+        console.log("findIncident : ",JSON.stringify(findIncident));
+        console.log("===============================================================================");
 
         return { findIncident: findIncident };
 
     }
 };
 
+
+
 /**
  * or 조건 만들기
  */
 function createOrCondition(req){
     var OrQueries = [];
+
+        console.log("=============================== createOrCondition ==================================");
+        console.log("req.query.searchType : ",req.query.searchType);
+        console.log("req.query.searchText : ",req.query.searchText);
+        console.log("===============================================================================");
+
     if (req.query.searchType && req.query.searchText) {
         var searchTypes = req.query.searchType.toLowerCase().split(",");
-        if (searchTypes.indexOf("title") >= 0) {
+        if (searchTypes.indexOf("title") > -1) {
             OrQueries.push({
                 title: {
                     $regex: new RegExp(req.query.searchText, "i")
                 }
             });
-        } else if (searchTypes.indexOf("content") >= 0) {
+        } else if (searchTypes.indexOf("content") > -1) {
             OrQueries.push({
                 content: {
                     $regex: new RegExp(req.query.searchText, "i")
                 }
             });
-        } else if (searchTypes.indexOf("request") >= 0) {
+        } else if (searchTypes.indexOf("request_nm") > -1) {
             OrQueries.push({
                 request_nm: {
                     $regex: new RegExp(req.query.searchText, "i")
                 }
             });
-        } else if (searchTypes.indexOf("manager") >= 0) {
+        } else if (searchTypes.indexOf("manager_nm") > -1) {
             OrQueries.push({
                 manager_nm: {
                     $regex: new RegExp(req.query.searchText, "i")
                 }
             });
-        } else if (searchTypes.indexOf("title,content") >= 0) {
+        }
+        /* else if (searchTypes.indexOf("title,content") > -1) {
             OrQueries.push({
                 title: {
                     $regex: new RegExp(req.query.searchText, "i")
@@ -65,7 +79,8 @@ function createOrCondition(req){
                     $regex: new RegExp(req.query.searchText, "i")
                 }
             });
-        }
+        } */
+        
     }
     if (req.query.user == "general"){
         if(req.query.complete){
@@ -79,6 +94,7 @@ function createOrCondition(req){
             OrQueries.push({'status_cd':'9'});
         }
     }
+
     return OrQueries;
     
 }
@@ -119,7 +135,58 @@ function createAndCondition(req){
         AndQueries.push({
             request_id: req.session.email
         });
+    }if ((req.session.user_flag == "1" && (user == "manager" || user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
+
+        if(status_cd.length > 1){ //진행 상태가 배열로 요청될 때
+            
+            /**
+             * 요청자가 매니저가 아니고 진행상태에 '접수대기','협의필요' 포함 배열로 넘어올 시
+             */
+
+            if ((status_cd.indexOf("2") > -1 
+                 || status_cd.indexOf("3") > -1
+                 || status_cd.indexOf("4") > -1
+                 || status_cd.indexOf("9") > -1
+                 )
+                 && (user != "managerall")) {
+                
+                    var m_email_flag = false;
+                    req.query.status_cd.forEach((status_cd) => {
+                        if (status_cd == "1" || status_cd == "5"){
+                            m_email_flag = true;
+                        }
+                    });
+                    
+                    console.log("XXXXXXXXXXXXXXXXXXXXX m_email_flag : ",m_email_flag);
+
+                    if(m_email_flag){
+                        var email = [];
+                        console.log("XXXXXXXXXXXXXXXXXXXXX email : ",email);
+                        email.push(req.session.email);
+                        email.push("");
+                        console.log("XXXXXXXXXXXXXXXXXXXXX email : ",email);
+                        AndQueries.push({
+                            manager_email: {"$in":email}
+                        });
+                    }else{
+                        AndQueries.push({
+                            manager_email: req.session.email
+                        });
+                    }
+
+                    
+
+
+            }
+        }else{ //진행 상태가 하나씩 요청될 때
+            if (status_cd.indexOf("1") == -1 && status_cd.indexOf("5") == -1 && user != "managerall") {
+                AndQueries.push({
+                    manager_email: req.session.email
+                });
+            }
+        }
     }
+
 
     //검색기간 조건 추가
     /*2018-05-04, 검색기간 조회 로직 수정
@@ -161,9 +228,15 @@ function createAndCondition(req){
     }
 
     //진행상태 조건 추가
-    if (status_cd != '*') {
+    if(status_cd.length == 1){
+        if (status_cd != '*') {
+            AndQueries.push({
+                status_cd: req.query.status_cd
+            });
+        }
+    }else{
         AndQueries.push({
-            status_cd: req.query.status_cd
+            status_cd: {"$in":req.query.status_cd}
         });
     }
 
@@ -268,6 +341,5 @@ function createAndCondition(req){
     }
     return AndQueries;
 }
-
-               
+ 
                 

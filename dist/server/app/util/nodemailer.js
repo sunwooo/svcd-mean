@@ -173,5 +173,98 @@ module.exports = {
             transporter.close();
         });
 
-    }
+    },
+
+    //비밀번호 초기화
+    initPassword: (req, res, next) => {
+    
+        console.log("=============req : ",req);
+
+        var initPW = req.email.substring(0,req.email.indexOf("@"));
+
+        //var receiver = req.employee_nm + " <" + req.email + ">";
+        var receiver = "이한일 <hilee@isu.co.kr>";
+        var mailTitle = "[서비스데스크] 비밀번호가 초기화 되었습니다.";
+        var html = "";
+        html += "고객사명 : " + req.company_nm + "<br>";
+        html += "요청자명 : " + req.employee_nm + "<br>";
+        html += "ISU SYSTEM 서비스데스크 비밀번호가 "+initPW+"로 초기화 되었습니다.<br>";
+        html += "<br><hr>";
+
+        var mailOptions = {
+            from: sender,
+            to: receiver,
+            subject: mailTitle,
+            html: html
+        };
+
+        var transporter = nodemailer.createTransport(smtpPool({
+            service: config.mailer.service,
+            host: config.mailer.host,
+            port: config.mailer.port,
+            auth: {
+                user: config.mailer.user,
+                pass: config.mailer.password
+            },
+            tls: {
+                rejectUnauthorize: false
+            },
+            maxConnections: 5,
+            maxMessages: 10
+        }));
+
+        transporter.sendMail(mailOptions, function (err, res) {
+            if (err) {
+                logger.debug('Nodemailer finishSend Failes >>>>>>>>>> ' + err);
+            }
+            transporter.close();
+        });
+    
+    },
+
+    //계정승인
+    accessConfirm: (req, res, next) => {
+    
+        console.log("=============req : ",req);
+
+        //var receiver = req.request_nm + " <" + req.email + ">";
+        var receiver = "이한일 <hilee@isu.co.kr>";
+        var mailTitle = "[서비스데스크] 요청하신 계정이 승인되었습니다.";
+        var html = "";
+        html += "고객사명 : " + req.company_nm + "<br>";
+        html += "요청자명 : " + req.employee_nm + "<br>";
+        html += "ISU SYSTEM 서비스데스크 "+req.email+"계정이 승인되었습니다.<br>";
+        html += "<br><hr>";       
+
+        var mailOptions = {
+            from: sender,
+            to: receiver,
+            subject: mailTitle,
+            html: html
+        };
+
+        var transporter = nodemailer.createTransport(smtpPool({
+            service: config.mailer.service,
+            host: config.mailer.host,
+            port: config.mailer.port,
+            auth: {
+                user: config.mailer.user,
+                pass: config.mailer.password
+            },
+            tls: {
+                rejectUnauthorize: false
+            },
+            maxConnections: 5,
+            maxMessages: 10
+        }));
+
+        transporter.sendMail(mailOptions, function (err, res) {
+            if (err) {
+                logger.debug('Nodemailer finishSend Failes >>>>>>>>>> ' + err);
+            }
+            transporter.close();
+        });
+    
+    },
+
 }

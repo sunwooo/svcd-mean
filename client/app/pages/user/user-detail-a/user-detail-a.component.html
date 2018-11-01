@@ -12,13 +12,17 @@
               <div class="row">
                   <div class="col-sm-12">
                       <div role="toolbar" class="btn-toolbar m-b-10">
-                      <div class="float-right">
+                      <div class="float-right">{{userDetail?.access_yn}}
                           <button type="button" (click)="closeModal($event)" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
                           <i class="fa fa-bars"></i>목록</button>
-                          <button ng-If="user_flag==1 || user_flag==3" type="button" (click)="deleteaUser(userDetail?._id);" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
+                          <button *ngIf="user_flag == '1' || user_flag == '3' || user_flag == '4'" type="button" (click)="deleteaUser(userDetail?._id);" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
                           <i class="fa fa-remove"></i>삭제</button>
-                          <button ng-If="user_flag==1 || user_flag==3" type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
-                          <i class="fa fa-send-o"></i>저장</button>
+                          <button *ngIf="user_flag == '1' || user_flag == '3'|| user_flag == '4'" type="submit" [disabled]="!f.valid" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
+                          <i class="fa fa-send-o"></i>&nbsp;수정</button>
+                          <button *ngIf="(user_flag == '1' || user_flag == '3' || user_flag == '4') && userDetail?.access_yn == 'Y' && userDetail?.group_flag != 'in'" type="button" (click)="initPassword(f);" [disabled]="!f.valid" class="btn btn-warning waves-effect waves-light m-l-5 btn-sm">
+                          <i class="fa fa-envelope-o"></i>&nbsp;비밀번호초기화</button>
+                          <button *ngIf="(user_flag == '1' || user_flag == '3' || user_flag == '4') && userDetail?.access_yn == 'N'" type="button" (click)="accessConfirm(f);" [disabled]="!f.valid" class="btn btn-info waves-effect waves-light m-l-5 btn-sm">
+                          <i class="fa fa-envelope-o"></i>&nbsp;계정승인</button>
                       </div>
                       </div>
                   </div>
@@ -90,6 +94,7 @@
                                                 <mat-select [ngModel]="selectedComIdx"
                                                     name="company_select" 
                                                     (selectionChange)="setCompany($event.value)"
+                                                    id="company_select"
                                                     placeholder="맵핑할 회사명">
                                                     <mat-option *ngFor="let obj of companyObj; let idx = index" 
                                                                 [value]="idx"
@@ -117,7 +122,8 @@
                                                   >
                                               </mat-form-field>
                                           </div>
-                                          <div class="input-wrap">
+                                          {{userDetail?.company_cd}}
+                                          <div *ngIf="userDetail?.company_cd == 'ISU_ST'" class="input-wrap">
                                               <mat-form-field class="mat-form-field2">
                                                   <span matPrefix>
                                                       <i class="prefix fa fa-id-card-o">&nbsp;&nbsp;&nbsp;</i>

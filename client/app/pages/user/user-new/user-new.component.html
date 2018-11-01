@@ -73,16 +73,32 @@
                             <span matPrefix>
                               <i class="prefix fa fa-envelope-o">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput (ngModel)="email" type="text" name="email" placeholder="email" style="ime-mode:active;"
-                              required>
+                            <input matInput 
+                                  (ngModel)="email" 
+                                  #email="ngModel"
+                                  type="text" 
+                                  name="email" 
+                                  placeholder="email" 
+                                  style="ime-mode:active;"
+                                  required
+                                  pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                            >
+                            <mat-hint *ngIf="(email.invalid ) && (email.dirty) && (!f.submitted)">
+                                Email 형식에 맞게 입력하세요.
+                            </mat-hint>
                           </mat-form-field>
                         </div>
-                        <div class="input-wrap">
+                        <div *ngIf="company_cd == 'ISU_ST'" class="input-wrap">
                           <mat-form-field class="mat-form-field1">
                             <span matPrefix>
                               <i class="prefix fa fa-id-card-o">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput (ngModel)="sabun" type="text" name="sabun" placeholder="사번" style="ime-mode:active;">
+                            <input matInput (ngModel)="sabun" 
+                                   type="text" name="sabun" 
+                                   placeholder="사원번호" 
+                                   style="ime-mode:active;"
+                                   required
+                             >
                           </mat-form-field>
                         </div>
 
