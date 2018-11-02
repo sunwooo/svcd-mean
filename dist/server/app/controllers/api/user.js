@@ -368,6 +368,7 @@ module.exports = {
     },
 
     accessList: (req, res, next) => {
+
       var search = AccessUserService.createSearch(req);
 
       var page = 1;
@@ -425,6 +426,7 @@ module.exports = {
             }
           })
           .sort({
+            created_at : -1,
             group_flag: -1,
             company_nm: 1
           })

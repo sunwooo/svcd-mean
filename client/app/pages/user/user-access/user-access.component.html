@@ -81,7 +81,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of userObj" (click)="setDetail(userDetailModal, user)">
+            <tr *ngFor="let user of userObj" (click)="setDetail(userDetailModal, user)" style="cursor: pointer; cursor: hand;">
               <td>{{user.company_nm}}</td>
               <td class='text-center'>{{user.email}}</td>
               <td class='text-center'>{{user.employee_nm}}</td>

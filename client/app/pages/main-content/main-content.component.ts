@@ -80,6 +80,7 @@ export class MainContentComponent implements OnInit {
 
     //계정승인 요청 리스트
     public userObj = [];
+    public userDetail: any;                     //선택 인시던트 id
     private formData: any = {};                 //전송용 formData
     public totalDataCnt: number = 0;  // 총 데이타 수
 
@@ -234,6 +235,9 @@ export class MainContentComponent implements OnInit {
             }
         )
 
+        //계정승인 요청자 리스트
+        this.getUsermanage();
+
     }
 
     /**
@@ -274,6 +278,18 @@ export class MainContentComponent implements OnInit {
     }
 
     /**
+     * 상세보기창 호출
+     * @param modalId 모달창 id
+     * @param user 조회할 user 객체
+     * @param idx  삭제를 위한 인덱스
+     */
+    setAccessConfirm(modalId, user) {
+        this.userDetail = user;
+        this.modalService.open(modalId, { windowClass: 'xlModal', centered: true });
+    }
+
+
+    /**
      * 등록자, 담당자 선택 시
      * @param modalId 
      * @param email 
@@ -295,6 +311,8 @@ export class MainContentComponent implements OnInit {
 
     this.userService.getAccessUserList(this.formData).subscribe(
         (res) => {
+
+            console.log("xxxxxxxxxxxxxxxxxxxxxx res : ",res);
 
             this.userObj = [];
             var tmp = this.userObj.concat(res.user);

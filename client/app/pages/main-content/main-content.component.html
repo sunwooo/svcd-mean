@@ -125,44 +125,58 @@
   <!-- 만족도, 요청 현황 차트 끝-->
 
   <!-- 미승인 건 리스트 시작 -->
-  <!--
-  <div class="row">
+    <div *ngIf="totalDataCnt > 0" class="row">
         <div class="col-lg-12 col-sm-12">
-          <div class="card-box">
+            <div class="card-box">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                            계정 승인요청 리스트
+                            </mat-panel-title>
+                            <mat-panel-description>
+                            전체 <b>{{totalDataCnt}}</b>건의 계정 승인요청중 최근 5건입니다. 자세한 사항은 'SD 기본정보>미승인 사원관리'에서 확인하세요.
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
 
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card-box">
+                                    <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                        <th>회사명</th>
+                                        <th>email</th>
+                                        <th class="text-center">사원명</th>
+                                        <th>부서명</th>
+                                        <th width="6%" class="text-center">직위</th>
+                                        <th width="14%" class="text-center">연락처</th>
+                                        <th width="6%" class="text-center">사용여부</th>
+                                        <th width="6%" class="text-center">메일발송</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let user of userObj" (click)="setAccessConfirm(userDetailModal, user)" style="cursor: pointer; cursor: hand;">
+                                        <td>{{user.company_nm}}</td>
+                                        <td class='text-center'>{{user.email}}</td>
+                                        <td class='text-center'>{{user.employee_nm}}</td>
+                                        <td class='text-center'>{{user.dept_nm}}</td>
+                                        <td class='text-center'>{{user.position_nm}}</td>
+                                        <td class='text-center'>{{user.hp_telno}}</td>
+                                        <td class='text-center'>{{user.using_yn}}</td>
+                                        <td class='text-center'>{{user.email_send_yn}}</td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
 
-                <table id="dvData" class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>회사명</th>
-                            <th>email</th>
-                            <th class="text-center">사원명</th>
-                            <th>부서명</th>
-                            <th width="6%" class="text-center">직위</th>
-                            <th width="14%" class="text-center">연락처</th>
-                            <th width="6%" class="text-center">사용여부</th>
-                            <th width="6%" class="text-center">메일발송</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let user of userObj" (click)="setDetail(userDetailModal, user)">
-                            <td>{{user.company_nm}}</td>
-                            <td class='text-center'>{{user.email}}</td>
-                            <td class='text-center'>{{user.employee_nm}}</td>
-                            <td class='text-center'>{{user.dept_nm}}</td>
-                            <td class='text-center'>{{user.position_nm}}</td>
-                            <td class='text-center'>{{user.hp_telno}}</td>
-                            <td class='text-center'>{{user.using_yn}}</td>
-                            <td class='text-center'>{{user.email_send_yn}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-
-
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
         </div>
-      </div>
     </div>
-   -->
   <!-- 미승인 건 리스트 끝 -->
 
   <!-- 처리현황 시작-->

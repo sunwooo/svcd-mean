@@ -67,9 +67,12 @@ export class UserDetailAComponent implements OnInit {
      * 회사리스트 조회
      */
     getCompanyList() {
+
+        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxx this.userDetail : ", this.userDetail);
+
         this.commonApi.getCompany(this.userDetail).subscribe(
             (res) => {
-                //console.log("res : ", res);
+                console.log("xxxxxxxxxxxxxxxxxxxxxxxxxx res : ", res);
                 this.companyObj.push({'company_cd':'','company_nm':'선택하세요'});
 
                 //idx를 찾아서 조회시 초기값 세팅
