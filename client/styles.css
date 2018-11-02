@@ -130,6 +130,16 @@ body {
     width: 100% !important;
 }
 
+.abs-center{ 
+    position:absolute; 
+    top:50%; 
+    left:50%; 
+    width:100px; 
+    height:100px; 
+    margin:-50px 0 0 -50px; 
+    z-index: 100;
+}
+
 body div.cdk-overlay-container {
     z-index: 1000000;
 }

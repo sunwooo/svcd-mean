@@ -45,25 +45,29 @@ function createOrCondition(req){
 
     if (req.query.searchType && req.query.searchText) {
         var searchTypes = req.query.searchType.toLowerCase().split(",");
+        
         if (searchTypes.indexOf("title") > -1) {
             OrQueries.push({
                 title: {
                     $regex: new RegExp(req.query.searchText, "i")
                 }
             });
-        } else if (searchTypes.indexOf("content") > -1) {
+        }
+        if (searchTypes.indexOf("content") > -1) {
             OrQueries.push({
                 content: {
                     $regex: new RegExp(req.query.searchText, "i")
                 }
             });
-        } else if (searchTypes.indexOf("request_nm") > -1) {
+        }
+        if (searchTypes.indexOf("request_nm") > -1) {
             OrQueries.push({
                 request_nm: {
                     $regex: new RegExp(req.query.searchText, "i")
                 }
             });
-        } else if (searchTypes.indexOf("manager_nm") > -1) {
+        }
+        if (searchTypes.indexOf("manager_nm") > -1) {
             OrQueries.push({
                 manager_nm: {
                     $regex: new RegExp(req.query.searchText, "i")
@@ -94,6 +98,10 @@ function createOrCondition(req){
             OrQueries.push({'status_cd':'9'});
         }
     }
+
+    console.log("=============================== createOrCondition ==================================");
+    console.log("OrQueries : ",OrQueries);
+    console.log("===============================================================================");
 
     return OrQueries;
     
@@ -157,14 +165,10 @@ function createAndCondition(req){
                         }
                     });
                     
-                    console.log("XXXXXXXXXXXXXXXXXXXXX m_email_flag : ",m_email_flag);
-
                     if(m_email_flag){
                         var email = [];
-                        console.log("XXXXXXXXXXXXXXXXXXXXX email : ",email);
                         email.push(req.session.email);
                         email.push("");
-                        console.log("XXXXXXXXXXXXXXXXXXXXX email : ",email);
                         AndQueries.push({
                             manager_email: {"$in":email}
                         });
@@ -173,9 +177,6 @@ function createAndCondition(req){
                             manager_email: req.session.email
                         });
                     }
-
-                    
-
 
             }
         }else{ //진행 상태가 하나씩 요청될 때

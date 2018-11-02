@@ -127,8 +127,6 @@ export class IncidentListMngComponent implements OnInit, AfterViewInit, OnDestro
     }
 
     ngOnInit() {
-        this.isLoading = false;
-
         //this.reg_date_to = new FormControl(new Date()).value;
         this.searchTypeCtrl.setValue([{ name: '제목', id: 'title' }, { name: '내용', id: 'content' }]);
 
@@ -225,6 +223,7 @@ export class IncidentListMngComponent implements OnInit, AfterViewInit, OnDestro
         this.formData.searchType = this.searchType;
         this.formData.searchText = this.searchText;
 
+        this.isLoading = true;
         this.incidentService.getIncident(this.formData).subscribe(
             (res) => {
 
@@ -236,7 +235,7 @@ export class IncidentListMngComponent implements OnInit, AfterViewInit, OnDestro
                 if (this.incidents.length == 0) {
                     this.toast.open('조회데이타가 없습니다..', 'success');
                 }
-
+                this.isLoading = false;
             },
             (error: HttpErrorResponse) => {
             },
