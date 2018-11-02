@@ -124,6 +124,47 @@
   </div>
   <!-- 만족도, 요청 현황 차트 끝-->
 
+  <!-- 미승인 건 리스트 시작 -->
+  <!--
+  <div class="row">
+        <div class="col-lg-12 col-sm-12">
+          <div class="card-box">
+
+
+                <table id="dvData" class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>회사명</th>
+                            <th>email</th>
+                            <th class="text-center">사원명</th>
+                            <th>부서명</th>
+                            <th width="6%" class="text-center">직위</th>
+                            <th width="14%" class="text-center">연락처</th>
+                            <th width="6%" class="text-center">사용여부</th>
+                            <th width="6%" class="text-center">메일발송</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let user of userObj" (click)="setDetail(userDetailModal, user)">
+                            <td>{{user.company_nm}}</td>
+                            <td class='text-center'>{{user.email}}</td>
+                            <td class='text-center'>{{user.employee_nm}}</td>
+                            <td class='text-center'>{{user.dept_nm}}</td>
+                            <td class='text-center'>{{user.position_nm}}</td>
+                            <td class='text-center'>{{user.hp_telno}}</td>
+                            <td class='text-center'>{{user.using_yn}}</td>
+                            <td class='text-center'>{{user.email_send_yn}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+        </div>
+      </div>
+    </div>
+   -->
+  <!-- 미승인 건 리스트 끝 -->
+
   <!-- 처리현황 시작-->
   <div class="row">
     <div class="col-lg-12 col-sm-12">
@@ -247,3 +288,12 @@
     >
     </app-incident-list-modal>
 </ng-template>
+
+<!-- start detail view modal -->
+<ng-template #userDetailModal let-c="close" let-d="dismiss">
+    <app-user-detail-a [cValues]="this.c" 
+                       [dValues]="this.d" 
+                       [userDetail]="userDetail" 
+                       (openerReload)="reload()"></app-user-detail-a>
+</ng-template>
+<!-- end detail view modal -->

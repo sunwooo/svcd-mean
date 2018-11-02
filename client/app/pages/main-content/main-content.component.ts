@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { QnaService } from '../../services/qna.service';
 import { CookieService } from 'ngx-cookie-service';
 import { PopUpComponent } from '../../shared/pop-up/pop-up.component';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -77,11 +78,17 @@ export class MainContentComponent implements OnInit {
     public popupNotice: string = "";            //팝업 조회용 QNA공지
     public group_flag = 'out';
 
+    //계정승인 요청 리스트
+    public userObj = [];
+    private formData: any = {};                 //전송용 formData
+    public totalDataCnt: number = 0;  // 총 데이타 수
+
     constructor(private auth: AuthService,
         private modalService: NgbModal,
         private statisticService: StatisticService,
         private incidentService: IncidentService,
         private qnaService: QnaService,
+        private userService: UserService,
         public cookieService: CookieService){
     }
 
@@ -276,6 +283,39 @@ export class MainContentComponent implements OnInit {
         this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
     }
 
+
+    /**
+    * 계정승인요청 리스트 조회
+    */
+   getUsermanage() {
+
+    this.formData.page = 1;
+    this.formData.perPage = 5;
+    this.formData.access_yn = 'N'
+
+    this.userService.getAccessUserList(this.formData).subscribe(
+        (res) => {
+
+            this.userObj = [];
+            var tmp = this.userObj.concat(res.user);
+            this.userObj = tmp;
+            this.totalDataCnt = res.totalCnt;
+
+            this.userObj = res.user;
+        },
+        (error: HttpErrorResponse) => {
+        }
+    );
+
+}
+
+  /*
+   * 계정승인 요청 수정된 후 처리
+   * @param event 
+   */
+  reload() {
+    this.getUsermanage();
+  }
 
     /*
     openBackDropCustomClass(content) {
