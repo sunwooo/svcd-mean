@@ -30,9 +30,9 @@ export class AccountComponent implements OnInit {
 
     ngAfterViewInit(){
         
-        console.log('=======================================ngAfterViewInit=======================================');
-        console.log('company_nm is focused');
-        console.log('=============================================================================================');
+        //console.log('=======================================ngAfterViewInit=======================================');
+        //console.log('company_nm is focused');
+        //console.log('=============================================================================================');
 
         let onElement = this.renderer.selectRootElement('#company_nm');
         onElement.focus();
@@ -41,16 +41,16 @@ export class AccountComponent implements OnInit {
 
     saveUser(form: NgForm) {
 
-        console.log('=======================================save(form : NgForm)=======================================');
-        console.log(form.value);
-        console.log('=================================================================================================');
+        //console.log('=======================================save(form : NgForm)=======================================');
+        //console.log(form.value);
+        //console.log('=================================================================================================');
 
         this.userService.addUser(form).subscribe(
             res => {
                 
-                console.log('=============saveUser(form : NgForm) this.userService.addUser(form).subscribe( =========');
-                console.log(res);
-                console.log('========================================================================================');
+                //console.log('=============saveUser(form : NgForm) this.userService.addUser(form).subscribe( =========');
+                //console.log(res);
+                //console.log('========================================================================================');
 
                 form.onReset();
                 if(res.success){

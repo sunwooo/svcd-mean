@@ -15,6 +15,7 @@ import { ExcelService } from '../../../services/excel.service';
 import { Dashboard1Component } from '../dashboard1/dashboard1.component';
 import { Dashboard2Component } from '../dashboard2/dashboard2.component';
 import { Dashboard3Component } from '../dashboard3/dashboard3.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-dashboard-main',
@@ -42,6 +43,7 @@ export class DashboardMainComponent implements OnInit {
         { name: '5', value: '05' },{ name: '6', value: '06' },{ name: '7', value: '07' },{ name: '8', value: '08' },
         { name: '9', value: '09' },{ name: '10', value: '10' },{ name: '11', value: '11' },{ name: '12', value: '12' }
     ];
+    
     public companyObj: any = [];                //회사리스트
 
     public mmInit = 0;
@@ -49,6 +51,7 @@ export class DashboardMainComponent implements OnInit {
     public higher_nm = "전체";
     public companyInit = "-1";
     public company_nm = "전체";
+    public group_flag = "in";
 
     //public user_flag: string = "user";           //사용자 구분(상위업무 항목용)
     public user_flag: string = "*";           //사용자 구분(상위업무 항목용)
@@ -60,12 +63,19 @@ export class DashboardMainComponent implements OnInit {
         private empInfo: EmpInfoComponent,
         private modalService: NgbModal,
         private excelService:ExcelService,
+        public cookieService: CookieService,
         private router: Router) { }
 
     ngOnInit() {
         this.yyyy = this.today.getFullYear().toString();
         this.getRegisterYyyy();
         this.getCompanyList();
+
+        this.group_flag = this.cookieService.get("group_flag");
+        if(this.group_flag == 'out'){
+            this.company_cd = this.cookieService.get("company_cd");
+            this.company_nm = this.cookieService.get("company_nm");
+        }
 
         this.isLoading = false;
     }

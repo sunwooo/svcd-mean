@@ -93,7 +93,6 @@ export class Dashboard1Component implements OnInit {
      * 차트 데이타 호출
      */
     getChart() {
-
         this.formData.yyyy = this.searchYyyy;
         this.formData.mm = this.searchMm;
         this.formData.higher_cd = this.searhHigherCd;

@@ -47,7 +47,7 @@ export class QnaDetailComponent implements OnInit {
 
     public companyObj: any = [];                 //회사리스트
 
-    public user_flag: string = this.cookieService.get("user_flag");
+    public user_flag = "9";
     public employee_nm: string = this.cookieService.get("employee_nm");
 
     constructor(private auth: AuthService,
@@ -62,6 +62,8 @@ export class QnaDetailComponent implements OnInit {
 
 
     ngOnInit() {
+        if(this.cookieService.get("user_flag"))
+        this.user_flag = this.cookieService.get("user_flag");
     }
 
 

@@ -39,6 +39,8 @@ import { ProcessGubunCodeNewComponent } from './pages/process/process-gubun-code
 import { Dashboard1Component } from './pages/dashboard/dashboard1/dashboard1.component';
 import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.component';
 import { UserProcessComponent } from './pages/process/user-process/user-process.component';
+import { MainUserContentComponent } from './pages/main-user-content/main-user-content.component';
+import { MainCompanyContentComponent } from './pages/main-company-content/main-company-content.component';
 
 const routes: Routes = [
 
@@ -47,6 +49,8 @@ const routes: Routes = [
         path: 'svcd', component: SvcdNavComponent,
         children: [
             { path: '0001', component: MainContentComponent },
+            { path: '0001C', component: MainCompanyContentComponent },
+            { path: '0001U', component: MainUserContentComponent },
             { path: '0003', component: AccountComponent },
             { path: '0005', component: UserMyInfoComponent },
             

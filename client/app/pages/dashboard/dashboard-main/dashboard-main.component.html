@@ -1,4 +1,6 @@
-<app-loading [condition]="isLoading"></app-loading>
+<div class="abs-center" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
 <app-toast></app-toast>
 
 <mat-accordion>
@@ -7,9 +9,13 @@
       <mat-panel-title class="search-icon">
         검색조건
       </mat-panel-title>
-      <mat-panel-description class="search-icon">
+      {{group_flag}}
+      <mat-panel-description *ngIf="group_flag == 'in'" class="search-icon">
         조회년/월/업무/회사를 선택하세요. <span>&nbsp;({{yyyy}}/{{mmDesc}}/{{higher_nm}}/{{company_nm}})</span>
       </mat-panel-description>
+      <mat-panel-description *ngIf="group_flag == 'out'" class="search-icon">
+        조회년/월/업무를 선택하세요. <span>&nbsp;({{yyyy}}/{{mmDesc}}/{{higher_nm}})</span>
+        </mat-panel-description>
     </mat-expansion-panel-header>
 
 
@@ -36,7 +42,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="col-lg-2">
+                <div *ngIf="group_flag == 'in'" class="col-lg-2">
                     <app-higher-cd 
                         [scope]="user_flag"
                         [required]="false"
@@ -48,7 +54,16 @@
                         (outHigherCd)="setHigher($event)"
                     ></app-higher-cd>  
                 </div>
-                <div class="col-lg-2">
+                <div *ngIf="group_flag == 'out'" class="col-lg-2"> 
+                        <app-higher-cd 
+                            [scope]="'company'"
+                            [required]="true"
+                            [company]="company_cd"
+                            [placeholder]="'요청업무'"
+                            (outHigherCd)="setHigher($event)"
+                        ></app-higher-cd>
+                    </div>
+                <div *ngIf="group_flag == 'in'" class="col-lg-2">
                     <mat-form-field class="mat-form-field2">
                             <mat-select [ngModel]="companyInit"
                                         name="company_cd" 

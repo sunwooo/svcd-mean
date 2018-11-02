@@ -21,9 +21,9 @@ module.exports = {
         if(andArr.length > 0)
         findIncident.$and = andArr;
     
-        console.log("=============================== createSearch ==================================");
-        console.log("findIncident : ",JSON.stringify(findIncident));
-        console.log("===============================================================================");
+        //console.log("=============================== createSearch ==================================");
+        //console.log("findIncident : ",JSON.stringify(findIncident));
+        //console.log("===============================================================================");
 
         return { findIncident: findIncident };
 
@@ -38,10 +38,10 @@ module.exports = {
 function createOrCondition(req){
     var OrQueries = [];
 
-        console.log("=============================== createOrCondition ==================================");
-        console.log("req.query.searchType : ",req.query.searchType);
-        console.log("req.query.searchText : ",req.query.searchText);
-        console.log("===============================================================================");
+        //console.log("=============================== createOrCondition ==================================");
+        //console.log("req.query.searchType : ",req.query.searchType);
+        //console.log("req.query.searchText : ",req.query.searchText);
+        //console.log("===============================================================================");
 
     if (req.query.searchType && req.query.searchText) {
         var searchTypes = req.query.searchType.toLowerCase().split(",");
@@ -99,9 +99,9 @@ function createOrCondition(req){
         }
     }
 
-    console.log("=============================== createOrCondition ==================================");
-    console.log("OrQueries : ",OrQueries);
-    console.log("===============================================================================");
+    //console.log("=============================== createOrCondition ==================================");
+    //console.log("OrQueries : ",OrQueries);
+    //console.log("===============================================================================");
 
     return OrQueries;
     
@@ -143,7 +143,7 @@ function createAndCondition(req){
         AndQueries.push({
             request_id: req.session.email
         });
-    }if ((req.session.user_flag == "1" && (user == "manager" || user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
+    }else if ((req.session.user_flag == "1" && (user == "manager" || user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
 
         if(status_cd.length > 1){ //진행 상태가 배열로 요청될 때
             

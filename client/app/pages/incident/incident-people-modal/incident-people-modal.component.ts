@@ -67,15 +67,15 @@ export class IncidentPeopleModalComponent implements OnInit {
 
     ngOnInit() {
 
-        console.log("=======================================");
-        console.log("searchYyyy : ", this.searchYyyy);
-        console.log("searchMm : ", this.searchMm);
-        console.log("searhHigherCd : ", this.searhHigherCd);
-        console.log("searhHigherNm : ", this.searhHigherNm);
-        console.log("searchCompany : ", this.searchCompany);
-        console.log("email : ", this.email);
-        console.log("gubun : ", this.gubun);
-        console.log("=======================================");
+        //console.log("=======================================");
+        //console.log("searchYyyy : ", this.searchYyyy);
+        //console.log("searchMm : ", this.searchMm);
+        //console.log("searhHigherCd : ", this.searhHigherCd);
+        //console.log("searhHigherNm : ", this.searhHigherNm);
+        //console.log("searchCompany : ", this.searchCompany);
+        //console.log("email : ", this.email);
+        //console.log("gubun : ", this.gubun);
+        //console.log("=======================================");
 
         this.title = this.searchYyyy + "년 ";
         if(this.searchMm != '*') this.title = this.title + this.searchMm+"월 ";
@@ -140,9 +140,9 @@ export class IncidentPeopleModalComponent implements OnInit {
         this.dashboard0Service.getValuationChart(this.formData).subscribe(
             (res) => {
 
-                console.log("=======================================");
-                console.log("================valuationCnt res : ",res);
-                console.log("=======================================");
+                //console.log("=======================================");
+                //console.log("================valuationCnt res : ",res);
+                //console.log("=======================================");
 
                 this.valuationChart = res;
             },
@@ -160,10 +160,9 @@ export class IncidentPeopleModalComponent implements OnInit {
         this.dashboard0Service.getAvgChart(this.formData).subscribe(
             (res) => {
 
-                console.log("=======================================");
-                console.log("================valuationAvg res : ",res);
-                console.log("================valuationAvg res.avg : ",res[0].avg);
-                console.log("=======================================");
+                //console.log("=======================================");
+                //console.log("================valuationAvg res : ",res);
+                //console.log("=======================================");
                 if(res.length > 0)  this.avg = Number((res[0].avg).toFixed(2));
                 //this.valuationChart = res;
             },

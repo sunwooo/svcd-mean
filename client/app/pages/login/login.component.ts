@@ -22,6 +22,8 @@ export class LoginComponent implements OnInit {
     public email;
     public password;
     public remember_me;
+    public user_flag = '9';
+    public group_flag = 'out';
     private formValue: any = {}; //전송용 데이타
 
     constructor(
@@ -39,9 +41,18 @@ export class LoginComponent implements OnInit {
 
         this.getLocalStorage();
 
+        this.user_flag = this.cookieService.get("user_flag");
+        this.group_flag = this.cookieService.get("group_flag");
+
         if (this.auth.loggedIn) {
             
-            this.router.navigate(['/svcd/0001']);
+            if(this.user_flag == '9'){
+                this.router.navigate(['/svcd/0001U']); //일반사용자
+            }else if(this.user_flag == '5'){
+                this.router.navigate(['/svcd/0001C']); //회사별담당자
+            }else{
+                this.router.navigate(['/svcd/0001']);  
+            }
         
         }else{
 
@@ -72,7 +83,14 @@ export class LoginComponent implements OnInit {
         this.auth.login(this.formValue).subscribe(
             res => {
                 this.setLocalStorage();
-                this.router.navigate(['/svcd/0001'])
+
+                if(this.user_flag == '9'){
+                    this.router.navigate(['/svcd/0001U']); //일반사용자
+                }else if(this.user_flag == '5'){
+                    this.router.navigate(['/svcd/0001C']); //회사별담당자
+                }else{
+                    this.router.navigate(['/svcd/0001']);  
+                }
             },
             error => {
                 this.toast.open('등록된 계정이 없거나 비밀번호가 틀립니다.', 'danger');
@@ -108,10 +126,10 @@ export class LoginComponent implements OnInit {
      */
     getLocalStorage() {
 
-        console.log('================================getCookie()========================================');
-        console.log('this.cookieService.check(\'remember_me\') : ', localStorage.getItem('remember_me'));
-        console.log('this.cookieService.check(\'email\') : ', localStorage.getItem('email'));
-        console.log('===================================================================================');
+        //console.log('================================getCookie()========================================');
+        //console.log('this.cookieService.check(\'remember_me\') : ', localStorage.getItem('remember_me'));
+        //console.log('this.cookieService.check(\'email\') : ', localStorage.getItem('email'));
+        //console.log('===================================================================================');
 
         if (localStorage.getItem('remember_me')) {
             this.remember_me = true;

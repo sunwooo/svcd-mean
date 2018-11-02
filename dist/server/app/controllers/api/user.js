@@ -468,11 +468,11 @@ module.exports = {
      */
     initPassword: (req, res, next) => {
 
-        console.log("===========User controllers initPassword()===========");
-        console.log(" req.body.user.id : ",  req.body.user.id);
-        console.log(" req.body.user.email.indexOf('@') : ",  req.body.user.email.indexOf('@'));
-        console.log(" req.body.user.email.substring(0,req.body.user.email.indexOf('@')) : ",  req.body.user.email.substring(0,req.body.user.email.indexOf('@')));
-        console.log("=============================================");
+        //console.log("===========User controllers initPassword()===========");
+        //console.log(" req.body.user.id : ",  req.body.user.id);
+        //console.log(" req.body.user.email.indexOf('@') : ",  req.body.user.email.indexOf('@'));
+        //console.log(" req.body.user.email.substring(0,req.body.user.email.indexOf('@')) : ",  req.body.user.email.substring(0,req.body.user.email.indexOf('@')));
+        //console.log("=============================================");
 
         var initPW = req.body.user.email.substring(0,req.body.user.email.indexOf("@"));
         var updateData = {'password':initPW};

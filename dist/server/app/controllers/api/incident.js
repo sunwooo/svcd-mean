@@ -24,9 +24,9 @@ module.exports = {
 
         var upIncident = req.body.incident;
 
-        console.log("========================================================");
-        console.log("========================req.body.incident ",req.body.incident);
-        console.log("========================================================");
+        //console.log("========================================================");
+        //console.log("========================req.body.incident ",req.body.incident);
+        //console.log("========================================================");
 
 
         Incident.findOneAndUpdate({
@@ -487,7 +487,9 @@ module.exports = {
           //전체담당자, 팀장, 업무담당자이고 구분값에 manager로 넘어왔을 시 
           if (req.query.user == "general"){
               callback(null);
-          } else if ((req.session.user_flag == "1" && (req.query.user == "manager" || req.query.user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
+          }else if(req.query.user == "company"){
+              callback(null);
+          }else if ((req.session.user_flag == "1" && (req.query.user == "manager" || req.query.user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
 
             var condition = {};
             if (req.query.user != "managerall") {

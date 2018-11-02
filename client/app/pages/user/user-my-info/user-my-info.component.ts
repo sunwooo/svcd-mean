@@ -5,6 +5,7 @@ import { ToastComponent } from '../../../shared/toast/toast.component';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-user-my-info',
@@ -33,6 +34,9 @@ export class UserMyInfoComponent implements OnInit {
     public office_tel_no: string;
     public id: string;
 
+    public user_flag = '9';
+    public group_flag = 'out';
+
     public userFlagObj: { name: string; value: string; }[] = [
         { name: '그룹관리자', value: '1' },
         { name: '업무관리자(팀장)', value: '3' },
@@ -60,9 +64,16 @@ export class UserMyInfoComponent implements OnInit {
     constructor(private userService: UserService
         , private commonApi: CommonApiService
         , private toast: ToastComponent
+        , private cookieService: CookieService
         , private router: Router) { }
 
     ngOnInit() {
+
+        if(this.cookieService.get("user_flag"))
+            this.user_flag = this.cookieService.get("user_flag");
+        if(this.cookieService.get("group_flag"))
+            this.group_flag = this.cookieService.get("group_flag");        
+
         this.getMyPage();
         this.getCompanyList();
     }
@@ -163,7 +174,13 @@ export class UserMyInfoComponent implements OnInit {
     }
 
     goList() {
-        this.router.navigate(['/svcd/0001']);
+        if(this.user_flag == '9'){
+            this.router.navigate(['/svcd/0001U']); //일반사용자
+        }else if(this.user_flag == '5'){
+            this.router.navigate(['/svcd/0001C']); //회사별담당자
+        }else{
+            this.router.navigate(['/svcd/0001']);  
+        }
     }
 
 }

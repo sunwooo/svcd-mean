@@ -14,14 +14,14 @@ export class SvcdNavComponent implements OnInit {
     public group_flag = 'out';
 
     constructor(private cookieService: CookieService,
-                private router: Router, 
+                private router: Router,
                 private activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
         if(this.cookieService.get("user_flag"))
             this.user_flag = this.cookieService.get("user_flag");
-            if(this.cookieService.get("group_flag"))
+        if(this.cookieService.get("group_flag"))
             this.group_flag = this.cookieService.get("group_flag");
     }
 

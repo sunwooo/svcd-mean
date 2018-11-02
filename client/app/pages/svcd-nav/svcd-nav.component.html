@@ -12,9 +12,19 @@
     <mat-toolbar>
       <div class="topbar">
         <div class="topbar-left">
-          <div class="text-center">
+          <div *ngIf="user_flag == '1'" class="text-center">
             <a [routerLink]="['/svcd/0001']" class="logo">
               <img src="/assets/images/ci_isu_white.png" alt="ISU">
+            </a>
+          </div>
+          <div *ngIf="user_flag == '5'"  class="text-center">
+            <a [routerLink]="['/svcd/0001C']" class="logo">
+                <img src="/assets/images/ci_isu_white.png" alt="ISU">
+            </a>
+          </div>
+          <div *ngIf="user_flag == '9'"  class="text-center">
+            <a [routerLink]="['/svcd/0001U']" class="logo">
+                <img src="/assets/images/ci_isu_white.png" alt="ISU">
             </a>
           </div>
         </div>
@@ -44,7 +54,7 @@
                         자주묻는질문과답
                     </a>
                     <!--<a *ngIf="(user_flag == '1')" [routerLink]="['/svcd/9100']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">-->
-                    <a *ngIf="(user_flag != '9' && user_flag !='5')" [routerLink]="['/svcd/9100']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                    <a *ngIf="(user_flag != '9')" [routerLink]="['/svcd/9100']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
                         Dashboard
                     </a>
                     <div class="mr-auto">

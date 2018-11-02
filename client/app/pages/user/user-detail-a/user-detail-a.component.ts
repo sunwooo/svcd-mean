@@ -56,7 +56,10 @@ export class UserDetailAComponent implements OnInit {
         , private router: Router) { }
 
     ngOnInit() {
-        this.user_flag = this.cookieService.get("user_flag");
+        
+        if(this.cookieService.get("user_flag"))
+            this.user_flag = this.cookieService.get("user_flag");
+        
         this.getCompanyList();
     }
 
@@ -134,7 +137,7 @@ export class UserDetailAComponent implements OnInit {
         }
 
         form.value.user.id = this.userDetail._id;
-        console.log("================ form.value.user ==============", form.value.user);
+        //console.log("================ form.value.user ==============", form.value.user);
         this.userService.putAccessConfirm(form.value).subscribe(
             (res) => {
                 if (res.success) {
@@ -157,10 +160,11 @@ export class UserDetailAComponent implements OnInit {
      * @param form 
      */
     updateUser(form: NgForm) {
-
         if(this.userDetail.company_cd == 'ISU_ST'){
-            this.toast.open('사원번호을 반드시 입력하세요. ', 'danger');          
-            return;
+            if(!form.value.user.sabun){
+                this.toast.open('이수시스템 직원은 사원번호을 반드시 입력하세요. ', 'danger');          
+                return;
+            }
         }
 
         form.value.user.id = this.userDetail._id;

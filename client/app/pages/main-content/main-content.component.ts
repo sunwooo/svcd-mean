@@ -75,6 +75,7 @@ export class MainContentComponent implements OnInit {
     public incidentDetail: any;                 //선택 인시던트 id
     public empEmail: string = "";               //팝업 조회용 이메일
     public popupNotice: string = "";            //팝업 조회용 QNA공지
+    public group_flag = 'out';
 
     constructor(private auth: AuthService,
         private modalService: NgbModal,
@@ -140,7 +141,13 @@ export class MainContentComponent implements OnInit {
                 var yearArray = res;
                 var yearTmp = [];
                 yearArray.forEach((yyyy, yIdx, result) => {
-                    var tmp = new Array(yyyy.series.length);
+                    
+                    var tmp = [
+                        {name: '01', value:0},{name: '02', value:0},{name: '03', value:0},{name: '04', value:0},
+                        {name: '05', value:0},{name: '06', value:0},{name: '07', value:0},{name: '08', value:0},
+                        {name: '09', value:0},{name: '10', value:0},{name: '11', value:0},{name: '12', value:0}
+                       ];
+
                     yyyy.series.forEach((mm,mIdx) =>{
                         tmp.splice(Number(mm.name)-1, 1, {name:mm.name, value:mm.value});
                     });
@@ -167,7 +174,8 @@ export class MainContentComponent implements OnInit {
         var condition: any = {};
         condition.page = 1;
         condition.perPage = 10;
-        condition.user = 'manager';
+
+        condition.user = 'company';
 
         condition.status_cd = '*';
         condition.company_cd = '*';

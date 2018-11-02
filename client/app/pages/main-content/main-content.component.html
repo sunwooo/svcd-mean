@@ -78,8 +78,11 @@
       <div class="card-box">
         <div class="row">
           <div class="col-sm-12 col-lg-6 m-t-60">
-            <h4 class="text-dark header-title float-left m-l-30">월별 요청건 현황</h4>
-            <ngx-charts-line-chart [view]="view3" 
+            <div class="row">
+              <h4 class="text-dark header-title float-left m-l-30">월별 요청건 현황</h4>
+            </div>
+            <div class="row">
+              <ngx-charts-line-chart [view]="view3" 
                                     [scheme]="colorScheme3" 
                                     [results]="monthlyCntChart" 
                                     [gradient]="gradient" 
@@ -94,20 +97,25 @@
                                     [autoScale]="autoScale" 
                                     [timeline]="timeline" 
                                     (select)="onSelect(content, $event)"
-            >
-            </ngx-charts-line-chart>
+              >
+              </ngx-charts-line-chart>
+            </div>
           </div>
           <div class="col-sm-12 col-lg-6 float-left">
-            <h4 class="text-dark header-title float-left m-l-30">총요청 현황</h4>  
-            <ngx-charts-pie-chart [view]="view3" 
+            <div class="row">  
+              <h4 class="text-dark header-title float-left m-l-30">총요청 현황</h4>  
+            </div>
+            <div class="row">
+              <ngx-charts-pie-chart [view]="view3" 
                 [scheme]="colorScheme3" 
                 [results]="higherCntChart" 
                 [explodeSlices]="true" 
                 [gradient]="gradient"
                 [labels]="true"
                 (select)="onSelect(content, $event)" 
-            >
-            </ngx-charts-pie-chart>
+              >
+              </ngx-charts-pie-chart>
+            </div>
           </div>
         </div>
       </div>
