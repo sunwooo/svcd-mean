@@ -1,0 +1,168 @@
+<!-- 제목 시작-->
+<section class="content-header">
+        <h1>
+          <small>Service Desk</small>
+        </h1>
+        <ol class="breadcrumb">
+          <li>
+            <a href="#">
+              <i class="fa fa-dashboard"></i>&nbsp;요청자</a>
+          </li>
+          <li class="active"></li>
+        </ol>
+      </section>
+      <!-- 제목 끝-->
+      
+      <section class="content">
+        
+        <!-- start people info --> 
+        <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="card-box">
+                        <div class="row">
+                            <div class="col-lg-3 col-sm-12">
+                                <div class="card-box">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <img src="/assets/images/users/avatar-2.jpg" alt="user" class="img-responsive img-circle">
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <p><span>{{userInfo?.company_nm}}</span></p>
+                                            <p><span>{{userInfo?.dept_nm}}</span></p>
+                                            <p><span>{{userInfo?.employee_nm}} {{userInfo?.position_nm}}</span></p>
+                                            <p><span>{{userInfo?.office_tel_no}}</span></p>
+                                            <p><span>{{userInfo?.hp_telno}}</span></p>
+                                            <p><span>{{userInfo?.email}}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-12">
+                                <div class="card-box">
+                                    <div class="row">
+                                            <h4 class="text-dark header-title float-left m-l-30">{{subTitle1}}</h4>
+                                    </div>
+                                    <div class="row">
+                                        <ngx-charts-pie-chart [view]="[480,200]" 
+                                            [scheme]="colorScheme3" 
+                                            [results]="higherCntChart" 
+                                            [explodeSlices]="false" 
+                                            [gradient]="true"
+                                            [labels]="true"
+                                            (select)="onSelect($event)" 
+                                        >
+                                        </ngx-charts-pie-chart>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-sm-12">
+                                <div class="card-box">
+                                    <div class="row">
+                                            <h4 class="text-dark header-title float-left m-l-30">{{subTitle2}}({{avg}})</h4>
+                                    </div>
+                                    <div class="row">
+                                        <ngx-charts-advanced-pie-chart [view]="[500,200]" 
+                                        [scheme]="colorScheme3" 
+                                        [results]="valuationChart" 
+                                        [gradient]="true"
+                                        (select)="onSelect($event)"
+                                    >
+                                    </ngx-charts-advanced-pie-chart>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end people info -->        
+            
+
+            <!-- start list-->
+            <app-incident-list-injectable 
+                            [searchYyyy]="searchYyyy"
+                            [searchMm]="searchMm"
+                            [searhHigherCd]="searhHigherCd"
+                            [searhHigherNm]="searhHigherNm"
+                            [searchCompany]="company_cd"
+                            [searchRequestId]="email"
+                            [searchManagerEmail]="searchManagerEmail"
+            >
+            </app-incident-list-injectable>   
+            <!-- End list-->
+      
+      </section>
+      
+      
+      <!-- start detail view modal -->
+      <ng-template #incidentDetailModal let-c="close" let-d="dismiss">
+          <app-incident-detail-a [cValues]="this.c"
+                                  [dValues]="this.d"
+                                  [incidentDetail]="incidentDetail"
+          ></app-incident-detail-a>
+      </ng-template>
+      <!-- end detail view modal -->
+      
+      <!-- start empInfo modal -->
+      <ng-template #empInfoModal let-c="close" let-d="dismiss">
+          <app-emp-info [cValues]="this.c"
+                          [dValues]="this.d"
+                          [email]="empEmail"
+          ></app-emp-info>
+      </ng-template>
+      <!-- end empInfo modal -->
+      
+      <!-- start popup modal -->
+      <ng-template #popupModal1 let-c="close" let-d="dismiss">
+          <app-pop-up [cValues]="this.c"
+                          [dValues]="this.d"
+                          [popNotice]="noticeList[0]"
+          ></app-pop-up>
+      </ng-template>
+      <!-- end popup modal -->
+      
+      <!-- start popup modal -->
+      <ng-template #popupModal2 let-c="close" let-d="dismiss">
+          <app-pop-up [cValues]="this.c"
+                          [dValues]="this.d"
+                          [popNotice]="noticeList[1]"
+          ></app-pop-up>
+      </ng-template>
+      <!-- end popup modal -->
+      
+      <!-- start popup modal -->
+      <ng-template #popupModal3 let-c="close" let-d="dismiss">
+          <app-pop-up [cValues]="this.c"
+                          [dValues]="this.d"
+                          [popNotice]="noticeList[2]"
+          ></app-pop-up>
+      </ng-template>
+      <!-- end popup modal -->
+      
+      <!-- start popup modal -->
+      <ng-template #popupModal4 let-c="close" let-d="dismiss">
+          <app-pop-up [cValues]="this.c"
+                          [dValues]="this.d"
+                          [popNotice]="noticeList[3]"
+          ></app-pop-up>
+      </ng-template>
+      <!-- end popup modal -->
+      
+      <!-- start popup modal -->
+      <ng-template #popupModal5 let-c="close" let-d="dismiss">
+          <app-pop-up [cValues]="this.c"
+                          [dValues]="this.d"
+                          [popNotice]="noticeList[4]"
+          ></app-pop-up>
+      </ng-template>
+      <!-- end popup modal -->
+      
+      
+      <ng-template #content let-c="close" let-d="dismiss">
+          <app-incident-list-modal [cValues]="this.c"
+                              [dValues]="this.d"
+                              [selectedItem]="selectedItem"
+                              
+          >
+          </app-incident-list-modal>
+      </ng-template>
