@@ -1,6 +1,0 @@
-{
-  "/api": {
-    "target": "http://sd.isusystem.co.kr:80",
-    "secure": false
-  }
-}
