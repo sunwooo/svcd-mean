@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
     public email;
     public password;
     public remember_me;
+    public sso = 'sso';
     public user_flag = '9';
     public group_flag = 'out';
     private formValue: any = {}; //전송용 데이타
@@ -61,6 +62,7 @@ export class LoginComponent implements OnInit {
                 this.formValue.email = queryParams.email;
                 this.formValue.password = queryParams.password;
                 this.formValue.key = queryParams.key;
+                this.formValue.sso = queryParams.sso;
 
                 if(this.formValue.email && (this.formValue.password || this.formValue.key)){
                     this.login(); 

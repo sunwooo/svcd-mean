@@ -33,7 +33,6 @@ module.exports = {
       }
 
       try {
-
         /**
          * 로그인 정보 매핑
          * user 테이블에서 사용자 1차 검색 (비밀번호 틀릴 시 그룹웨어 검색)
@@ -41,6 +40,14 @@ module.exports = {
          */
         async.waterfall([function (callback) {
             User.findOne(condition).exec(function (err, user) {
+
+              var gwUri = "";
+              if(req.body.sso){
+                gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
+              }else{
+                gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
+              }
+
               if (user != null) {
 
                 if (user.authenticate(req.body.password) //비밀번호가 일치하면 - 고객사
@@ -55,7 +62,7 @@ module.exports = {
                   callback(null, user);
                 } else { //비밀번호 일치하지 않으면 그룹사 권한별
                   request({
-                    uri: CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password),
+                    uri: gwUri,
                     headers: {
                       'Content-type': 'application/json'
                     },
@@ -69,7 +76,7 @@ module.exports = {
                 }
               } else { //user테이블에 계정이 존재하지 않으면 그룹사 일반계정
                 request({
-                  uri: CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password),
+                    uri: gwUri,
                   headers: {
                     'Content-type': 'application/json'
                   },

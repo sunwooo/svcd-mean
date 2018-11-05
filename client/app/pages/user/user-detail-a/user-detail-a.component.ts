@@ -68,11 +68,8 @@ export class UserDetailAComponent implements OnInit {
      */
     getCompanyList() {
 
-        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxx this.userDetail : ", this.userDetail);
-
         this.commonApi.getCompany(this.userDetail).subscribe(
             (res) => {
-                console.log("xxxxxxxxxxxxxxxxxxxxxxxxxx res : ", res);
                 this.companyObj.push({'company_cd':'','company_nm':'선택하세요'});
 
                 //idx를 찾아서 조회시 초기값 세팅
