@@ -6,7 +6,6 @@ import { AuthService } from '../../../services/auth.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { IncidentService } from '../../../services/incident.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload'
 import { Router } from '@angular/router';
 
@@ -29,9 +28,9 @@ export class IncidentNewComponent implements OnInit {
 
     public higher: any = {};    
     public initPrcSpd: string = "N";
-    public request_info: string = this.cookieService.get("employee_nm");
-    public real_contact: string = this.cookieService.get("hp_telno");
-    public request_company: string = this.cookieService.get("company_cd");
+    public request_info: string = this.auth.employee_nm;
+    public real_contact: string = this.auth.hp_telno;
+    public request_company: string = this.auth.company_cd;
     
     private formData: any = {}; //전송용 formData
     private attach_file: any = []; //mongodb 저장용 첨부파일 배열
@@ -52,7 +51,6 @@ export class IncidentNewComponent implements OnInit {
     constructor(private auth: AuthService,
         public toast: ToastComponent,
         private incidentService: IncidentService,
-        private cookieService: CookieService,
         private router: Router) {
     }
 
@@ -111,10 +109,6 @@ export class IncidentNewComponent implements OnInit {
             this.addIncident();
 
         }
-
-        //let ck = this.cookieService.getAll();
-        //console.log('cookie : ', ck);
-
     }
 
     /**

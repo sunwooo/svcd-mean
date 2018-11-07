@@ -6,7 +6,6 @@ import { AuthService } from '../../../services/auth.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { IncidentService } from '../../../services/incident.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload'
 import { Router } from '@angular/router';
 
@@ -51,7 +50,6 @@ export class IncidentModifyComponent implements OnInit {
     constructor(private auth: AuthService,
         public toast: ToastComponent,
         private incidentService: IncidentService,
-        private cookieService: CookieService,
         private router: Router) {
     }
 
@@ -89,9 +87,9 @@ export class IncidentModifyComponent implements OnInit {
          */ 
         this.uploader.onCompleteItem = (item: any, res: any, status: any, headers: any) => {
 
-            console.log('=======================================uploader.onCompleteItem=======================================');
-            console.log("uploader.onCompleteItem res ", res);
-            console.log('=================================================================================================');
+            //console.log('=======================================uploader.onCompleteItem=======================================');
+            //console.log("uploader.onCompleteItem res ", res);
+            //console.log('=================================================================================================');
 
             this.attach_file.push(JSON.parse(res)); 
         }
@@ -109,9 +107,9 @@ export class IncidentModifyComponent implements OnInit {
                             'attach_file' : this.incidentDetail.attach_file}
                             };
 
-            console.log('=======================================uploader.onCompleteAll=======================================');
-            console.log("this.formData ", this.formData);
-            console.log('=================================================================================================');
+            //console.log('=======================================uploader.onCompleteAll=======================================');
+            //console.log("this.formData ", this.formData);
+            //console.log('=================================================================================================');
                 
             //Template form을 전송용 formData에 저장 
             this.incidentService.fileUpdate(this.formData).subscribe(
@@ -124,10 +122,6 @@ export class IncidentModifyComponent implements OnInit {
             });
 
         }
-
-        //let ck = this.cookieService.getAll();
-        //console.log('cookie : ', ck);
-
     }
 
     /**

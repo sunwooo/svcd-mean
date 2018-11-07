@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-page-header',
@@ -9,10 +9,10 @@ import { CookieService } from 'ngx-cookie-service';
 
 export class PageHeaderComponent {
     @Input() title: string;
-    public user_nm: string = this.cookieService.get("employee_nm");
-    public company_nm: string = this.cookieService.get("company_nm");
+    public user_nm: string = this.auth.employee_nm;
+    public company_nm: string = this.auth.company_nm;
 
-    constructor(private cookieService: CookieService
+    constructor(private auth: AuthService
     ) {
     }
 

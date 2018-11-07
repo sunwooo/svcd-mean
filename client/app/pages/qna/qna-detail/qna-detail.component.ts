@@ -6,7 +6,6 @@ import { AuthService } from '../../../services/auth.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { QnaService } from '../../../services/qna.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload'
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -48,12 +47,11 @@ export class QnaDetailComponent implements OnInit {
     public companyObj: any = [];                 //회사리스트
 
     public user_flag = "9";
-    public employee_nm: string = this.cookieService.get("employee_nm");
+    public employee_nm: string = this.auth.employee_nm;
 
     constructor(private auth: AuthService,
         public toast: ToastComponent,
         private qnaService: QnaService,
-        private cookieService: CookieService,
         private userService: UserService,
         private renderer: Renderer,
         private router: Router,
@@ -62,8 +60,7 @@ export class QnaDetailComponent implements OnInit {
 
 
     ngOnInit() {
-        if(this.cookieService.get("user_flag"))
-        this.user_flag = this.cookieService.get("user_flag");
+        this.user_flag = this.auth.user_flag;
     }
 
 

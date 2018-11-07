@@ -2,10 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProcessGubunCodeService } from '../../../services/process-gubun-code.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { NgForm } from '@angular/forms';
+import { AuthService } from '../../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommonApiService } from '../../../services/common-api.service';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-process-gubun-code-new',
@@ -29,8 +29,8 @@ export class ProcessGubunCodeNewComponent implements OnInit {
     public description: string = "";
     public use_yn: string = "";
 
-    public user_nm: string = this.cookieService.get("employee_nm");
-    public user_id: string = this.cookieService.get("email");
+    public user_nm: string = this.auth.employee_nm;
+    public user_id: string = this.auth.email;
 
     public question_typeObj: { name: string; value: string; }[] = [
         { name: '장애', value: '장애' },
@@ -46,11 +46,11 @@ export class ProcessGubunCodeNewComponent implements OnInit {
         { name: '미사용', value: '미사용' }
     ];
 
-    constructor(private processGubunCodeService: ProcessGubunCodeService
+    constructor(private auth: AuthService
+        ,private processGubunCodeService: ProcessGubunCodeService
         , public toast: ToastComponent
         , private commonApi: CommonApiService
-        , private router: Router
-        , private cookieService: CookieService) { }
+        , private router: Router) { }
 
     ngOnInit() {
         this.isLoading = false;

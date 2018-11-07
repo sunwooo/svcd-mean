@@ -13,7 +13,8 @@ import { UserService } from '../../services/user.service';
 @Component({
     selector: 'app-main-content',
     templateUrl: './main-content.component.html',
-    styleUrls: ['./main-content.component.scss']
+    styleUrls: ['./main-content.component.scss'],
+    providers: [CookieService]
 })
 export class MainContentComponent implements OnInit {
 
@@ -248,7 +249,7 @@ export class MainContentComponent implements OnInit {
     onSelect(modalId, data) {
         console.log("onSelect : ", modalId, data);
         
-        var user_flag = this.cookieService.get("user_flag");
+        var user_flag = this.auth.user_flag;
         if(user_flag == '1' || user_flag == '2' || user_flag == '3'){
             this.selectedItem = data.name;
             this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});
@@ -312,7 +313,7 @@ export class MainContentComponent implements OnInit {
     this.userService.getAccessUserList(this.formData).subscribe(
         (res) => {
 
-            console.log("xxxxxxxxxxxxxxxxxxxxxx res : ",res);
+            //console.log("xxxxxxxxxxxxxxxxxxxxxx res : ",res);
 
             this.userObj = [];
             var tmp = this.userObj.concat(res.user);

@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MyProcessService {
 
-  constructor(private http: HttpClient) { }
+    public headers:any;
+    constructor(private auth: AuthService
+              , private http: HttpClient  
+    ){
+        this.headers = new HttpHeaders().set('Authorization', this.auth.getToken());
+    }
 
     /**
      * 나의업무 Tree 조회
@@ -16,7 +22,7 @@ export class MyProcessService {
      */
     getMyProcessTree(condition): Observable<any> {
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/myProcess/myProcessTree', {params: httpParams});
+        return this.http.get<any>('/api/myProcess/myProcessTree', {headers: this.headers, params: httpParams});
     }
 
     /**
@@ -24,7 +30,7 @@ export class MyProcessService {
      * @param form 
     */
     putMyProcess(form:NgForm): Observable<any> {
-       return this.http.put<any>('/api/myProcess/update', form, {withCredentials:true});
+       return this.http.put<any>('/api/myProcess/update', form, {headers: this.headers, withCredentials:true});
     }
 
 }

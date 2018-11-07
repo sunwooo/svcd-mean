@@ -23,6 +23,7 @@ import { UserService } from './services/user.service';
 import { IncidentService } from './services/incident.service';
 import { CommonApiService } from './services/common-api.service';
 import { AuthService } from './services/auth.service';
+import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { CookieService } from 'ngx-cookie-service';
 import { StatisticService } from './services/statistic.service';
 import { CompanyService } from './services/company.service';
@@ -216,6 +217,7 @@ const PAGES = [
     ],
     providers: [
         AuthService,
+        AuthGuardLogin,
         UserService,
         IncidentService,
         CommonApiService,

@@ -2,11 +2,11 @@ import { Component, OnInit, EventEmitter, Renderer } from '@angular/core';
 import { Input, Output } from "@angular/core";
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
 import { NgForm } from '@angular/forms';
 import { CommonApiService } from '../../../services/common-api.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-user-detail-a',
@@ -48,17 +48,16 @@ export class UserDetailAComponent implements OnInit {
     ];
 
 
-    constructor(private userService: UserService
+    constructor(private auth: AuthService
+        , private userService: UserService
         , private commonApi: CommonApiService
         , private toast: ToastComponent
         , private renderer: Renderer
-        , public cookieService: CookieService
         , private router: Router) { }
 
     ngOnInit() {
         
-        if(this.cookieService.get("user_flag"))
-            this.user_flag = this.cookieService.get("user_flag");
+        this.user_flag = this.auth.user_flag;
         
         this.getCompanyList();
     }

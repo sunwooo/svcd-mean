@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class UserService {
 
-    constructor(private http: HttpClient) {
-
-
+    constructor(private http: HttpClient)
+    {
     }
 
     login(credentials): Observable<any> {
@@ -30,6 +30,8 @@ export class UserService {
         //console.log("========addUser(user: NgForm): Observable<any>========");
         //console.log("user : ", user.value);
         //console.log("======================================================");
+
+        //var headers = new HttpHeaders().set('Authorization', this.auth.getToken());
 
         return this.http.post<any>('/api/user/addUser', user.value, { withCredentials: true });
     }

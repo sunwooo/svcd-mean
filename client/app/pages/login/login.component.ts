@@ -1,6 +1,5 @@
 import { Component, OnInit, Renderer, ViewChild, ChangeDetectorRef, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { AuthService } from '../../services/auth.service';
@@ -14,15 +13,14 @@ const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    providers: [CookieService]
+    encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
 
     public email;
     public password;
     public remember_me;
-    public sso = 'sso';
+    //public type = 'sso';
     public user_flag = '9';
     public group_flag = 'out';
     private formValue: any = {}; //전송용 데이타
@@ -32,7 +30,6 @@ export class LoginComponent implements OnInit {
         private router: Router,
         public activatedRoute: ActivatedRoute,
         public toast: ToastComponent,
-        private cookieService: CookieService,
         private renderer: Renderer,
         private changeDetector: ChangeDetectorRef,
         private modalService: NgbModal
@@ -42,8 +39,8 @@ export class LoginComponent implements OnInit {
 
         this.getLocalStorage();
 
-        this.user_flag = this.cookieService.get("user_flag");
-        this.group_flag = this.cookieService.get("group_flag");
+        this.user_flag = this.auth.user_flag;
+        this.group_flag = this.auth.group_flag;
 
         if (this.auth.loggedIn) {
             
@@ -55,20 +52,23 @@ export class LoginComponent implements OnInit {
                 this.router.navigate(['/svcd/0001']);  
             }
         
-        }else{
+        }
+        /*
+        else{
 
             this.activatedRoute.queryParams.subscribe(queryParams => {
 
                 this.formValue.email = queryParams.email;
                 this.formValue.password = queryParams.password;
                 this.formValue.key = queryParams.key;
-                this.formValue.sso = queryParams.sso;
+                this.formValue.type = queryParams.type;
 
                 if(this.formValue.email && (this.formValue.password || this.formValue.key)){
                     this.login(); 
                 }
             });   
         }
+        */
     }
 
     /**
@@ -85,14 +85,6 @@ export class LoginComponent implements OnInit {
         this.auth.login(this.formValue).subscribe(
             res => {
                 this.setLocalStorage();
-
-                if(this.user_flag == '9'){
-                    this.router.navigate(['/svcd/0001U']); //일반사용자
-                }else if(this.user_flag == '5'){
-                    this.router.navigate(['/svcd/0001C']); //회사별담당자
-                }else{
-                    this.router.navigate(['/svcd/0001']);  
-                }
             },
             error => {
                 this.toast.open('등록된 계정이 없거나 비밀번호가 틀립니다.', 'danger');
@@ -128,15 +120,9 @@ export class LoginComponent implements OnInit {
      */
     getLocalStorage() {
 
-        //console.log('================================getCookie()========================================');
-        //console.log('this.cookieService.check(\'remember_me\') : ', localStorage.getItem('remember_me'));
-        //console.log('this.cookieService.check(\'email\') : ', localStorage.getItem('email'));
-        //console.log('===================================================================================');
-
         if (localStorage.getItem('remember_me')) {
             this.remember_me = true;
             this.email = localStorage.getItem('email');
-            //this.email.setValue(this.cookieService.get('email'));
 
             let onElement = this.renderer.selectRootElement('#password');
             onElement.focus();

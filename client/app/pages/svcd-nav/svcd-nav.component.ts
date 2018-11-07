@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoutingModule } from '../../routing.module';
-import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-svcd-nav',
@@ -13,20 +13,18 @@ export class SvcdNavComponent implements OnInit {
     public user_flag = '9';
     public group_flag = 'out';
 
-    constructor(private cookieService: CookieService,
+    constructor(private auth: AuthService,
                 private router: Router,
                 private activatedRoute: ActivatedRoute) {
     }
 
     ngOnInit() {
-        if(this.cookieService.get("user_flag"))
-            this.user_flag = this.cookieService.get("user_flag");
-        if(this.cookieService.get("group_flag"))
-            this.group_flag = this.cookieService.get("group_flag");
+            this.user_flag = this.auth.user_flag;
+            this.group_flag = this.auth.group_flag;
     }
 
     isView(user_flag : string) : boolean{
-        if(user_flag == this.cookieService.get("user_flag") ){
+        if(user_flag == this.auth.user_flag){
             return true;
         }else{
             return false;

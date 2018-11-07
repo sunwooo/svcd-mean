@@ -6,7 +6,6 @@ import { AuthService } from '../../../services/auth.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { IncidentService } from '../../../services/incident.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload'
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -62,7 +61,6 @@ export class IncidentNewMngComponent implements OnInit {
     constructor(private auth: AuthService,
         public toast: ToastComponent,
         private incidentService: IncidentService,
-        private cookieService: CookieService,
         private userService: UserService,
         private renderer: Renderer,
         private router: Router) 
@@ -83,8 +81,6 @@ export class IncidentNewMngComponent implements OnInit {
 
 
     ngOnInit() {
-
-        this.auth.checkCookies();
 
         this.today.setDate(this.today.getDate() + 3);
         this.request_complete_date = new FormControl(this.today);

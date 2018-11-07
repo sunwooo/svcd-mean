@@ -42,11 +42,11 @@ module.exports = {
             User.findOne(condition).exec(function (err, user) {
 
               var gwUri = "";
-              if(req.body.sso){
-                gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-              }else{
-                gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-              }
+              //if(req.body.sso){
+                  gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
+              //}else{
+              //  gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
+              //}
 
               if (user != null) {
 
@@ -151,6 +151,7 @@ module.exports = {
         });
       } catch (e) {
         //logger.debug(e);
+        console.log("login error : ", e);
       }
     },
 

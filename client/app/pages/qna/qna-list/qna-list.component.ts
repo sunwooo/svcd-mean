@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { AuthService } from '../../../services/auth.service';
 import { QnaService } from '../../../services/qna.service';
 import { CommonApiService } from '../../../services/common-api.service';
-import { CookieService } from 'ngx-cookie-service';
 import { Router } from "@angular/router";
 
 @Component({
@@ -33,13 +33,13 @@ export class QnaListComponent implements OnInit {
     { name: '내용', value: 'content' }
   ];
 
-  public company_cd: string = this.cookieService.get("company_cd");
+  public company_cd: string = this.auth.company_cd;
 
-  constructor(private qnaService: QnaService
+  constructor(private auth: AuthService
+    , private qnaService: QnaService
     , private commonApi: CommonApiService
     , private modalService: NgbModal
-    , private router: Router
-    , private cookieService: CookieService ) { }
+    , private router: Router ) { }
 
   public maxSize: number = 10;      // 한 화면에 나타낼 페이지 수
   public page: number = 0;          // 현재 페이지

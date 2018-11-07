@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class ProcessGubunCodeService {
 
-    constructor(private http: HttpClient,
-        private cookieService: CookieService
-    ) { }
+    public headers:any;
+    constructor(private auth: AuthService
+              , private http: HttpClient  
+    ){
+        this.headers = new HttpHeaders().set('Authorization', this.auth.getToken());
+    }
 
     /**
      * 처리구분코드리스트 가져오기 
@@ -18,7 +21,7 @@ export class ProcessGubunCodeService {
     getProcessGubunCodeList(condition): Observable<any> {
         //console.log("===========================getProcessGubunCodeList", condition);
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/processGubun/list', {params: httpParams});
+        return this.http.get<any>('/api/processGubun/list', {headers: this.headers, params: httpParams});
     }
 
     /**
@@ -26,7 +29,7 @@ export class ProcessGubunCodeService {
      * @param form 
     */
     putProcessGubunCode(form): Observable<any> {
-        return this.http.put<any>('/api/processGubun/update', form, {withCredentials:true});
+        return this.http.put<any>('/api/processGubun/update', form, {headers: this.headers, withCredentials:true});
     }
 
     /**
@@ -46,6 +49,6 @@ export class ProcessGubunCodeService {
      * @param processGubunCode 
      */
     addProcessGubunCode(processGubunCode: NgForm): Observable<any> {
-        return this.http.post<any>('/api/processGubun/new', processGubunCode, {withCredentials:true});
+        return this.http.post<any>('/api/processGubun/new', processGubunCode, {headers: this.headers, withCredentials:true});
     }
 }

@@ -2,23 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class LowerProcessService {
 
-    constructor(private http: HttpClient,
-        private cookieService: CookieService
-    ) { }
+    public headers:any;
+    constructor(private auth: AuthService
+              , private http: HttpClient  
+    ){
+        this.headers = new HttpHeaders().set('Authorization', this.auth.getToken());
+    }
 
     /**
      * 하위업무리스트 가져오기 
     */
     
     getLowerProcessList(condition): Observable<any> {
-        console.log("===========================getLowerProcessList", condition);
+        //console.log("===========================getLowerProcessList", condition);
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/lowerProcess/list', {params: httpParams});
+        return this.http.get<any>('/api/lowerProcess/list', {headers: this.headers, params: httpParams});
     }
 
     /**
@@ -27,7 +30,7 @@ export class LowerProcessService {
     */
     
     putLowerProcess(form): Observable<any> {
-        return this.http.put<any>('/api/lowerProcess/update', form, {withCredentials:true});
+        return this.http.put<any>('/api/lowerProcess/update', form, {headers: this.headers, withCredentials:true});
     }
     
 
@@ -51,7 +54,7 @@ export class LowerProcessService {
      */
     
     addLowerProcess(lowerProcess: NgForm): Observable<any> {
-        return this.http.post<any>('/api/lowerProcess/new', lowerProcess, {withCredentials:true});
+        return this.http.post<any>('/api/lowerProcess/new', lowerProcess, {headers: this.headers, withCredentials:true});
     }
     
 }
