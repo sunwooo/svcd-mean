@@ -11,6 +11,63 @@
 <div class="row">
         <div class="col-lg-12">
           <div class="card-box">
+            <table mat-table [dataSource]="transactions">
+              <!-- Item Column -->
+              <ng-container matColumnDef="회사명">
+                <th mat-header-cell *matHeaderCellDef> 회사명 </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.item}} </td>
+                <td mat-footer-cell *matFooterCellDef> Total </td>
+              </ng-container>
+
+              <!-- Cost Column -->
+              <ng-container matColumnDef="상위업무명">
+                <th mat-header-cell *matHeaderCellDef> 상위업무명 </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.cost1}} </td>
+                <td mat-footer-cell *matFooterCellDef> {{getTotalCost()}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="총요청건수">
+                <th mat-header-cell *matHeaderCellDef> 총요청건수 </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.cost2}} </td>
+                <td mat-footer-cell *matFooterCellDef> {{getTotalCost()}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="처리중건수">
+                <th mat-header-cell *matHeaderCellDef> 처리중건수 </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.cost3}} </td>
+                <td mat-footer-cell *matFooterCellDef> {{getTotalCost()}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="해결건수">
+                <th mat-header-cell *matHeaderCellDef> 해결건수 </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.cost4}} </td>
+                <td mat-footer-cell *matFooterCellDef> {{getTotalCost()}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="미해결건수">
+                <th mat-header-cell *matHeaderCellDef> 미해결건수 </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.cost5}} </td>
+                <td mat-footer-cell *matFooterCellDef> {{getTotalCost()}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="해결률(%)">
+                <th mat-header-cell *matHeaderCellDef> 해결률(%) </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.cost6}} </td>
+                <td mat-footer-cell *matFooterCellDef> {{getTotalCost()}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="평점">
+                <th mat-header-cell *matHeaderCellDef> 평점 </th>
+                <td mat-cell *matCellDef="let transaction"> {{transaction.cost7}} </td>
+                <td mat-footer-cell *matFooterCellDef> {{getTotalCost()}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+              
+            </table>
+            <!--
             <table id="target-table" class="table table-bordered target-table">
               <thead>
                 <tr>
@@ -38,6 +95,7 @@
 
               </tbody>
             </table>
+            -->
           </div>
         </div>
       </div>
