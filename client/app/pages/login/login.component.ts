@@ -160,4 +160,5 @@ export class LoginComponent implements OnInit {
         this.modalService.open(modalId, { size: 'lg', centered: true });
     }
 
+
 }

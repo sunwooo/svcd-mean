@@ -192,11 +192,11 @@ module.exports = {
 
     insert: (req, res) => {
       try {
-        //console.log('Login controller New debug >>> ', req.body.user);
+        console.log('Login controller New debug >>> ', req.body.user);
 
-        //console.log("=================== insert = (req, res) ======================");
-        //console.log("req.body.user : ", req.body);
-        //console.log("==============================================================");
+        console.log("=================== insert = (req, res) ======================");
+        console.log("req.body.user : ", req.body);
+        console.log("==============================================================");
 
         var user = req.body;
 
@@ -209,9 +209,9 @@ module.exports = {
           }, function (err, userCnt) {
             if (err) {
 
-              //console.log("=============================================");
-              //console.log("login.js new user err : ", err);
-              //console.log("=============================================");
+              console.log("=============================================");
+              console.log("login.js new user err : ", err);
+              console.log("=============================================");
 
               return res.json({
                 success: false,
@@ -219,9 +219,9 @@ module.exports = {
               });
             } else {
 
-              //console.log("=============================================");
-              //console.log("login new user userCnt : ", userCnt);
-              //console.log("=============================================");
+              console.log("=============================================");
+              console.log("login new user userCnt : ", userCnt);
+              console.log("=============================================");
 
               callback(null, userCnt);
             }
@@ -237,9 +237,9 @@ module.exports = {
           } else {
             User.create(user, function (err, user) {
               if (err) {
-                //console.log("===============================")
-                //console.log("login.js new err : ", err);
-                //console.log("===============================")
+                console.log("===============================")
+                console.log("login.js new err : ", err);
+                console.log("===============================")
 
                 return res.json({
                   success: false,
@@ -247,10 +247,10 @@ module.exports = {
                 });
               } else {
 
-                //console.log("===============================")
-                //console.log("user : ", user);
+                console.log("===============================")
+                console.log("user : ", user);
                 //console.log("this.rtnData : ", this.rtnData);
-                //console.log("===============================")
+                console.log("===============================")
 
                 //rtnData.user = user;
                 res.json({

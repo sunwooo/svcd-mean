@@ -27,9 +27,9 @@ export class UserService {
      */
     addUser(user: NgForm): Observable<any> {
 
-        //console.log("========addUser(user: NgForm): Observable<any>========");
-        //console.log("user : ", user.value);
-        //console.log("======================================================");
+        console.log("========addUser(user: NgForm): Observable<any>========");
+        console.log("user : ", user.value);
+        console.log("======================================================");
 
         return this.http.post<any>('/api/user/addUser', user.value, { withCredentials: true });
     }
