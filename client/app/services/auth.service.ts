@@ -4,76 +4,67 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { UserService } from './user.service';
 
 import 'rxjs/add/operator/map';
-import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class AuthService {
 
     public loggedIn = false;
-    public user_flag = '9';
     public email = '';
+    public employee_nm = '';
+    public user_flag = '9';
+    public group_flag = '';
+    public company_cd = '';
+    public company_nm = '';
+    public dept_cd = '';
+    public dept_nm = '';
+    public position_nm = '';
+    public jikchk_nm = '';
+    public office_tel_no = '';
+    public hp_telno = '';
 
     private jwtHelper: JwtHelperService = new JwtHelperService();
+    private tokenName = 'isu-service-desk';
+
 
     constructor(private userService: UserService,
-        public cookieService: CookieService,
         public activatedRoute: ActivatedRoute,
         private router: Router) {
 
-        this.activatedRoute.params.subscribe(params =>{
-            console.log("==========> params : ", params);
-        });
-
-        this.activatedRoute.queryParamMap.subscribe(queryParamMap => {
-            console.log("==========> queryParamMap : ", queryParamMap);
-        });
-
-        const token = this.cookieService.get('email');
+        const token = localStorage.getItem(this.tokenName);
         
-        /*
-        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-        console.log('xxxxxxxxxxxxxxxxxxxxxxx',this.cookieService.getAll());
-        console.log('xxxxxxxxxxxxxxxxxxxxxxx',this.cookieService.get('email'));
-        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-
-        console.log("======== AuthService constructor ========");
-        console.log("token... cookie.email : ", token);
-        console.log("=========================================");
-        */
+        //console.log("=======================================");
+        //console.log('token...',token);
+        //console.log("=======================================");
 
         if (token) {
-
-            //console.log("================================================");
-            //console.log("================= token true ================");
-            //console.log("================================================");
-
-            this.loggedIn = true;
-
-        }else{
-
-            //console.log("=================================================");
-            //console.log("================= token false ================");
-            //console.log("=================================================");         
-        
+            const decodedUser = this.decodeUserFromToken(token);
+            this.setCurrentUser(decodedUser);
         }
-
-
     }
 
     login(emailAndPassword) {
-
-        //console.log("========auth.login()========");
-        //console.log("this.loginForm.value : ", emailAndPassword);
-        //console.log("============================");
-
         return this.userService.login(emailAndPassword).map(
 
             res => {
-                localStorage.setItem('token', res.token);
+                localStorage.setItem(this.tokenName, res.token);
                 const decodedUser = this.decodeUserFromToken(res.token);
-                console.log('res.token...',res.token);
-                console.log('decode...',decodedUser);
+                
+                //console.log("=======================================");
+                //console.log('res.token : ',res.token);
+                //console.log('decode : ',decodedUser);
+                //console.log('this.user_flag : ',this.user_flag);
+                //console.log("=======================================");
+                
                 this.setCurrentUser(decodedUser);
+
+                if(this.user_flag == '9'){
+                    this.router.navigate(['/svcd/0001U']); //일반사용자
+                }else if(this.user_flag == '5'){
+                    this.router.navigate(['/svcd/0001C']); //회사별담당자
+                }else{
+                    this.router.navigate(['/svcd/0001']);  
+                }
+
                 return this.loggedIn;
             }
 
@@ -81,97 +72,69 @@ export class AuthService {
     }
 
     logout() {
-
-        //console.log("========auth.logout()========");
-        //console.log("logout : ");
-        //console.log("============================");
-
-        //this.cookieService.deleteAll();
-        this.deleteCookie();
+        localStorage.removeItem(this.tokenName);
         this.loggedIn = false;
         this.router.navigate(['']);
     }
 
-    checkCookies(){
-        const token = this.cookieService.get('email');
-        
-        /*
-        console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-        console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxx',this.cookieService.getAll());
-        console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxx',this.cookieService.get('email'));
-        console.log('checkCookies xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-        */
-        console.log("checkCookies ======== AuthService constructor ========");
-        console.log("checkCookies token... cookie.email : ", token);
-        console.log("checkCookies =========================================");
-        
+    // 토큰 유효성 검증
+    isAuthenticated(): boolean {
 
-        if (token) {
+        const token = this.getToken();
 
-            //console.log("checkCookies ================================================");
-            //console.log("checkCookies ================= token true ================");
-            //console.log("checkCookies ================================================");
+        //console.log("=======================================");
+        //console.log('isAuthenticated token : ',token);
+        //console.log("=======================================");
 
-            this.loggedIn = true;
-
-        }else{
-            
-            //console.log("checkCookies =================================================");
-            //console.log("checkCookies ================= token false ================");
-            //console.log("checkCookies ================================================="); 
-            
-            this.logout();        
-        }
-
+        return token ? this.isTokenExpired(token) : false;
     }
 
-    
+    getToken(): string {
+        return localStorage.getItem(this.tokenName);
+    }
+
+    /*
+    token 유효 기간 체크
+    The JwtHelper class has several useful methods that can be utilized in your components:
+
+    decodeToken
+    getTokenExpirationDate
+    isTokenExpired
+
+    npm install angular2-jwt
+    https://github.com/auth0/angular2-jwt
+    */
+    isTokenExpired(token: string) {
+
+        //console.log("=======================================");
+        //console.log('isTokenExpired this.jwtHelper.isTokenExpired(token) : ',this.jwtHelper.isTokenExpired(token));
+        //console.log("=======================================");
+
+        return this.jwtHelper.isTokenExpired(token);
+    }
 
     decodeUserFromToken(token) {
         return this.jwtHelper.decodeToken(token).user;
     }
 
     setCurrentUser(decodedUser) {
-        
-        var expiredDate = new Date();
-        expiredDate.setDate( expiredDate.getDate() + 1 );
-
-        this.loggedIn = true;
-        this.user_flag = decodedUser.user_flag;
-        this.email = decodedUser.email;
-        //this.cookieService.deleteAll();
-        this.deleteCookie();
-
-        this.cookieService.set('email', decodedUser.email, expiredDate);
-        this.cookieService.set('employee_nm', decodedUser.employee_nm, expiredDate);
-        this.cookieService.set('user_flag', decodedUser.user_flag, expiredDate);
-        this.cookieService.set('group_flag', decodedUser.group_flag, expiredDate);
-        this.cookieService.set('company_cd', decodedUser.company_cd, expiredDate);
-        this.cookieService.set('company_nm', decodedUser.company_nm, expiredDate);
-        this.cookieService.set('dept_cd', decodedUser.dept_cd, expiredDate);
-        this.cookieService.set('dept_nm', decodedUser.dept_nm, expiredDate);
-        this.cookieService.set('position_nm', decodedUser.position_nm, expiredDate);
-        this.cookieService.set('jikchk_nm', decodedUser.jikchk_nm, expiredDate);
-        this.cookieService.set('office_tel_no', decodedUser.office_tel_no, expiredDate);
-        this.cookieService.set('hp_telno', decodedUser.hp_telno, expiredDate);
-        this.cookieService.set('token', decodedUser.token, expiredDate);
-
-    }
-
-    deleteCookie(){
-        this.cookieService.delete('email');
-        this.cookieService.delete('employee_nm');
-        this.cookieService.delete('user_flag');
-        this.cookieService.delete('group_flag');
-        this.cookieService.delete('company_cd');
-        this.cookieService.delete('company_nm');
-        this.cookieService.delete('dept_cd');
-        this.cookieService.delete('dept_nm');
-        this.cookieService.delete('position_nm');
-        this.cookieService.delete('jikchk_nm');
-        this.cookieService.delete('office_tel_no');
-        this.cookieService.delete('hp_telno');
-        this.cookieService.delete('token');
+        this.loggedIn       = true;
+        this.employee_nm    = decodedUser.employee_nm;
+        this.email          = decodedUser.email;
+        this.user_flag      = decodedUser.user_flag;
+        this.group_flag     = decodedUser.group_flag;
+        this.company_cd     = decodedUser.company_cd;
+        this.company_nm     = decodedUser.company_nm;
+        this.dept_cd        = decodedUser.dept_cd;
+        this.dept_nm        = decodedUser.dept_nm;
+        this.position_nm    = decodedUser.position_nm;
+        this.jikchk_nm      = decodedUser.jikchk_nm;
+        this.office_tel_no  = decodedUser.office_tel_no;
+        this.hp_telno       = decodedUser.hp_telno;
     }
 }
+
+
+
+
 

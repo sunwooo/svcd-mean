@@ -11,7 +11,6 @@ import { EmpInfoComponent } from '../../../shared/emp-info/emp-info.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonApiService } from '../../../services/common-api.service';
 import { LowerCdComponent } from '../../../shared/lower-cd/lower-cd.component';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-incident-list-complete',
@@ -41,7 +40,7 @@ export class IncidentListCompleteComponent implements OnInit {
     public searchType: string = "title,content";//검색구분
     public searchText: string = "";              //검색어
     public empEmail: string = "";               //팝업 조회용 이메일
-    public request_company: string = this.cookieService.get("company_cd");
+    public request_company: string = this.auth.company_cd;
 
     public lowerObj: any = [];                //하위업무리스트
     public searchTypeObj: { name: string; value: string; }[] = [
@@ -66,7 +65,6 @@ export class IncidentListCompleteComponent implements OnInit {
         private commonApi: CommonApiService,
         private empInfo: EmpInfoComponent,
         private modalService: NgbModal,
-        private cookieService: CookieService,
         private router: Router) {
     }
 

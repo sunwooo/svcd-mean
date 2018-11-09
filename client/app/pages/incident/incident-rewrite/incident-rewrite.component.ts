@@ -6,7 +6,6 @@ import { AuthService } from '../../../services/auth.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
 import { IncidentService } from '../../../services/incident.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload'
 import { saveAs } from 'file-saver';
 import { Router } from '@angular/router';
@@ -52,7 +51,6 @@ export class IncidentRewriteComponent implements OnInit {
     constructor(private auth: AuthService,
         public toast: ToastComponent,
         private incidentService: IncidentService,
-        private cookieService: CookieService,
         private router: Router) {
     }
 
@@ -92,9 +90,9 @@ export class IncidentRewriteComponent implements OnInit {
          */ 
         this.uploader.onCompleteItem = (item: any, res: any, status: any, headers: any) => {
 
-            console.log('=======================================uploader.onCompleteItem=======================================');
-            console.log("res ", res);
-            console.log('=================================================================================================');
+            //console.log('=======================================uploader.onCompleteItem=======================================');
+            //console.log("res ", res);
+            //console.log('=================================================================================================');
 
             this.attach_file.push(JSON.parse(res)); 
         }
@@ -104,18 +102,14 @@ export class IncidentRewriteComponent implements OnInit {
          */
         this.uploader.onCompleteAll = () => {
 
-            console.log('=======================================uploader.onCompleteAll=======================================');
-            console.log("this.formData ", this.formData);
-            console.log('=================================================================================================');
+            //console.log('=======================================uploader.onCompleteAll=======================================');
+            //console.log("this.formData ", this.formData);
+            //console.log('=================================================================================================');
 
             this.formData.incident.attach_file = this.attach_file;
             this.addIncident();
 
         }
-
-        //let ck = this.cookieService.getAll();
-        //console.log('cookie : ', ck);
-
     }
 
     /**

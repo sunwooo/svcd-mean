@@ -9,7 +9,8 @@ import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-pop-up',
   templateUrl: './pop-up.component.html',
-  styleUrls: ['./pop-up.component.css']
+  styleUrls: ['./pop-up.component.css'],
+  providers: [CookieService]
 })
 export class PopUpComponent implements OnInit {
 

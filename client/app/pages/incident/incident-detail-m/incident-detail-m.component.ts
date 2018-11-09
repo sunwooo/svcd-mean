@@ -5,7 +5,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IncidentService } from '../../../services/incident.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { saveAs } from 'file-saver';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-incident-detail-m',
@@ -28,7 +27,6 @@ export class IncidentDetailMComponent implements OnInit {
     constructor(private auth: AuthService,
         private modalService: NgbModal,
         private incidentService: IncidentService,
-        public cookieService: CookieService,
         private empInfo: EmpInfoComponent) { }
 
     ngOnInit() {
@@ -39,10 +37,8 @@ export class IncidentDetailMComponent implements OnInit {
         //console.log("buttonHidden : ", this.buttonHidden);
         //console.log("=========================================");
 
-        if(this.cookieService.get("user_flag"))
-            this.user_flag = this.cookieService.get("user_flag");
-        if(this.cookieService.get("group_flag"))
-            this.group_flag = this.cookieService.get("group_flag");
+        this.user_flag = this.auth.user_flag;
+        this.group_flag = this.auth.group_flag;
 
         if(this.buttonHidden){
             this.btnDisplay = !this.buttonHidden;

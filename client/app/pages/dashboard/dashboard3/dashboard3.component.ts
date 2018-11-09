@@ -5,7 +5,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { IncidentService } from '../../../services/incident.service';
 import { AuthService } from '../../../services/auth.service';
 import { QnaService } from '../../../services/qna.service';
-import { CookieService } from 'ngx-cookie-service';
 import { Dashboard3Service } from '../../../services/dashboard3.service';
 import { ajaxPatch, ajaxGetJSON } from 'rxjs/internal-compatibility';
 
@@ -98,8 +97,7 @@ export class Dashboard3Component implements OnInit {
         private modalService: NgbModal,
         private dashboardService: Dashboard3Service,
         private incidentService: IncidentService,
-        private qnaService: QnaService,
-        public cookieService: CookieService) {
+        private qnaService: QnaService) {
     }
 
     ngOnInit() {

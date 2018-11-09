@@ -5,7 +5,7 @@
   "main": "Gruntfile.js",
   "devDependencies": {},
   "scripts": {
-    "start": "forever start -l E:/svcd-mean/logs/server-forever.log --minUptime 5000 --spinSleepTime 2000 -a ./bin/www",
+    "start": "forever start -l d:/999.prj-nodejs/svcd-mean/logs/server-forever.log --minUptime 5000 --spinSleepTime 2000 -a ./bin/www",
     "restart": "forever restart ./bin/www",
     "stop": "forever stop ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"

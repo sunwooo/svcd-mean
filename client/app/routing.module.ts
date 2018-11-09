@@ -41,6 +41,7 @@ import { Dashboard2Component } from './pages/dashboard/dashboard2/dashboard2.com
 import { UserProcessComponent } from './pages/process/user-process/user-process.component';
 import { MainUserContentComponent } from './pages/main-user-content/main-user-content.component';
 import { MainCompanyContentComponent } from './pages/main-company-content/main-company-content.component';
+import { AuthGuardLogin } from './services/auth-guard-login.service';
 
 const routes: Routes = [
 
@@ -48,42 +49,42 @@ const routes: Routes = [
     {
         path: 'svcd', component: SvcdNavComponent,
         children: [
-            { path: '0001', component: MainContentComponent },
-            { path: '0001C', component: MainCompanyContentComponent },
-            { path: '0001U', component: MainUserContentComponent },
-            { path: '0003', component: AccountComponent },
-            { path: '0005', component: UserMyInfoComponent },
+            { path: '0001', component: MainContentComponent, canActivate: [AuthGuardLogin] },
+            { path: '0001C', component: MainCompanyContentComponent, canActivate: [AuthGuardLogin] },
+            { path: '0001U', component: MainUserContentComponent, canActivate: [AuthGuardLogin] },
+            { path: '0003', component: AccountComponent, canActivate: [AuthGuardLogin] },
+            { path: '0005', component: UserMyInfoComponent, canActivate: [AuthGuardLogin] },
             
-            { path: '1100', component: IncidentNewComponent },
-            { path: '1200', component: IncidentListComponent },
-            { path: '1300', component: QnaListComponent },
-            { path: '1400', component: IncidentListCompleteComponent },
+            { path: '1100', component: IncidentNewComponent, canActivate: [AuthGuardLogin] },
+            { path: '1200', component: IncidentListComponent, canActivate: [AuthGuardLogin] },
+            { path: '1300', component: QnaListComponent, canActivate: [AuthGuardLogin] },
+            { path: '1400', component: IncidentListCompleteComponent, canActivate: [AuthGuardLogin] },
 
-            { path: '2100', component: IncidentNewMngComponent },
-            { path: '2200', component: IncidentListMngComponent },
-            { path: '2300', component: MyProcessComponent },
-            { path: '2400', component: ManagerDashboardComponent },
+            { path: '2100', component: IncidentNewMngComponent, canActivate: [AuthGuardLogin] },
+            { path: '2200', component: IncidentListMngComponent, canActivate: [AuthGuardLogin] },
+            { path: '2300', component: MyProcessComponent, canActivate: [AuthGuardLogin] },
+            { path: '2400', component: ManagerDashboardComponent, canActivate: [AuthGuardLogin] },
 
-            { path: '3100', component: IncidentListAllComponent },
-            { path: '3200', component: ComHigherComponent },
+            { path: '3100', component: IncidentListAllComponent, canActivate: [AuthGuardLogin] },
+            { path: '3200', component: ComHigherComponent, canActivate: [AuthGuardLogin] },
             
-            { path: '4100', component: HigherProcessComponent },
-            { path: '4150', component: HigherProcessNewComponent },
-            { path: '4200', component: LowerProcessComponent },
-            { path: '4250', component: LowerProcessNewComponent },
-            { path: '4300', component: CompanyListComponent },
-            { path: '4350', component: CompanyNewComponent},
-            { path: '4400', component: UserListComponent },
-            { path: '4450', component: UserNewComponent },
-            { path: '4500', component: UserAccessComponent },
-            { path: '4600', component: CompanyProcessComponent },
-            { path: '4610', component: UserProcessComponent },
-            { path: '4700', component: ProcessGubunCodeComponent },
-            { path: '4750', component: ProcessGubunCodeNewComponent },
-            { path: '4800', component: QnaMngComponent},
-            { path: '4900', component: QnaNewComponent},
+            { path: '4100', component: HigherProcessComponent, canActivate: [AuthGuardLogin] },
+            { path: '4150', component: HigherProcessNewComponent, canActivate: [AuthGuardLogin] },
+            { path: '4200', component: LowerProcessComponent, canActivate: [AuthGuardLogin] },
+            { path: '4250', component: LowerProcessNewComponent, canActivate: [AuthGuardLogin] },
+            { path: '4300', component: CompanyListComponent, canActivate: [AuthGuardLogin] },
+            { path: '4350', component: CompanyNewComponent, canActivate: [AuthGuardLogin] },
+            { path: '4400', component: UserListComponent, canActivate: [AuthGuardLogin] },
+            { path: '4450', component: UserNewComponent, canActivate: [AuthGuardLogin] },
+            { path: '4500', component: UserAccessComponent, canActivate: [AuthGuardLogin] },
+            { path: '4600', component: CompanyProcessComponent, canActivate: [AuthGuardLogin] },
+            { path: '4610', component: UserProcessComponent, canActivate: [AuthGuardLogin] },
+            { path: '4700', component: ProcessGubunCodeComponent, canActivate: [AuthGuardLogin] },
+            { path: '4750', component: ProcessGubunCodeNewComponent, canActivate: [AuthGuardLogin] },
+            { path: '4800', component: QnaMngComponent, canActivate: [AuthGuardLogin] },
+            { path: '4900', component: QnaNewComponent, canActivate: [AuthGuardLogin] },
 
-            { path: '9100', component: DashboardMainComponent}
+            { path: '9100', component: DashboardMainComponent, canActivate: [AuthGuardLogin] },
         ]
     },
 

@@ -11,7 +11,8 @@ import { PopUpComponent } from '../../shared/pop-up/pop-up.component';
 @Component({
   selector: 'app-main-company-content',
   templateUrl: './main-company-content.component.html',
-  styleUrls: ['./main-company-content.component.css']
+  styleUrls: ['./main-company-content.component.css'],
+  providers: [CookieService]
 })
 export class MainCompanyContentComponent implements OnInit {
 
@@ -178,7 +179,7 @@ export class MainCompanyContentComponent implements OnInit {
       //본인 회사만 조회
       /******************************************************** */
       condition.user = 'company';
-      //condition.company_cd = this.cookieService.get("company_cd");
+      //condition.company_cd = this.auth.company_cd;
       /******************************************************** */
 
       //condition.register_yyyy = this.register_yyyy;
@@ -237,7 +238,7 @@ export class MainCompanyContentComponent implements OnInit {
   onSelect(modalId, data) {
       console.log("onSelect : ", modalId, data);
       
-      var user_flag = this.cookieService.get("user_flag");
+      var user_flag = this.auth.user_flag;
       if(user_flag == '1' || user_flag == '2' || user_flag == '3'){
           this.selectedItem = data.name;
           this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});

@@ -15,7 +15,6 @@ import { ExcelService } from '../../../services/excel.service';
 import { Dashboard1Component } from '../dashboard1/dashboard1.component';
 import { Dashboard2Component } from '../dashboard2/dashboard2.component';
 import { Dashboard3Component } from '../dashboard3/dashboard3.component';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-dashboard-main',
@@ -63,7 +62,6 @@ export class DashboardMainComponent implements OnInit {
         private empInfo: EmpInfoComponent,
         private modalService: NgbModal,
         private excelService:ExcelService,
-        public cookieService: CookieService,
         private router: Router) { }
 
     ngOnInit() {
@@ -71,10 +69,10 @@ export class DashboardMainComponent implements OnInit {
         this.getRegisterYyyy();
         this.getCompanyList();
 
-        this.group_flag = this.cookieService.get("group_flag");
+        this.group_flag = this.auth.group_flag;
         if(this.group_flag == 'out'){
-            this.company_cd = this.cookieService.get("company_cd");
-            this.company_nm = this.cookieService.get("company_nm");
+            this.company_cd = this.auth.company_cd;
+            this.company_nm = this.auth.company_nm;
         }
 
         this.isLoading = false;

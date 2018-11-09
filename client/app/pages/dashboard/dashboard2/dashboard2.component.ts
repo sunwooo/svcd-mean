@@ -4,7 +4,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Input, Output } from "@angular/core";
 import { getOrCreateChangeDetectorRef } from '@angular/core/src/render3/di';
-import { CookieService } from 'ngx-cookie-service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -142,7 +141,6 @@ export class Dashboard2Component implements OnInit {
 
     constructor(private dashboard2Service: Dashboard2Service
         , private router: Router
-        , public cookieService: CookieService
         , private modalService: NgbModal) { }
 
     ngOnInit() {

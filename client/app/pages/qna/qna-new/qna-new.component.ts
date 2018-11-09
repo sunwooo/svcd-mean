@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload'
 import { HttpErrorResponse } from "@angular/common/http";
 import { CommonApiService } from '../../../services/common-api.service';
-import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../../../services/auth.service';
 import { NgForm } from "@angular/forms";
 import { QnaService } from '../../../services/qna.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
@@ -51,8 +51,8 @@ export class QnaNewComponent implements OnInit {
   public dropdownSettings = {};
   //companyList = [];
 
-  public employee_nm: string = this.cookieService.get("employee_nm");
-  public email: string = this.cookieService.get("email");
+  public employee_nm: string = this.auth.employee_nm;
+  public email: string = this.auth.email;
 
   innerValue: string;
 
@@ -65,11 +65,11 @@ export class QnaNewComponent implements OnInit {
   @Output() valueChange = new EventEmitter();
 
 
-  constructor(private qnaService: QnaService
+  constructor(private auth: AuthService
+              ,private qnaService: QnaService
               ,private toast: ToastComponent
               ,private router: Router
-              ,private commonApi: CommonApiService
-              ,private cookieService: CookieService) { }
+              ,private commonApi: CommonApiService) { }
 
   ngOnInit() {
     console.log("employee_nm :" , this.employee_nm);

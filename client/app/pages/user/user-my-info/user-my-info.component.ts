@@ -2,10 +2,10 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { CommonApiService } from '../../../services/common-api.service';
 import { ToastComponent } from '../../../shared/toast/toast.component';
+import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
     selector: 'app-user-my-info',
@@ -61,18 +61,16 @@ export class UserMyInfoComponent implements OnInit {
         { name: '미사용', value: 'N' }
     ];
 
-    constructor(private userService: UserService
+    constructor(private auth: AuthService
+        , private userService: UserService
         , private commonApi: CommonApiService
         , private toast: ToastComponent
-        , private cookieService: CookieService
         , private router: Router) { }
 
     ngOnInit() {
 
-        if(this.cookieService.get("user_flag"))
-            this.user_flag = this.cookieService.get("user_flag");
-        if(this.cookieService.get("group_flag"))
-            this.group_flag = this.cookieService.get("group_flag");        
+        this.user_flag = this.auth.user_flag;
+        this.group_flag = this.auth.group_flag;        
 
         this.getMyPage();
         this.getCompanyList();

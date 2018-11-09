@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Dashboard1Service } from '../../../services/dashboard1.service';
-import { CookieService } from 'ngx-cookie-service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -64,7 +63,6 @@ export class Dashboard1Component implements OnInit {
     };
 
     constructor(private dashboard1Service: Dashboard1Service,
-        public cookieService: CookieService,
         private modalService: NgbModal
         ) { }
 

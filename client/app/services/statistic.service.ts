@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
-import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class StatisticService {
 
-    constructor(private http: HttpClient,
-        private cookieService: CookieService
-    ) { 
+    public headers:any;
+    constructor(private auth: AuthService
+              , private http: HttpClient 
+               
+    ){
+        this.headers = new HttpHeaders().set('Authorization', this.auth.getToken());
     }
 
     /**
@@ -38,7 +41,7 @@ export class StatisticService {
      */
     valuationCnt(condition): Observable<any> {
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/statistic/valuationCnt', {params: httpParams});
+        return this.http.get<any>('/api/statistic/valuationCnt', {headers: this.headers, params: httpParams});
     }
 
     /**
@@ -53,7 +56,7 @@ export class StatisticService {
      */
     higherCnt(condition): Observable<any> {
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/statistic/higherCnt', {params: httpParams});
+        return this.http.get<any>('/api/statistic/higherCnt', {headers: this.headers, params: httpParams});
     }
 
     

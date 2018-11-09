@@ -1,13 +1,19 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class CommonApiService {
 
-    constructor(private http: HttpClient) { }
+    public headers:any;
+    constructor(private auth: AuthService
+              , private http: HttpClient  
+    ){
+        this.headers = new HttpHeaders().set('Authorization', this.auth.getToken());
+    }
 
     /**
      * 상위업무 JSON 조회
@@ -15,7 +21,7 @@ export class CommonApiService {
      */
     getHigher(condition): Observable<any> {
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/higherProcess', {params: httpParams});
+        return this.http.get<any>('/api/higherProcess', {headers: this.headers, params: httpParams});
     }
 
     /**
@@ -24,7 +30,7 @@ export class CommonApiService {
      */
     getLower(condition): Observable<any> {
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/lowerProcess', {params: httpParams});
+        return this.http.get<any>('/api/lowerProcess', {headers: this.headers, params: httpParams});
     }
 
     /**
@@ -33,7 +39,7 @@ export class CommonApiService {
      */
     getMyProcess(): Observable<any> {
         var httpParams = new HttpParams({ fromObject: {}});
-        return this.http.get<any>('/api/myProcess', {params: httpParams});
+        return this.http.get<any>('/api/myProcess', {headers: this.headers, params: httpParams});
     }
 
     /**
@@ -41,7 +47,7 @@ export class CommonApiService {
      */
     getRegisterYyyy(): Observable<any> {
         var httpParams = new HttpParams({ fromObject: {}});
-        return this.http.get<any>('/api/registerYyyy', {params: httpParams});
+        return this.http.get<any>('/api/registerYyyy', {headers: this.headers, params: httpParams});
     }
 
     /**
@@ -50,7 +56,7 @@ export class CommonApiService {
      */
     getCompany(condition): Observable<any> {
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/company', {params: httpParams});
+        return this.http.get<any>('/api/company', {headers: this.headers, params: httpParams});
     }
 
     /**
@@ -59,7 +65,7 @@ export class CommonApiService {
      */
     getProcessStatus(condition): Observable<any> {
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/processStatus', {params: httpParams});
+        return this.http.get<any>('/api/processStatus', {headers: this.headers, params: httpParams});
     }
 
     /**
@@ -68,7 +74,7 @@ export class CommonApiService {
      */
     getProcessGubun(condition): Observable<any> {
         var httpParams = new HttpParams({ fromObject: condition });
-        return this.http.get<any>('/api/processGubun', {params: httpParams});
+        return this.http.get<any>('/api/processGubun', {headers: this.headers, params: httpParams});
     }
 
 }
