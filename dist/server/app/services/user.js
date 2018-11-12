@@ -41,6 +41,11 @@ module.exports = {
         }
       }
 
+      //승인 사용자만 조회
+      AndQueries.push({
+        access_yn: "Y"
+      });
+
       if (company_cd != '*') {
         AndQueries.push({
           company_cd: req.query.company_cd

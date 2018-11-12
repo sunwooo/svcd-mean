@@ -195,6 +195,9 @@ export class MainUserContentComponent implements OnInit {
      * @param email 
      */
     getGroupEmpInfo(email: string) {
+
+        if(!email) return;
+
         this.userService.getGroupEmpInfo(email).subscribe(
             (res) => {
                 if(res.exist){
@@ -216,6 +219,9 @@ export class MainUserContentComponent implements OnInit {
      * @param email 
      */
     getSvcEmpInfo(email: string) {
+
+        if(!email) return;
+
         this.userService.getEmpInfo(email).subscribe(
             (res) => {
                 if(res.length > 0){
