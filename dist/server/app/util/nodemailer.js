@@ -182,6 +182,11 @@ module.exports = {
 
         var initPW = req.email.substring(0,req.email.indexOf("@"));
 
+        var loopCnt = initPW.length;
+        for(var i = loopCnt ; i < 8 ; i++){
+            initPW += i;
+        }
+
         var receiver = req.employee_nm + " <" + req.email + ">";
         //var receiver = "이한일 <hilee@isu.co.kr>";
         var mailTitle = "[서비스데스크] 비밀번호가 초기화 되었습니다.";

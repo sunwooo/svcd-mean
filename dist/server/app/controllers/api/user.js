@@ -485,6 +485,12 @@ module.exports = {
         //console.log("=============================================");
 
         var initPW = req.body.user.email.substring(0,req.body.user.email.indexOf("@"));
+        
+        var loopCnt = initPW.length;
+        for(var i = loopCnt ; i < 8 ; i++){
+            initPW += i;
+        }
+
         var updateData = {'password':initPW};
 
         try {
