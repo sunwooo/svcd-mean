@@ -23,6 +23,10 @@ module.exports = {
         if(req.headers.authorization){
             tokenUser = jwt.decode(req.headers.authorization).user;
         }
+        
+        //console.log('=============================================\n');
+        //console.log('tokenUser : ' , tokenUser);
+        //console.log('=============================================\n');
 
         if (req.session.email != null || req.session.email != undefined) {
             next();
@@ -40,9 +44,12 @@ module.exports = {
                     UserToken.findOne(condition).exec(function (err, userToken) {
                         //console.log("userToken : ", userToken);
                         if (userToken != null) {
+                            
                             //console.log("userToken != null");
+                            //console.log("userToken.token : ",userToken.token);
                             //console.log("tokenUser.token : ",tokenUser.token);
-                            if (userToken.token == tokenUser.token){ //토근이 일치하면
+                            
+                            //if (userToken.token == tokenUser.token){ //토근이 일치하면
                                 req.session.email = tokenUser.email;
                                 req.session.user_id = tokenUser.email;
                                 req.session.sabun = tokenUser.email;
@@ -58,9 +65,10 @@ module.exports = {
                                 req.session.office_tel_no = tokenUser.office_tel_no;
                                 req.session.hp_telno = tokenUser.hp_telno;
                                 next();
-                            }else{
-                                return res.sendStatus(403);
-                            }
+                            //}else{
+                                //console.log("xxxxxxxxxxx req.session is null");
+                                //return res.sendStatus(403);
+                            //}
                         }
                     });
                 } catch (e) {

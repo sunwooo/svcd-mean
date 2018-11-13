@@ -44,7 +44,7 @@ export class IncidentDetailAComponent implements OnInit {
      * @param modalId 
      */
     setValuation(modalId) {
-        this.modalService.open(modalId, { size: 'lg', backdropClass: 'light-blue-backdrop' });
+        this.modalService.open(modalId, { size: 'lg', backdropClass: 'light-blue-backdrop' , backdrop: 'static', keyboard: false });
     }
 
     /**

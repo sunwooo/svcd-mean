@@ -2,6 +2,7 @@
     <h5 class="modal-title">
         서비스 평가
     </h5>
+    <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
   </div>
 <div class="modal-body">
     <form novalidate #f="ngForm" (ngSubmit)="setValuation(f)" class="form-horizontal group-border-dashed">

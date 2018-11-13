@@ -58,7 +58,7 @@ export class IncidentDetailMComponent implements OnInit {
      * @param modalId 
      */
     setValuation(modalId){
-        this.modalService.open(modalId, { size: 'lg', backdropClass: 'light-blue-backdrop' });
+        this.modalService.open(modalId, { size: 'lg', backdropClass: 'light-blue-backdrop' , backdrop: 'static', keyboard: false });
     }
 
     /**
@@ -136,7 +136,7 @@ export class IncidentDetailMComponent implements OnInit {
      * @param modalId
      */
     openModal(modalId){
-        this.modalService.open(modalId, { windowClass: 'mdModal', centered: true });
+        this.modalService.open(modalId, { windowClass: 'mdModal', centered: true , backdrop: 'static', keyboard: false });
     }
 
     /**
@@ -144,7 +144,7 @@ export class IncidentDetailMComponent implements OnInit {
      * @param modalId
      */
     openModalLg(modalId){
-        this.modalService.open(modalId, { size: 'lg', centered: true });
+        this.modalService.open(modalId, { size: 'lg', centered: true , backdrop: 'static', keyboard: false });
     }
 
 
