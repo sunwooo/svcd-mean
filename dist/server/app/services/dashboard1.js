@@ -72,8 +72,9 @@ module.exports = {
                   value: "$count"
                 }
               }
-            }
+            },
           },
+
           {
             $project: {
               "name": 1,
@@ -81,10 +82,10 @@ module.exports = {
             }
           },
           {
-            $sort: {
+            "$sort": {
               "name": -1,
             }
-          },
+          }
         ];
 
         //console.log("==========================================================");

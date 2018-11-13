@@ -8,6 +8,7 @@ import { QnaService } from '../../services/qna.service';
 import { CookieService } from 'ngx-cookie-service';
 import { PopUpComponent } from '../../shared/pop-up/pop-up.component';
 import { UserService } from '../../services/user.service';
+import { ToastComponent } from '../../shared/toast/toast.component';
 
 
 @Component({
@@ -91,6 +92,7 @@ export class MainContentComponent implements OnInit {
         private incidentService: IncidentService,
         private qnaService: QnaService,
         private userService: UserService,
+        public toast: ToastComponent,
         public cookieService: CookieService){
     }
 
@@ -160,6 +162,12 @@ export class MainContentComponent implements OnInit {
                     yyyy.series.forEach((mm,mIdx) =>{
                         tmp.splice(Number(mm.name)-1, 1, {name:mm.name, value:mm.value});
                     });
+
+                    var date = new Date();
+                    if(yyyy.name == date.getFullYear()){
+                        tmp.splice(Number(date.getMonth()+1),12-Number(date.getMonth()+1));
+                    }
+
                     yearTmp.push({name: yyyy.name,series:tmp});
                 });
                 this.monthlyCntChart = yearTmp;
@@ -248,12 +256,12 @@ export class MainContentComponent implements OnInit {
      */
     onSelect(modalId, data) {
         console.log("onSelect : ", modalId, data);
-        
-        var user_flag = this.auth.user_flag;
-        if(user_flag == '1' || user_flag == '2' || user_flag == '3'){
-            this.selectedItem = data.name;
-            this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});
-        }
+        this.toast.open('리스트는 상단메뉴 Dashboard를 이용하세요.', 'success');
+        //var user_flag = this.auth.user_flag;
+        //if(user_flag == '1' || user_flag == '2' || user_flag == '3'){
+        //    this.selectedItem = data.name;
+        //    this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});
+        //}
         
     }
 

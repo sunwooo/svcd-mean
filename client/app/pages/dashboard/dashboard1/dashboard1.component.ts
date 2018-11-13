@@ -45,6 +45,8 @@ export class Dashboard1Component implements OnInit {
     public yAxisLabel = '건수';
     public timeline = true;
 
+    private date = new Date();
+
     public colorScheme1 = {
         domain: ['#99ca3c', '#f04124', '#008fd4', '#a7a9ac', '#e5e4e0']
     };
@@ -67,9 +69,9 @@ export class Dashboard1Component implements OnInit {
         ) { }
 
     ngOnInit() {
-        var date = new Date();
-        this.searchYyyy = date.getFullYear();
-        this.thisYyyy = date.getFullYear();
+ 
+        this.searchYyyy = this.date.getFullYear();
+        this.thisYyyy = this.date.getFullYear();
         this.getChart();
     }
 
@@ -120,16 +122,21 @@ export class Dashboard1Component implements OnInit {
                 yearArray.forEach((yyyy, yIdx, result) => {
                     
                     var tmp = [
-                               {name: '01', value:0},{name: '02', value:0},{name: '03', value:0},{name: '04', value:0},
-                               {name: '05', value:0},{name: '06', value:0},{name: '07', value:0},{name: '08', value:0},
-                               {name: '09', value:0},{name: '10', value:0},{name: '11', value:0},{name: '12', value:0}
-                              ];
+                            {name: '01', value:0},{name: '02', value:0},{name: '03', value:0},{name: '04', value:0},
+                            {name: '05', value:0},{name: '06', value:0},{name: '07', value:0},{name: '08', value:0},
+                            {name: '09', value:0},{name: '10', value:0},{name: '11', value:0},{name: '12', value:0}
+                            ];
 
                     yyyy.series.forEach((mm, mIdx) => {
                         tmp.splice(Number(mm.name) - 1, 1, { name: mm.name, value: mm.value });
                     });
                     
+                    if(yyyy.name == this.thisYyyy){
+                        tmp.splice(Number(this.date.getMonth()+1),12-Number(this.date.getMonth()+1));
+                    }
+
                     yearTmp.push({ name: yyyy.name, series: tmp });
+
                 });
                 this.monthlyCntChart = yearTmp;
                 //console.log("monthlyCntChart : ", this.monthlyCntChart);

@@ -26,14 +26,14 @@ export class StatisticService {
         //console.log("==============================================================");
         
         //var params = new HttpParams().set("yyyy","2018").set("company_cd","ISU_ST").set("mm","*").set("higher_cd","*");
-        return this.http.get<any>('/api/statistic/comHigher?yyyy=2018&company_cd=ISU_ST&mm=*&higher_cd=*');
+        return this.http.get<any>('/api/statistic/comHigher?yyyy=2018&company_cd=ISU_ST&mm=*&higher_cd=*', {headers: this.headers});
     }
 
     /**
      * 상태별 건수
      */
     getStatusCdCnt(): Observable<any>{
-        return this.http.get<any>('/api/statistic/statusCdCnt');
+        return this.http.get<any>('/api/statistic/statusCdCnt', {headers: this.headers});
     }
 
     /**
@@ -48,7 +48,7 @@ export class StatisticService {
      * 월별 건수
      */
     monthlyCnt(): Observable<any>{
-        return this.http.get<any>('/api/statistic/monthlyCnt');
+        return this.http.get<any>('/api/statistic/monthlyCnt',{headers: this.headers});
     }
     
     /**

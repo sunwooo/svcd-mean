@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 col-lg-6 m-t-60">
+                <div class="col-sm-12 col-lg-12 m-t-60">
                     <ngx-charts-line-chart  [view]="[750, 300]" 
                                             [scheme]="colorScheme3" 
                                             [results]="monthlyCntChart" 
@@ -39,7 +39,7 @@
                                             [yAxisLabel]="yAxisLabel" 
                                             [autoScale]="autoScale" 
                                             [timeline]="timeline" 
-                                            (select)="onSelect(content, $event)">
+                    >
                     </ngx-charts-line-chart>
                 </div>
             </div> <!-- row end-->
@@ -47,7 +47,7 @@
     </div>
 
     <div class="col-sm-12 col-lg-6">
-            <div class="card-box">
+            <div class="card-box" style="background-color: #eeffee">
                 <div class="row">
                     <div class="col-sm-12 col-lg-12">
                         <div class="row">

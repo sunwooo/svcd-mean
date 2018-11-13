@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { QnaService } from '../../services/qna.service';
 import { CookieService } from 'ngx-cookie-service';
 import { PopUpComponent } from '../../shared/pop-up/pop-up.component';
+import { ToastComponent } from '../../shared/toast/toast.component';
 
 @Component({
   selector: 'app-main-company-content',
@@ -82,6 +83,7 @@ export class MainCompanyContentComponent implements OnInit {
       private statisticService: StatisticService,
       private incidentService: IncidentService,
       private qnaService: QnaService,
+      public toast: ToastComponent,
       public cookieService: CookieService){
   }
 
@@ -151,6 +153,12 @@ export class MainCompanyContentComponent implements OnInit {
                   yyyy.series.forEach((mm,mIdx) =>{
                       tmp.splice(Number(mm.name)-1, 1, {name:mm.name, value:mm.value});
                   });
+
+                  var date = new Date();
+                  if(yyyy.name == date.getFullYear()){
+                      tmp.splice(Number(date.getMonth()+1),12-Number(date.getMonth()+1));
+                  }
+
                   yearTmp.push({name: yyyy.name,series:tmp});
               });
               this.monthlyCntChart = yearTmp;
@@ -237,12 +245,14 @@ export class MainCompanyContentComponent implements OnInit {
    */
   onSelect(modalId, data) {
       console.log("onSelect : ", modalId, data);
-      
+      this.toast.open('리스트는 상단메뉴 Dashboard를 이용하세요.', 'success');
+      /*
       var user_flag = this.auth.user_flag;
       if(user_flag == '1' || user_flag == '2' || user_flag == '3'){
           this.selectedItem = data.name;
           this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true});
       }
+      */
       
   }
 
