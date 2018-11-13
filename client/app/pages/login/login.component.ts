@@ -143,7 +143,7 @@ export class LoginComponent implements OnInit {
      * @param modalId 
      */
     openAddUser(modalId) {
-        this.modalService.open(modalId, { size: 'lg', centered: true });
+        this.modalService.open(modalId, { size: 'lg', centered: true , backdrop: 'static', keyboard: false });
     }
 
 

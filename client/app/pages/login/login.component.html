@@ -109,7 +109,8 @@
 
 <!-- start account modal -->
 <ng-template #userModal let-c="close" let-d="dismiss">
-    <app-account
+    <app-account [cValues]="this.c"
+                 [dValues]="this.d"
       ></app-account>
 </ng-template>
 <!-- end account modal -->

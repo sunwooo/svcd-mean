@@ -1,12 +1,15 @@
 <app-loading [condition]="isLoading"></app-loading>
 <app-toast></app-toast>
+<div class="modal-header" style="text-align:left">
+    <button (click)="closeModal($event)" type="button" aria-hidden="true" class="close">×</button>
+</div>
 <div class="row">
     <div class="col-sm-12">
         <form #f="ngForm" (ngSubmit)="saveUser(f)" novalidate>
             <div class="row">
                 <div class="col-sm-12">
-                    <div role="toolbar" class="btn-toolbar m-b-10">
-                        <div class="pull-right">
+                    <div role="toolbar" class="btn-toolbar m-b-10 m-t-10 float-right">
+                        <div class="float-right">
                             <button type="submit" [disabled]="!f.valid" class="btn btn-sm btn-primary waves-effect waves-light m-r-5">
                                 <i class="fa fa-paper-plane m-l-5"></i> 저장
                             </button>

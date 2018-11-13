@@ -82,4 +82,11 @@ export class AccountComponent implements OnInit {
 
     }
 
+    /**
+     * 모달 닫기
+    */
+    closeModal($event){
+        this.cValues('Close click');
+    }
+
 }
