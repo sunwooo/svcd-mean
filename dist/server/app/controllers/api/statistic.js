@@ -16,12 +16,12 @@ module.exports = {
 
     var svc = service.com_higher(req);
 
-    //console.log("putValuation ======================================================");
-    //console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.query : ", req.query);
-    //console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.params : ", req.params);
-    //console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.body : ", req.body);
-    //console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  svc.aggregatorOpts : ", JSON.stringify(svc.aggregatorOpts));
-    //console.log("==================================================================");
+    //logger.debug("putValuation ======================================================");
+    //logger.debug("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.query : ", req.query);
+    //logger.debug("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.params : ", req.params);
+    //logger.debug("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.body : ", req.body);
+    //logger.debug("xxxxxxxxxxxxxxxxxxxxxxxxxxx  svc.aggregatorOpts : ", JSON.stringify(svc.aggregatorOpts));
+    //logger.debug("==================================================================");
 
     Incident.aggregate(svc.aggregatorOpts)
       .exec(function (err, incident) {
@@ -211,9 +211,9 @@ module.exports = {
 
       }], function (condition) {
 
-        //console.log("========================================================");
-        //console.log("=====================statusCdCnt condition : ", JSON.stringify(condition));
-        //console.log("========================================================");
+        //logger.debug("========================================================");
+        //logger.debug("=====================statusCdCnt condition : ", JSON.stringify(condition));
+        //logger.debug("========================================================");
 
         var aggregatorOpts = [{
             $match: condition

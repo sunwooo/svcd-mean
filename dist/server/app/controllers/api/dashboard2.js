@@ -21,9 +21,9 @@ module.exports = {
   chart2: (req, res, next) => {
     try {
 
-      //console.log("==================================================");
-      //console.log(" Dashboard chart2 : ");
-      //console.log("==================================================");
+      //logger.debug("==================================================");
+      //logger.debug(" Dashboard chart2 : ");
+      //logger.debug("==================================================");
 
 
       var svc = service.higher_valuation(req);
@@ -33,9 +33,9 @@ module.exports = {
 
           if (err) {
 
-            //console.log("==================================================");
-            //console.log(" Dashboard.aggregate error ", err);
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug(" Dashboard.aggregate error ", err);
+            //logger.debug("==================================================");
 
             return res.json({
               success: false,
@@ -46,10 +46,10 @@ module.exports = {
 
             incident.forEach(function (data, idx, incident) {
 
-              //console.log("==================================================");
-              //console.log("data ", JSON.stringify(data));
-              //console.log("data.grp.length ", data.grp.length);
-              //console.log("==================================================");
+              //logger.debug("==================================================");
+              //logger.debug("data ", JSON.stringify(data));
+              //logger.debug("data.grp.length ", data.grp.length);
+              //logger.debug("==================================================");
 
 
               var totalCnt = 0; //전체 개수
@@ -113,22 +113,22 @@ module.exports = {
                 data.valAvg = 0;
               }
 
-              //console.log("==================================================");
-              //console.log("data.totalCnt : ", data.totalCnt);
-              //console.log("data.stCnt1 : ", data.stCnt1);
-              //console.log("data.stCnt2 : ", data.stCnt2);
-              //console.log("data.stCnt3 : ", data.stCnt3);
-              //console.log("data.stCnt4 : ", data.stCnt4);
-              //console.log("data.solRatio : ", data.solRatio);
-              //console.log("data.valuationSum : ", data.valuationSum);
-              //console.log("data.valAvg : ", data.valAvg);
-              //console.log("==================================================");
+              //logger.debug("==================================================");
+              //logger.debug("data.totalCnt : ", data.totalCnt);
+              //logger.debug("data.stCnt1 : ", data.stCnt1);
+              //logger.debug("data.stCnt2 : ", data.stCnt2);
+              //logger.debug("data.stCnt3 : ", data.stCnt3);
+              //logger.debug("data.stCnt4 : ", data.stCnt4);
+              //logger.debug("data.solRatio : ", data.solRatio);
+              //logger.debug("data.valuationSum : ", data.valuationSum);
+              //logger.debug("data.valAvg : ", data.valAvg);
+              //logger.debug("==================================================");
 
             });
 
             res.json(incident);
 
-            //console.log("incident AAA : ", JSON.stringify(incident));
+            //logger.debug("incident AAA : ", JSON.stringify(incident));
           }
         })
 
@@ -150,9 +150,9 @@ module.exports = {
   chart2_1: (req, res, next) => {
     try {
 
-      //console.log("==================================================");
-      //console.log(" Dashboard chart2_1: ");
-      //console.log("==================================================");
+      //logger.debug("==================================================");
+      //logger.debug(" Dashboard chart2_1: ");
+      //logger.debug("==================================================");
 
 
       var svc = service.task_valuation(req);
@@ -162,9 +162,9 @@ module.exports = {
 
           if (err) {
 
-            //console.log("==================================================");
-            //console.log(" Dashboard.aggregate error ", err);
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug(" Dashboard.aggregate error ", err);
+            //logger.debug("==================================================");
 
             return res.json({
               success: false,
@@ -175,10 +175,10 @@ module.exports = {
 
             incident.forEach(function (data, idx, incident) {
 
-              //console.log("==================================================");
-              //console.log("data ", JSON.stringify(data));
-              //console.log("data.grp.length ", data.grp.length);
-              //console.log("==================================================");
+              //logger.debug("==================================================");
+              //logger.debug("data ", JSON.stringify(data));
+              //logger.debug("data.grp.length ", data.grp.length);
+              //logger.debug("==================================================");
 
 
               var totalCnt = 0; //전체 개수
@@ -242,22 +242,22 @@ module.exports = {
                 data.valAvg = 0;
               }
 
-              //console.log("==================================================");
-              //console.log("data.totalCnt : ", data.totalCnt);
-              //console.log("data.stCnt1 : ", data.stCnt1);
-              //console.log("data.stCnt2 : ", data.stCnt2);
-              //console.log("data.stCnt3 : ", data.stCnt3);
-              //console.log("data.stCnt4 : ", data.stCnt4);
-              //console.log("data.solRatio : ", data.solRatio);
-              //console.log("data.valuationSum : ", data.valuationSum);
-              //console.log("data.valAvg : ", data.valAvg);
-              //console.log("==================================================");
+              //logger.debug("==================================================");
+              //logger.debug("data.totalCnt : ", data.totalCnt);
+              //logger.debug("data.stCnt1 : ", data.stCnt1);
+              //logger.debug("data.stCnt2 : ", data.stCnt2);
+              //logger.debug("data.stCnt3 : ", data.stCnt3);
+              //logger.debug("data.stCnt4 : ", data.stCnt4);
+              //logger.debug("data.solRatio : ", data.solRatio);
+              //logger.debug("data.valuationSum : ", data.valuationSum);
+              //logger.debug("data.valAvg : ", data.valAvg);
+              //logger.debug("==================================================");
 
             });
 
             res.json(incident);
 
-            //console.log("incident BBB : ", JSON.stringify(incident));
+            //logger.debug("incident BBB : ", JSON.stringify(incident));
           }
         })
 
@@ -280,9 +280,9 @@ module.exports = {
   chart2_2: (req, res, next) => {
     try {
 
-      //console.log("==================================================");
-      //console.log(" Dashboard chart2_2: ");
-      //console.log("==================================================");
+      //logger.debug("==================================================");
+      //logger.debug(" Dashboard chart2_2: ");
+      //logger.debug("==================================================");
 
 
       var svc = service.com_valuation1(req);
@@ -292,9 +292,9 @@ module.exports = {
 
           if (err) {
 
-            //console.log("==================================================");
-            //console.log(" Dashboard.aggregate error ", err);
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug(" Dashboard.aggregate error ", err);
+            //logger.debug("==================================================");
 
             return res.json({
               success: false,
@@ -305,10 +305,10 @@ module.exports = {
 
             incident.forEach(function (data, idx, incident) {
 
-              //console.log("==================================================");
-              //console.log("data ", JSON.stringify(data));
-              //console.log("data.grp.length ", data.grp.length);
-              //console.log("==================================================");
+              //logger.debug("==================================================");
+              //logger.debug("data ", JSON.stringify(data));
+              //logger.debug("data.grp.length ", data.grp.length);
+              //logger.debug("==================================================");
 
 
               var totalCnt = 0; //전체 개수
@@ -372,22 +372,22 @@ module.exports = {
                 data.valAvg = 0;
               }
 
-              //console.log("==================================================");
-              //console.log("data.totalCnt : ", data.totalCnt);
-              //console.log("data.stCnt1 : ", data.stCnt1);
-              //console.log("data.stCnt2 : ", data.stCnt2);
-              //console.log("data.stCnt3 : ", data.stCnt3);
-              //console.log("data.stCnt4 : ", data.stCnt4);
-              //console.log("data.solRatio : ", data.solRatio);
-              //console.log("data.valuationSum : ", data.valuationSum);
-              //console.log("data.valAvg : ", data.valAvg);
-              //console.log("==================================================");
+              //logger.debug("==================================================");
+              //logger.debug("data.totalCnt : ", data.totalCnt);
+              //logger.debug("data.stCnt1 : ", data.stCnt1);
+              //logger.debug("data.stCnt2 : ", data.stCnt2);
+              //logger.debug("data.stCnt3 : ", data.stCnt3);
+              //logger.debug("data.stCnt4 : ", data.stCnt4);
+              //logger.debug("data.solRatio : ", data.solRatio);
+              //logger.debug("data.valuationSum : ", data.valuationSum);
+              //logger.debug("data.valAvg : ", data.valAvg);
+              //logger.debug("==================================================");
 
             });
 
             res.json(incident);
 
-            //console.log("incident CCC : ", JSON.stringify(incident));
+            //logger.debug("incident CCC : ", JSON.stringify(incident));
           }
         })
 
@@ -410,9 +410,9 @@ module.exports = {
   chart2_3: (req, res, next) => {
     try {
 
-      //console.log("==================================================");
-      //console.log(" Dashboard chart2_3: ");
-      //console.log("==================================================");
+      //logger.debug("==================================================");
+      //logger.debug(" Dashboard chart2_3: ");
+      //logger.debug("==================================================");
 
 
       var svc = service.com_valuation2(req);
@@ -422,9 +422,9 @@ module.exports = {
 
           if (err) {
 
-            //console.log("==================================================");
-            //console.log(" Dashboard.aggregate error ", err);
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug(" Dashboard.aggregate error ", err);
+            //logger.debug("==================================================");
 
             return res.json({
               success: false,
@@ -435,10 +435,10 @@ module.exports = {
 
             incident.forEach(function (data, idx, incident) {
 
-              //console.log("==================================================");
-              //console.log("data ", JSON.stringify(data));
-              //console.log("data.grp.length ", data.grp.length);
-              //console.log("==================================================");
+              //logger.debug("==================================================");
+              //logger.debug("data ", JSON.stringify(data));
+              //logger.debug("data.grp.length ", data.grp.length);
+              //logger.debug("==================================================");
 
 
               var totalCnt = 0; //전체 개수
@@ -502,22 +502,22 @@ module.exports = {
                 data.valAvg = 0;
               }
 
-              //console.log("==================================================");
-              //console.log("data.totalCnt : ", data.totalCnt);
-              //console.log("data.stCnt1 : ", data.stCnt1);
-              //console.log("data.stCnt2 : ", data.stCnt2);
-              //console.log("data.stCnt3 : ", data.stCnt3);
-              //console.log("data.stCnt4 : ", data.stCnt4);
-              //console.log("data.solRatio : ", data.solRatio);
-              //console.log("data.valuationSum : ", data.valuationSum);
-              //console.log("data.valAvg : ", data.valAvg);
-              //console.log("==================================================");
+              //logger.debug("==================================================");
+              //logger.debug("data.totalCnt : ", data.totalCnt);
+              //logger.debug("data.stCnt1 : ", data.stCnt1);
+              //logger.debug("data.stCnt2 : ", data.stCnt2);
+              //logger.debug("data.stCnt3 : ", data.stCnt3);
+              //logger.debug("data.stCnt4 : ", data.stCnt4);
+              //logger.debug("data.solRatio : ", data.solRatio);
+              //logger.debug("data.valuationSum : ", data.valuationSum);
+              //logger.debug("data.valAvg : ", data.valAvg);
+              //logger.debug("==================================================");
 
             });
 
             res.json(incident);
 
-            //console.log("incident DDD : ", JSON.stringify(incident));
+            //logger.debug("incident DDD : ", JSON.stringify(incident));
           }
         })
 
@@ -540,18 +540,18 @@ module.exports = {
     chart2_4: (req, res, next) => {
         try {
 
-            //console.log("==================================================");
-            //console.log(" Dashboard chart2_4: ");
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug(" Dashboard chart2_4: ");
+            //logger.debug("==================================================");
 
             var svc = service.valuationCnt(req);
 
             Incident.aggregate(svc.aggregatorOpts).exec(function (err, incident) {
                 if (!err) {
 
-                    //console.log("==================================================");
-                    //console.log(" incident chart2_4: ",JSON.stringify(incident));
-                    //console.log("==================================================");
+                    //logger.debug("==================================================");
+                    //logger.debug(" incident chart2_4: ",JSON.stringify(incident));
+                    //logger.debug("==================================================");
 
                     res.json(incident);
                 }

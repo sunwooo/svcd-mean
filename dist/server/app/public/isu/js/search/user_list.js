@@ -88,7 +88,7 @@ function getLowerProcessList(){
             setContent(data, reqParam);
         },
         error: function(data, status, err) {
-            logger.debug("err : "+err);
+            console.log("err : "+err);
             return;
         }
     });

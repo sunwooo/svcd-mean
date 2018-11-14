@@ -59,7 +59,7 @@ function receiptSave() {
                     }
                 });
             } catch (error) {
-                logger.debug("receiptSave catch error : ", error);
+                console.log("receiptSave catch error : ", error);
             }
         }
     }

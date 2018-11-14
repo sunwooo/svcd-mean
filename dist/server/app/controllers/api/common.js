@@ -19,9 +19,9 @@ module.exports = {
    */
   higherProcess: (req, res, next) => {
 
-    //console.log("=====================");
-    //console.log("req.query : ", req.query);
-    //console.log("=====================");
+    //logger.debug("=====================");
+    //logger.debug("req.query : ", req.query);
+    //logger.debug("=====================");
 
     var scope = req.query.scope;
 
@@ -238,9 +238,9 @@ module.exports = {
    */
   processStatus: (req, res, next) => {
 
-    //console.log("=====================");
-    //console.log("condition : ", condition);
-    //console.log("=====================");
+    //logger.debug("=====================");
+    //logger.debug("condition : ", condition);
+    //logger.debug("=====================");
 
     try {
       var condition = {};
@@ -253,7 +253,7 @@ module.exports = {
         }
       }).sort('sort_lvl');
     } catch (e) {
-      console.log(e);
+      logger.debug(e);
     } finally {}
   },
 
@@ -267,9 +267,9 @@ module.exports = {
     condition.higher_cd = req.query.higher_cd;
     condition.use_yn = "사용";
 
-    //console.log('=======================================processGubun=======================================');
-    //console.log("condition ", condition);
-    //console.log('=================================================================================================');
+    //logger.debug('=======================================processGubun=======================================');
+    //logger.debug("condition ", condition);
+    //logger.debug('=================================================================================================');
 
     try {
       async.waterfall([function (callback) {
@@ -280,9 +280,9 @@ module.exports = {
             message: err
           });
 
-          //console.log('=======================================processGubun=======================================');
-          //console.log("count ", count);
-          //console.log('=================================================================================================');
+          //logger.debug('=======================================processGubun=======================================');
+          //logger.debug("count ", count);
+          //logger.debug('=================================================================================================');
 
           callback(null, count);
         });
@@ -291,9 +291,9 @@ module.exports = {
         if (count == 0) higher_cd = '000'; //상위코드용 업무처리가 없으면 공통으로 조회
         condition.higher_cd = higher_cd;
 
-        //console.log('=======================================processGubun=======================================');
-        //console.log("condition ", condition);
-        //console.log('=================================================================================================');
+        //logger.debug('=======================================processGubun=======================================');
+        //logger.debug("condition ", condition);
+        //logger.debug('=================================================================================================');
 
         ProcessGubun.find(condition, function (err, processGubun) {
           if (err) {
@@ -303,9 +303,9 @@ module.exports = {
             });
           } else {
 
-              //console.log('=======================================processGubun=======================================');
-              //console.log("processGubun ", processGubun);
-              //console.log('=================================================================================================');
+              //logger.debug('=======================================processGubun=======================================');
+              //logger.debug("processGubun ", processGubun);
+              //logger.debug('=================================================================================================');
 
             res.json(processGubun);
           }
@@ -358,11 +358,11 @@ module.exports = {
       condition.higher_cd = req.query.higher_cd;
     }
 
-    //console.log("=================================================");
-    //console.log("req.query.page : ", req.query);
-    //console.log("req.query.page : ", req.query.page);
-    //console.log("search : ", JSON.stringify(search));
-    //console.log("=================================================");
+    //logger.debug("=================================================");
+    //logger.debug("req.query.page : ", req.query);
+    //logger.debug("req.query.page : ", req.query.page);
+    //logger.debug("search : ", JSON.stringify(search));
+    //logger.debug("=================================================");
 
     var page = 1;
     var perPage = 15;
@@ -374,9 +374,9 @@ module.exports = {
       async.waterfall([function (callback) {
 
 
-          //console.log("================================================================");
-          //console.log("===================> search.findIncident : ", search.findIncident);
-          //console.log("================================================================");
+          //logger.debug("================================================================");
+          //logger.debug("===================> search.findIncident : ", search.findIncident);
+          //logger.debug("================================================================");
 
           Incident.count(condition, function (err, totalCnt) {
             if (err) {
@@ -393,18 +393,18 @@ module.exports = {
         }
       ], function (err, totalCnt) {
 
-        //console.log("=================================================");
-        //console.log("search.findIncident : ",JSON.stringify(search.findIncident));
-        //console.log("=================================================");
+        //logger.debug("=================================================");
+        //logger.debug("search.findIncident : ",JSON.stringify(search.findIncident));
+        //logger.debug("=================================================");
 
         Incident.find(condition, function (err, incident) {
 
-            //console.log("=================================================");
-            //console.log("totalCnt : ",totalCnt);
-            //console.log("(page - 1) * perPage : ",(page - 1) * perPage);
-            //console.log("perPage : ",perPage);
-            //console.log("incident : ",incident);
-            //console.log("=================================================");
+            //logger.debug("=================================================");
+            //logger.debug("totalCnt : ",totalCnt);
+            //logger.debug("(page - 1) * perPage : ",(page - 1) * perPage);
+            //logger.debug("perPage : ",perPage);
+            //logger.debug("incident : ",incident);
+            //logger.debug("=================================================");
 
             if (err) {
               return res.json({
@@ -426,7 +426,7 @@ module.exports = {
           .limit(perPage);
       });
     } catch (err) {
-      console.log("err : ", err);
+      logger.debug("err : ", err);
     } finally {}
 
   },

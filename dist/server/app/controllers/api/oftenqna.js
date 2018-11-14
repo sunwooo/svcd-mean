@@ -23,11 +23,11 @@ module.exports = {
         var page = 1;
         var perPage = 15;
 
-        //console.log("==========================================getcompany=======================================");
-        //console.log("req.query.page : ", req.query.page);
-        //console.log("req.query.perPage : ", req.query.perPage);
-        //console.log("req.query.searchText : ", req.query.searchText);
-        //console.log("================================================================================================");
+        //logger.debug("==========================================getcompany=======================================");
+        //logger.debug("req.query.page : ", req.query.page);
+        //logger.debug("req.query.perPage : ", req.query.perPage);
+        //logger.debug("req.query.searchText : ", req.query.searchText);
+        //logger.debug("================================================================================================");
 
         if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
         if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
@@ -100,7 +100,7 @@ module.exports = {
 
                     //logger.debug("=============================================");
                     //logger.debug("rtnData.totalCnt : ", rtnData.totalCnt);
-                    //console.log("rtnData : ", JSON.stringify(rtnData));
+                    //logger.debug("rtnData : ", JSON.stringify(rtnData));
                     //logger.debug("=============================================");
 
                     res.json(rtnData);
@@ -122,19 +122,19 @@ module.exports = {
      */
     userlist: (req, res, next) => {
         try{
-        //console.log("===============================userlist===============================");
-        //console.log("req.query.company_cd : ", req.query.company_cd);
-        //console.log("===============================userlist===============================");
+        //logger.debug("===============================userlist===============================");
+        //logger.debug("req.query.company_cd : ", req.query.company_cd);
+        //logger.debug("===============================userlist===============================");
         var search = service.createSearch(req);
 
         var page = 1;
         var perPage = 15;
 
-        //console.log("==========================================userlist=======================================");
-        //console.log("req.query.page : ", req.query.page);
-        //console.log("req.query.perPage : ", req.query.perPage);
-        //console.log("req.query.searchText : ", req.query.searchText);
-        //console.log("================================================================================================");
+        //logger.debug("==========================================userlist=======================================");
+        //logger.debug("req.query.page : ", req.query.page);
+        //logger.debug("req.query.perPage : ", req.query.perPage);
+        //logger.debug("req.query.searchText : ", req.query.searchText);
+        //logger.debug("================================================================================================");
 
         if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
         if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
@@ -142,13 +142,13 @@ module.exports = {
 
 
         async.waterfall([function (callback) {
-            //console.log("req.query.company_cd : ", req.query.company_cd);
+            //logger.debug("req.query.company_cd : ", req.query.company_cd);
             var condition = {};
             search.findOftenqna.company_cd =  {'$elemMatch': { id: req.query.company_cd}};
 
             OftenQna.find(search.findOftenqna , function (err, oftenqna) {
 
-                //console.log("search.findOftenqna : " , search.findOftenqna);
+                //logger.debug("search.findOftenqna : " , search.findOftenqna);
                 if (err) {
                     return res.json({
                         success: false,
@@ -203,7 +203,7 @@ module.exports = {
 
                     //logger.debug("=============================================");
                     //logger.debug("rtnData.totalCnt : ", rtnData.totalCnt);
-                    //console.log("rtnData : ", JSON.stringify(rtnData));
+                    //logger.debug("rtnData : ", JSON.stringify(rtnData));
                     //logger.debug("=============================================");
 
                     res.json(rtnData);
@@ -218,7 +218,7 @@ module.exports = {
                 .limit(perPage);
         });
         }catch(err){
-            console.log("err : ",err);
+            logger.debug("err : ",err);
         }
     },
 
@@ -230,10 +230,10 @@ module.exports = {
         try {
             async.waterfall([function (callback) {
       
-              //console.log("========================================================");
-              //console.log("========================req.body ",req.body);
-              //console.log("========================req.body._id ",req.body.qna._id);
-              //console.log("========================================================");
+              //logger.debug("========================================================");
+              //logger.debug("========================req.body ",req.body);
+              //logger.debug("========================req.body._id ",req.body.qna._id);
+              //logger.debug("========================================================");
       
               OftenQna.findOneAndUpdate({
                 _id: req.body.qna._id
@@ -257,7 +257,7 @@ module.exports = {
               }  
               fs.unlink(req.body.deletefile, function (err) {
                   if (err) {
-                    console.log("qna attach file delete ",err);
+                    logger.debug("qna attach file delete ",err);
                   }
                   return res.json({
                       success: true,
@@ -278,7 +278,7 @@ module.exports = {
     * qna 삭제 
     */
     delete: (req, res, next) => {
-        //console.log("delete start.....");
+        //logger.debug("delete start.....");
         try {
             async.waterfall([function (callback) {
 
@@ -291,7 +291,7 @@ module.exports = {
 
             callback(null, upQna);
 
-            //console.log("upQna : ", upQna);
+            //logger.debug("upQna : ", upQna);
 
         }], function (err, upQna) {
                 OftenQna.findOneAndRemove({
@@ -325,15 +325,15 @@ module.exports = {
     */
     insert: (req, res) => {
 
-    //console.log("================== insert = (req, res) ======================");
-    //console.log("xxxx req.session : ", req.session);
-    //console.log("req.body.incident : ", req.body.incident);
-    //console.log("=============================================================");
+    //logger.debug("================== insert = (req, res) ======================");
+    //logger.debug("xxxx req.session : ", req.session);
+    //logger.debug("req.body.incident : ", req.body.incident);
+    //logger.debug("=============================================================");
     try{
         async.waterfall([function (callback) {
 
         var newqna = req.body.qna;
-        //console.log("newqna ", newqna);
+        //logger.debug("newqna ", newqna);
         
         
         newqna.register_company_cd = req.session.company_cd;
@@ -346,17 +346,17 @@ module.exports = {
         if (req.files) {
             newqna.attach_file = req.files;
         }
-        //console.log("nnnnn newqna.pop_yn : ", newqna );
+        //logger.debug("nnnnn newqna.pop_yn : ", newqna );
         OftenQna.create(newqna, function (err, savedqna) {
             if (err) {
-            //console.log("trace err ", err);
+            //logger.debug("trace err ", err);
             return res.json({
                 success: false,
                 message: err
             });
             }
             
-            //console.log("trace OftenQna.create savedqna", savedqna);
+            //logger.debug("trace OftenQna.create savedqna", savedqna);
         
                 
             //////////////////////////////////////
@@ -386,16 +386,16 @@ module.exports = {
     getPopUpYN : (req, res, next) => {
         var search = service.createSearch(req);
 
-        //console.log("==========================================getPopUpYn=======================================");
-        //console.log("==========================================1111111111111111111111=======================================");
-        //console.log("req.session.company_cd : ", req.session.company_cd);
-        //console.log("===========================================================================================");
+        //logger.debug("==========================================getPopUpYn=======================================");
+        //logger.debug("==========================================1111111111111111111111=======================================");
+        //logger.debug("req.session.company_cd : ", req.session.company_cd);
+        //logger.debug("===========================================================================================");
 
         var condition = {};
         search.findOftenqna.company_cd =  {'$elemMatch': { id: req.session.company_cd}};
         search.findOftenqna.pop_yn = "Y";
 
-        //console.log("search.findOftenqna : ", JSON.stringify(search.findOftenqna));
+        //logger.debug("search.findOftenqna : ", JSON.stringify(search.findOftenqna));
 
 
         try {
@@ -409,11 +409,11 @@ module.exports = {
             */
             OftenQna.find(search.findOftenqna , function (err, oftenqna) {
                 
-                //console.log("==============================================");
-                //console.log("oftenqna :", oftenqna);
+                //logger.debug("==============================================");
+                //logger.debug("oftenqna :", oftenqna);
                 //logger.debug("company_cd", req.session.company_cd);
                 //logger.debug("oftenQna", JSON.stringify(oftenQna));
-                //console.log("==============================================");
+                //logger.debug("==============================================");
 
                 if (err) {
                     return res.json({
@@ -423,7 +423,7 @@ module.exports = {
                 } else {
                     //res.send(oftenQna);
                     //res.json(oftenQna);
-                    //console.log("oftenqna :", oftenqna);
+                    //logger.debug("oftenqna :", oftenqna);
 
                     var rtnData = {};
                     rtnData.oftenqna = oftenqna;
@@ -431,16 +431,16 @@ module.exports = {
 
                     //logger.debug("=============================================");
                     //logger.debug("rtnData.totalCnt : ", rtnData.totalCnt);
-                    //console.log("rtnData : ", JSON.stringify(rtnData));
+                    //logger.debug("rtnData : ", JSON.stringify(rtnData));
                     //logger.debug("=============================================");
 
-                    //console.log("rtnData.oftenqna : ", rtnData.oftenqna);
+                    //logger.debug("rtnData.oftenqna : ", rtnData.oftenqna);
                     
                     res.json(rtnData);
                 }
             });
         } catch (e) {
-            console.log('****************', e);
+            logger.debug('****************', e);
         }
         
     },

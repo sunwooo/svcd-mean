@@ -9,14 +9,14 @@ module.exports = {
 
     sessionCheck: (req, res, next) => {
         
-        //console.log('=====================session=================');
-        //console.log('req : ' , req);
-        //console.log('req.headers.authorization : ' , req.headers.authorization);
-        //console.log('req.session.email : ' , req.session.email);
-        //console.log('req.session.user_flag : ' , req.session.user_flag);
-        //console.log('req.session.group_flag : ' , req.session.group_flag);
-        //console.log('req.session.dept_cd : ' , req.session.dept_cd);
-        //console.log('=============================================\n');
+        //logger.debug('=====================session=================');
+        //logger.debug('req : ' , req);
+        //logger.debug('req.headers.authorization : ' , req.headers.authorization);
+        //logger.debug('req.session.email : ' , req.session.email);
+        //logger.debug('req.session.user_flag : ' , req.session.user_flag);
+        //logger.debug('req.session.group_flag : ' , req.session.group_flag);
+        //logger.debug('req.session.dept_cd : ' , req.session.dept_cd);
+        //logger.debug('=============================================\n');
 
         var tokenUser;
 
@@ -24,30 +24,30 @@ module.exports = {
             tokenUser = jwt.decode(req.headers.authorization).user;
         }
         
-        //console.log('=============================================\n');
-        //console.log('tokenUser : ' , tokenUser);
-        //console.log('=============================================\n');
+        //logger.debug('=============================================\n');
+        //logger.debug('tokenUser : ' , tokenUser);
+        //logger.debug('=============================================\n');
 
         if (req.session.email != null || req.session.email != undefined) {
             next();
         } else { 
-            //console.log("xxxxxxxxxxx req.session is null");
+            //logger.debug("xxxxxxxxxxx req.session is null");
             if(tokenUser.email){
-                //console.log("yyyyyyyyyy tokenUser.email : ", tokenUser.email);
+                //logger.debug("yyyyyyyyyy tokenUser.email : ", tokenUser.email);
                 try {
                     /**
                      * 토근 비교
                      */
                     var condition = {};
                     condition.email = tokenUser.email;
-                    //console.log("condition.email : ", condition.email);
+                    //logger.debug("condition.email : ", condition.email);
                     UserToken.findOne(condition).exec(function (err, userToken) {
-                        //console.log("userToken : ", userToken);
+                        //logger.debug("userToken : ", userToken);
                         if (userToken != null) {
                             
-                            //console.log("userToken != null");
-                            //console.log("userToken.token : ",userToken.token);
-                            //console.log("tokenUser.token : ",tokenUser.token);
+                            //logger.debug("userToken != null");
+                            //logger.debug("userToken.token : ",userToken.token);
+                            //logger.debug("tokenUser.token : ",tokenUser.token);
                             
                             //if (userToken.token == tokenUser.token){ //토근이 일치하면
                                 req.session.email = tokenUser.email;
@@ -66,7 +66,7 @@ module.exports = {
                                 req.session.hp_telno = tokenUser.hp_telno;
                                 next();
                             //}else{
-                                //console.log("xxxxxxxxxxx req.session is null");
+                                //logger.debug("xxxxxxxxxxx req.session is null");
                                 //return res.sendStatus(403);
                             //}
                         }

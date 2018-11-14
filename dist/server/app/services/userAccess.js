@@ -20,14 +20,14 @@ module.exports = {
                     OrQueries.push({
                         company_nm: { $regex: new RegExp(req.query.searchText, "i") }
                     });
-                    //console.log('OrQueries : ' + JSON.stringify(OrQueries));
+                    //logger.debug('OrQueries : ' + JSON.stringify(OrQueries));
                     highlight.company_nm = req.query.searchText;
                 }
                 if (searchTypes.indexOf("employee_nm") >= 0) {
                     OrQueries.push({
                         employee_nm: { $regex: new RegExp(req.query.searchText, "i") }
                     });
-                    //console.log('OrQueries : ' + OrQueries);
+                    //logger.debug('OrQueries : ' + OrQueries);
                     highlight.employee_nm = req.query.searchText;
                 }
                 if (OrQueries.length > 0) {
@@ -53,14 +53,14 @@ module.exports = {
             }
 
             /*
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-            console.log('access_yn           ' + access_yn);
-            console.log('searchType          ' + req.query.searchType);
-            console.log('searchText          ' + req.query.searchText);
-            console.log('company_cd          ' + req.query.company_cd);
-            console.log('findUsermanage      ' + JSON.stringify(findUsermanage));
-            console.log('highlight           ' + JSON.stringify(highlight));
-            console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+            logger.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+            logger.debug('access_yn           ' + access_yn);
+            logger.debug('searchType          ' + req.query.searchType);
+            logger.debug('searchText          ' + req.query.searchText);
+            logger.debug('company_cd          ' + req.query.company_cd);
+            logger.debug('findUsermanage      ' + JSON.stringify(findUsermanage));
+            logger.debug('highlight           ' + JSON.stringify(highlight));
+            logger.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
             */
             
             return {
@@ -72,7 +72,7 @@ module.exports = {
                 highlight: highlight
             };
         } catch (e) {
-            console.log("oftenqna service error : ", e);
+            logger.debug("oftenqna service error : ", e);
         }
     }
 };

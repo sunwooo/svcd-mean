@@ -5,8 +5,8 @@ const logger = require('log4js').getLogger('app');
 module.exports = {
 
   createSearch: (req) => {
-    //console.log("usermanage createSearch start !");
-    //console.log('searchText          ' + req.query.searchText);
+    //logger.debug("usermanage createSearch start !");
+    //logger.debug('searchText          ' + req.query.searchText);
 
     var findUsermanage = {},
       highlight = {};
@@ -24,7 +24,7 @@ module.exports = {
               $regex: new RegExp(req.query.searchText, "i")
             }
           });
-          //console.log('OrQueries : ' + JSON.stringify(OrQueries));
+          //logger.debug('OrQueries : ' + JSON.stringify(OrQueries));
           highlight.company_nm = req.query.searchText;
         }
         if (searchTypes.indexOf("employee_nm") >= 0) {
@@ -33,7 +33,7 @@ module.exports = {
               $regex: new RegExp(req.query.searchText, "i")
             }
           });
-          //console.log('OrQueries : ' + OrQueries);
+          //logger.debug('OrQueries : ' + OrQueries);
           highlight.employee_nm = req.query.searchText;
         }
         if (OrQueries.length > 0) {
@@ -64,15 +64,15 @@ module.exports = {
       }
 
 
-      //console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-      //console.log('req                 ' + req);
-      //console.log('req.query           ' + req.query);
-      //console.log('using_yn            ' + req.query.using_yn);
-      //console.log('searchType          ' + req.query.searchType);
-      //console.log('searchText          ' + req.query.searchText);
-      //console.log('company_cd          ' + req.query.company_cd);
-      //console.log('findUsermanage      ' + JSON.stringify(findUsermanage));
-      //console.log('highlight           ' + JSON.stringify(highlight));
+      //logger.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+      //logger.debug('req                 ' + req);
+      //logger.debug('req.query           ' + req.query);
+      //logger.debug('using_yn            ' + req.query.using_yn);
+      //logger.debug('searchType          ' + req.query.searchType);
+      //logger.debug('searchText          ' + req.query.searchText);
+      //logger.debug('company_cd          ' + req.query.company_cd);
+      //logger.debug('findUsermanage      ' + JSON.stringify(findUsermanage));
+      //logger.debug('highlight           ' + JSON.stringify(highlight));
 
 
       return {
@@ -84,7 +84,7 @@ module.exports = {
         highlight: highlight
       };
     } catch (e) {
-      console.log("oftenqna service error : ", e);
+      logger.debug("oftenqna service error : ", e);
     }
   }
 };

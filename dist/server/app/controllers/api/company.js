@@ -18,11 +18,11 @@ module.exports = {
         var page = 1;
         var perPage = 15;
 
-        console.log("==========================================getcompany=======================================");
-        console.log("req.query.page : ", req.query.page);
-        console.log("req.query.perPage : ", req.query.perPage);
-        console.log("req.query.searchText : ", req.query.searchText);
-        console.log("================================================================================================");
+        logger.debug("==========================================getcompany=======================================");
+        logger.debug("req.query.page : ", req.query.page);
+        logger.debug("req.query.perPage : ", req.query.perPage);
+        logger.debug("req.query.searchText : ", req.query.searchText);
+        logger.debug("================================================================================================");
 
         if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
         if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
@@ -100,7 +100,7 @@ module.exports = {
 
                     //logger.debug("=============================================");
                     //logger.debug("rtnData.totalCnt : ", rtnData.totalCnt);
-                    //console.log("rtnData : ", JSON.stringify(rtnData));
+                    //logger.debug("rtnData : ", JSON.stringify(rtnData));
                     //logger.debug("=============================================");
 
                 }
@@ -129,10 +129,10 @@ module.exports = {
                     _id: req.body.company.id
                 }, req.body.company, function (err, company) {
 
-                    console.log("===============================================================================");
-                    console.log("company update.....req.body.company ",  req.body.company);
-                    console.log("company update.....req.body.company.date_from ",  req.body.company.date_from);
-                    console.log("===============================================================================");
+                    logger.debug("===============================================================================");
+                    logger.debug("company update.....req.body.company ",  req.body.company);
+                    logger.debug("company update.....req.body.company.date_from ",  req.body.company.date_from);
+                    logger.debug("===============================================================================");
                     
                     if (!err) {
                         callback(null);
@@ -234,7 +234,7 @@ module.exports = {
 
             callback(null, upCompany);
 
-            //console.log("upQna : ", upQna);
+            //logger.debug("upQna : ", upQna);
 
         }], function (err, upCompany) {
                 Company.findOneAndRemove({

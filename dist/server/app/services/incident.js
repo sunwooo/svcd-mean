@@ -21,9 +21,9 @@ module.exports = {
         if(andArr.length > 0)
         findIncident.$and = andArr;
     
-        //console.log("=============================== createSearch ==================================");
-        //console.log("findIncident : ",JSON.stringify(findIncident));
-        //console.log("===============================================================================");
+        //logger.debug("=============================== createSearch ==================================");
+        //logger.debug("findIncident : ",JSON.stringify(findIncident));
+        //logger.debug("===============================================================================");
 
         return { findIncident: findIncident };
 
@@ -38,10 +38,10 @@ module.exports = {
 function createOrCondition(req){
     var OrQueries = [];
 
-        //console.log("=============================== createOrCondition ==================================");
-        //console.log("req.query.searchType : ",req.query.searchType);
-        //console.log("req.query.searchText : ",req.query.searchText);
-        //console.log("===============================================================================");
+        //logger.debug("=============================== createOrCondition ==================================");
+        //logger.debug("req.query.searchType : ",req.query.searchType);
+        //logger.debug("req.query.searchText : ",req.query.searchText);
+        //logger.debug("===============================================================================");
 
     if (req.query.searchType && req.query.searchText) {
         var searchTypes = req.query.searchType.toLowerCase().split(",");
@@ -99,9 +99,9 @@ function createOrCondition(req){
         }
     }
 
-    //console.log("=============================== createOrCondition ==================================");
-    //console.log("OrQueries : ",OrQueries);
-    //console.log("===============================================================================");
+    //logger.debug("=============================== createOrCondition ==================================");
+    //logger.debug("OrQueries : ",OrQueries);
+    //logger.debug("===============================================================================");
 
     return OrQueries;
     

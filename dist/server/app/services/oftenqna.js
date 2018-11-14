@@ -20,14 +20,14 @@ module.exports = {
                     OrQueries.push({
                         title: { $regex: new RegExp(req.query.searchText, "i") }
                     });
-                    //console.log('OrQueries : ' + JSON.stringify(OrQueries));
+                    //logger.debug('OrQueries : ' + JSON.stringify(OrQueries));
                     highlight.title = req.query.searchText;
                 }
                 if (searchTypes.indexOf("content") >= 0) {
                     OrQueries.push({
                         content: { $regex: new RegExp(req.query.searchText, "i") }
                     });
-                    //console.log('OrQueries : ' + OrQueries);
+                    //logger.debug('OrQueries : ' + OrQueries);
                     highlight.content = req.query.searchText;
                 }
                 if (OrQueries.length > 0) {
@@ -48,12 +48,12 @@ module.exports = {
             }
 
             /*
-            console.log('order_by     >>>>>>>>> ' + req.query.order_by);
-            console.log('searchType   >>>>>>>>> ' + req.query.searchType);
-            console.log('searchText   >>>>>>>>> ' + req.query.searchText);
-            console.log('higher_cd    >>>>>>>>> ' + req.query.higher_cd);
-            console.log('findOftenqna >>>>>>>>> ' + JSON.stringify(findOftenqna));
-            console.log('highlight    >>>>>>>>> ' + JSON.stringify(highlight)); 
+            logger.debug('order_by     >>>>>>>>> ' + req.query.order_by);
+            logger.debug('searchType   >>>>>>>>> ' + req.query.searchType);
+            logger.debug('searchText   >>>>>>>>> ' + req.query.searchText);
+            logger.debug('higher_cd    >>>>>>>>> ' + req.query.higher_cd);
+            logger.debug('findOftenqna >>>>>>>>> ' + JSON.stringify(findOftenqna));
+            logger.debug('highlight    >>>>>>>>> ' + JSON.stringify(highlight)); 
             */
 
 
@@ -66,7 +66,7 @@ module.exports = {
                 highlight: highlight
             };
         } catch (e) {
-            console.log("oftenqna service error : ", e);
+            logger.debug("oftenqna service error : ", e);
         }
     }
 };

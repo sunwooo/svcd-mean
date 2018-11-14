@@ -21,16 +21,16 @@ module.exports = {
     try {
         var svc = service.chart1(req);
   
-        //console.log("chart1 svc : ", JSON.stringify(svc));
+        //logger.debug("chart1 svc : ", JSON.stringify(svc));
   
         Incident.aggregate(svc.aggregatorOpts)
           .exec(function (err, incident) {
   
             if (err) {
   
-              //console.log("==================================================");
-              //console.log(" Dashboard.aggregate error ", err);
-              //console.log("==================================================");
+              //logger.debug("==================================================");
+              //logger.debug(" Dashboard.aggregate error ", err);
+              //logger.debug("==================================================");
   
               return res.json({
                 success: false,
@@ -41,7 +41,7 @@ module.exports = {
   
               res.json(incident);
   
-              //console.log("chart1 svc : ", JSON.stringify(incident));
+              //logger.debug("chart1 svc : ", JSON.stringify(incident));
   
             }
           });
@@ -60,16 +60,16 @@ module.exports = {
     try {
       var svc = service.requestCompany_count(req);
 
-      //console.log("chart1_1 svc : ", JSON.stringify(svc));
+      //logger.debug("chart1_1 svc : ", JSON.stringify(svc));
 
       Incident.aggregate(svc.aggregatorOpts)
         .exec(function (err, incident) {
 
           if (err) {
 
-            //console.log("==================================================");
-            //console.log(" Dashboard.aggregate error ", err);
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug(" Dashboard.aggregate error ", err);
+            //logger.debug("==================================================");
 
             return res.json({
               success: false,
@@ -80,7 +80,7 @@ module.exports = {
 
             res.json(incident);
 
-            //console.log("incident : ", JSON.stringify(incident));
+            //logger.debug("incident : ", JSON.stringify(incident));
 
           }
         });
@@ -164,9 +164,9 @@ module.exports = {
   
           if (!err) {
 
-            //console.log("==================================================");
-            //console.log(" incident chart2_4: ",JSON.stringify(incident));
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug(" incident chart2_4: ",JSON.stringify(incident));
+            //logger.debug("==================================================");
 
             res.json(incident);
           }

@@ -178,7 +178,7 @@ module.exports = {
     //비밀번호 초기화
     initPassword: (req, res, next) => {
     
-        //console.log("=============req : ",req);
+        //logger.debug("=============req : ",req);
 
         var initPW = req.email.substring(0,req.email.indexOf("@"));
 
@@ -230,7 +230,7 @@ module.exports = {
     //계정승인
     accessConfirm: (req, res, next) => {
     
-        //console.log("=============req : ",req);
+        //logger.debug("=============req : ",req);
 
         var receiver = req.request_nm + " <" + req.email + ">";
         //var receiver = "이한일 <hilee@isu.co.kr>";

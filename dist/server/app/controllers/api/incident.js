@@ -24,9 +24,9 @@ module.exports = {
 
         var upIncident = req.body.incident;
 
-        //console.log("========================================================");
-        //console.log("========================req.body.incident ",req.body.incident);
-        //console.log("========================================================");
+        //logger.debug("========================================================");
+        //logger.debug("========================req.body.incident ",req.body.incident);
+        //logger.debug("========================================================");
 
 
         Incident.findOneAndUpdate({
@@ -51,7 +51,7 @@ module.exports = {
         }  
         fs.unlink(req.body.deletefile, function (err) {
             if (err) {
-              console.log("incident attach file delete ",err);
+              logger.debug("incident attach file delete ",err);
             }
             return res.json({
                 success: true,
@@ -468,11 +468,11 @@ module.exports = {
 
     var search = service.createSearch(req);
 
-    //console.log("=================================================");
-    //console.log("req.query.page : ", req.query);
-    //console.log("req.query.page : ", req.query.page);
-    //console.log("search : ", JSON.stringify(search));
-    //console.log("=================================================");
+    //logger.debug("=================================================");
+    //logger.debug("req.query.page : ", req.query);
+    //logger.debug("req.query.page : ", req.query.page);
+    //logger.debug("search : ", JSON.stringify(search));
+    //logger.debug("=================================================");
 
     var page = 1;
     var perPage = 15;
@@ -517,9 +517,9 @@ module.exports = {
         },
         function (callback) {
 
-          //console.log("================================================================");
-          //console.log("===================> search.findIncident : ", search.findIncident);
-          //console.log("================================================================");
+          //logger.debug("================================================================");
+          //logger.debug("===================> search.findIncident : ", search.findIncident);
+          //logger.debug("================================================================");
 
           Incident.count(search.findIncident, function (err, totalCnt) {
             if (err) {
@@ -536,18 +536,18 @@ module.exports = {
         }
       ], function (err, totalCnt) {
 
-        //console.log("=================================================");
-        //console.log("search.findIncident : ",JSON.stringify(search.findIncident));
-        //console.log("=================================================");
+        //logger.debug("=================================================");
+        //logger.debug("search.findIncident : ",JSON.stringify(search.findIncident));
+        //logger.debug("=================================================");
 
         Incident.find(search.findIncident, function (err, incident) {
 
-            //console.log("=================================================");
-            //console.log("totalCnt : ",totalCnt);
-            //console.log("(page - 1) * perPage : ",(page - 1) * perPage);
-            //console.log("perPage : ",perPage);
-            //console.log("incident : ",incident);
-            //console.log("=================================================");
+            //logger.debug("=================================================");
+            //logger.debug("totalCnt : ",totalCnt);
+            //logger.debug("(page - 1) * perPage : ",(page - 1) * perPage);
+            //logger.debug("perPage : ",perPage);
+            //logger.debug("incident : ",incident);
+            //logger.debug("=================================================");
 
             if (err) {
               return res.json({
@@ -570,7 +570,7 @@ module.exports = {
           .limit(perPage);
       });
     } catch (err) {
-        console.log("err : ",err);
+        logger.debug("err : ",err);
     } finally {}
 
   },
@@ -745,18 +745,18 @@ module.exports = {
    */
   insert: (req, res) => {
 
-    //console.log("================== insert = (req, res) ======================");
-    //console.log("xxxx req.session : ", req.session);
-    //console.log("req.body.incident : ", req.body.incident);
-    //console.log("=============================================================");
+    //logger.debug("================== insert = (req, res) ======================");
+    //logger.debug("xxxx req.session : ", req.session);
+    //logger.debug("req.body.incident : ", req.body.incident);
+    //logger.debug("=============================================================");
 
     async.waterfall([function (callback) {
 
       var newincident = req.body.incident;
       var request_info = req.body.request_info;
 
-      //console.log("newincident ", newincident);
-      //console.log("req.body.request_info ", req.body.request_info);
+      //logger.debug("newincident ", newincident);
+      //logger.debug("req.body.request_info ", req.body.request_info);
 
       //TODO
       //추가수정
@@ -784,11 +784,11 @@ module.exports = {
       //    newincident.attach_file = req.files;
       //}
 
-      //console.log("xxxxxxxxxxxxx newincident : ", newincident);
+      //logger.debug("xxxxxxxxxxxxx newincident : ", newincident);
 
       Incident.create(newincident, function (err, newincident) {
         if (err) {
-          //console.log("trace err ", err);
+          //logger.debug("trace err ", err);
           res.send({
             gubun: err
           });
@@ -923,15 +923,15 @@ module.exports = {
         condition.request_id = req.query.request_id;
     }  
 
-    //console.log("=================================================");
-    //console.log("req.query : ", req.query);
-    //console.log("req.query.page : ", req.query.page);
-    //console.log("search : ", JSON.stringify(search));
-    //console.log("=================================================");
+    //logger.debug("=================================================");
+    //logger.debug("req.query : ", req.query);
+    //logger.debug("req.query.page : ", req.query.page);
+    //logger.debug("search : ", JSON.stringify(search));
+    //logger.debug("=================================================");
 
-    //console.log("================================================================");
-    //console.log("===================> condition : ", JSON.stringify(condition));
-    //console.log("================================================================");
+    //logger.debug("================================================================");
+    //logger.debug("===================> condition : ", JSON.stringify(condition));
+    //logger.debug("================================================================");
 
     var page = 1;
     var perPage = 15;
@@ -958,18 +958,18 @@ module.exports = {
         }
       ], function (err, totalCnt) {
 
-        //console.log("=================================================");
-        //console.log("totalCnt : ",totalCnt);
-        //console.log("=================================================");
+        //logger.debug("=================================================");
+        //logger.debug("totalCnt : ",totalCnt);
+        //logger.debug("=================================================");
 
         Incident.find(condition, function (err, incident) {
 
-            //console.log("=================================================");
-            //console.log("totalCnt : ",totalCnt);
-            //console.log("(page - 1) * perPage : ",(page - 1) * perPage);
-            //console.log("perPage : ",perPage);
-            //console.log("incident : ",incident);
-            //console.log("=================================================");
+            //logger.debug("=================================================");
+            //logger.debug("totalCnt : ",totalCnt);
+            //logger.debug("(page - 1) * perPage : ",(page - 1) * perPage);
+            //logger.debug("perPage : ",perPage);
+            //logger.debug("incident : ",incident);
+            //logger.debug("=================================================");
 
             if (err) {
               return res.json({
@@ -983,9 +983,9 @@ module.exports = {
               rtnData.incident = incident;
               rtnData.totalCnt = totalCnt;
               
-              //console.log("=================================================");
-              //console.log("rtnData : ",rtnData);
-              //console.log("=================================================");
+              //logger.debug("=================================================");
+              //logger.debug("rtnData : ",rtnData);
+              //logger.debug("=================================================");
 
               res.json(rtnData);
 
@@ -996,7 +996,7 @@ module.exports = {
           .limit(perPage);
       });
     } catch (err) {
-        console.log("err : ",err);
+        logger.debug("err : ",err);
     } finally {}
 
   },

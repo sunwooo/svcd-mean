@@ -10,9 +10,9 @@ module.exports = {
     */
     chart3: (req) => {
 
-        //console.log("==========================================statistic service=========================================");
-        //console.log("chart3 req.query : ", req.query);
-        //console.log("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("chart3 req.query : ", req.query);
+        //logger.debug("====================================================================================================");
 
         //조건 처리
         var condition = {};
@@ -34,9 +34,9 @@ module.exports = {
         condition.manager_email = {$nin: [null,'']};
         condition.manager_nm = {$nin: ['담당미지정','']};
 
-        //console.log("==========================================statistic service=========================================");
-        //console.log("chart3 condifion : ", condition);
-        //console.log("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("chart3 condifion : ", condition);
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -61,9 +61,9 @@ module.exports = {
             },
         ];
 
-        //console.log("==========================================================");
-        //console.log("chart3 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug("chart3 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -93,9 +93,9 @@ module.exports = {
         //삭제가 안된것만 조회
         condition.delete_flag = {$ne: 'Y'};
 
-        //console.log("==========================================statistic service=========================================");
-        //console.log("chart3_1 condifion : ", condition);
-        //console.log("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("chart3_1 condifion : ", condition);
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -123,9 +123,9 @@ module.exports = {
             },
         ];
 
-        //console.log("==========================================================");
-        //console.log("chart3_1 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug("chart3_1 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -158,9 +158,9 @@ module.exports = {
         condition.manager_email = {$nin: [null,'']};
         condition.manager_nm = {$nin: ['담당미지정','']};
 
-        //console.log("==========================================statistic service=========================================");
-        //console.log("chart3_2 condifion : ", condition);
-        //console.log("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("chart3_2 condifion : ", condition);
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -188,9 +188,9 @@ module.exports = {
             },
         ];
 
-        //console.log("==========================================================");
-        //console.log("chart3_2 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug("chart3_2 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -224,9 +224,9 @@ module.exports = {
         //삭제가 안된것만 조회
         condition.delete_flag = {$ne: 'Y'};
 
-        //console.log("==========================================statistic service=========================================");
-        //console.log("chart3_3 condifion : ", condition);
-        //console.log("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("chart3_3 condifion : ", condition);
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -261,9 +261,9 @@ module.exports = {
             },
         ];
 
-        //console.log("==========================================================");
-        //console.log("chart3_3 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug("chart3_3 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -297,9 +297,9 @@ module.exports = {
         //삭제가 안된것만 조회
         condition.delete_flag = {$ne: 'Y'};
 
-        //console.log("==========================================statistic service=========================================");
-        //console.log("chart3_4 condifion : ", condition);
-        //console.log("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("chart3_4 condifion : ", condition);
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -334,9 +334,9 @@ module.exports = {
             },
         ];
 
-        //console.log("==========================================================");
-        //console.log("chart3_4 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug("chart3_4 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -369,9 +369,9 @@ module.exports = {
         condition.manager_email = {$nin: [null,'']};
         condition.manager_nm = {$nin: ['담당미지정','']};
 
-        //console.log("==========================================statistic service=========================================");
-        //console.log("chart3_2 condifion : ", condition);
-        //console.log("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("chart3_2 condifion : ", condition);
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -394,9 +394,9 @@ module.exports = {
             }
         ];
 
-        //console.log("==========================================================");
-        //console.log("chart3_5 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug("chart3_5 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts

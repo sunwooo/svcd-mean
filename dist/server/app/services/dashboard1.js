@@ -43,9 +43,9 @@ module.exports = {
         //삭제가 안된것만 조회
         condition.delete_flag = {$ne: 'Y'};
 
-        //console.log("==========================================statistic service=========================================");
-        //console.log("chart3_4 condifion : ", condition);
-        //console.log("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("chart3_4 condifion : ", condition);
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [{
             $match: condition
@@ -88,9 +88,9 @@ module.exports = {
           }
         ];
 
-        //console.log("==========================================================");
-        //console.log("chart3_4 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug("chart3_4 JSON.stringify(aggregatorOpts) >>>>>>> ", JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -196,9 +196,9 @@ module.exports = {
       }
     ]
 
-    //console.log("==========================================================");
-    //console.log('requestCompany_count  >>>>>>> ', JSON.stringify(aggregatorOpts));
-    //console.log("==========================================================");
+    //logger.debug("==========================================================");
+    //logger.debug('requestCompany_count  >>>>>>> ', JSON.stringify(aggregatorOpts));
+    //logger.debug("==========================================================");
 
     return {
       aggregatorOpts: aggregatorOpts
@@ -224,9 +224,9 @@ module.exports = {
       condition.higher_cd = req.query.higher_cd;
     }
 
-    //console.log("==========================================dashboard1=========================================");
-    //console.log("condifion : ", condition);
-    //console.log("====================================================================================================");
+    //logger.debug("==========================================dashboard1=========================================");
+    //logger.debug("condifion : ", condition);
+    //logger.debug("====================================================================================================");
 
 
     var aggregatorOpts = [{
@@ -299,9 +299,9 @@ module.exports = {
       aggregatorOpts: aggregatorOpts
     };
 
-    //console.log("==========================================================");
-    //console.log('requestCompany_count  >>>>>>> ', JSON.stringify(aggregatorOpts));
-    //console.log("==========================================================");
+    //logger.debug("==========================================================");
+    //logger.debug('requestCompany_count  >>>>>>> ', JSON.stringify(aggregatorOpts));
+    //logger.debug("==========================================================");
   },
 
 
@@ -329,9 +329,9 @@ module.exports = {
         "$in": ["1", "2", "3", "4"]
     };
 
-    //console.log("==========================================dashboard1=========================================");
-    //console.log("condifion : ", condition);
-    //console.log("====================================================================================================");
+    //logger.debug("==========================================dashboard1=========================================");
+    //logger.debug("condifion : ", condition);
+    //logger.debug("====================================================================================================");
 
 
     var aggregatorOpts = [{
@@ -354,9 +354,9 @@ module.exports = {
       }
     ];
 
-    //console.log("==========================================================");
-    //console.log('chat1_4  >>>>>>> ', JSON.stringify(aggregatorOpts));
-    //console.log("==========================================================");
+    //logger.debug("==========================================================");
+    //logger.debug('chat1_4  >>>>>>> ', JSON.stringify(aggregatorOpts));
+    //logger.debug("==========================================================");
 
     return {
       aggregatorOpts: aggregatorOpts

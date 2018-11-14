@@ -116,9 +116,9 @@ module.exports = {
 
         ]
 
-        //console.log("==========================================================");
-        //console.log('higher_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug('higher_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -231,9 +231,9 @@ module.exports = {
 
         ]
 
-        //console.log("==========================================================");
-        //console.log('task_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug('task_valuation  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -284,9 +284,9 @@ module.exports = {
         condition.$or = OrQueries;
         */
         
-        //console.log("==========================================statistic service=========================================");
-        //console.log("condifion : ", JSON.stringify(condition));
-        //console.log("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("condifion : ", JSON.stringify(condition));
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -346,9 +346,9 @@ module.exports = {
 
         ]
 
-        //console.log("==========================================================");
-        //console.log('com_valuation1  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug('com_valuation1  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -395,9 +395,9 @@ module.exports = {
         */
 
 
-        //console.log("==========================================statistic service=========================================");
-        //console.log("condifion : ", JSON.stringify(condition));
-        //console.log("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("condifion : ", JSON.stringify(condition));
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -457,9 +457,9 @@ module.exports = {
 
         ]
 
-        //console.log("==========================================================");
-        //console.log('com_valuation2  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug('com_valuation2  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -565,9 +565,9 @@ module.exports = {
             }
           ];
 
-        //console.log("==========================================================");
-        //console.log('valuationCnt  >>>>>>> ', JSON.stringify(aggregatorOpts));
-        //console.log("==========================================================");
+        //logger.debug("==========================================================");
+        //logger.debug('valuationCnt  >>>>>>> ', JSON.stringify(aggregatorOpts));
+        //logger.debug("==========================================================");
 
         return {
             aggregatorOpts: aggregatorOpts

@@ -22,9 +22,9 @@ module.exports = {
     chart3: (req, res, next) => {
         try {
             
-            //console.log("==================================================");
-            //console.log("Dashboard chart3 : ");
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug("Dashboard chart3 : ");
+            //logger.debug("==================================================");
 
             var svc = service.chart3(req);
 
@@ -33,9 +33,9 @@ module.exports = {
 
                     if (!err) {
 
-                        //console.log("=================================");
-                        //console.log("chart3 : " , JSON.stringify(chartData));
-                        //console.log("=================================");
+                        //logger.debug("=================================");
+                        //logger.debug("chart3 : " , JSON.stringify(chartData));
+                        //logger.debug("=================================");
 
                         res.json(chartData);
                         
@@ -59,9 +59,9 @@ module.exports = {
     chart3_1: (req, res, next) => {
         try {
             
-            //console.log("==================================================");
-            //console.log("Dashboard chart3_1 : ");
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug("Dashboard chart3_1 : ");
+            //logger.debug("==================================================");
 
             var svc = service.chart3_1(req);
 
@@ -70,9 +70,9 @@ module.exports = {
 
                     if (!err) {
 
-                        //console.log("=================================");
-                        //console.log("chart3_1 : " , JSON.stringify(chartData));
-                        //console.log("=================================");
+                        //logger.debug("=================================");
+                        //logger.debug("chart3_1 : " , JSON.stringify(chartData));
+                        //logger.debug("=================================");
 
                         res.json(chartData);
                         
@@ -80,7 +80,7 @@ module.exports = {
                 })
                 
         } catch (err) {
-            console.log("chart3_1 error : ", err);
+            logger.debug("chart3_1 error : ", err);
 
             return res.json({
                 success: false,
@@ -96,9 +96,9 @@ module.exports = {
     chart3_2: (req, res, next) => {
         try {
             
-            //console.log("==================================================");
-            //console.log("Dashboard chart3_2 : ");
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug("Dashboard chart3_2 : ");
+            //logger.debug("==================================================");
 
             var svc = service.chart3_2(req);
 
@@ -107,9 +107,9 @@ module.exports = {
 
                     if (!err) {
 
-                        //console.log("=================================");
-                        //console.log("chart3_2 : " , JSON.stringify(chartData));
-                        //console.log("=================================");
+                        //logger.debug("=================================");
+                        //logger.debug("chart3_2 : " , JSON.stringify(chartData));
+                        //logger.debug("=================================");
 
                         res.json(chartData);
                         
@@ -133,9 +133,9 @@ module.exports = {
     chart3_3: (req, res, next) => {
         try {
             
-            //console.log("==================================================");
-            //console.log("Dashboard chart3_3 : ");
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug("Dashboard chart3_3 : ");
+            //logger.debug("==================================================");
 
             var svc = service.chart3_3(req);
 
@@ -144,9 +144,9 @@ module.exports = {
 
                     if (!err) {
 
-                        //console.log("=================================");
-                        //console.log("chart3_3 : " , JSON.stringify(chartData));
-                        //console.log("=================================");
+                        //logger.debug("=================================");
+                        //logger.debug("chart3_3 : " , JSON.stringify(chartData));
+                        //logger.debug("=================================");
 
                         res.json(chartData);
                         
@@ -170,9 +170,9 @@ module.exports = {
     chart3_4: (req, res, next) => {
         try {
             
-            //console.log("==================================================");
-            //console.log("Dashboard chart3_4 : ");
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug("Dashboard chart3_4 : ");
+            //logger.debug("==================================================");
 
             var svc = service.chart3_4(req);
 
@@ -181,9 +181,9 @@ module.exports = {
 
                     if (!err) {
 
-                        //console.log("=================================");
-                        //console.log("chart3_4 : " , JSON.stringify(chartData));
-                        //console.log("=================================");
+                        //logger.debug("=================================");
+                        //logger.debug("chart3_4 : " , JSON.stringify(chartData));
+                        //logger.debug("=================================");
 
                         res.json(chartData);
                         
@@ -206,9 +206,9 @@ module.exports = {
     chart3_5: (req, res, next) => {
         try {
             
-            //console.log("==================================================");
-            //console.log("Dashboard chart3_5 : ");
-            //console.log("==================================================");
+            //logger.debug("==================================================");
+            //logger.debug("Dashboard chart3_5 : ");
+            //logger.debug("==================================================");
 
             var svc = service.chart3_5(req);
 
@@ -217,9 +217,9 @@ module.exports = {
 
                     if (!err) {
 
-                        //console.log("=================================");
-                        //console.log("chart3_5 : " , JSON.stringify(chartData));
-                        //console.log("=================================");
+                        //logger.debug("=================================");
+                        //logger.debug("chart3_5 : " , JSON.stringify(chartData));
+                        //logger.debug("=================================");
 
                         res.json(chartData);
                         

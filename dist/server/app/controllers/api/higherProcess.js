@@ -20,11 +20,11 @@ module.exports = {
         var page = 1;
         var perPage = 15;
 
-        //console.log("==========================================getHigherProcess=======================================");
-        //console.log("req.query.page : ", req.query.page);
-        //console.log("req.query.perPage : ", req.query.perPage);
-        //console.log("req.query.searchText : ", req.query.searchText);
-        //console.log("================================================================================================");
+        //logger.debug("==========================================getHigherProcess=======================================");
+        //logger.debug("req.query.page : ", req.query.page);
+        //logger.debug("req.query.perPage : ", req.query.perPage);
+        //logger.debug("req.query.searchText : ", req.query.searchText);
+        //logger.debug("================================================================================================");
 
         if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
         if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
@@ -83,7 +83,7 @@ module.exports = {
      * 상위업무 수정
     */
     update: (req, res, next) => {
-        //console.log("update=====");
+        //logger.debug("update=====");
         HigherProcess.findOneAndUpdate({
             _id: req.body.higherProcess.id
         }, req.body.higherProcess, function (err, higherProcess) {
@@ -117,7 +117,7 @@ module.exports = {
 
             callback(null, upHigher);
 
-            //console.log("upQna : ", upQna);
+            //logger.debug("upQna : ", upQna);
 
         }], function (err, upHigher) {
                 HigherProcess.findOneAndRemove({

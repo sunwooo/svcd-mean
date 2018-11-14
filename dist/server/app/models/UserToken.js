@@ -44,7 +44,7 @@ function hashToken(next){
     userToken.created_at = date;
     userToken.token = bcrypt.hashSync(userToken.token);
     }catch(e){
-        console.log("UserToken hashToken error", e);
+        logger.debug("UserToken hashToken error", e);
     }finally{
         return next();
     }
