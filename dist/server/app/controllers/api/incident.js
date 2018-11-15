@@ -745,10 +745,11 @@ module.exports = {
    */
   insert: (req, res) => {
 
-    //logger.debug("================== insert = (req, res) ======================");
+    logger.debug("================== incident insert (req, res) ======================");
     //logger.debug("xxxx req.session : ", req.session);
     //logger.debug("req.body.incident : ", req.body.incident);
-    //logger.debug("=============================================================");
+    logger.debug("req.body.incident.title : ", req.body.incident.title);
+    logger.debug("=============================================================");
 
     async.waterfall([function (callback) {
 
