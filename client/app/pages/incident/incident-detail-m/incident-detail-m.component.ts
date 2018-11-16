@@ -30,7 +30,7 @@ export class IncidentDetailMComponent implements OnInit {
         private empInfo: EmpInfoComponent) { }
 
     ngOnInit() {
-        console.log("incidentDetail",JSON.stringify(this.incidentDetail));
+        //console.log("incidentDetail",JSON.stringify(this.incidentDetail));
         //console.log("incidentDetail",this.incidentDetail.attach_file.length);
 
         //console.log("=========================================");
