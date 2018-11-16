@@ -82,7 +82,7 @@
             </tr>
             <tr>
               <th class="bg-muted">요청자</th>
-              <td>{{incidentDetail?.request_company_nm}} / {{incidentDetail?.request_nm}}</td>
+              <td style="cursor: pointer" (click)="getEmpInfo(empInfoModal, incidentDetail?.request_id);">{{incidentDetail?.request_company_nm}} / {{incidentDetail?.request_nm}}</td>
               <th class="bg-muted">완료요청일</th>
               <td>{{incidentDetail?.request_complete_date}}</td>
             </tr>
@@ -90,7 +90,7 @@
               <th class="bg-muted">요청경로</th>
               <td>{{incidentDetail?.app_menu}}</td>
               <th class="bg-muted">등록자/등록일</th>
-              <td>{{incidentDetail?.register_nm}} / {{incidentDetail?.register_date}}</td>
+              <td style="cursor: pointer" (click)="getEmpInfo(empInfoModal, incidentDetail?.register_sabun);">{{incidentDetail?.register_nm}} / {{incidentDetail?.register_date}}</td>
             </tr>
             <tr>
               <th class="bg-muted">제목</th>
@@ -142,7 +142,7 @@
           <tbody>
             <tr>
               <th class="bg-muted">처리담당자</th>
-              <td>{{incidentDetail?.manager_nm}}</td>
+              <td style="cursor: pointer" (click)="getEmpInfo(empInfoModal, incidentDetail?.manager_email);">{{incidentDetail?.manager_nm}}</td>
               <th class="bg-muted">접수일</th>
               <td>{{incidentDetail?.receipt_date}}</td>
             </tr>

@@ -745,11 +745,11 @@ module.exports = {
    */
   insert: (req, res) => {
 
-    logger.debug("================== incident insert (req, res) ======================");
+    //logger.debug("================== incident insert (req, res) ======================");
     //logger.debug("xxxx req.session : ", req.session);
     //logger.debug("req.body.incident : ", req.body.incident);
-    logger.debug("req.body.incident.title : ", req.body.incident.title);
-    logger.debug("=============================================================");
+    //logger.debug("req.body.incident.title : ", req.body.incident.title);
+    //logger.debug("=============================================================");
 
     async.waterfall([function (callback) {
 
@@ -779,7 +779,7 @@ module.exports = {
       newincident.register_company_cd = req.session.company_cd;
       newincident.register_company_nm = req.session.company_nm;
       newincident.register_nm = req.session.user_nm;
-      newincident.register_id = req.session.email;
+      newincident.register_sabun = req.session.email;
 
       //if (req.files) {
       //    newincident.attach_file = req.files;
