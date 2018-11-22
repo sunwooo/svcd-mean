@@ -5,9 +5,106 @@ const logger = require('log4js').getLogger('app');
 module.exports = {
 
     /**
+     * 회사별 상위업무 통계 옵션 및 그룹
+    */
+   com_higher:(req) => {
+        
+        var condition = {};
+        var OrQueries = [];
+        
+        if (req.query.company_cd != null && req.query.company_cd != '*') {
+            condition.request_company_cd = req.query.company_cd;
+        }
+
+        if (req.query.higher_cd != null && req.query.higher_cd != '*') {
+            condition.higher_cd = req.query.higher_cd;
+        }
+
+        if (req.query.yyyy != null) {
+            condition.register_yyyy = req.query.yyyy;
+        }
+
+        if (req.query.mm != null && req.query.mm != '*') {
+            condition.register_mm = req.query.mm;
+        }
+
+        //[접수대기] 건 제외
+        OrQueries.push({
+            $or: [{
+                status_cd: "2"
+            }, {
+                status_cd: "3"
+            }, {
+                status_cd: "4"
+            }]
+        });
+
+        condition.$or = OrQueries;
+        
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("condifion : ", condition);
+        //logger.debug("====================================================================================================");
+
+        var aggregatorOpts = [
+            {
+                $match: condition
+            },
+            {
+                $group: { //업무별 상태별 집계
+                    _id: {
+                        request_company_cd: "$request_company_cd",
+                        request_company_nm: "$request_company_nm",
+                        higher_cd: "$higher_cd",
+                        higher_nm: "$higher_nm",
+                        status_cd: "$status_cd",
+                        status_nm: "$status_nm"
+                    },
+                    count: {
+                        $sum: 1
+                    },
+                    valuationSum: {
+                        $sum: "$valuation"
+                    }
+                }
+            }
+            , {
+                $group: { //상태별 집계
+                    _id: {
+                        request_company_cd: "$_id.request_company_cd",
+                        request_company_nm: "$_id.request_company_nm",
+                        higher_cd: "$_id.higher_cd",
+                        higher_nm: "$_id.higher_nm"
+                    },
+                    grp: {
+                        $push: {
+                            status_cd: "$_id.status_cd",
+                            count: "$count"
+                        }
+                    },
+                    valuationSum: {
+                        $sum: "$valuationSum"
+                    }
+                }
+            }
+            
+            ,{ "$sort": { "_id.request_company_cd" : -1, "_id.higher_cd" : 1 } }
+
+        ]
+
+        logger.debug("==================================================");
+        logger.debug('com_higher :  ', JSON.stringify(aggregatorOpts));
+        logger.debug("==================================================");
+
+        return {
+            aggregatorOpts: aggregatorOpts
+        };
+    },
+
+
+    /**
      * 상위업무별 하위업무 통계 옵션 및 그룹
     */
-    high_lower: (req) => {
+    higher_lower: (req) => {
 
         var condition = {};
         var OrQueries = [];
@@ -34,9 +131,9 @@ module.exports = {
 
         condition.$or = OrQueries;
         
-        logger.debug("==========================================statistic service=========================================");
-        logger.debug("condifion : ", condition);
-        logger.debug("====================================================================================================");
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("condifion : ", condition);
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
@@ -94,26 +191,24 @@ module.exports = {
         };
     },
 
+
     /**
-     * 회사별 상위업무 통계 옵션 및 그룹
+     * 부서별 통계 옵션 및 그룹
     */
-    com_higher:(req) => {
-        
+    higher_lower_dept: (req) => {
+
         var condition = {};
         var OrQueries = [];
-        
-        if (req.query.company_cd != null && req.query.company_cd != '*') {
-            condition.request_company_cd = req.query.company_cd;
-        }
 
-        if (req.query.higher_cd != null && req.query.higher_cd != '*') {
-            condition.higher_cd = req.query.higher_cd;
+        if (req.query.dept_cd != null && req.query.dept_cd != '*') {
+            condition.manager_dept_cd = req.query.dept_cd;
         }
-
         if (req.query.yyyy != null) {
             condition.register_yyyy = req.query.yyyy;
         }
-
+        if (req.query.mm != null && req.query.mm != '*') {
+            condition.register_mm = req.query.mm;
+        }
         //[접수대기] 건 제외
         OrQueries.push({
             $or: [{
@@ -126,22 +221,24 @@ module.exports = {
         });
 
         condition.$or = OrQueries;
-        
-        logger.debug("==========================================statistic service=========================================");
-        logger.debug("condifion : ", condition);
-        logger.debug("====================================================================================================");
+
+        //logger.debug("==========================================statistic service=========================================");
+        //logger.debug("condifion : ", condition);
+        //logger.debug("====================================================================================================");
 
         var aggregatorOpts = [
             {
                 $match: condition
             },
             {
-                $group: { //업무별 상태별 집계
+                $group: { //부서별 상태별 집계
                     _id: {
-                        request_company_cd: "$request_company_cd",
-                        request_company_nm: "$request_company_nm",
+                        //dept_cd : "$manager_dept_cd",
+                        dept_nm : "$manager_dept_nm",
                         higher_cd: "$higher_cd",
                         higher_nm: "$higher_nm",
+                        lower_cd: "$lower_cd",
+                        lower_nm: "$lower_nm",
                         status_cd: "$status_cd",
                         status_nm: "$status_nm"
                     },
@@ -156,10 +253,12 @@ module.exports = {
             , {
                 $group: { //상태별 집계
                     _id: {
-                        request_company_cd: "$_id.request_company_cd",
-                        request_company_nm: "$_id.request_company_nm",
+                        //dept_cd : "$_id.dept_cd",
+                        dept_nm : "$_id.dept_nm",
                         higher_cd: "$_id.higher_cd",
-                        higher_nm: "$_id.higher_nm"
+                        higher_nm: "$_id.higher_nm",
+                        lower_cd: "$_id.lower_cd",
+                        lower_nm: "$_id.lower_nm"
                     },
                     grp: {
                         $push: {
@@ -173,12 +272,13 @@ module.exports = {
                 }
             }
             
-            ,{ "$sort": { "_id.request_company_cd" : -1, "_id.higher_cd" : 1 } }
+            ,{ "$sort": { "_id.dept_nm" : 1,"_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
+            //,{ "$sort": { "valuationSum" : 1 } }
 
         ]
 
         logger.debug("==================================================");
-        logger.debug('com_higher :  ', JSON.stringify(aggregatorOpts));
+        logger.debug('higher_lower_dept ', JSON.stringify(aggregatorOpts));
         logger.debug("==================================================");
 
         return {

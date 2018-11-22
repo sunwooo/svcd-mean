@@ -1,19 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { StatisticService } from '../../../services/statistic.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatDatepickerInputEvent, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
-export interface Transaction {
-  item: string;
-  cost1: number;
-  cost2: number;
-  cost3: number;
-  cost4: number;
-  cost5: number;
-  cost6: number;
-  cost7: number;
-}
-
-
+import { AuthService } from '../../../services/auth.service';
+import { ToastComponent } from '../../../shared/toast/toast.component';
+import { CommonApiService } from '../../../services/common-api.service';
 
 @Component({
     selector: 'app-com-higher',
@@ -25,74 +18,133 @@ export class ComHigherComponent implements OnInit {
     public isLoading = true;
     public sData = null;
 
-    displayedColumns: string[] = ['회사명', '상위업무명', '총요청건수', '처리중건수', '해결건수', '미해결건수', '해결률(%)', '평점' ];
-    
-    transactions:any;
-    
+    public today = new Date();
+    private formData: any = {};                 //전송용 formData
+    public user_flag: string = "user";           //사용자 구분
+    public company_cd: string = "*";             //회사코드
+    public higher_cd: string = "*";              //상위코드
+    public higher_nm = "전체";
+    public yyyy: string ="";           //검색년도
+    public mm: string = "*";            //검색월
 
-    constructor(
-        private statisticService: StatisticService
+
+    public companyObj: any = [];                //회사리스트
+    public yyyyObj: any = [];           //문의년도 리스트
+    public mmObj: { name: string; value: string; }[] = [ //문의월 리스트
+        { name: '전체', value: '*' },
+        { name: '1', value: '01' },{ name: '2', value: '02' },{ name: '3', value: '03' },{ name: '4', value: '04' },
+        { name: '5', value: '05' },{ name: '6', value: '06' },{ name: '7', value: '07' },{ name: '8', value: '08' },
+        { name: '9', value: '09' },{ name: '10', value: '10' },{ name: '11', value: '11' },{ name: '12', value: '12' }
+    ];
+
+    public mmInit = 0;
+    public mmDesc = "전체";
+
+    constructor(private auth: AuthService,
+        private toast: ToastComponent,
+        private statisticService: StatisticService,
+        private commonApi: CommonApiService,
     ) { }
-
-    getTotalCost() {
-        //return this.transactions.map(t => t.cost1).reduce((acc, value) => acc + value, 0);
-       
-    }
 
     ngOnInit() {
         this.isLoading = false;
+        this.yyyy = this.today.getFullYear().toString();
+
+        if(this.auth.user_flag == "1"){ //SD 전체관리자
+            this.user_flag = "*";
+        }else if(this.auth.user_flag == "5"){//고객사 담당자
+            this.user_flag = "company";
+        }
+
+        this.getRegisterYyyy();
+        this.getCompanyList();
         this.getData();
     }
 
-    getData() {
-
-        this.statisticService.getComHigher().subscribe(
+    /**
+     * 등록요청 년도 조회
+     */
+    getRegisterYyyy() {
+        this.commonApi.getRegisterYyyy().subscribe(
             (res) => {
-                this.sData = res;
-                console.log("sData : ", this.sData);
-                console.log("sData.length : ", this.sData.length);
-                //displayedColumns: string[] = ['회사명', '상위업무명', '총요청건수', '처리중건수', '해결건수', '미해결건수', '해결률(%)', '평점' ];
-                //console.log("this.sData._id.request_company_nm : ", this.sData[0]._id.request_company_nm);
-                //console.log("this.sData._id.higher_nm : ", this.sData[0]._id.higher_nm);
-                var rowArray=[];
-                for(var i = 0 ; i < this.sData.length ; i++){
-                    var row :any = {};
-                    row.item = this.sData[i]._id.request_company_nm;
-                    row.cost1 = this.sData[i]._id.higher_nm;
-                    row.cost2 = this.sData[i].totalCnt;
-                    row.cost3 = this.sData[i].stCnt2;
-                    row.cost4 = this.sData[i].stCnt3_4;
-                    row.cost5 = Number(this.sData[i].totalCnt - this.sData[i].stCnt3_4);
-                    row.cost6 = this.sData[i].solRatio;
-                    row.cost7 = this.sData[i].valAvg;
-
-                    //console.log("row : ", row);
-                    rowArray.push(row);
-                    
-                    
-                }
-                this.transactions = rowArray;
-
-                console.log("transactions : ", JSON.stringify(this.transactions));
-                //this.transactions = this.transactions;
-                //console.log("transactions : ", JSON.stringify(this.transactions));
-
-                //this.transactions = [{"item":"[그룹]주식회사 이수시스템","cost1":"그룹웨어","cost2":22,"cost3":0,"cost4":22,"cost5":0,"cost6":"100.00","cost7":"5.00"},{"item":"주식회사 이수시스템","cost1":"그룹웨어","cost2":15,"cost3":1,"cost4":14,"cost5":1,"cost6":"93.33","cost7":"5.00"},{"item":"[그룹]주식회사 이수시스템","cost1":"PC 및 주변기기 장애","cost2":1,"cost3":0,"cost4":1,"cost5":0,"cost6":"100.00","cost7":0},{"item":"주식회사 이수시스템","cost1":"PC 및 주변기기 장애","cost2":2,"cost3":0,"cost4":2,"cost5":0,"cost6":"100.00","cost7":0},{"item":"주식회사 이수시스템","cost1":"건설 ERP","cost2":1,"cost3":0,"cost4":1,"cost5":0,"cost6":"100.00","cost7":"5.00"},{"item":"[그룹]주식회사 이수시스템","cost1":"건설 ERP","cost2":1,"cost3":0,"cost4":1,"cost5":0,"cost6":"100.00","cost7":"Infinity"},{"item":"[그룹]주식회사 이수시스템","cost1":"OPTI-HR","cost2":25,"cost3":4,"cost4":21,"cost5":4,"cost6":"84.00","cost7":"5.00"},{"item":"주식회사 이수시스템","cost1":"OPTI-HR","cost2":2,"cost3":0,"cost4":2,"cost5":0,"cost6":"100.00","cost7":"5.00"},{"item":"[그룹]주식회사 이수시스템","cost1":"SAP ERP","cost2":34,"cost3":0,"cost4":34,"cost5":0,"cost6":"100.00","cost7":"5.00"},{"item":"주식회사 이수시스템","cost1":"SAP ERP","cost2":8,"cost3":0,"cost4":8,"cost5":0,"cost6":"100.00","cost7":"5.00"},{"item":"[그룹]주식회사 이수시스템","cost1":"계정관리","cost2":13,"cost3":0,"cost4":13,"cost5":0,"cost6":"100.00","cost7":0},{"item":"주식회사 이수시스템","cost1":"계정관리","cost2":1,"cost3":0,"cost4":1,"cost5":0,"cost6":"100.00","cost7":0},{"item":"[그룹]주식회사 이수시스템","cost1":"BI","cost2":2,"cost3":0,"cost4":2,"cost5":0,"cost6":"100.00","cost7":0},{"item":"주식회사 이수시스템","cost1":"보안","cost2":1,"cost3":0,"cost4":1,"cost5":0,"cost6":"100.00","cost7":0}];
-                
-                
-                /*
-                this.transactions = 
-                [{item: 'Beach ball', cost1: 4, cost2: 4, cost3: 4, cost4: 4, cost5: 4,cost6: 4,cost7: 4},
-                {item: 'Towel', cost1: 5, cost2: 4, cost3: 4, cost4: 4, cost5: 4,cost6: 4,cost7: 4},
-                {item: 'Frisbee', cost1: 2, cost2: 4, cost3: 4, cost4: 4, cost5: 4,cost6: 4,cost7: 4},
-                {item: 'Sunscreen', cost1: 4,cost2: 4, cost3: 4, cost4: 4, cost5: 4,cost6: 4,cost7: 4},
-                {item: 'Cooler', cost1: 25,cost2: 4, cost3: 4, cost4: 4, cost5: 4,cost6: 4,cost7: 4},
-                {item: 'Swim suit', cost1: 15,cost2: 4, cost3: 4, cost4: 4, cost5: 4,cost6: 4,cost7: 4}];
-                */
+                this.yyyyObj = res;
             },
             (error: HttpErrorResponse) => {
             }
         );
+    }
+
+    /**
+     * 회사리스트 조회
+     */
+    getCompanyList() {
+        this.commonApi.getCompany(this.formData).subscribe(
+            (res) => {
+                this.companyObj = res;
+            },
+            (error: HttpErrorResponse) => {
+            }
+        );
+    }
+
+    /**
+     * 회사별 상위업무 집계 조회
+     */
+    getData() {
+
+        this.setTransForm();
+
+        this.statisticService.getComHigher(this.formData).subscribe(
+            (res) => {
+                this.sData = res;
+                
+                console.log("====================================================");
+                console.log("sData : ", this.sData);
+                console.log("sData.length : ", this.sData.length);
+                console.log("====================================================");
+                
+            },
+            (error: HttpErrorResponse) => {
+            }
+        );
+    }
+
+    /**
+     * 상위업무 선택 시 처리 
+     */
+    setHigher(higher) {
+        this.higher_cd = higher.higher_cd;
+        //this.lower_cd = "*";
+        //this.child.getLowerCd(this.higher_cd);
+        this.getData();
+    }
+
+
+    /**
+     * 전송용 폼 세팅
+     */
+    setTransForm(){
+        this.formData.company_cd = this.company_cd;
+        this.formData.higher_cd = this.higher_cd;
+        this.formData.yyyy = this.yyyy;
+        this.formData.mm = this.mm;
+    }
+
+    /**
+     * 년도 선택 시 처리
+     */
+    setYyyy(yyyy){
+        this.yyyy = yyyy;
+        this.getData();
+    }
+
+    /**
+     * 월 선택 시 처리
+     */
+    setMm(index){
+        this.mm = this.mmObj[index].value;
+        this.mmDesc = this.mmObj[index].name;
+        this.getData();
     }
 
 }

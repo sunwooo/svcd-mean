@@ -42,6 +42,8 @@ import { UserProcessComponent } from './pages/process/user-process/user-process.
 import { MainUserContentComponent } from './pages/main-user-content/main-user-content.component';
 import { MainCompanyContentComponent } from './pages/main-company-content/main-company-content.component';
 import { AuthGuardLogin } from './services/auth-guard-login.service';
+import { HigherLowerComponent } from './pages/statistic/higher-lower/higher-lower.component';
+import { HigherLowerDeptComponent } from './pages/statistic/higher-lower-dept/higher-lower-dept.component';
 
 const routes: Routes = [
 
@@ -67,6 +69,8 @@ const routes: Routes = [
 
             { path: '3100', component: IncidentListAllComponent, canActivate: [AuthGuardLogin] },
             { path: '3200', component: ComHigherComponent, canActivate: [AuthGuardLogin] },
+            { path: '3300', component: HigherLowerComponent, canActivate: [AuthGuardLogin] },
+            { path: '3400', component: HigherLowerDeptComponent, canActivate: [AuthGuardLogin] },
             
             { path: '4100', component: HigherProcessComponent, canActivate: [AuthGuardLogin] },
             { path: '4150', component: HigherProcessNewComponent, canActivate: [AuthGuardLogin] },

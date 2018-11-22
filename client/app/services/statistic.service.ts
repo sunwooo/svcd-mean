@@ -16,18 +16,31 @@ export class StatisticService {
     }
 
     /**
-     * 
+     * 회사별 상위업무 통계
      * @param  
      */
-    getComHigher(): Observable<any> {
-
-        //console.log("========addIncident(incident: NgForm): Observable<any>========");
-        //console.log("incident : ", incident);
-        //console.log("==============================================================");
-        
-        //var params = new HttpParams().set("yyyy","2018").set("company_cd","ISU_ST").set("mm","*").set("higher_cd","*");
-        return this.http.get<any>('/api/statistic/comHigher?yyyy=2018&company_cd=ISU_ST&mm=*&higher_cd=*', {headers: this.headers});
+    getComHigher(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/statistic/comHigher', {headers: this.headers, params: httpParams});
     }
+
+    /**
+     * 상위업무별 하위업무 통계
+     * @param  
+     */
+    getHigherLower(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/statistic/higherLower', {headers: this.headers, params: httpParams});
+    }    
+
+    /**
+     * 부서별 업무 통계
+     * @param  
+     */
+    getHigherLowerDept(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/statistic/higherLowerDept', {headers: this.headers, params: httpParams});
+    }  
 
     /**
      * 상태별 건수

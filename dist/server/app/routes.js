@@ -48,6 +48,7 @@ router.get('/higherProcess', ssc.sessionCheck, apiCtrl.higherProcess);    //상�
 router.get('/lowerProcess', ssc.sessionCheck, apiCtrl.lowerProcess);      //하위업무 조회
 router.get('/myProcess', ssc.sessionCheck, apiCtrl.myProcess);            //본인업무 조회
 router.get('/company', ssc.sessionCheck, apiCtrl.companyList);            //회사 조회
+router.get('/dept', ssc.sessionCheck, apiCtrl.deptList);                  //담당부서 조회
 router.get('/processStatus', ssc.sessionCheck, apiCtrl.processStatus);    //진행상태 조회
 router.get('/registerYyyy', ssc.sessionCheck, apiCtrl.registerYyyy);      //등록년도 조회
 router.get('/processGubun', ssc.sessionCheck, apiCtrl.processGubun);      //처리구분 조회
@@ -71,7 +72,9 @@ router.get('/incident/dashboard_list', ssc.sessionCheck, incidentCtrl.dashboard_
 
 
 //statistic route
-router.get('/statistic/comHigher', ssc.sessionCheck, statisticCtrl.comHigher);  //회사별 상위별 건수
+router.get('/statistic/comHigher', ssc.sessionCheck, statisticCtrl.comHigher);  //회사별 상위별 업무 통계
+router.get('/statistic/higherLower', ssc.sessionCheck, statisticCtrl.higherLower);  //상위별 하위 업무 통계
+router.get('/statistic/higherLowerDept', ssc.sessionCheck, statisticCtrl.higherLowerDept);  //부서별 업무 통계
 router.get('/statistic/statusCdCnt', ssc.sessionCheck, statisticCtrl.statusCdCnt);  //상태별 건수
 router.get('/statistic/valuationCnt', ssc.sessionCheck, statisticCtrl.valuationCnt);  //만족도 건수
 router.get('/statistic/monthlyCnt', ssc.sessionCheck, statisticCtrl.monthlyCnt);  //월별 건수

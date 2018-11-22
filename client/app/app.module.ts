@@ -116,6 +116,8 @@ import { UserProcessComponent } from './pages/process/user-process/user-process.
 import { QnaModifyComponent } from './pages/qna/qna-modify/qna-modify.component';
 import { MainCompanyContentComponent } from './pages/main-company-content/main-company-content.component';
 import { MainUserContentComponent } from './pages/main-user-content/main-user-content.component';
+import { HigherLowerComponent } from './pages/statistic/higher-lower/higher-lower.component';
+import { HigherLowerDeptComponent } from './pages/statistic/higher-lower-dept/higher-lower-dept.component';
 
 const PAGES = [
     HomeComponent,
@@ -197,7 +199,9 @@ const PAGES = [
         UserProcessComponent,
         QnaModifyComponent,
         MainCompanyContentComponent,
-        MainUserContentComponent
+        MainUserContentComponent,
+        HigherLowerComponent,
+        HigherLowerDeptComponent
     ],
     imports: [
         BrowserModule,

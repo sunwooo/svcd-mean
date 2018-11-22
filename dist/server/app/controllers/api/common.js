@@ -232,6 +232,68 @@ module.exports = {
     } finally {}
   },
 
+  /**
+   * 부서조회
+   */
+  deptList: (req, res, next) => {
+    try {
+
+      var condition = {};
+
+      if (req.query.yyyy != null) {
+        condition.register_yyyy = req.query.yyyy;
+      }
+      //condition.manager_dept_cd = { $nin: [ null, '' ] };
+      condition.manager_dept_nm = { $nin: [ null, '', '개발지원팀' ] };
+
+      var aggregatorOpts = [{
+        $match: condition
+      }, {
+        $group: { //그룹
+          _id: {
+            //dept_cd: "$manager_dept_cd",
+            dept_nm: "$manager_dept_nm"
+          }
+        }
+      },
+      { $sort: { "_id.dept_nm" : -1} }
+    ];
+
+      //console.log(" ============================================== ");
+      //console.log(" req.query : ",req.query);
+      //console.log(" condition : ",condition);
+      //console.log(" aggregatorOpts : ",JSON.stringify(aggregatorOpts));
+      //console.log(" ============================================== ");
+
+      Incident.aggregate(aggregatorOpts).exec(function (err, dept) {
+        if (err) {
+          res.json({
+            success: false,
+            message: err
+          });
+        } else {
+
+            //console.log(" ======================================= ");
+            //console.log(" dept : ",dept);
+            //console.log(" ======================================= ");
+
+          var rtnArr = [];
+          dept.forEach((mp) => {
+            var tmp = {};
+            tmp.dept_nm = mp._id.dept_nm;
+            tmp.dept_cd = mp._id.dept_cd;
+            rtnArr.push(tmp);
+          });
+
+          res.json(rtnArr);
+        }
+      });
+
+    } catch (e) {
+      logger.error("common control deptList error : ", e);
+    } finally {}
+  },
+
 
   /**
    * 진행상태 조회

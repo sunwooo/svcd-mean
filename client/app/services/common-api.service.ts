@@ -60,6 +60,15 @@ export class CommonApiService {
     }
 
     /**
+     * 부서리스트 JSON 조회
+     * @param condition 조건
+     */
+    getDept(condition): Observable<any> {
+        var httpParams = new HttpParams({ fromObject: condition });
+        return this.http.get<any>('/api/dept', {headers: this.headers, params: httpParams});
+    }    
+
+    /**
      * 진행상태 JSON 조회
      * @param condition 조건
      */
