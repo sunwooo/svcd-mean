@@ -206,7 +206,7 @@
                     <span *ngIf="incident?.status_cd == 3" class="label label-success">미평가</span>
                     <span *ngIf="incident?.status_cd == 4" class="label label-purple">처리완료</span>
                     <span *ngIf="incident?.status_cd == 5" class="label label-info">협의필요</span>
-                    <span *ngIf="incident?.status_cd == 9" class="label label-default">미처리</span>
+                    <span *ngIf="incident?.status_cd == 9" class="label label-info">미처리</span>
                 </td>
                 <td (click)="getEmpInfo(empInfoModal,incident.request_id);" class="text-center">{{incident?.request_nm}}</td>
                 <td (click)="getEmpInfo(empInfoModal,incident.manager_email);" class="text-center">{{incident?.manager_nm}}</td>

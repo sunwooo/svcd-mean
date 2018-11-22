@@ -66,7 +66,7 @@
                 <span *ngIf="incidentDetail?.status_cd == '3'" class="label label-success">{{incidentDetail?.status_nm}}</span>
                 <span *ngIf="incidentDetail?.status_cd == '4'" class="label label-purple">{{incidentDetail?.status_nm}}</span>
                 <span *ngIf="incidentDetail?.status_cd == '5'" class="label label-info">{{incidentDetail?.status_nm}}</span>
-                <span *ngIf="incidentDetail?.status_cd == '9'" class="label label-default">{{incidentDetail?.status_nm}}</span>
+                <span *ngIf="incidentDetail?.status_cd == '9'" class="label label-info">{{incidentDetail?.status_nm}}</span>
               </td>
 
               <th class="bg-muted">긴급구분
@@ -162,7 +162,7 @@
             </tr>
             <tr>
               <th class="bg-muted">처리내용</th>
-              <td  colspan="3" [innerHTML]="incidentDetail?.complete_content | nl2br"></td>
+              <td  colspan="3" [innerHTML]="(incidentDetail.complete_content | nl2br) != null ? (incidentDetail.complete_content | nl2br) : ''"></td>
             </tr>
             <tr  *ngIf="incidentDetail?.complete_attach_file.length > 0">
                 <th class="bg-muted">완료첨부파일</th>
@@ -180,9 +180,13 @@
               <th class="bg-muted">처리소요시간</th>
               <td>{{incidentDetail?.work_time}}</td>
             </tr>
+            <tr *ngIf="incidentDetail?.status_cd == 9">
+                <th class="bg-muted">미처리사유</th>
+                <td colspan="3" [innerHTML]="(incidentDetail?.nc_content | nl2br) != null ? (incidentDetail?.nc_content | nl2br) : ''"></td>
+            </tr>
             <tr>
               <th class="bg-muted">지연사유</th>
-              <td colspan="3" [innerHTML]="incidentDetail?.delay_reason | nl2br"></td>
+              <td colspan="3" [innerHTML]="(incidentDetail?.delay_reason | nl2br) != null ? (incidentDetail?.delay_reason | nl2br) : ''"></td>
             </tr>
             <tr>
               <th class="bg-muted">평가</th>
@@ -198,15 +202,15 @@
             </tr>
             <tr>
                 <th class="bg-muted">평가내역</th>
-                <td colspan="3" [innerHTML]="incidentDetail?.valuation_content | nl2br"></td>
+                <td colspan="3" [innerHTML]="(incidentDetail?.valuation_content | nl2br) != null ? (incidentDetail?.valuation_content | nl2br) : ''"></td>
             </tr>            
             <tr>
               <th class="bg-muted">Program ID</th>
-              <td colspan="3" [innerHTML]="incidentDetail?.program_id | nl2br"></td>
+              <td colspan="3" [innerHTML]="(incidentDetail?.program_id | nl2br) != null ? (incidentDetail?.program_id | nl2br) : ''"></td>
             </tr>
             <tr>
               <th class="bg-muted text-danger">처리공유사항</th>
-              <td colspan="3" [innerHTML]="incidentDetail?.sharing_content | nl2br"></td>
+              <td colspan="3" [innerHTML]="(incidentDetail?.sharing_content | nl2br) != null ? (incidentDetail?.sharing_content | nl2br) : ''"></td>
             </tr>
           </tbody>
         </table>
