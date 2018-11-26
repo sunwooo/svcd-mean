@@ -104,7 +104,6 @@ export class IncidentListComponent implements OnInit {
 
         this.incidentService.getIncident(this.formData).subscribe(
             (res) => {
-
                 var tmp = this.incidents.concat(res.incident);
                 this.incidents = tmp;
                 this.totalCnt = res.totalCnt;
@@ -184,12 +183,14 @@ export class IncidentListComponent implements OnInit {
      */
     afterDelete(){
         //상세에서 삭제된 데이타를 배열에서도 삭제
-        this.incidents.splice(this.selectedIdx,1);
+        //this.incidents.splice(this.selectedIdx,1);
+        //this.getIncident();
+        this.onSubmit();
     }
     
 
     /**
-     * 재등록 후 
+     * 재등록 후 재조회 
      */
     reload(){
         this.getIncident();
