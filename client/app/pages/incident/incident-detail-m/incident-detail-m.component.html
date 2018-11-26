@@ -114,7 +114,7 @@
             </tr>
             <tr>
               <th class="bg-muted">접수상담내용</th>
-              <td colspan="3" [innerHTML]="incidentDetail?.receipt_content | nl2br"></td>
+              <td colspan="3" [innerHTML]="(incidentDetail?.receipt_content | nl2br) != null ? (incidentDetail.receipt_content | nl2br) : ''"></td>
             </tr>
           </tbody>
         </table>

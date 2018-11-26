@@ -7,6 +7,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { Nl2BrPipeModule} from 'nl2br-pipe';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { COMPOSITION_BUFFER_MODE } from '@angular/forms'; //한글(조합형) 바인딩 해결용
+
 
 /** Modules */
 import { MaterialModule } from './material/material.module';
@@ -220,6 +222,10 @@ const PAGES = [
         NgxMatSelectSearchModule
     ],
     providers: [
+        {
+            provide: COMPOSITION_BUFFER_MODE,
+            useValue: false
+        },
         AuthService,
         AuthGuardLogin,
         UserService,
