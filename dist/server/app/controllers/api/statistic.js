@@ -252,77 +252,134 @@ module.exports = {
 
         } else {
 
-          incident.forEach(function (data, idx, incident) {
+            //logger.debug("==================================================");
+            //logger.debug("incident ", JSON.stringify(incident));
+            //logger.debug("==================================================");
 
-            logger.debug("==================================================");
-            logger.debug("data ", JSON.stringify(data));
-            //logger.debug("data.grp.length ", data.grp.length);
-            logger.debug("==================================================");
+            incident.forEach(function (data, idx, incident) {
 
-            var totalCnt = 0; //전체 개수
-            var stCnt1 = 0; //신청중 개수
-            var stCnt2 = 0; //처리중 개수
-            var stCnt3 = 0; //미평가
-            var stCnt4 = 0; //완료
-            var stCnt5 = 0; //협의필요  개수
-            var stCnt3_4 = 0; //미평가+완료 개수
+                //logger.debug("==================================================");
+                //logger.debug("data ", JSON.stringify(data));
+                //logger.debug("data.higher.length ", data.higher);
+                //logger.debug("==================================================");
+
+                var deptTotCnt = 0; //부서 전체 개수
+                var deptTotStCnt1 = 0; //부서 신청중 개수
+                var deptTotStCnt2 = 0; //부서 처리중 개수
+                var deptTotStCnt3 = 0; //부서 미평가
+                var deptTotStCnt4 = 0; //부서 완료
+                var deptTotStCnt5 = 0; //부서 협의필요  개수
+                var deptTotStCnt3_4 = 0; //부서 미평가+완료 개수
+                var deptTotValSum = 0; //부서 평가 총점
+                var deptTotAvg = 0; //부서 평균
+                
+                for(var x = 0; x < data.higher.length; x++) {
+                    
+                    var higher = {};
+
+                    var totalCnt = 0; //전체 개수
+                    var stCnt1 = 0; //신청중 개수
+                    var stCnt2 = 0; //처리중 개수
+                    var stCnt3 = 0; //미평가
+                    var stCnt4 = 0; //완료
+                    var stCnt5 = 0; //협의필요  개수
+                    var stCnt3_4 = 0; //미평가+완료 개수
 
 
-            for (var i = 0; i < data.grp.length; i++) {
-              //전체 개수
-              totalCnt = totalCnt + data.grp[i].count;
+                    for (var i = 0; i < data.higher[x].status.length; i++) {
 
-              //신청중 개수
-              if (data.grp[i].status_cd == '1') {
-                stCnt1 = stCnt1 + data.grp[i].count;
-              }
+                        //전체 개수
+                        totalCnt = totalCnt + data.higher[x].status[i].count;
 
-              //처리중 개수
-              if (data.grp[i].status_cd == '2') {
-                stCnt2 = stCnt2 + data.grp[i].count;
-              }
+                        //신청중 개수
+                        if (data.higher[x].status[i].status_cd == '1') {
+                            stCnt1 = stCnt1 + data.higher[x].status[i].count;
+                        }
 
-              //미평가 개수
-              if (data.grp[i].status_cd == '3') {
-                stCnt3 = stCnt3 + data.grp[i].count;
-              }
+                        //처리중 개수
+                        if (data.higher[x].status[i].status_cd == '2') {
+                            stCnt2 = stCnt2 + data.higher[x].status[i].count;
+                        }
 
-              //완료 개수
-              if (data.grp[i].status_cd == '4') {
-                stCnt4 = stCnt4 + data.grp[i].count;
-              }
+                        //미평가 개수
+                        if (data.higher[x].status[i].status_cd == '3') {
+                            stCnt3 = stCnt3 + data.higher[x].status[i].count;
+                        }
 
-              //협의필요 
-              if (data.grp[i].status_cd == '5') {
-                stCnt5 = stCnt5 + data.grp[i].count;
-              }
+                        //완료 개수
+                        if (data.higher[x].status[i].status_cd == '4') {
+                            stCnt4 = stCnt4 + data.higher[x].status[i].count;
+                        }
 
-              //완료 또는 미평가
-              if (data.grp[i].status_cd == '3' || data.grp[i].status_cd == '4') {
-                stCnt3_4 = stCnt3_4 + data.grp[i].count;
-              }
+                        //협의필요 
+                        if (data.higher[x].status[i].status_cd == '5') {
+                            stCnt5 = stCnt5 + data.higher[x].status[i].count;
+                        }
 
-            }
+                        //완료 또는 미평가
+                        if (data.higher[x].status[i].status_cd == '3' || data.higher[x].status[i].status_cd == '4') {
+                            stCnt3_4 = stCnt3_4 + data.higher[x].status[i].count;
+                        }
 
-            data.totalCnt = totalCnt;
-            data.stCnt1 = stCnt1;
-            data.stCnt2 = stCnt2;
-            data.stCnt3 = stCnt3;
-            data.stCnt4 = stCnt4;
-            data.stCnt5 = stCnt5;
-            data.stCnt3_4 = stCnt3_4;
-            data.solRatio = ((stCnt3_4 * 100) / totalCnt).toFixed(2);
+                    }
 
-            //평점
-            if (data.valuationSum > 0) {
-              data.valAvg = (data.valuationSum / stCnt4).toFixed(2);
-            } else {
-              data.valAvg = 0;
-            }
-          });
-          res.json(incident);
+                    higher.higher_nm = data.higher[x].higher_nm;
+                    higher.totalCnt = totalCnt;
+                    higher.stCnt1 = stCnt1;
+                    higher.stCnt2 = stCnt2;
+                    higher.stCnt3 = stCnt3;
+                    higher.stCnt4 = stCnt4;
+                    higher.stCnt5 = stCnt5;
+                    higher.stCnt3_4 = stCnt3_4;
+                    higher.solRatio = ((stCnt3_4 * 100) / totalCnt).toFixed(2);
+                    higher.valuationSum = data.higher[x].valuationSum;
+                    //평점
+                    if (data.higher[x].valuationSum > 0) {
+                        higher.valAvg = (data.higher[x].valuationSum / stCnt4).toFixed(2);
+                    } else {
+                        higher.valAvg = 0;
+                    }
+            
+                    data.higher[x] = higher;
+
+                    deptTotCnt = deptTotCnt + higher.totalCnt; //부서 전체 개수
+                    deptTotStCnt1 = deptTotStCnt1 + higher.stCnt1; //부서 신청중 개수
+                    deptTotStCnt2 = deptTotStCnt2 + higher.stCnt2; //부서 처리중 개수
+                    deptTotStCnt3 = deptTotStCnt3 + higher.stCnt3; //부서 미평가
+                    deptTotStCnt4 = deptTotStCnt4 + higher.stCnt4; //부서 완료
+                    deptTotStCnt5 = deptTotStCnt5 + higher.stCnt5; //부서 협의필요  개수
+                    deptTotStCnt3_4 = deptTotStCnt3_4 + higher.stCnt3_4; //부서 미평가+완료 개수
+                    deptTotValSum = deptTotValSum + higher.valuationSum; //부서 평가총점
+    
+                    if (deptTotValSum > 0) { //부서 평균
+                        deptTotAvg = (deptTotValSum / deptTotStCnt4).toFixed(2);
+                    } else {
+                        deptTotAvg = 0;
+                    }
+
+                }
+
+                data.deptTotCnt = deptTotCnt;
+                data.deptTotStCnt1 = deptTotStCnt1;
+                data.deptTotStCnt2 = deptTotStCnt2;
+                data.deptTotStCnt3 = deptTotStCnt3;
+                data.deptTotStCnt4 = deptTotStCnt4;
+                data.deptTotStCnt5 = deptTotStCnt5;
+                data.deptTotStCnt3_4 = deptTotStCnt3_4;
+                data.deptTotValSum = deptTotValSum;
+                data.deptTotRatio = ((deptTotStCnt3_4 * 100) / deptTotCnt).toFixed(2);
+                data.deptTotAvg = deptTotAvg;
+                
+
+            });
+
+            //logger.debug("==================================================");
+            //logger.debug("incident ", JSON.stringify(incident));
+            //logger.debug("==================================================");
+
+            res.json(incident);
         }
-      });
+        });
 
   },
 

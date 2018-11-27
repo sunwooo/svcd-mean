@@ -200,8 +200,10 @@ module.exports = {
         var condition = {};
         var OrQueries = [];
 
-        if (req.query.dept_cd != null && req.query.dept_cd != '*') {
-            condition.manager_dept_cd = req.query.dept_cd;
+        if (req.query.dept_nm != null && req.query.dept_nm != '*') {
+            condition.manager_dept_nm = req.query.dept_nm;
+        }else{
+            condition.manager_dept_nm = { $nin: [ null, '', '개발지원팀' ] };
         }
         if (req.query.yyyy != null) {
             condition.register_yyyy = req.query.yyyy;
@@ -209,15 +211,19 @@ module.exports = {
         if (req.query.mm != null && req.query.mm != '*') {
             condition.register_mm = req.query.mm;
         }
-        //[접수대기] 건 제외
+        //[미처리] 건 제외
         OrQueries.push({
             $or: [{
-                status_cd: "2"
-            }, {
-                status_cd: "3"
-            }, {
-                status_cd: "4"
-            }]
+                    status_cd: "1"
+                },{
+                    status_cd: "2"
+                }, {
+                    status_cd: "3"
+                }, {
+                    status_cd: "4"
+                }, {
+                    status_cd: "5"
+                },]
         });
 
         condition.$or = OrQueries;
@@ -237,8 +243,8 @@ module.exports = {
                         dept_nm : "$manager_dept_nm",
                         higher_cd: "$higher_cd",
                         higher_nm: "$higher_nm",
-                        lower_cd: "$lower_cd",
-                        lower_nm: "$lower_nm",
+                        //lower_cd: "$lower_cd",
+                        //lower_nm: "$lower_nm",
                         status_cd: "$status_cd",
                         status_nm: "$status_nm"
                     },
@@ -250,17 +256,18 @@ module.exports = {
                     }
                 }
             }
+            ,{ "$sort": { "_id.higher_nm" : 1} }
             , {
                 $group: { //상태별 집계
                     _id: {
                         //dept_cd : "$_id.dept_cd",
                         dept_nm : "$_id.dept_nm",
                         higher_cd: "$_id.higher_cd",
-                        higher_nm: "$_id.higher_nm",
-                        lower_cd: "$_id.lower_cd",
-                        lower_nm: "$_id.lower_nm"
+                        higher_nm: "$_id.higher_nm"
+                        //,lower_cd: "$_id.lower_cd"
+                        //,lower_nm: "$_id.lower_nm"
                     },
-                    grp: {
+                    status: {
                         $push: {
                             status_cd: "$_id.status_cd",
                             count: "$count"
@@ -271,15 +278,31 @@ module.exports = {
                     }
                 }
             }
+            , {
+                $group: { //상태별 집계
+                    _id: {
+                        //dept_cd : "$_id.dept_cd",
+                        dept_nm : "$_id.dept_nm",
+                    },
+                    higher: {
+                        $push: {
+                            higher_cd: "$_id.higher_cd",
+                            higher_nm: "$_id.higher_nm",
+                            status: "$status",
+                            valuationSum: "$valuationSum",
+                        }
+                    }
+                }
+            }
             
-            ,{ "$sort": { "_id.dept_nm" : 1,"_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
+            ,{ "$sort": { "_id.dept_nm" : 1 } }
             //,{ "$sort": { "valuationSum" : 1 } }
 
         ]
 
-        logger.debug("==================================================");
-        logger.debug('higher_lower_dept ', JSON.stringify(aggregatorOpts));
-        logger.debug("==================================================");
+        //logger.debug("==================================================");
+        //logger.debug('higher_lower_dept ', JSON.stringify(aggregatorOpts));
+        //logger.debug("==================================================");
 
         return {
             aggregatorOpts: aggregatorOpts

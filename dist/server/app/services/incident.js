@@ -143,6 +143,10 @@ function createAndCondition(req){
         AndQueries.push({
             request_id: req.session.email
         });
+    }else if(user == "company"){
+            AndQueries.push({
+                request_company: req.session.request_company
+            });
     }else if ((req.session.user_flag == "1" && (user == "manager" || user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
 
         if(status_cd.length > 1){ //진행 상태가 배열로 요청될 때
