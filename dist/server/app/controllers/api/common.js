@@ -28,7 +28,7 @@ module.exports = {
     try {
       var condition = {};
 
-      if (scope == "*") {
+      if (scope == "*" || scope == "manager" || scope == "managerall") {
 
         condition.use_yn = '사용';
 
@@ -79,10 +79,12 @@ module.exports = {
 
       } else if (scope == "company") {
 
-        if (req.query.company_cd != null) {
-          condition.company_cd = req.query.company_cd;
-        }
+        //if (req.query.company_cd != null && req.query.company_cd != "*") {
+        //    condition.company_cd = req.query.company_cd;
+        //}
 
+        condition.company_cd = req.session.company_cd;
+        
         var aggregatorOpts = [{
           $match: condition
         }, {
@@ -94,7 +96,7 @@ module.exports = {
           }
         }];
 
-        CompanyProcess.aggregate(aggregatorOpts).exec(function (err, myProcess) {
+        CompanyProcess.aggregate(aggregatorOpts).exec(function (err, companyProcess) {
           if (err) {
             res.json({
               success: false,
@@ -103,13 +105,12 @@ module.exports = {
           } else {
 
             var rtnArr = [];
-            myProcess.forEach((mp) => {
+            companyProcess.forEach((mp) => {
               var tmp = {};
               tmp.higher_nm = mp._id.higher_nm;
               tmp.higher_cd = mp._id.higher_cd;
               rtnArr.push(tmp);
             });
-
             res.json(rtnArr);
           }
         });

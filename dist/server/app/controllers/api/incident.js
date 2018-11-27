@@ -648,25 +648,48 @@ module.exports = {
         }
       ], function (err, totalCnt) {
 
+        var project = {};
+
+        if(req.session.user_flag == "5"){
+            project ={
+                _id: 0,
+                진행상태: '$status_nm',
+                상위업무: '$higher_nm',
+                하위업무: '$lower_nm',
+                요청자이름: '$request_nm',
+                요청자회사: '$request_company_nm',
+                요청자부서: '$request_dept_nm',
+                등록일자: '$register_date',
+                완료일자: '$complete_date',
+                요청제목: '$title',
+                고객요청내용: '$content',
+                담당자이름: '$manager_nm',
+                처리내용: '$complete_content'
+              };
+        }else{
+            project ={
+                _id: 0,
+                진행상태: '$status_nm',
+                상위업무: '$higher_nm',
+                하위업무: '$lower_nm',
+                요청자이름: '$request_nm',
+                요청자회사: '$request_company_nm',
+                요청자부서: '$request_dept_nm',
+                등록일자: '$register_date',
+                완료일자: '$complete_date',
+                요청제목: '$title',
+                고객요청내용: '$content',
+                담당자이름: '$manager_nm',
+                처리내용: '$complete_content',
+                처리소요시간: '$work_time'
+              };
+        }
+
+
         var aggregatorOpts = [{
           $match: search.findIncident
         }, {
-          $project: {
-            _id: 0,
-            진행상태: '$status_nm',
-            상위업무: '$higher_nm',
-            하위업무: '$lower_nm',
-            요청자이름: '$request_nm',
-            요청자회사: '$request_company_nm',
-            요청자부서: '$request_dept_nm',
-            등록일자: '$register_date',
-            완료일자: '$complete_date',
-            요청제목: '$title',
-            고객요청내용: '$content',
-            담당자이름: '$manager_nm',
-            처리내용: '$complete_content',
-            처리소요시간: '$work_time'
-          }
+          $project: project
         }, {
           $sort: {
             register_date: -1

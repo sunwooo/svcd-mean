@@ -82,7 +82,9 @@ export class IncidentListAllComponent implements OnInit {
         this.isLoading = false;
 
         if(this.auth.user_flag == "1"){ //SD 전체관리자
-            this.user_flag = "*";
+            this.user_flag = "managerall";
+        }else if(this.auth.user_flag == "2" || this.auth.user_flag == "3" || this.auth.user_flag == "4"){ //
+            this.user_flag = "manager";
         }else if(this.auth.user_flag == "5"){//고객사 담당자
             this.user_flag = "company";
         }
@@ -291,7 +293,7 @@ export class IncidentListAllComponent implements OnInit {
     setTransForm(){
         this.formData.page = 1;
         this.formData.perPage = 10000;
-        this.formData.user = "managerall";
+        this.formData.user = this.user_flag;
         this.formData.status_cd = this.status_cd;
         this.formData.company_cd = this.company_cd;
         this.formData.register_yyyy = this.register_yyyy;
