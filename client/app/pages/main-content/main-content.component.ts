@@ -192,7 +192,15 @@ export class MainContentComponent implements OnInit {
         condition.page = 1;
         condition.perPage = 10;
 
-        condition.user = 'company';
+        //condition.user = 'company';
+
+        if(this.auth.user_flag == "1"){ //SD 전체관리자
+            condition.user = "managerall";
+        }else if(this.auth.user_flag == "2" || this.auth.user_flag == "3" || this.auth.user_flag == "4"){ //
+            condition.user = "manager";
+        }else if(this.auth.user_flag == "5"){//고객사 담당자
+            condition.user = "company";
+        }
 
         condition.status_cd = '*';
         condition.company_cd = '*';

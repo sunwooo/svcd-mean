@@ -24,94 +24,148 @@ module.exports = {
     //logger.debug("xxxxxxxxxxxxxxxxxxxxxxxxxxx  svc.aggregatorOpts : ", JSON.stringify(svc.aggregatorOpts));
     //logger.debug("==================================================================");
 
-    Incident.aggregate(svc.aggregatorOpts)
-      .exec(function (err, incident) {
+    Incident.aggregate(svc.aggregatorOpts).exec(function (err, incident) {
 
         if (err) {
 
-          //logger.debug("==================================================");
-          //logger.debug(" Incident.aggregate error ", err);
-          //logger.debug("==================================================");
-
-          return res.json({
-            success: false,
-            message: err
-          });
-
-        } else {
-
-          incident.forEach(function (data, idx, incident) {
-
             //logger.debug("==================================================");
-            //logger.debug("data ", JSON.stringify(data));
-            //logger.debug("data.grp.length ", data.grp.length);
+            //logger.debug(" Incident.aggregate error ", err);
             //logger.debug("==================================================");
-
-
-            var totalCnt = 0; //전체 개수
-            var stCnt1 = 0; //신청중 개수
-            var stCnt2 = 0; //처리중 개수
-            var stCnt3 = 0; //미평가
-            var stCnt4 = 0; //완료
-            var stCnt5 = 0; //협의필요  개수
-            var stCnt3_4 = 0; //미평가+완료 개수
-
-
-            for (var i = 0; i < data.grp.length; i++) {
-              //전체 개수
-              totalCnt = totalCnt + data.grp[i].count;
-
-              //신청중 개수
-              if (data.grp[i].status_cd == '1') {
-                stCnt1 = stCnt1 + data.grp[i].count;
-              }
-
-              //처리중 개수
-              if (data.grp[i].status_cd == '2') {
-                stCnt2 = stCnt2 + data.grp[i].count;
-              }
-
-              //미평가 개수
-              if (data.grp[i].status_cd == '3') {
-                stCnt3 = stCnt3 + data.grp[i].count;
-              }
-
-              //완료 개수
-              if (data.grp[i].status_cd == '4') {
-                stCnt4 = stCnt4 + data.grp[i].count;
-              }
-
-              //협의필요 
-              if (data.grp[i].status_cd == '5') {
-                stCnt5 = stCnt5 + data.grp[i].count;
-              }
-
-              //완료 또는 미평가
-              if (data.grp[i].status_cd == '3' || data.grp[i].status_cd == '4') {
-                stCnt3_4 = stCnt3_4 + data.grp[i].count;
-              }
-
-            }
-
-            data.totalCnt = totalCnt;
-            data.stCnt1 = stCnt1;
-            data.stCnt2 = stCnt2;
-            data.stCnt3 = stCnt3;
-            data.stCnt4 = stCnt4;
-            data.stCnt5 = stCnt5;
-            data.stCnt3_4 = stCnt3_4;
-            data.solRatio = ((stCnt3_4 * 100) / totalCnt).toFixed(2);
-
-            //평점
-            if (data.valuationSum > 0) {
-              data.valAvg = (data.valuationSum / stCnt4).toFixed(2);
-            } else {
-              data.valAvg = 0;
-            }
-          });
-          res.json(incident);
+  
+            return res.json({
+              success: false,
+              message: err
+            });
+  
+          } else {
+  
+              //logger.debug("==================================================");
+              //logger.debug("incident ", JSON.stringify(incident));
+              //logger.debug("==================================================");
+  
+              incident.forEach(function (data, idx, incident) {
+  
+                  //logger.debug("==================================================");
+                  //logger.debug("data ", JSON.stringify(data));
+                  //logger.debug("data.higher.length ", data.higher);
+                  //logger.debug("==================================================");
+  
+                  var companyTotCnt = 0; //회사 전체 개수
+                  var companyTotStCnt1 = 0; //회사 신청중 개수
+                  var companyTotStCnt2 = 0; //회사 처리중 개수
+                  var companyTotStCnt3 = 0; //회사 미평가
+                  var companyTotStCnt4 = 0; //회사 완료
+                  var companyTotStCnt5 = 0; //회사 협의필요  개수
+                  var companyTotStCnt3_4 = 0; //회사 미평가+완료 개수
+                  var companyTotValSum = 0; //회사 평가 총점
+                  var companyTotAvg = 0; //회사 평균
+                  
+                  for(var x = 0; x < data.higher.length; x++) {
+                      
+                      var higher = {};
+  
+                      var totalCnt = 0; //전체 개수
+                      var stCnt1 = 0; //신청중 개수
+                      var stCnt2 = 0; //처리중 개수
+                      var stCnt3 = 0; //미평가
+                      var stCnt4 = 0; //완료
+                      var stCnt5 = 0; //협의필요  개수
+                      var stCnt3_4 = 0; //미평가+완료 개수
+  
+                      for (var i = 0; i < data.higher[x].status.length; i++) {
+  
+                          //전체 개수
+                          totalCnt = totalCnt + data.higher[x].status[i].count;
+  
+                          //신청중 개수
+                          if (data.higher[x].status[i].status_cd == '1') {
+                              stCnt1 = stCnt1 + data.higher[x].status[i].count;
+                          }
+  
+                          //처리중 개수
+                          if (data.higher[x].status[i].status_cd == '2') {
+                              stCnt2 = stCnt2 + data.higher[x].status[i].count;
+                          }
+  
+                          //미평가 개수
+                          if (data.higher[x].status[i].status_cd == '3') {
+                              stCnt3 = stCnt3 + data.higher[x].status[i].count;
+                          }
+  
+                          //완료 개수
+                          if (data.higher[x].status[i].status_cd == '4') {
+                              stCnt4 = stCnt4 + data.higher[x].status[i].count;
+                          }
+  
+                          //협의필요 
+                          if (data.higher[x].status[i].status_cd == '5') {
+                              stCnt5 = stCnt5 + data.higher[x].status[i].count;
+                          }
+  
+                          //완료 또는 미평가
+                          if (data.higher[x].status[i].status_cd == '3' || data.higher[x].status[i].status_cd == '4') {
+                              stCnt3_4 = stCnt3_4 + data.higher[x].status[i].count;
+                          }
+  
+                      }
+  
+                      higher.higher_nm = data.higher[x].higher_nm;
+                      higher.totalCnt = totalCnt;
+                      higher.stCnt1 = stCnt1;
+                      higher.stCnt2 = stCnt2;
+                      higher.stCnt3 = stCnt3;
+                      higher.stCnt4 = stCnt4;
+                      higher.stCnt5 = stCnt5;
+                      higher.stCnt3_4 = stCnt3_4;
+                      higher.solRatio = ((stCnt3_4 * 100) / totalCnt).toFixed(2);
+                      higher.valuationSum = data.higher[x].valuationSum;
+                      //평점
+                      if (data.higher[x].valuationSum > 0) {
+                          higher.valAvg = (data.higher[x].valuationSum / stCnt4).toFixed(2);
+                      } else {
+                          higher.valAvg = 0;
+                      }
+              
+                      data.higher[x] = higher;
+  
+                      companyTotCnt = companyTotCnt + higher.totalCnt; //회사 전체 개수
+                      companyTotStCnt1 = companyTotStCnt1 + higher.stCnt1; //회사 신청중 개수
+                      companyTotStCnt2 = companyTotStCnt2 + higher.stCnt2; //회사 처리중 개수
+                      companyTotStCnt3 = companyTotStCnt3 + higher.stCnt3; //회사 미평가
+                      companyTotStCnt4 = companyTotStCnt4 + higher.stCnt4; //회사 완료
+                      companyTotStCnt5 = companyTotStCnt5 + higher.stCnt5; //회사 협의필요  개수
+                      companyTotStCnt3_4 = companyTotStCnt3_4 + higher.stCnt3_4; //회사 미평가+완료 개수
+                      companyTotValSum = companyTotValSum + higher.valuationSum; //회사 평가총점
+      
+                      if (companyTotValSum > 0) { //회사 평균
+                          companyTotAvg = (companyTotValSum / companyTotStCnt4).toFixed(2);
+                      } else {
+                          companyTotAvg = 0;
+                      }
+  
+                  }
+  
+                  data.companyTotCnt = companyTotCnt;
+                  data.companyTotStCnt1 = companyTotStCnt1;
+                  data.companyTotStCnt2 = companyTotStCnt2;
+                  data.companyTotStCnt3 = companyTotStCnt3;
+                  data.companyTotStCnt4 = companyTotStCnt4;
+                  data.companyTotStCnt5 = companyTotStCnt5;
+                  data.companyTotStCnt3_4 = companyTotStCnt3_4;
+                  data.companyTotValSum = companyTotValSum;
+                  data.companyTotRatio = ((companyTotStCnt3_4 * 100) / companyTotCnt).toFixed(2);
+                  data.companyTotAvg = companyTotAvg;
+                  
+  
+              });
+  
+              //logger.debug("==================================================");
+              //logger.debug("incident ", JSON.stringify(incident));
+              //logger.debug("==================================================");
+  
+              res.json(incident);
         }
-      })
+      });
 
   },
 
@@ -130,8 +184,7 @@ module.exports = {
     //logger.debug("xxxxxxxxxxxxxxxxxxxxxxxxxxx  svc.aggregatorOpts : ", JSON.stringify(svc.aggregatorOpts));
     //logger.debug("==================================================================");
 
-    Incident.aggregate(svc.aggregatorOpts)
-      .exec(function (err, incident) {
+    Incident.aggregate(svc.aggregatorOpts).exec(function (err, incident) {
 
         if (err) {
 
@@ -146,79 +199,129 @@ module.exports = {
 
         } else {
 
-          incident.forEach(function (data, idx, incident) {
+            incident.forEach(function (data, idx, incident) {
+  
+                //logger.debug("==================================================");
+                //logger.debug("data ", JSON.stringify(data));
+                //logger.debug("data.higher.length ", data.higher);
+                //logger.debug("==================================================");
+
+                var higherTotCnt = 0; //상위업무 전체 개수
+                var higherTotStCnt1 = 0; //상위업무 신청중 개수
+                var higherTotStCnt2 = 0; //상위업무 처리중 개수
+                var higherTotStCnt3 = 0; //상위업무 미평가
+                var higherTotStCnt4 = 0; //상위업무 완료
+                var higherTotStCnt5 = 0; //상위업무 협의필요  개수
+                var higherTotStCnt3_4 = 0; //상위업무 미평가+완료 개수
+                var higherTotValSum = 0; //상위업무 평가 총점
+                var higherTotAvg = 0; //상위업무 평균
+                
+                for(var x = 0; x < data.higher.length; x++) {
+                    
+                    var higher = {};
+
+                    var totalCnt = 0; //전체 개수
+                    var stCnt1 = 0; //신청중 개수
+                    var stCnt2 = 0; //처리중 개수
+                    var stCnt3 = 0; //미평가
+                    var stCnt4 = 0; //완료
+                    var stCnt5 = 0; //협의필요  개수
+                    var stCnt3_4 = 0; //미평가+완료 개수
+
+                    for (var i = 0; i < data.higher[x].status.length; i++) {
+
+                        //전체 개수
+                        totalCnt = totalCnt + data.higher[x].status[i].count;
+
+                        //신청중 개수
+                        if (data.higher[x].status[i].status_cd == '1') {
+                            stCnt1 = stCnt1 + data.higher[x].status[i].count;
+                        }
+
+                        //처리중 개수
+                        if (data.higher[x].status[i].status_cd == '2') {
+                            stCnt2 = stCnt2 + data.higher[x].status[i].count;
+                        }
+
+                        //미평가 개수
+                        if (data.higher[x].status[i].status_cd == '3') {
+                            stCnt3 = stCnt3 + data.higher[x].status[i].count;
+                        }
+
+                        //완료 개수
+                        if (data.higher[x].status[i].status_cd == '4') {
+                            stCnt4 = stCnt4 + data.higher[x].status[i].count;
+                        }
+
+                        //협의필요 
+                        if (data.higher[x].status[i].status_cd == '5') {
+                            stCnt5 = stCnt5 + data.higher[x].status[i].count;
+                        }
+
+                        //완료 또는 미평가
+                        if (data.higher[x].status[i].status_cd == '3' || data.higher[x].status[i].status_cd == '4') {
+                            stCnt3_4 = stCnt3_4 + data.higher[x].status[i].count;
+                        }
+
+                    }
+
+                    higher.lower_nm = data.higher[x].lower_nm;
+                    higher.totalCnt = totalCnt;
+                    higher.stCnt1 = stCnt1;
+                    higher.stCnt2 = stCnt2;
+                    higher.stCnt3 = stCnt3;
+                    higher.stCnt4 = stCnt4;
+                    higher.stCnt5 = stCnt5;
+                    higher.stCnt3_4 = stCnt3_4;
+                    higher.solRatio = ((stCnt3_4 * 100) / totalCnt).toFixed(2);
+                    higher.valuationSum = data.higher[x].valuationSum;
+                    //평점
+                    if (data.higher[x].valuationSum > 0) {
+                        higher.valAvg = (data.higher[x].valuationSum / stCnt4).toFixed(2);
+                    } else {
+                        higher.valAvg = 0;
+                    }
+            
+                    data.higher[x] = higher;
+
+                    higherTotCnt = higherTotCnt + higher.totalCnt; //상위업무 전체 개수
+                    higherTotStCnt1 = higherTotStCnt1 + higher.stCnt1; //상위업무 신청중 개수
+                    higherTotStCnt2 = higherTotStCnt2 + higher.stCnt2; //상위업무 처리중 개수
+                    higherTotStCnt3 = higherTotStCnt3 + higher.stCnt3; //상위업무 미평가
+                    higherTotStCnt4 = higherTotStCnt4 + higher.stCnt4; //상위업무 완료
+                    higherTotStCnt5 = higherTotStCnt5 + higher.stCnt5; //상위업무 협의필요  개수
+                    higherTotStCnt3_4 = higherTotStCnt3_4 + higher.stCnt3_4; //상위업무 미평가+완료 개수
+                    higherTotValSum = higherTotValSum + higher.valuationSum; //상위업무 평가총점
+    
+                    if (higherTotValSum > 0) { //상위업무 평균
+                        higherTotAvg = (higherTotValSum / higherTotStCnt4).toFixed(2);
+                    } else {
+                        higherTotAvg = 0;
+                    }
+
+                }
+
+                data.higherTotCnt = higherTotCnt;
+                data.higherTotStCnt1 = higherTotStCnt1;
+                data.higherTotStCnt2 = higherTotStCnt2;
+                data.higherTotStCnt3 = higherTotStCnt3;
+                data.higherTotStCnt4 = higherTotStCnt4;
+                data.higherTotStCnt5 = higherTotStCnt5;
+                data.higherTotStCnt3_4 = higherTotStCnt3_4;
+                data.higherTotValSum = higherTotValSum;
+                data.higherTotRatio = ((higherTotStCnt3_4 * 100) / higherTotCnt).toFixed(2);
+                data.higherTotAvg = higherTotAvg;
+                
+
+            });
 
             //logger.debug("==================================================");
-            //logger.debug("data ", JSON.stringify(data));
-            //logger.debug("data.grp.length ", data.grp.length);
+            //logger.debug("incident ", JSON.stringify(incident));
             //logger.debug("==================================================");
 
-
-            var totalCnt = 0; //전체 개수
-            var stCnt1 = 0; //신청중 개수
-            var stCnt2 = 0; //처리중 개수
-            var stCnt3 = 0; //미평가
-            var stCnt4 = 0; //완료
-            var stCnt5 = 0; //협의필요  개수
-            var stCnt3_4 = 0; //미평가+완료 개수
-
-
-            for (var i = 0; i < data.grp.length; i++) {
-              //전체 개수
-              totalCnt = totalCnt + data.grp[i].count;
-
-              //신청중 개수
-              if (data.grp[i].status_cd == '1') {
-                stCnt1 = stCnt1 + data.grp[i].count;
-              }
-
-              //처리중 개수
-              if (data.grp[i].status_cd == '2') {
-                stCnt2 = stCnt2 + data.grp[i].count;
-              }
-
-              //미평가 개수
-              if (data.grp[i].status_cd == '3') {
-                stCnt3 = stCnt3 + data.grp[i].count;
-              }
-
-              //완료 개수
-              if (data.grp[i].status_cd == '4') {
-                stCnt4 = stCnt4 + data.grp[i].count;
-              }
-
-              //협의필요 
-              if (data.grp[i].status_cd == '5') {
-                stCnt5 = stCnt5 + data.grp[i].count;
-              }
-
-              //완료 또는 미평가
-              if (data.grp[i].status_cd == '3' || data.grp[i].status_cd == '4') {
-                stCnt3_4 = stCnt3_4 + data.grp[i].count;
-              }
-
-            }
-
-            data.totalCnt = totalCnt;
-            data.stCnt1 = stCnt1;
-            data.stCnt2 = stCnt2;
-            data.stCnt3 = stCnt3;
-            data.stCnt4 = stCnt4;
-            data.stCnt5 = stCnt5;
-            data.stCnt3_4 = stCnt3_4;
-            data.solRatio = ((stCnt3_4 * 100) / totalCnt).toFixed(2);
-
-            //평점
-            if (data.valuationSum > 0) {
-              data.valAvg = (data.valuationSum / stCnt4).toFixed(2);
-            } else {
-              data.valAvg = 0;
-            }
-          });
-          res.json(incident);
-        }
-      });
-
+            res.json(incident);
+      }
+    });
   },
 
   /**
@@ -236,8 +339,7 @@ module.exports = {
     //logger.debug("xxxxxxxxxxxxxxxxxxxxxxxxxxx  svc.aggregatorOpts : ", JSON.stringify(svc.aggregatorOpts));
     //logger.debug("==================================================================");
 
-    Incident.aggregate(svc.aggregatorOpts)
-      .exec(function (err, incident) {
+    Incident.aggregate(svc.aggregatorOpts).exec(function (err, incident) {
 
         if (err) {
 

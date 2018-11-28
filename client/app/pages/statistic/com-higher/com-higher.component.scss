@@ -1,7 +1,12 @@
-table {
-  width: 100%;
+/* 
+tbody:nth-child(even) {
+    background:#F9F9F9;
+}
+*/
+.sumTr{
+    background:#F9F9F9;
 }
 
-tr.mat-footer-row {
-  font-weight: bold;
-}
+table tr td {
+    vertical-align: middle;
+} 

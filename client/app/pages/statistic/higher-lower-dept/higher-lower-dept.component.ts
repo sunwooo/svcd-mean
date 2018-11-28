@@ -20,7 +20,7 @@ export class HigherLowerDeptComponent implements OnInit {
 
     public today = new Date();
     private formData: any = {};                 //전송용 formData
-    public user_flag: string = "user";           //사용자 구분
+    public user_flag: string = "managerall";           //사용자 구분
     public dept_nm: string = "*";             //담당부서명
     public higher_cd: string = "*";              //상위코드
     public higher_nm = "전체";
@@ -51,11 +51,11 @@ export class HigherLowerDeptComponent implements OnInit {
         this.isLoading = false;
         this.yyyy = this.today.getFullYear().toString();
 
-        if(this.auth.user_flag == "1"){ //SD 전체관리자
-            this.user_flag = "*";
-        }else if(this.auth.user_flag == "5"){//고객사 담당자
-            this.user_flag = "dept";
-        }
+        //if(this.auth.user_flag == "1"){ //SD 전체관리자
+        //    this.user_flag = "*";
+        //}else if(this.auth.user_flag == "5"){//고객사 담당자
+        //    this.user_flag = "dept";
+        //}
 
         this.getRegisterYyyy();
         this.getDeptList();
@@ -102,10 +102,10 @@ export class HigherLowerDeptComponent implements OnInit {
             (res) => {
                 this.sData = res;
                 
-                console.log("=============== getHigherLowerDept ===============");
-                console.log("sData : ", this.sData);
-                console.log("sData.length : ", this.sData.length);
-                console.log("====================================================");
+                //console.log("=============== getHigherLowerDept ===============");
+                //console.log("sData : ", this.sData);
+                //console.log("sData.length : ", this.sData.length);
+                //console.log("====================================================");
                 
             },
             (error: HttpErrorResponse) => {

@@ -28,19 +28,23 @@ module.exports = {
             condition.register_mm = req.query.mm;
         }
 
-        //[접수대기] 건 제외
+        //[미처리] 건 제외
         OrQueries.push({
             $or: [{
-                status_cd: "2"
-            }, {
-                status_cd: "3"
-            }, {
-                status_cd: "4"
-            }]
+                    status_cd: "1"
+                },{
+                    status_cd: "2"
+                }, {
+                    status_cd: "3"
+                }, {
+                    status_cd: "4"
+                }, {
+                    status_cd: "5"
+                },]
         });
 
         condition.$or = OrQueries;
-        
+
         //logger.debug("==========================================statistic service=========================================");
         //logger.debug("condifion : ", condition);
         //logger.debug("====================================================================================================");
@@ -50,12 +54,14 @@ module.exports = {
                 $match: condition
             },
             {
-                $group: { //업무별 상태별 집계
+                $group: { //회사별 상태별 집계
                     _id: {
-                        request_company_cd: "$request_company_cd",
-                        request_company_nm: "$request_company_nm",
+                        //company_cd : "$request_company_cd",
+                        company_nm : "$request_company_nm",
                         higher_cd: "$higher_cd",
                         higher_nm: "$higher_nm",
+                        //lower_cd: "$lower_cd",
+                        //lower_nm: "$lower_nm",
                         status_cd: "$status_cd",
                         status_nm: "$status_nm"
                     },
@@ -67,15 +73,18 @@ module.exports = {
                     }
                 }
             }
+            ,{ "$sort": { "_id.higher_nm" : 1} }
             , {
                 $group: { //상태별 집계
                     _id: {
-                        request_company_cd: "$_id.request_company_cd",
-                        request_company_nm: "$_id.request_company_nm",
+                        //company_cd : "$_id.request_company_cd",
+                        company_nm : "$_id.company_nm",
                         higher_cd: "$_id.higher_cd",
                         higher_nm: "$_id.higher_nm"
+                        //,lower_cd: "$_id.lower_cd"
+                        //,lower_nm: "$_id.lower_nm"
                     },
-                    grp: {
+                    status: {
                         $push: {
                             status_cd: "$_id.status_cd",
                             count: "$count"
@@ -86,14 +95,31 @@ module.exports = {
                     }
                 }
             }
+            , {
+                $group: { //상태별 집계
+                    _id: {
+                        //company_cd : "$_id.company_cd",
+                        company_nm : "$_id.company_nm",
+                    },
+                    higher: {
+                        $push: {
+                            higher_cd: "$_id.higher_cd",
+                            higher_nm: "$_id.higher_nm",
+                            status: "$status",
+                            valuationSum: "$valuationSum",
+                        }
+                    }
+                }
+            }
             
-            ,{ "$sort": { "_id.request_company_cd" : -1, "_id.higher_cd" : 1 } }
+            ,{ "$sort": { "_id.company_nm" : 1 } }
+            //,{ "$sort": { "valuationSum" : 1 } }
 
-        ]
+        ];
 
-        logger.debug("==================================================");
-        logger.debug('com_higher :  ', JSON.stringify(aggregatorOpts));
-        logger.debug("==================================================");
+        //logger.debug("==================================================");
+        //logger.debug('com_higher :  ', JSON.stringify(aggregatorOpts));
+        //logger.debug("==================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -109,8 +135,8 @@ module.exports = {
         var condition = {};
         var OrQueries = [];
 
-        if (req.query.company_cd != null && req.query.company_cd != '*') {
-            condition.request_company_cd = req.query.company_cd;
+        if (req.query.higher_cd != null && req.query.higher_cd != '*') {
+            condition.higher_cd = req.query.higher_cd;
         }
         if (req.query.yyyy != null) {
             condition.register_yyyy = req.query.yyyy;
@@ -118,19 +144,24 @@ module.exports = {
         if (req.query.mm != null && req.query.mm != '*') {
             condition.register_mm = req.query.mm;
         }
-        //[접수대기] 건 제외
+        
+        //[미처리] 건 제외
         OrQueries.push({
             $or: [{
-                status_cd: "2"
-            }, {
-                status_cd: "3"
-            }, {
-                status_cd: "4"
-            }]
+                    status_cd: "1"
+                },{
+                    status_cd: "2"
+                }, {
+                    status_cd: "3"
+                }, {
+                    status_cd: "4"
+                }, {
+                    status_cd: "5"
+                },]
         });
 
         condition.$or = OrQueries;
-        
+
         //logger.debug("==========================================statistic service=========================================");
         //logger.debug("condifion : ", condition);
         //logger.debug("====================================================================================================");
@@ -142,7 +173,9 @@ module.exports = {
             {
                 $group: { //업무별 상태별 집계
                     _id: {
-                        higher_cd: "$higher_cd",
+                        //company_cd : "$request_company_cd",
+                        //company_nm : "$request_company_nm",
+                        //higher_cd: "$higher_cd",
                         higher_nm: "$higher_nm",
                         lower_cd: "$lower_cd",
                         lower_nm: "$lower_nm",
@@ -157,15 +190,18 @@ module.exports = {
                     }
                 }
             }
+            ,{ "$sort": { "_id.lower_nm" : 1} }
             , {
                 $group: { //상태별 집계
                     _id: {
-                        higher_cd: "$_id.higher_cd",
+                        //company_cd : "$_id.request_company_cd",
+                        //company_nm : "$_id.company_nm",
+                        //higher_cd: "$_id.higher_cd",
                         higher_nm: "$_id.higher_nm",
                         lower_cd: "$_id.lower_cd",
                         lower_nm: "$_id.lower_nm"
                     },
-                    grp: {
+                    status: {
                         $push: {
                             status_cd: "$_id.status_cd",
                             count: "$count"
@@ -176,15 +212,31 @@ module.exports = {
                     }
                 }
             }
+            , {
+                $group: { //상태별 집계
+                    _id: {
+                        //company_cd : "$_id.company_cd",
+                        higher_nm : "$_id.higher_nm",
+                    },
+                    higher: {
+                        $push: {
+                            lower_cd: "$_id.lower_cd",
+                            lower_nm: "$_id.lower_nm",
+                            status: "$status",
+                            valuationSum: "$valuationSum",
+                        }
+                    }
+                }
+            }
             
-            ,{ "$sort": { "_id.higher_cd" : 1, "_id.lower_cd" : 1 } }
+            ,{ "$sort": { "_id.higher_nm" : 1 } }
             //,{ "$sort": { "valuationSum" : 1 } }
 
-        ]
+        ];
 
-        logger.debug("==================================================");
-        logger.debug('high_lower ', JSON.stringify(aggregatorOpts));
-        logger.debug("==================================================");
+        //logger.debug("==================================================");
+        //logger.debug('high_lower ', JSON.stringify(aggregatorOpts));
+        //logger.debug("==================================================");
 
         return {
             aggregatorOpts: aggregatorOpts
@@ -298,7 +350,7 @@ module.exports = {
             ,{ "$sort": { "_id.dept_nm" : 1 } }
             //,{ "$sort": { "valuationSum" : 1 } }
 
-        ]
+        ];
 
         //logger.debug("==================================================");
         //logger.debug('higher_lower_dept ', JSON.stringify(aggregatorOpts));

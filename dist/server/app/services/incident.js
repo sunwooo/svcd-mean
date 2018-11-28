@@ -184,7 +184,7 @@ function createAndCondition(req){
 
             }
         }else{ //진행 상태가 하나씩 요청될 때
-            if (status_cd.indexOf("1") == -1 && status_cd.indexOf("5") == -1 && user != "managerall") {
+            if (status_cd.indexOf("1") == -1 && status_cd.indexOf("5") == -1 && user != "managerall" && user != "manager") {
                 AndQueries.push({
                     manager_email: req.session.email
                 });
