@@ -593,42 +593,33 @@ module.exports = {
 
           //callback을 이용한 higher_cd를 가져오기 때문에 service에서 생성 않음
           //전체담당자, 팀장, 업무담당자이고 구분값에 manager로 넘어왔을 시 
-          if ((req.session.user_flag == "1" && (req.query.user == "manager" || req.query.user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
+          if (req.query.user == "general"){
+                callback(null);
+            }else if(req.query.user == "company"){
+                callback(null);
+            }else if ((req.session.user_flag == "1" && (req.query.user == "manager" || req.query.user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
 
             var condition = {};
-
             if (req.query.user != "managerall") {
-              condition.email = req.session.email;
+                condition.email = req.session.email;
             }
 
             MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
-              if (search.findIncident.$and == null) {
+                if (search.findIncident.$and == null) {
                 search.findIncident.$and = [{
-                  "higher_cd": {
+                    "higher_cd": {
                     "$in": myHigherProcess
-                  }
+                    }
                 }];
-                if (req.query.status_cd != "1" && req.query.status_cd != "5" && req.query.user != "managerall") {
-                  search.findIncident.$and.push({
-                    "manager_email": req.session.email
-                  });
-                }
-              } else {
+                } else {
                 search.findIncident.$and.push({
-                  "higher_cd": {
+                    "higher_cd": {
                     "$in": myHigherProcess
-                  }
+                    }
                 });
-                if (req.query.status_cd != "1" && req.query.status_cd != "5" && req.query.user != "managerall") {
-                  search.findIncident.$and.push({
-                    "manager_email": req.session.email
-                  });
                 }
-              }
-              callback(err);
+                callback(null);
             });
-          } else {
-            callback(null);
           }
 
         },
@@ -692,9 +683,10 @@ module.exports = {
           $project: project
         }, {
           $sort: {
-            register_date: -1
+            "등록일자": -1
           }
         }];
+
         Incident.aggregate(aggregatorOpts).allowDiskUse(true).exec(function (err, incident) {
           if (err) {
             return res.json({
