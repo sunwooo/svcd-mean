@@ -14,7 +14,8 @@ var higherProcessCtrl = require("../app/controllers/api/higherProcess");
 var lowerProcessCtrl = require("../app/controllers/api/lowerProcess");
 var myProcessCtrl = require("../app/controllers/api/myProcess");
 var companyProcessCtrl = require("../app/controllers/api/companyProcess");
-var apiCtrl = require("../app/controllers/api/common");
+var commonCtrl = require("../app/controllers/api/common");
+var apiCtrl = require("../app/controllers/api/api");
 var oftenQnaCtrl = require("../app/controllers/api/oftenqna");
 var processGubunCtrl = require("../app/controllers/api/processGubun");
 var dashboard0Ctrl = require("../app/controllers/api/dashboard0");
@@ -26,7 +27,6 @@ var dashboard3Ctrl = require("../app/controllers/api/dashboard3");
 // Login route
 router.post('/login', userCtrl.login);    //로그인
 //router.post('/logout', userCtrl.logout);    //로그아웃
-
 
 //Users route
 router.post('/user/insertUser', ssc.sessionCheck, userCtrl.insertUser);    //사용자 신규등록
@@ -44,14 +44,14 @@ router.put('/user/myPageUpdate', ssc.sessionCheck, userCtrl.myPageUpdate);      
 
 
 //Common api route
-router.get('/higherProcess', ssc.sessionCheck, apiCtrl.higherProcess);    //상위업무 조회
-router.get('/lowerProcess', ssc.sessionCheck, apiCtrl.lowerProcess);      //하위업무 조회
-router.get('/myProcess', ssc.sessionCheck, apiCtrl.myProcess);            //본인업무 조회
-router.get('/company', ssc.sessionCheck, apiCtrl.companyList);            //회사 조회
-router.get('/dept', ssc.sessionCheck, apiCtrl.deptList);                  //담당부서 조회
-router.get('/processStatus', ssc.sessionCheck, apiCtrl.processStatus);    //진행상태 조회
-router.get('/registerYyyy', ssc.sessionCheck, apiCtrl.registerYyyy);      //등록년도 조회
-router.get('/processGubun', ssc.sessionCheck, apiCtrl.processGubun);      //처리구분 조회
+router.get('/higherProcess', ssc.sessionCheck, commonCtrl.higherProcess);    //상위업무 조회
+router.get('/lowerProcess', ssc.sessionCheck, commonCtrl.lowerProcess);      //하위업무 조회
+router.get('/myProcess', ssc.sessionCheck, commonCtrl.myProcess);            //본인업무 조회
+router.get('/company', ssc.sessionCheck, commonCtrl.companyList);            //회사 조회
+router.get('/dept', ssc.sessionCheck, commonCtrl.deptList);                  //담당부서 조회
+router.get('/processStatus', ssc.sessionCheck, commonCtrl.processStatus);    //진행상태 조회
+router.get('/registerYyyy', ssc.sessionCheck, commonCtrl.registerYyyy);      //등록년도 조회
+router.get('/processGubun', ssc.sessionCheck, commonCtrl.processGubun);      //처리구분 조회
 
 
 //incident route
@@ -158,6 +158,10 @@ router.get('/dashboard/chart3_4', ssc.sessionCheck, dashboard3Ctrl.chart3_4);  /
 router.get('/dashboard/chart3_5', ssc.sessionCheck, dashboard3Ctrl.chart3_5);  //업무별 요청자/담당자 수
 //router.get('/dashboard/chart3_6', ssc.sessionCheck, dashboard3Ctrl.chart3_6);
 
+
+//direct
+router.get('/hr', apiCtrl.hr);    //Saas팀 월별 데이타
+router.get('/company', apiCtrl.company);
 
 //upload incident attach file 
 router.post('/upload-file', ssc.sessionCheck, function (req, res) {

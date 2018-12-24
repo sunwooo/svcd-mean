@@ -2,17 +2,19 @@
 
 var mongoose = require('mongoose');
 var async = require('async');
-var IncidentModel = require('../models/Incident');
-var CompanyModel = require('../models/Company');
+var IncidentModel = require('../../models/Incident');
+var CompanyModel = require('../../models/Company');
 var logger = require('log4js').getLogger('app');
 
 module.exports = {
 
 
-
-
-    
     hr: (req, res, next) => {
+
+        console.log("========== api hr ===========");
+        console.log("=============================");
+
+
         var condition = {};
         condition.higher_cd = 'H008'; //OPTI-HR 코드
         
@@ -23,9 +25,9 @@ module.exports = {
             condition.register_mm = req.query.mm;
         }
         
-        //logger.debug("=====================");
-        //logger.debug("condition : ", condition);
-        //logger.debug("=====================");
+        logger.debug("=====================");
+        logger.debug("condition : ", condition);
+        logger.debug("=====================");
 
         try{
             IncidentModel.find(condition, function (err, incident) {
