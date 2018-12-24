@@ -11,8 +11,8 @@ module.exports = {
 
     hr: (req, res, next) => {
 
-        console.log("========== api hr ===========");
-        console.log("=============================");
+        //logger.debug========== api hr ===========");
+        //logger.debug=============================");
 
 
         var condition = {};
@@ -25,9 +25,9 @@ module.exports = {
             condition.register_mm = req.query.mm;
         }
         
-        logger.debug("=====================");
-        logger.debug("condition : ", condition);
-        logger.debug("=====================");
+        //logger.debug=====================");
+        //logger.debugcondition : ", condition);
+        //logger.debug=====================");
 
         try{
             IncidentModel.find(condition, function (err, incident) {
@@ -35,9 +35,9 @@ module.exports = {
                     res.json(null);
                 }else{
 
-                    //logger.debug("=====================");
-                    //logger.debug("newIncident : ", JSON.stringify(incident));
-                    //logger.debug("=====================");
+                    //logger.debug=====================");
+                    //logger.debugnewIncident : ", JSON.stringify(incident));
+                    //logger.debug=====================");
 
                     var rtnVal = [];
 
@@ -97,9 +97,9 @@ module.exports = {
                         rtnVal.push(newIncident);
                 });
 
-                    //logger.debug("=====================");
-                    //logger.debug("rtnVal : ", rtnVal);
-                    //logger.debug("=====================");
+                    //logger.debug=====================");
+                    //logger.debugrtnVal : ", rtnVal);
+                    //logger.debug=====================");
 
                     res.json(rtnVal);
                 }
@@ -117,9 +117,9 @@ module.exports = {
                 res.json(null);
             }else{
 
-                //logger.debug("=====================");
-                //logger.debug("company : ", company);
-                //logger.debug("=====================");
+                //logger.debug=====================");
+                //logger.debugcompany : ", company);
+                //logger.debug=====================");
 
                 var rtnVal = [];
 
@@ -133,9 +133,9 @@ module.exports = {
                 });
                                                       
 
-                //logger.debug("=====================");
-                //logger.debug("rtnVal : ", rtnVal);
-                //logger.debug("=====================");
+                //logger.debug=====================");
+                //logger.debugrtnVal : ", rtnVal);
+                //logger.debug=====================");
 
                 res.json(rtnVal);
             }
