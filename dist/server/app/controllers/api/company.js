@@ -121,8 +121,10 @@ module.exports = {
     update: (req, res, next) => {
         try{
             
-            req.body.company.date_from = req.body.company.date_from.substring(0,10);
-            req.body.company.date_to = req.body.company.date_to.substring(0,10);
+            if(req.body.company.date_from) 
+                req.body.company.date_from = req.body.company.date_from.substring(0,10);
+            if(req.body.company.date_to)
+                req.body.company.date_to = req.body.company.date_to.substring(0,10);
 
             async.waterfall([function (callback) {
                 Company.findOneAndUpdate({
