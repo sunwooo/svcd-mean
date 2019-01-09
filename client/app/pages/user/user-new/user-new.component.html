@@ -107,8 +107,13 @@
                             <span matPrefix>
                               <i class="prefix fa fa-key">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <input matInput (ngModel)="password" type="password" name="password" placeholder="비밀번호"
-                              style="ime-mode:active;">
+                            <input matInput (ngModel)="password" 
+                                   type="password" 
+                                   name="password" 
+                                   placeholder="비밀번호"
+                                   style="ime-mode:active;"
+                                   required
+                            >
                           </mat-form-field>
                         </div>
 
