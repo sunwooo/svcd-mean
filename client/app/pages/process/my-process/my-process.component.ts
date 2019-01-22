@@ -56,7 +56,7 @@ export class MyProcessComponent implements OnInit {
                     if(res.success){
                         this.toast.open('수정되었습니다.', 'success');
                     }else{
-                        this.toast.open(res.message, 'danger');
+                        this.toast.open(JSON.stringify(res.message), 'danger');
                     }
                 }
                 this.msg_lock = true;
@@ -64,7 +64,6 @@ export class MyProcessComponent implements OnInit {
             (error: HttpErrorResponse) => {
             }
         );
-
     }
 
     /**
