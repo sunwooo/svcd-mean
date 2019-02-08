@@ -125,9 +125,9 @@ export class IncidentRewriteComponent implements OnInit {
 
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
-        this.formData.higher_cd = this.incidentDetail.higher_cd;
-        this.formData.lower_cd = this.incidentDetail.lower_cd;
-        this.formData.lower_nm = this.incidentDetail.lower_nm;
+        this.formData.incident.higher_cd = this.incidentDetail.higher_cd;
+        this.formData.incident.lower_cd = this.incidentDetail.lower_cd;
+        this.formData.incident.lower_nm = this.incidentDetail.lower_nm;
         
         console.log('============= AAAAAAAAAAAA ===============');
         console.log("this.formData : ", this.formData);
