@@ -102,6 +102,7 @@ export class UserNewComponent implements OnInit {
         
         this.userService.insertUser(form.value).subscribe(
             (res) => {
+                //alert("1 "+res.success);
                 if (res.success) {
 
                     this.toast.open('추가되었습니다.', 'success');
@@ -109,7 +110,7 @@ export class UserNewComponent implements OnInit {
                     //사용자정보관리 조회화면으로 이동
                     this.goList();
                 } else {
-                    this.toast.open('중복된 이메일이 존재합니다.', 'danger');
+                    this.toast.open(JSON.stringify(res.message), 'danger');
                 }
             },
             (error: HttpErrorResponse) => {

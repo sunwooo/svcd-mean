@@ -59,11 +59,11 @@ export class AccountComponent implements OnInit {
                 if(res.success){
                     console.log("===================res success================");
                     this.toast.open('신청되었습니다.', 'success');
-                    console.log("===================res success  2222222222222222222================");
+                    console.log("===================res success  ================");
                     this.modalView.emit(false);
                 }else{
                     console.log("===================res false==================");
-                    this.toast.open(res.message, 'danger');
+                    this.toast.open(JSON.stringify(res.message), 'danger');
                 }
 
                 this.modalView.emit(false);
