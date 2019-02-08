@@ -129,9 +129,9 @@ export class IncidentRewriteComponent implements OnInit {
         this.formData.incident.lower_cd = this.incidentDetail.lower_cd;
         this.formData.incident.lower_nm = this.incidentDetail.lower_nm;
         
-        console.log('============= AAAAAAAAAAAA ===============');
-        console.log("this.formData : ", this.formData);
-        console.log('==========================================');
+        //console.log('============= saveIncident 1 ===============');
+        //console.log("this.formData : ", this.formData);
+        //console.log('==========================================');
 
         if(this.dateChange){
             var tmpDate = new Date(this.formData.incident.request_complete_date);
@@ -141,7 +141,7 @@ export class IncidentRewriteComponent implements OnInit {
 
         //form.onReset();
 
-        //console.log('============= saveIncident ===============');
+        //console.log('============= saveIncident 2===============');
         //console.log("this.uploader : ", this.uploader);
         //console.log('==========================================');
 
