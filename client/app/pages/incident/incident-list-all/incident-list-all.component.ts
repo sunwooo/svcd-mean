@@ -55,8 +55,11 @@ export class IncidentListAllComponent implements OnInit {
     public searchTypeObj: { name: string; value: string; }[] = [
         { name: '제목+내용', value: 'title,content' },
         { name: '제목', value: 'title' },
-        { name: '내용', value: 'content' }
+        { name: '내용', value: 'content' },
+        { name: '요청자', value: 'request_nm' },
+        { name: '담당자', value: 'manager_nm' }
     ];
+
     public today = new Date();
     public minDate = new Date(2015, 0, 1);
     public maxDate = new Date(2030, 0, 1);
