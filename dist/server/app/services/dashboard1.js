@@ -213,7 +213,7 @@ module.exports = {
     var condition = {};
     if (req.query.company_cd != null && req.query.company_cd != '*') {
       condition.request_company_cd = req.query.company_cd;
-    }
+    }   
     if (req.query.yyyy != null) {
       condition.register_yyyy = req.query.yyyy;
     }
@@ -223,6 +223,8 @@ module.exports = {
     if (req.query.higher_cd != null && req.query.higher_cd != '*') {
       condition.higher_cd = req.query.higher_cd;
     }
+
+    condition.request_company_nm = {$ne : null};
 
     //logger.debug("==========================================dashboard1=========================================");
     //logger.debug("condifion : ", condition);

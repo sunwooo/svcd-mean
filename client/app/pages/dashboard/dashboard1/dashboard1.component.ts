@@ -213,6 +213,9 @@ export class Dashboard1Component implements OnInit {
     getChart3() {
         this.dashboard1Service.getChart1_2(this.formData).subscribe(
             (res) => {
+                //console.log("=========================================");
+                //console.log("===================getChart3 ", res);
+                //console.log("=========================================");
                 this.comCntChart = res;
             },
             (error : HttpErrorResponse) => {
