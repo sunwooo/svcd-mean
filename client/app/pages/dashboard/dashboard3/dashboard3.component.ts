@@ -135,9 +135,9 @@ export class Dashboard3Component implements OnInit {
         this.dashboardService.getChart3(this.formData).subscribe(
             (res) => {
                 
-                //console.log("=======================================");
-                //console.log("res : ",res);
-                //console.log("=======================================");
+                console.log("=======================================");
+                console.log("res : ",res);
+                console.log("=======================================");
 
                 var dataArr = res;
                 var tempArr = [];
@@ -163,7 +163,7 @@ export class Dashboard3Component implements OnInit {
                         tempArr.push(obj1);
 
                     });
-                    this.chartData3 = tempArr;
+                    this.chartData3 = tempArr.reverse();
                     
                 }
                 

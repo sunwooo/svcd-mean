@@ -49,15 +49,15 @@ module.exports = {
                          manager_email: {$addToSet: "$manager_email"}
                         }
             },
-            { $sort: {  "_id.register_yyyy" : 1  } 
+            { $sort: {  "_id.register_yyyy" : -1  } 
             },
             { $project : {
-                          "_id.register_yyyy" : 1,
+                          "_id.register_yyyy" : -1,
                           req: { $size: "$requset_id" },
                           mng: { $size: "$manager_email" }
                          }
-            },
-            { $limit: 5
+            }
+            ,{ $limit: 5
             },
         ];
 

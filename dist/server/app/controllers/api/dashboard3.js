@@ -221,6 +221,7 @@ module.exports = {
                         //logger.debug("chart3_5 : " , JSON.stringify(chartData));
                         //logger.debug("=================================");
 
+
                         res.json(chartData);
                         
                     }
