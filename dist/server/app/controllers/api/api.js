@@ -24,10 +24,6 @@ module.exports = {
         if(req.query.mm != null){
             condition.register_mm = req.query.mm;
         }
-        
-        //logger.debug=====================");
-        //logger.debugcondition : ", condition);
-        //logger.debug=====================");
 
         try{
             IncidentModel.find(condition, function (err, incident) {
@@ -91,15 +87,24 @@ module.exports = {
                         newIncident.process_cd            = incident.process_cd              //처리구분
                         newIncident.process_nm            = incident.process_nm              //처리구분내용                                                                        
                         newIncident.valuation             = incident.valuation               //평가점수                                                                         
-                        newIncident.valuation_content     = incident.valuation_content       //평가내용                                                                                                                                                                                                                 
+                        newIncident.valuation_content     = incident.valuation_content       //평가내용
+                        
+                        
+                        if(incident.delete_flag =="Y"){
+                             newIncident.delete_flag      = incident.delete_flag         //삭제여부
+                        }else{
+                            newIncident.delete_flag       = "N"                           //삭제여부
+                        }
+
+                                                                                                                                                                                                                                         
                         //newIncident.created_at            = incident.created_at              //생성일
                         
                         rtnVal.push(newIncident);
                 });
 
-                    //logger.debug=====================");
-                    //logger.debugrtnVal : ", rtnVal);
-                    //logger.debug=====================");
+                    //logger.debug("=====================");
+                    //logger.debug("rtnVal : ", rtnVal);
+                    //logger.debug("=====================");
 
                     res.json(rtnVal);
                 }
@@ -117,9 +122,9 @@ module.exports = {
                 res.json(null);
             }else{
 
-                //logger.debug=====================");
-                //logger.debugcompany : ", company);
-                //logger.debug=====================");
+                //logger.debug(=====================");
+                //logger.debug(company : ", company);
+                //logger.debug(=====================");
 
                 var rtnVal = [];
 
@@ -133,9 +138,9 @@ module.exports = {
                 });
                                                       
 
-                //logger.debug=====================");
-                //logger.debugrtnVal : ", rtnVal);
-                //logger.debug=====================");
+                //logger.debug(=====================");
+                //logger.debug(rtnVal : ", rtnVal);
+                //logger.debug(=====================");
 
                 res.json(rtnVal);
             }
