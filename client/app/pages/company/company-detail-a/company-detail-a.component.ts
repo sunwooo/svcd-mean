@@ -44,7 +44,8 @@ export class CompanyDetailAComponent implements OnInit {
         { name: '하자보수', value: '하자보수' },
         { name: '패키지유지보수', value: '패키지유지보수' },
         { name: '운영유지보수', value: '운영유지보수' },
-        { name: '연말정산', value: '연말정산' }
+        { name: '연말정산', value: '연말정산' },
+        { name: '계약종료', value: '계약종료' }
     ];
 
     public daumAddressOptions =  {
