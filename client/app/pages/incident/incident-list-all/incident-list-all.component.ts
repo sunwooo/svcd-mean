@@ -257,6 +257,7 @@ export class IncidentListAllComponent implements OnInit {
     excelDownloadAll(){
 
         var maxCnt = 3000;
+        var i = 0;
 
         if(this.totalDataCnt <= maxCnt){
 
@@ -270,11 +271,21 @@ export class IncidentListAllComponent implements OnInit {
                 (res) => {
 
 
-                    //console.log("===================================================");
-                    //console.log("res : ",res);
-                    //console.log("===================================================");
+                    console.log("===================================================");
+                    console.log("res: ",res);
+                    console.log("===================================================");
 
                     if(res.incident){
+                                       
+                        for(i=0; i<res.incident.length; i++){
+
+                            res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<br>/ig, "\n");
+                            res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/&nbsp;/ig, " ");
+                            res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+                         
+                        }
+                        
+                        
                         this.excelService.exportAsExcelFile(res.incident, '문의내용');
                     }else{
                         this.toast.open(JSON.stringify(res.message), 'danger');
