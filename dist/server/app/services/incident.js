@@ -99,9 +99,9 @@ function createOrCondition(req){
         }
     }
 
-    //logger.debug("=============================== createOrCondition ==================================");
-    //logger.debug("OrQueries : ",OrQueries);
-    //logger.debug("===============================================================================");
+    logger.debug("=============================== createOrCondition ==================================");
+    logger.debug("OrQueries : ",OrQueries);
+    logger.debug("===============================================================================");
 
     return OrQueries;
     
@@ -203,8 +203,8 @@ function createAndCondition(req){
         if(reg_date_from == reg_date_to){  
             
             var df = new Date(reg_date_from);
-            //df.setDate(df.getDate()-1);  
-            df.setDate(df.getDate());  
+            df.setDate(df.getDate()-1);  
+            //df.setDate(df.getDate());  
             var df2 = df.toISOString();
 
             var dt = new Date(reg_date_to);
@@ -214,8 +214,8 @@ function createAndCondition(req){
         }else{        
 
             var df = new Date(reg_date_from);
-            //df.setDate(df.getDate()-1);
-            df.setDate(df.getDate());
+            df.setDate(df.getDate()-1);
+            //df.setDate(df.getDate());
             var df2 = df.toISOString(); 
 
             var dt = new Date(reg_date_to);
@@ -344,6 +344,11 @@ function createAndCondition(req){
             }
         }
     }
+
+    //console.log("=============================== createOrCondition ==================================");
+    //console.log("AndQueries : ",JSON.stringify(AndQueries));
+    //console.log("===============================================================================");
+
     return AndQueries;
 }
  
