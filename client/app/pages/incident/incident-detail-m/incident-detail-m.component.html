@@ -34,6 +34,8 @@
             <i class="fa fa-check"></i>완료</button>
           <button *ngIf="user_flag != '5' && btnDisplay && incidentDetail?.status_cd == '2'" (click)="openModalLg(ncompleteModal)" type="button" data-toggle="modal" data-target="#n_complete_modal" class="btn btn-default waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-check"></i>미처리 </button>
+          <button *ngIf="incidentDetail?.status_cd == 1 && incidentDetail?.register_sabun != incidentDetail?.request_id" (click)="deleteIncident(incidentDetail?._id);" type="button" class="btn btn-danger waves-effect waves-light m-l-5 btn-sm">
+            <i class="fa fa-remove"></i>삭제</button>
         </div>
       </div>
     </div>
