@@ -157,11 +157,6 @@ export class IncidentNewMngComponent implements OnInit {
             this.toast.open('요청업무를 선택하세요. ', 'danger');
             return;
         }
-        
-        if(!this.request_info.employee_nm){
-            this.toast.open('요청자를 입력하세요. ', 'danger');
-           return;
-        }
 
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
@@ -171,7 +166,6 @@ export class IncidentNewMngComponent implements OnInit {
         form.value.incident.higher_cd = this.higher.higher_cd;
         form.value.incident.higher_nm = this.higher.higher_nm;
         form.value.request_info = this.request_info;
-
 
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
