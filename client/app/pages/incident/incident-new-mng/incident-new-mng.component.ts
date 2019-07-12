@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer, EventEmitter, Renderer2, ViewChild, ElementRef } from '@angular/core';
+﻿import { Component, OnInit, Renderer, EventEmitter, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS, MatDatepickerInputEvent } from '@angular/material';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
@@ -158,6 +158,11 @@ export class IncidentNewMngComponent implements OnInit {
             return;
         }
         
+        if(!this.request_info.employee_nm){
+            this.toast.open('요청자를 입력하세요. ', 'danger');
+           return;
+        }
+
         if(!this.request_info.employee_nm){
             this.toast.open('요청자를 입력하세요. ', 'danger');
            return;
