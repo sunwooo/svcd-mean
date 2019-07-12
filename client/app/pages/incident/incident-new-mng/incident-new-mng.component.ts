@@ -157,6 +157,11 @@ export class IncidentNewMngComponent implements OnInit {
             this.toast.open('요청업무를 선택하세요. ', 'danger');
             return;
         }
+        
+        if(!this.request_info.employee_nm){
+            this.toast.open('요청자를 입력하세요. ', 'danger');
+           return;
+        }
 
         //summernote 내용처리
         var text = $('#summernote').summernote('code');
