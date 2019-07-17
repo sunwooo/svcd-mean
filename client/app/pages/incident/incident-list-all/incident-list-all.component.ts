@@ -195,9 +195,7 @@ export class IncidentListAllComponent implements OnInit {
         this.selectedIdx = idx;
         //this.toast.open(this.user_flag, 'danger'); 
         //this.auth.user_flag == "5"
-        //if(this.incidentDetail.higher_cd =="H008" && this.incidentDetail.complete_open_flag == "N" && this.user_flag == "company"){
-        if(this.incidentDetail.complete_open_flag == "N" && this.user_flag == "company"){    
-            //console.log("1 : ");
+        if(this.incidentDetail.higher_cd =="H008" && this.incidentDetail.complete_open_flag == "N" && this.user_flag == "company"){    
             this.toast.open('조회 권한이 없습니다. 관리자에게 문의하시기 바랍니다.', 'danger'); 
         }else{
             this.modalService.open(modalId, { windowClass: 'xxlModal', centered: true });
