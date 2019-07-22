@@ -549,6 +549,14 @@ module.exports = {
             //logger.debug("incident : ",incident);
             //logger.debug("=================================================");
 
+
+            //logger.debug("=================================================");
+            //logger.debug("totalCnt : ",totalCnt);
+            //logger.debug("(page - 1) * perPage : ",(page - 1) * perPage);
+            //logger.debug("perPage : ",perPage);
+            //console.log("incident AAAAAAAAAAAAAAAAAAAAAA : ", incident);
+            //logger.debug("=================================================");
+
             if (err) {
               return res.json({
                 success: false,
@@ -596,7 +604,19 @@ module.exports = {
           if (req.query.user == "general"){
                 callback(null);
             }else if(req.query.user == "company"){
-                callback(null);
+              //상위업무 'H008'에 대해서는 엑셀다운로드 시, 비공개 값 다운로드 되지 않도록 처리
+              if(req.query.higher_cd =='H008'){
+                if (search.findIncident.$and == null) {
+                  search.findIncident.$and = [{
+                      "complete_open_flag": 'Y'
+                  }];
+                  } else {
+                  search.findIncident.$and.push({
+                      "complete_open_flag": 'Y'
+                  });
+                }
+              }
+              callback(null);
             }else if ((req.session.user_flag == "1" && (req.query.user == "manager" || req.query.user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
 
             var condition = {};
@@ -643,7 +663,7 @@ module.exports = {
 
         if(req.session.user_flag == "5"){
             project ={
-                _id: 0,
+                _id: '$_id',
                 진행상태: '$status_nm',
                 상위업무: '$higher_nm',
                 하위업무: '$lower_nm',
@@ -655,11 +675,12 @@ module.exports = {
                 요청제목: '$title',
                 고객요청내용: '$content',
                 담당자이름: '$manager_nm',
-                처리내용: '$complete_content'
+                처리내용: '$complete_content',
+                공개여부: '$complete_open_flag'
               };
         }else{
             project ={
-                _id: 0,
+                _id: '$_id',
                 진행상태: '$status_nm',
                 상위업무: '$higher_nm',
                 하위업무: '$lower_nm',
@@ -676,7 +697,6 @@ module.exports = {
               };
         }
 
-
         var aggregatorOpts = [{
           $match: search.findIncident
         }, {
@@ -687,6 +707,10 @@ module.exports = {
           }
         }];
 
+        console.log("==================================================");
+        console.log("aggregatorOpts : " , JSON.stringify(aggregatorOpts));
+        console.log("==================================================");
+        
         Incident.aggregate(aggregatorOpts).allowDiskUse(true).exec(function (err, incident) {
           if (err) {
             return res.json({
