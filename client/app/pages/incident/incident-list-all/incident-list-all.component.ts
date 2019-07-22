@@ -285,11 +285,17 @@ export class IncidentListAllComponent implements OnInit {
 
 
                     console.log("===================================================");
-                    console.log("res: ",res);
+                    console.log("res: ",JSON.stringify(this.formData));
                     console.log("===================================================");
 
+                    //if(this.formData.higher_cd ='H008'){
+                    //    console.log('h008입니다.');
+                    //    //res.incident.complete_open_flag ='Y';
+                    //    this.formData.complete_open_flag ='Y';
+                    //}
+
                     if(res.incident){
-                                       
+                        
                         for(i=0; i<res.incident.length; i++){
 
                             res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<br>/ig, "\n");
@@ -325,6 +331,9 @@ export class IncidentListAllComponent implements OnInit {
         this.formData.company_cd = this.company_cd;
         this.formData.register_yyyy = this.register_yyyy;
         this.formData.higher_cd = this.higher_cd;
+        if(this.formData.higher_cd =='H008'){
+            this.formData.complete_open_flag ='Y';
+        }
         this.formData.lower_cd = this.lower_cd;
         if (this.reg_date_from != null)
             this.formData.reg_date_from = this.reg_date_from.format('YYYY-MM-DD');
