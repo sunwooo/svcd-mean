@@ -42,6 +42,8 @@ function fnAllExcel(JsonData){
         tab_text=tab_text+ "<th>"+index+"</th>";
     }
     */
+    
+    tab_text=tab_text+ "<th>ObjectID</th>";
     tab_text=tab_text+ "<th>진행상태</th>";
     tab_text=tab_text+ "<th>상위업무</th>";
     tab_text=tab_text+ "<th>하위업무</th>";
@@ -55,6 +57,7 @@ function fnAllExcel(JsonData){
     tab_text=tab_text+ "<th>담당자이름</th>";
     tab_text=tab_text+ "<th>처리내용</th>";
     tab_text=tab_text+ "<th>처리소요시간</th>";
+    //tab_text=tab_text+ "<th>공개여부</th>";
 
 
     tab_text += "</tr>";
@@ -70,6 +73,13 @@ function fnAllExcel(JsonData){
 
             }
         }*/
+
+        if(arrData[i]['_id'] != null){
+            tab_text += "<td>"+arrData[i]['_id']+"</td>";
+        }else{
+            tab_text += "<td></td>";
+        }
+
         if(arrData[i]['status_nm'] != null){
             tab_text += "<td>"+arrData[i]['status_nm']+"</td>";
         }else{
@@ -116,7 +126,9 @@ function fnAllExcel(JsonData){
             tab_text += "<td></td>";
         }
         if(arrData[i]['content'] != null){
-            tab_text += "<td>"+arrData[i]['content'].replace(/<br>/g,"").replace(/<\/p>/g, "").replace(/<p>/g, "")+"</td>";
+           tab_text += "<td>"+arrData[i]['content'].replace(/<br>/g,"").replace(/<\/p>/g, "").replace(/<p>/g, "")+"</td>";
+           //tab_text += "<td>111</td>";
+           //replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "")+"</td>";
         }else{
             tab_text += "<td></td>";
         }
