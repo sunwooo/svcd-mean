@@ -144,9 +144,10 @@ function createAndCondition(req){
             request_id: req.session.email
         });
     }else if(user == "company"){
-            AndQueries.push({
-                request_company: req.session.request_company
-            });
+        AndQueries.push(
+        {
+            request_company: req.session.request_company
+        });
     }else if ((req.session.user_flag == "1" && (user == "manager" || user == "managerall")) || req.session.user_flag == "3" || req.session.user_flag == "4") {
 
         if(status_cd.length > 1){ //진행 상태가 배열로 요청될 때
@@ -285,11 +286,12 @@ function createAndCondition(req){
     if (req.session.user_flag == "5") {
         AndQueries.push({
             request_company_cd: req.session.company_cd
+            //higher_cd: {$ne: 'H008'}
         });
     }
 
     //업무담당자 조건 추가
-    if (req.session.user_flag == "4") {
+    if (req.session.user_flag == "4") {            
         //회사코드가 존재하면
         if(req.query.user == "managerall"){
             if (company_cd != '*') {
@@ -345,9 +347,9 @@ function createAndCondition(req){
         }
     }
 
-    //console.log("=============================== createOrCondition ==================================");
-    //console.log("AndQueries : ",JSON.stringify(AndQueries));
-    //console.log("===============================================================================");
+    console.log("=============================== createOrCondition ==================================");
+    console.log("AndQueries : ",JSON.stringify(AndQueries));
+    console.log("===============================================================================");
 
     return AndQueries;
 }
