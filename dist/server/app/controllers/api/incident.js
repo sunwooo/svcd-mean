@@ -707,6 +707,10 @@ module.exports = {
           }
         }];
 
+        logger.debug("==================================================");
+        logger.debug("aggregatorOpts : " , JSON.stringify(aggregatorOpts));
+        logger.debug("==================================================");
+
         console.log("==================================================");
         console.log("aggregatorOpts : " , JSON.stringify(aggregatorOpts));
         console.log("==================================================");
