@@ -351,6 +351,10 @@ function createAndCondition(req){
     console.log("AndQueries : ",JSON.stringify(AndQueries));
     console.log("===============================================================================");
 
+    logger.debug("=============================== createOrCondition ==================================");
+    logger.debug("AndQueries : ",JSON.stringify(AndQueries));
+    logger.debug("===============================================================================");
+
     return AndQueries;
 }
  
