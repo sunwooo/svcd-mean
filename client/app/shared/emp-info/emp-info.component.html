@@ -14,7 +14,8 @@
         <p><span>{{userInfo?.dept_nm}}</span></p>
         <p><span>{{userInfo?.employee_nm}} {{userInfo?.position_nm}}</span></p>
         <p><span>{{userInfo?.office_tel_no}}</span></p>
-        <p><span>{{userInfo?.hp_telno}}</span></p>
+        <p><span *ngIf="userInfo?.group_flag != null">{{userInfo?.hp_telno}}</span></p>
+        <!--<p><span>{{userInfo?.group_flag}}</span></p>-->
         <p><span>{{userInfo?.email}}</span></p>
     </div>
   </div>

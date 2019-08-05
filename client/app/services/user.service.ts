@@ -43,13 +43,13 @@ export class UserService {
      */
     getGroupEmpInfo(email: string): Observable<any> {
 
-        //console.log("========getGroupEmpInfo(email : string): Observable<any>========");
-        //console.log("email : ", email);
-        //console.log("======================================================");
+        console.log("========getGroupEmpInfo(email : string): Observable<any>========");
+        console.log("email : ", email);
+        console.log("======================================================");
 
         var headers = new HttpHeaders();
         headers.set('Content-Type', 'application/json');
-        //headers.set('Access-Control-Allow-Origin', '*');
+        headers.set('Access-Control-Allow-Origin', '*');
 
         return this.http.get<any>('http://gw.isu.co.kr/COVIWeb/api/UserSimpleData.aspx?email=' + email, { headers });
     }

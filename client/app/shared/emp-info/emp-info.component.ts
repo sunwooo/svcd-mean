@@ -44,8 +44,10 @@ export class EmpInfoComponent {
     getGroupEmpInfo(email: string) {
         this.userService.getGroupEmpInfo(email).subscribe(
             (res) => {
+                //console.log('res : ', JSON.stringify(res));
                 if(res.exist){
                     this.userInfo = res;
+                    //console.log('1 : ', this.userInfo);
                 }
             },
             (error: HttpErrorResponse) => {
@@ -65,6 +67,7 @@ export class EmpInfoComponent {
         this.userService.getEmpInfo(email).subscribe(
             (res) => {
                 if(res.length > 0){
+                    //console.log('111111');
                     this.userInfo = res[0];
                     this.isLoading = false;
                 }
@@ -72,7 +75,9 @@ export class EmpInfoComponent {
             (error: HttpErrorResponse) => {
             },
             () => { //complete 시 처리
-                if (this.userInfo == null || this.userInfo.group_flag == "in") { //그룹웨서 사용자로 미존재 시 서비스데스크 사용자 조회
+                if (this.userInfo == null) { //그룹웨서 사용자로 미존재 시 서비스데스크 사용자 조회
+                    //console.log('2222222 : ', this.userInfo.group_flag);
+
                     this.getGroupEmpInfo(email);
                 }
             }
