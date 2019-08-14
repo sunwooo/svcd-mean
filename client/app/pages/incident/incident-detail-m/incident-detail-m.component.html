@@ -24,7 +24,7 @@
         <div class="float-left">
           <button *ngIf="btnDisplay" type="button" (click)="cValues('Close click')" class="btn btn-primary waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-bars"></i>목록</button>
-          <button *ngIf="user_flag != '5' && btnDisplay" (click)="openModal(higherCngModal)" class="btn btn-warning waves-effect waves-light m-l-5 btn-sm">
+          <button *ngIf="user_flag != '5' && btnDisplay && incidentDetail?.status_cd != '3' && incidentDetail?.status_cd != '4'" (click)="openModal(higherCngModal)" class="btn btn-warning waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-exchange"></i>업무변경</button>
           <button *ngIf="user_flag != '5' && btnDisplay && incidentDetail?.status_cd == '1'" (click)="openModalLg(receipModal)" class="btn btn-inverse waves-effect waves-light m-l-5 btn-sm">
             <i class="fa fa-edit"></i>접수</button>
