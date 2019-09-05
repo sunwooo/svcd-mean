@@ -663,7 +663,8 @@ module.exports = {
 
         if(req.session.user_flag == "5"){
             project ={
-                _id: '$_id',
+                /* 190904_김선재 : 최재준차장님 요청, 엑실 다운로드시 "_id"열 출력 안되도록 */
+            	_id: 0, //_id: '$_id', 
                 진행상태: '$status_nm',
                 상위업무: '$higher_nm',
                 하위업무: '$lower_nm',
@@ -680,8 +681,9 @@ module.exports = {
               };
         }else{
             project ={
-                _id: '$_id',
-                진행상태: '$status_nm',
+                /* 190904_김선재 : 최재준차장님 요청, 엑실 다운로드시 "_id"열 출력 안되도록 */
+            	_id: 0, //_id: '$_id',
+            	진행상태: '$status_nm',
                 상위업무: '$higher_nm',
                 하위업무: '$lower_nm',
                 요청자이름: '$request_nm',
