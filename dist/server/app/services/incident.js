@@ -86,18 +86,21 @@ function createOrCondition(req){
         } */
         
     }
-    if (req.query.user == "general"){
-        if(req.query.complete){
-            //OrQueries.push({'status_cd':'3'});
-            OrQueries.push({'status_cd':'4'});
-        }else{
-            OrQueries.push({'status_cd':'1'});
-            OrQueries.push({'status_cd':'2'});
-            OrQueries.push({'status_cd':'3'});
-            OrQueries.push({'status_cd':'5'});
-            OrQueries.push({'status_cd':'9'});
-        }
-    }
+    /*
+        191112_김선재 : 검색기능 제한으로 인한 Or 조건에서 And 조건으로 이동
+    */
+    // if (req.query.user == "general"){
+    //     if(req.query.complete){
+    //         //OrQueries.push({'status_cd':'3'});
+    //         OrQueries.push({'status_cd':'4'});
+    //     }else{
+    //         OrQueries.push({'status_cd':'1'});
+    //         OrQueries.push({'status_cd':'2'});
+    //         OrQueries.push({'status_cd':'3'});
+    //         OrQueries.push({'status_cd':'5'});
+    //         OrQueries.push({'status_cd':'9'});
+    //     }
+    // }
 
     logger.debug("=============================== createOrCondition ==================================");
     logger.debug("OrQueries : ",OrQueries);
@@ -143,6 +146,22 @@ function createAndCondition(req){
         AndQueries.push({
             request_id: req.session.email
         });
+        /*
+            191112_김선재 : 검색기능 제한으로 인한 Or 조건에서 And 조건으로 이동
+        */
+        if(req.query.complete){
+            AndQueries.push({'status_cd':'4'});
+        }else {
+            AndQueries.push(
+                {"$or": [
+                    {'status_cd':'1'},
+                    {'status_cd':'2'},
+                    {'status_cd':'3'},
+                    {'status_cd':'5'},
+                    {'status_cd':'9'}
+                ]}
+            )
+        }
     }else if(user == "company"){
         AndQueries.push(
         {
