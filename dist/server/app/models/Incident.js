@@ -51,8 +51,8 @@ var IncidentSchema = new Schema({
     complete_date           : {type : String, default : ''},  //완료일                                                                       
     reading_cnt             : {type : Number},                                                                           
     complete_open_flag      : {type : String, default : 'N'},  //완료후공개여부                                                                     
-    higher_cd               : {type : String},  //상위업무 코드
-    higher_nm               : {type : String},  //상위업무 이름                                             
+    higher_cd               : {type : String, default : 'H011'},  //상위업무 코드
+    higher_nm               : {type : String, default : '기타'},  //상위업무 이름                                             
     lower_cd                : {type : String},  //하위업무 코드
     lower_nm                : {type : String},  //하위업무 이름
     customer_flag           : {type : String},                                                                           
@@ -123,8 +123,10 @@ function setCreateAt(next){
     schema.register_yyyy = m.format("YYYY");
     schema.register_mm = m.format("MM");
     schema.register_dd = m.format("DD");
-
+    
+    
     schema.request_complete_date = schema.request_complete_date.substring(0,10);
+ 
 
     return next();
 }
