@@ -184,7 +184,7 @@
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select (ngModel)="group_flag" name="group_flag" placeholder="그룹사권한구분">
+                            <mat-select (ngModel)="group_flag" name="group_flag" placeholder="그룹사권한구분" required>
                               <mat-option *ngFor="let obj of groupFlagObj" [value]="obj.value">{{obj.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -217,7 +217,7 @@
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select (ngModel)="access_yn" name="access_yn" placeholder="계정 승인여부">
+                            <mat-select (ngModel)="access_yn" name="access_yn" placeholder="계정 승인여부" required>
                               <mat-option *ngFor="let obj of accessYnObj" [value]="obj.value">{{obj.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
@@ -228,7 +228,7 @@
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select (ngModel)="using_yn" name="using_yn" placeholder="계정 사용여부">
+                            <mat-select (ngModel)="using_yn" name="using_yn" placeholder="계정 사용여부" required>
                               <mat-option *ngFor="let obj of usingYnObj" [value]="obj.value">{{obj.name}}</mat-option>
                             </mat-select>
                           </mat-form-field>
