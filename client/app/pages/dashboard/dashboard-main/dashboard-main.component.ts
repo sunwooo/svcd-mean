@@ -16,12 +16,49 @@ import { Dashboard1Component } from '../dashboard1/dashboard1.component';
 import { Dashboard2Component } from '../dashboard2/dashboard2.component';
 import { Dashboard3Component } from '../dashboard3/dashboard3.component';
 
+//************************ select search ************************ */
+import {MatSelect} from '@angular/material';
+import { ReplaySubject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+//************************ select search ************************ */
+
 @Component({
     selector: 'app-dashboard-main',
     templateUrl: './dashboard-main.component.html',
     styleUrls: ['./dashboard-main.component.css']
 })
 export class DashboardMainComponent implements OnInit {
+
+
+    //************************ select search ************************ */
+    /** control for the selected company */
+    public companyCtrl: FormControl = new FormControl();
+    
+    /** control for the MatSelect filter keyword */
+    public companyFilterCtrl: FormControl = new FormControl();
+
+    /** control for the selected company for multi-selection */
+    //public companyMultiCtrl: FormControl = new FormControl();
+
+    /** control for the MatSelect filter keyword multi-selection */
+    public companyMultiFilterCtrl: FormControl = new FormControl();
+
+    /** list of company */
+    public company = []; //회사리스트
+
+    /** list of company filtered by search keyword */
+    public filteredCompany: ReplaySubject<any> = new ReplaySubject<any>(1);
+
+    /** list of company filtered by search keyword for multi-selection */
+    public filteredCompanyMulti: ReplaySubject<any> = new ReplaySubject<any>(1);
+
+    @ViewChild('singleSelect') singleSelect: MatSelect;
+
+    /** Subject that emits when the component has been destroyed. */
+    private _onDestroy = new Subject<void>();
+    //************************ select search ************************ */
 
     @ViewChild(Dashboard1Component) dashboard1: Dashboard1Component;
     @ViewChild(Dashboard2Component) dashboard2: Dashboard2Component;
@@ -108,7 +145,40 @@ export class DashboardMainComponent implements OnInit {
     getCompanyList() {
         this.commonApi.getCompany(this.formData).subscribe(
             (res) => {
-                this.companyObj = res;
+                
+                var initCom: any = {};
+                initCom.name = '전체';
+                initCom.id = '*';
+                this.company.push(initCom);
+
+                res.forEach(company => {
+                    var tmpCom: any = {};
+                    tmpCom.name = company.company_nm;
+                    tmpCom.id = company.company_cd;
+                    this.company.push(tmpCom);
+                });
+
+                //************************ select search ************************ */
+                // set initial selection
+                this.companyCtrl.setValue(this.company[0]);
+                //this.companyMultiCtrl.setValue([this.company[10], this.company[11], this.company[12]]);
+
+                // load the initial company list
+                this.filteredCompany.next(this.company.slice());
+                //this.filteredCompanyMulti.next(this.company.slice());
+
+                // listen for search field value changes
+                this.companyFilterCtrl.valueChanges
+                .pipe(takeUntil(this._onDestroy))
+                .subscribe(() => {
+                    this.filterCompany();
+                });
+                this.companyMultiFilterCtrl.valueChanges
+                .pipe(takeUntil(this._onDestroy))
+                .subscribe(() => {
+                    this.filterCompanyMulti();
+                });
+                //************************ select search ************************ */
             },
             (error: HttpErrorResponse) => {
             }
@@ -141,24 +211,83 @@ export class DashboardMainComponent implements OnInit {
         this.getData();
     }
 
-    /**
-     * 회사 선택 시 처리
-     */
-    setCompany(index){
-        if(index == -1){
-            this.company_cd = '*';
-            this.company_nm = '전체';
-        }else{
-            this.company_cd = this.companyObj[index].company_cd;
-            this.company_nm = this.companyObj[index].company_nm;
-        }
-        this.getData();
-    }
-
     tabChanged(event){
         console.log("============================");
         console.log(event);
         console.log("============================");
     }
+    
+    /**
+     * 회사 선택 시
+     * @param company
+     */
+    selectedCom(company){
+        this.company_cd = company.value.id;
+        this.getData();
+    }
+
+
+    //************************ select search ************************ */
+    ngAfterViewInit() {
+        this.setInitialValue();
+    }
+
+    ngOnDestroy() {
+        this._onDestroy.next();
+        this._onDestroy.complete();
+    }
+
+    /**
+     * Sets the initial value after the filteredCompany are loaded initially
+     */
+    private setInitialValue() {
+        this.filteredCompany
+            .pipe(take(1), takeUntil(this._onDestroy))
+            .subscribe(() => {
+            // setting the compareWith property to a comparison function
+            // triggers initializing the selection according to the initial value of
+            // the form control (i.e. _initializeSelection())
+            // this needs to be done after the filteredCompany are loaded initially
+            // and after the mat-option elements are available
+            this.singleSelect.compareWith = (a: any, b: any) => a && b && a.id === b.id;
+            });
+    }
+
+    private filterCompany() {
+        if (!this.company) {
+            return;
+        }
+        // get the search keyword
+        let search = this.companyFilterCtrl.value;
+        if (!search) {
+            this.filteredCompany.next(this.company.slice());
+            return;
+        } else {
+            search = search.toLowerCase();
+        }
+        // filter the company
+        this.filteredCompany.next(
+            this.company.filter(company => company.name.toLowerCase().indexOf(search) > -1)
+        );
+    }
+
+    private filterCompanyMulti() {
+        if (!this.company) {
+            return;
+        }
+        // get the search keyword
+        let search = this.companyMultiFilterCtrl.value;
+        if (!search) {
+            this.filteredCompanyMulti.next(this.company.slice());
+            return;
+        } else {
+            search = search.toLowerCase();
+        }
+        // filter the company
+        this.filteredCompanyMulti.next(
+            this.company.filter(company => company.name.toLowerCase().indexOf(search) > -1)
+        );
+    }
+    //************************ select search ************************ */
 
 }

@@ -16,6 +16,14 @@ import { ExcelService } from '../../../services/excel.service';
 // Jquery declaration
 declare var $: any;
 
+//************************ select search ************************ */
+import {MatSelect} from '@angular/material';
+import { ReplaySubject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+//************************ select search ************************ */
+
 @Component({
     selector: 'app-incident-list-all',
     templateUrl: './incident-list-all.component.html',
@@ -27,6 +35,35 @@ declare var $: any;
     ],
 })
 export class IncidentListAllComponent implements OnInit {
+
+
+    //************************ select search ************************ */
+    /** control for the selected company */
+    public companyCtrl: FormControl = new FormControl();
+    
+    /** control for the MatSelect filter keyword */
+    public companyFilterCtrl: FormControl = new FormControl();
+
+    /** control for the selected company for multi-selection */
+    //public companyMultiCtrl: FormControl = new FormControl();
+
+    /** control for the MatSelect filter keyword multi-selection */
+    public companyMultiFilterCtrl: FormControl = new FormControl();
+
+    /** list of company */
+    public company = []; //회사리스트
+
+    /** list of company filtered by search keyword */
+    public filteredCompany: ReplaySubject<any> = new ReplaySubject<any>(1);
+
+    /** list of company filtered by search keyword for multi-selection */
+    public filteredCompanyMulti: ReplaySubject<any> = new ReplaySubject<any>(1);
+
+    @ViewChild('singleSelect') singleSelect: MatSelect;
+
+    /** Subject that emits when the component has been destroyed. */
+    private _onDestroy = new Subject<void>();
+    //************************ select search ************************ */
 
     @ViewChild(LowerCdComponent) child: LowerCdComponent;    
 
@@ -49,7 +86,6 @@ export class IncidentListAllComponent implements OnInit {
     public user_flag: string = "user";           //사용자 구분
     public empEmail: string = "";               //팝업 조회용 이메일
 
-    public companyObj: any = [];                //회사리스트
     public registerYyyyObj: any = [];           //문의년도 리스트
     public lowerObj: any = [];                //하위업무리스트
     public searchTypeObj: { name: string; value: string; }[] = [
@@ -107,7 +143,40 @@ export class IncidentListAllComponent implements OnInit {
     getCompanyList() {
         this.commonApi.getCompany(this.formData).subscribe(
             (res) => {
-                this.companyObj = res;
+                
+                var initCom: any = {};
+                initCom.name = '전체';
+                initCom.id = '*';
+                this.company.push(initCom);
+
+                res.forEach(company => {
+                    var tmpCom: any = {};
+                    tmpCom.name = company.company_nm;
+                    tmpCom.id = company.company_cd;
+                    this.company.push(tmpCom);
+                });
+
+                //************************ select search ************************ */
+                // set initial selection
+                this.companyCtrl.setValue(this.company[0]);
+                //this.companyMultiCtrl.setValue([this.company[10], this.company[11], this.company[12]]);
+
+                // load the initial company list
+                this.filteredCompany.next(this.company.slice());
+                //this.filteredCompanyMulti.next(this.company.slice());
+
+                // listen for search field value changes
+                this.companyFilterCtrl.valueChanges
+                .pipe(takeUntil(this._onDestroy))
+                .subscribe(() => {
+                    this.filterCompany();
+                });
+                this.companyMultiFilterCtrl.valueChanges
+                .pipe(takeUntil(this._onDestroy))
+                .subscribe(() => {
+                    this.filterCompanyMulti();
+                });
+                //************************ select search ************************ */
             },
             (error: HttpErrorResponse) => {
             }
@@ -216,6 +285,15 @@ export class IncidentListAllComponent implements OnInit {
      */
     onSelected(processStatus: string) {
         this.status_cd = processStatus;
+        this.getIncident();
+    }
+    
+    /**
+     * 회사 선택 시
+     * @param company
+     */
+    selectedCom(company){
+        this.company_cd = company.value.id;
         this.getIncident();
     }
 
@@ -343,5 +421,69 @@ export class IncidentListAllComponent implements OnInit {
         this.formData.searchText = this.searchText;
         
     }
+
+
+    //************************ select search ************************ */
+    ngAfterViewInit() {
+        this.setInitialValue();
+    }
+
+    ngOnDestroy() {
+        this._onDestroy.next();
+        this._onDestroy.complete();
+    }
+
+    /**
+     * Sets the initial value after the filteredCompany are loaded initially
+     */
+    private setInitialValue() {
+        this.filteredCompany
+            .pipe(take(1), takeUntil(this._onDestroy))
+            .subscribe(() => {
+            // setting the compareWith property to a comparison function
+            // triggers initializing the selection according to the initial value of
+            // the form control (i.e. _initializeSelection())
+            // this needs to be done after the filteredCompany are loaded initially
+            // and after the mat-option elements are available
+            this.singleSelect.compareWith = (a: any, b: any) => a && b && a.id === b.id;
+            });
+    }
+
+    private filterCompany() {
+        if (!this.company) {
+            return;
+        }
+        // get the search keyword
+        let search = this.companyFilterCtrl.value;
+        if (!search) {
+            this.filteredCompany.next(this.company.slice());
+            return;
+        } else {
+            search = search.toLowerCase();
+        }
+        // filter the company
+        this.filteredCompany.next(
+            this.company.filter(company => company.name.toLowerCase().indexOf(search) > -1)
+        );
+    }
+
+    private filterCompanyMulti() {
+        if (!this.company) {
+            return;
+        }
+        // get the search keyword
+        let search = this.companyMultiFilterCtrl.value;
+        if (!search) {
+            this.filteredCompanyMulti.next(this.company.slice());
+            return;
+        } else {
+            search = search.toLowerCase();
+        }
+        // filter the company
+        this.filteredCompanyMulti.next(
+            this.company.filter(company => company.name.toLowerCase().indexOf(search) > -1)
+        );
+    }
+    //************************ select search ************************ */
 
 }

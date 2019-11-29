@@ -13,10 +13,13 @@
                             <mat-form-field class="mat-form-field2">
                                 <mat-select [(ngModel)]="company_cd"
                                             name="company_cd" 
-                                            (selectionChange)="getData()"
+                                            [formControl]="companyCtrl"
+                                            (selectionChange)="selectedCom($event)"
                                             placeholder="회사명">
-                                    <mat-option value="*">전체</mat-option>
-                                    <mat-option *ngFor="let obj of companyObj" [value]="obj.company_cd">{{obj.company_nm}}</mat-option>
+                                    <ngx-mat-select-search [formControl]="companyFilterCtrl"></ngx-mat-select-search>
+                                    <mat-option *ngFor="let company of filteredCompany | async" [value]="company">
+                                    {{company.name}}
+                                    </mat-option>
                                 </mat-select>
                             </mat-form-field>    
                         </div>
