@@ -178,18 +178,29 @@ module.exports = {
         }
         if(req.query.register_date != null){
             condition.register_date = req.query.register_date;
+            condition.request_complete_date = req.query.register_date;
         }
 
-        condition.title = req.query.title;
-        condition.request_id = req.query.request_id;
-        condition.request_company_cd = req.query.request_company_cd;
-        condition.request_company_nm = req.query.request_company_nm;
-        condition.request_dept_nm = req.query.request_dept_nm;
+        if(req.query.title != null){
+            condition.title = req.query.title;
+        }
+        if(req.query.request_id != null){
+            condition.request_id = req.query.request_id;
+        }
+        if(req.query.request_company_cd != null){
+            condition.request_company_cd = req.query.request_company_cd;
+        }
+        if(req.query.request_company_nm != null){
+            condition.request_company_nm = req.query.request_company_nm;
+        }
+        if(req.query.request_dept_nm != null){
+            condition.request_dept_nm = req.query.request_dept_nm;
+        }
+
         condition.app_menu = "GW";
         condition.status_nm ="미평가";
         condition.status_cd ="3";
         condition.valuation ="0";
-        //condition.request_complete_date ="2019-11-11 09:27:24";
        
 
         try{
