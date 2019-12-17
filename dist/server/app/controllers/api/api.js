@@ -157,15 +157,22 @@ module.exports = {
 
         console.log("=================================");
         console.log("========== api gwLink ===========");
+        console.log("========== res ===========", res);
         console.log("=================================");
-
+        /*
         var condition = {};
         
         if(req.query.higher_cd != null){
             condition.higher_cd = req.query.higher_cd;
         }
+        if(req.query.higher_nm != null){
+            condition.higher_nm = req.query.higher_nm;
+        }
         if(req.query.lower_cd != null){
             condition.lower_cd = req.query.lower_cd;
+        }
+        if(req.query.lower_nm != null){
+            condition.lower_nm = req.query.lower_nm;
         }
         if(req.query.yyyy != null){
             condition.register_yyyy = req.query.yyyy;
@@ -173,7 +180,7 @@ module.exports = {
         if(req.query.mm != null){
             condition.register_mm = req.query.mm;
         }
-        if(req.query.register_dd != null){
+        if(req.query.dd != null){
             condition.register_dd = req.query.dd;
         }
         if(req.query.register_date != null){
@@ -186,6 +193,9 @@ module.exports = {
         }
         if(req.query.request_id != null){
             condition.request_id = req.query.request_id;
+        }
+        if(req.query.request_nm != null){
+            condition.request_nm = req.query.request_nm;
         }
         if(req.query.request_company_cd != null){
             condition.request_company_cd = req.query.request_company_cd;
@@ -207,9 +217,6 @@ module.exports = {
             IncidentModel.create(condition, function (err, incident) {
 
               if (err) {
-                console.log("===============================");
-                console.log("incident err : ", err);
-                console.log("===============================");
 
                 return res.json({
                   success: false,
@@ -217,15 +224,17 @@ module.exports = {
                 });
               } else {
 
-                console.log("===============================");
-                console.log("incident : ", incident);
-                console.log("===============================");
-
+                return res.json({
+                    success: true,
+                    message: "insert successed"
+                });
               }
             });
         }catch(e){
             
         }finally{}
+
+        */
     }
 
 
