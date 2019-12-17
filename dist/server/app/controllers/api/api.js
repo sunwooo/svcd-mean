@@ -13,6 +13,9 @@ module.exports = {
 
         //logger.debug========== api hr ===========");
         //logger.debug=============================");
+        console.log("=================================");
+        console.log("============ api hr =============");
+        console.log("=================================");
 
 
         var condition = {};
@@ -150,6 +153,69 @@ module.exports = {
         });
     },
 
+    gwLink: (req, res, next) => {
+
+        console.log("=================================");
+        console.log("========== api gwLink ===========");
+        console.log("=================================");
+
+        var condition = {};
+        
+        if(req.query.higher_cd != null){
+            condition.higher_cd = req.query.higher_cd;
+        }
+        if(req.query.lower_cd != null){
+            condition.lower_cd = req.query.lower_cd;
+        }
+        if(req.query.yyyy != null){
+            condition.register_yyyy = req.query.yyyy;
+        }
+        if(req.query.mm != null){
+            condition.register_mm = req.query.mm;
+        }
+        if(req.query.register_dd != null){
+            condition.register_dd = req.query.dd;
+        }
+        if(req.query.register_date != null){
+            condition.register_date = req.query.register_date;
+        }
+
+        condition.title = req.query.title;
+        condition.request_id = req.query.request_id;
+        condition.request_company_cd = req.query.request_company_cd;
+        condition.request_company_nm = req.query.request_company_nm;
+        condition.request_dept_nm = req.query.request_dept_nm;
+        condition.app_menu = "GW";
+        condition.status_nm ="미평가";
+        condition.status_cd ="3";
+        condition.valuation ="0";
+        //condition.request_complete_date ="2019-11-11 09:27:24";
+       
+
+        try{
+            IncidentModel.create(condition, function (err, incident) {
+
+              if (err) {
+                console.log("===============================");
+                console.log("incident err : ", err);
+                console.log("===============================");
+
+                return res.json({
+                  success: false,
+                  message: err
+                });
+              } else {
+
+                console.log("===============================");
+                console.log("incident : ", incident);
+                console.log("===============================");
+
+              }
+            });
+        }catch(e){
+            
+        }finally{}
+    }
 
 
 };
