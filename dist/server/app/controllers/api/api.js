@@ -166,6 +166,24 @@ module.exports = {
             condition.register_date = req.query.register_date;
             condition.request_complete_date = req.query.register_date;
         }
+        if(req.query.request_id != null){
+            condition.register_sabun = req.query.request_id;
+        }
+        if(req.query.request_nm != null){
+            condition.register_nm = req.query.request_nm;
+        }
+        if(req.query.request_company_cd != null){
+            condition.register_company_cd = req.query.request_company_cd;
+        }
+        if(req.query.request_company_nm != null){
+            condition.register_company_nm = req.query.request_company_nm;
+        }
+  
+        condition.app_menu = "GW";
+        condition.status_nm = "미평가";
+        condition.status_cd = "3";
+        condition.valuation = "0";
+
         /*
         if(req.query.higher_cd != null){
             condition.higher_cd = req.query.higher_cd;
@@ -215,12 +233,15 @@ module.exports = {
         
         try{
             IncidentModel.create(condition, function (err, incident) {
+
               if (err) {
+
                 return res.json({
                   success: false,
                   message: err
                 });
               } else {
+
                 return res.json(condition);
               }
             });
