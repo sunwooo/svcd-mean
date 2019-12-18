@@ -211,29 +211,17 @@ module.exports = {
         if(req.query.request_dept_nm != null){
             condition.request_dept_nm = req.query.request_dept_nm;
         }
-
-        condition.app_menu = "GW";
-        condition.status_nm ="미평가";
-        condition.status_cd ="3";
-        condition.valuation ="0";
-       
         */
         
         try{
             IncidentModel.create(condition, function (err, incident) {
-
               if (err) {
-
                 return res.json({
                   success: false,
                   message: err
                 });
               } else {
-
-                return res.json({
-                    success: true,
-                    message: "insert successed"
-                });
+                return res.json(condition);
               }
             });
         }catch(e){
