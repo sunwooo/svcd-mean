@@ -153,11 +153,12 @@ module.exports = {
         });
     },
 
-    gwLink: (req, res, next) => {
+    gwLink: (req, res) => {
 
         console.log("=================================");
         console.log("========== api gwLink ===========");
-        console.log("========== res ===========", res);
+        console.log("========== req.query ===========", req.query);
+        //console.log("========== res ===========", res);
         console.log("=================================");
         /*
         var condition = {};
@@ -212,9 +213,10 @@ module.exports = {
         condition.status_cd ="3";
         condition.valuation ="0";
        
-
+        */
+        
         try{
-            IncidentModel.create(condition, function (err, incident) {
+            IncidentModel.create(req.query, function (err, incident) {
 
               if (err) {
 
@@ -233,8 +235,8 @@ module.exports = {
         }catch(e){
             
         }finally{}
-
-        */
+        
+        
     }
 
 
