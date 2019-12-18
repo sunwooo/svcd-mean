@@ -155,14 +155,18 @@ module.exports = {
 
     gwLink: (req, res) => {
 
-        console.log("=================================");
-        console.log("========== api gwLink ===========");
+        console.log("===========================================");
+        console.log("=============== api gwLink ================");
         console.log("========== req.query ===========", req.query);
-        //console.log("========== res ===========", res);
-        console.log("=================================");
-        /*
-        var condition = {};
+        console.log("===========================================");
         
+        var condition = req.query;
+
+        if(req.query.register_date != null){
+            condition.register_date = req.query.register_date;
+            condition.request_complete_date = req.query.register_date;
+        }
+        /*
         if(req.query.higher_cd != null){
             condition.higher_cd = req.query.higher_cd;
         }
@@ -216,7 +220,7 @@ module.exports = {
         */
         
         try{
-            IncidentModel.create(req.query, function (err, incident) {
+            IncidentModel.create(condition, function (err, incident) {
 
               if (err) {
 

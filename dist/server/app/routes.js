@@ -162,7 +162,7 @@ router.get('/dashboard/chart3_5', ssc.sessionCheck, dashboard3Ctrl.chart3_5);  /
 //direct
 router.get('/hr', apiCtrl.hr);    //Saas팀 월별 데이타
 router.get('/company', apiCtrl.company);
-router.post('/gwLink', apiCtrl.gwLink);    //gwLink IF 
+router.get('/gwLink', apiCtrl.gwLink);    //gwLink IF 
 
 //upload incident attach file 
 router.post('/upload-file', ssc.sessionCheck, function (req, res) {
