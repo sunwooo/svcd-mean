@@ -241,7 +241,7 @@ module.exports = {
                   message: err
                 });
               } else {
-
+                res.writeHead(200, {'Content-Type': 'charset=utf-8'});
                 return res.json(condition);
               }
             });
