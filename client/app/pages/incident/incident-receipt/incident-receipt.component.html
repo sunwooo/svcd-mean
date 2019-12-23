@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="row"> 
-                    <div class="col-lg-12">        
+                    <div class="col-lg-8">        
                         <div class="form-group">
                             <app-lower-cd 
                                 [required]="true"
@@ -79,6 +79,9 @@
                                 (outLowerCd)="setLower($event)"
                             ></app-lower-cd>
                         </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <mat-checkbox ngModel name="gw_link">GW 결재필요</mat-checkbox>
                     </div>
                 </div>
                 <div class="row"> 
