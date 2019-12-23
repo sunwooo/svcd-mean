@@ -10,9 +10,12 @@ var sender = '서비스데스크 관리자 <servicedesk@isu.co.kr>';
 var coment = "";
 coment += "<br><br>";
 coment += "더 자세한 내용은 서비스 데스크 게시판에서 확인 하세요.<br>";
-coment += "서비스 데스크 ( https://helpdesk.isusystem.co.kr )<br>";
+coment += "서비스 데스크 ( http://sd.isusystem.co.kr )<br>";
 coment += "<br>";
 coment += "※ 이 메일은 발신 전용입니다. 회신은 처리되지 않습니다.";
+
+var commentGW = "";
+commentGW += "※ 이 메일은 발신 전용입니다. 회신은 처리되지 않습니다.";
 
 module.exports = {
 
@@ -270,6 +273,50 @@ module.exports = {
             transporter.close();
         });
     
+    },
+
+    //결재요청 메일
+    requestApproval: (req, req2, res, next) => {
+        
+        var receiver = req.request_nm + " <" + req.request_id + ">";
+        var mailTitle = "[서비스데스크 결재 요청] " + req.title;
+        var html = "";
+        html += "< 문의내용 ><br><br>";
+        html += req.content ;
+        html += "<hr><br>";
+        html += "안녕하세요. 이수시스템 담당자 "+ req2.manager_nm  + " 입니다"+"<br>";
+        html += "위 요청사항은 그룹웨어 결재가 필요합니다."+"<br><br>";
+        html += commentGW;
+
+        var mailOptions = {
+            from: sender,
+            to: receiver,
+            subject: mailTitle,
+            html: html
+        };
+
+        var transporter = nodemailer.createTransport(smtpPool({
+            service: config.mailer.service,
+            host: config.mailer.host,
+            port: config.mailer.port,
+            auth: {
+                user: config.mailer.user,
+                pass: config.mailer.password
+            },
+            tls: {
+                rejectUnauthorize: false
+            },
+            maxConnections: 5,
+            maxMessages: 10
+        }));
+
+        transporter.sendMail(mailOptions, function (err, res) {
+            if (err) {
+                logger.debug('Nodemailer requestApproval Failes >>>>>>>>>> ' + err)
+            }
+            transporter.close();
+        });
+        
     },
 
 }

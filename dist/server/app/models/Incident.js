@@ -87,10 +87,10 @@ var IncidentSchema = new Schema({
     hold_date           : {type : String, default : ''},  //협의필요 코멘트일 
     nc_content        : {type : String},  //미처리 코멘트
     nc_date           : {type : String, default : ''},  //미처리 코멘트일 
-
-    created_at              : {type : String},
-    updated_at              : {type : Date},
-    deleted_at             : {type : Date}
+    created_at        : {type : String},
+    updated_at        : {type : Date},
+    deleted_at        : {type : Date},
+    gw_link           : {type : String, default : 'N'}  //gw결재연동여부
 });
 
 IncidentSchema.pre("save", setCreateAt);

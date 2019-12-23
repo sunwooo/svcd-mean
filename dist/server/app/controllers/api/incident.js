@@ -167,6 +167,7 @@ module.exports = {
         upIncident.complete_reserve_date = upIncident.complete_reserve_date + " " + upIncident.complete_hh + ":" + upIncident.complete_mi + ":" + "00"
         upIncident.status_cd = '2';
         upIncident.status_nm = '처리중';
+        
 
         //접수자 세션체크 후 데이타 맵핑
         upIncident.manager_email = req.session.email;
@@ -193,6 +194,12 @@ module.exports = {
                 message: err
               });
             } else {
+              //SD담당자가 GW결재필요 check 후 접수 시 결재프로세스 요청 메일 전송
+              if(upIncident.gw_link){
+                mailer.requestApproval(Incident, upIncident);
+                //console.log("qqq");
+              }
+
               //접수 업데이트 성공 시 메일 전송
               User.findOne({
                 email: Incident.request_id
