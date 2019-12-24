@@ -58,6 +58,9 @@ export class IncidentReceiptComponent implements OnInit {
         { name: 'D', value: 'D' },
         { name: 'E', value: 'E' }];
 
+
+    public checked = false;  //체크박스 체크여부
+
     constructor(private auth: AuthService,
         private incidentService: IncidentService,
         public toast: ToastComponent,
@@ -85,6 +88,12 @@ export class IncidentReceiptComponent implements OnInit {
         formData.value.incident.lower_cd = this.lower.lower_cd;
         formData.value.incident.lower_nm = this.lower.lower_nm;
 
+        //console.log("===================================================");
+        //console.log("======this.incidentDetail=====", this.incidentDetail);
+        //console.log("===================================================");
+    
+
+
         this.incidentService.setReceipt(formData).subscribe(
             (res) => {
                 //업데이트가 성공하면 진행 상태값 변경
@@ -93,6 +102,12 @@ export class IncidentReceiptComponent implements OnInit {
                     //this.incidentDetail.lower_nm = this.lower.lower_nm;
                     //this.incidentDetail.status_cd = this.status_cd;
                     //this.incidentDetail.status_nm = this.status_nm;
+                    if(res.gw_link == "true"){
+                        console.log("checked");
+                    }else{
+                        console.log("unchecked");
+                    }
+
                     this.output.emit(true);
                 }
             },

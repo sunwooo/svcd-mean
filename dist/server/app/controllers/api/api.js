@@ -13,6 +13,9 @@ module.exports = {
 
         //logger.debug========== api hr ===========");
         //logger.debug=============================");
+        console.log("=================================");
+        console.log("============ api hr =============");
+        console.log("=================================");
 
 
         var condition = {};
@@ -150,6 +153,90 @@ module.exports = {
         });
     },
 
+    gwLink: (req, res) => {
+
+        console.log("===========================================");
+        console.log("=============== api gwLink ================");
+        console.log("========== req.query ===========", req.query);
+        console.log("===========================================");
+        
+        var condition = req.query;
+
+        if(req.query.register_date != null){
+            condition.register_date = req.query.register_date;
+            condition.request_complete_date = req.query.register_date;
+        }
+        condition.app_menu = "GW";
+        condition.status_nm = "미평가";
+        condition.status_cd = "3";
+        condition.valuation = "0";
+
+        /*
+        if(req.query.higher_cd != null){
+            condition.higher_cd = req.query.higher_cd;
+        }
+        if(req.query.higher_nm != null){
+            condition.higher_nm = req.query.higher_nm;
+        }
+        if(req.query.lower_cd != null){
+            condition.lower_cd = req.query.lower_cd;
+        }
+        if(req.query.lower_nm != null){
+            condition.lower_nm = req.query.lower_nm;
+        }
+        if(req.query.yyyy != null){
+            condition.register_yyyy = req.query.yyyy;
+        }
+        if(req.query.mm != null){
+            condition.register_mm = req.query.mm;
+        }
+        if(req.query.dd != null){
+            condition.register_dd = req.query.dd;
+        }
+        if(req.query.register_date != null){
+            condition.register_date = req.query.register_date;
+            condition.request_complete_date = req.query.register_date;
+        }
+
+        if(req.query.title != null){
+            condition.title = req.query.title;
+        }
+        if(req.query.request_id != null){
+            condition.request_id = req.query.request_id;
+        }
+        if(req.query.request_nm != null){
+            condition.request_nm = req.query.request_nm;
+        }
+        if(req.query.request_company_cd != null){
+            condition.request_company_cd = req.query.request_company_cd;
+        }
+        if(req.query.request_company_nm != null){
+            condition.request_company_nm = req.query.request_company_nm;
+        }
+        if(req.query.request_dept_nm != null){
+            condition.request_dept_nm = req.query.request_dept_nm;
+        }
+        */
+        
+        try{
+            IncidentModel.create(condition, function (err, incident) {
+
+              if (err) {
+
+                return res.json({
+                  success: false,
+                  message: err
+                });
+              } else {
+                return res.json(condition);
+              }
+            });
+        }catch(e){
+            
+        }finally{}
+        
+        
+    }
 
 
 };
