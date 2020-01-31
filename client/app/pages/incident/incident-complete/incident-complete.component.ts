@@ -11,6 +11,9 @@ import { AuthService } from '../../../services/auth.service';
 
 const URL = '/api/upload-file';
 
+// Jquery declaration
+declare var $: any;
+
 @Component({
   selector: 'app-incident-complete',
   templateUrl: './incident-complete.component.html',
@@ -71,8 +74,51 @@ export class IncidentCompleteComponent implements OnInit {
             this.formData.incident.complete_attach_file = this.complete_attach_file;
             this.setComplete();
 
-        }        
-
+        }     
+        
+        $('#summernote').summernote({
+            height: 150,     // set editor height;
+            minHeight: null, // set minimum height of editor
+            maxHeight: null, // set maximum height of editor
+            focus: true,    // set focus to editable area after initializing summernote
+            lang : 'ko-KR'   //default: 'en-US'
+           /*
+            , toolbar: [
+                ['edit', ['undo', 'redo']],
+                ['headline', ['style']],
+                ['style', ['bold', 'italic', 'underline', 'superscript', 'subscript', 'strikethrough', 'clear']],
+                ['fontface', ['fontname']],
+                ['textsize', ['fontsize']],
+               // ['fontclr', ['color']],
+                ['alignment', ['ul', 'ol', 'paragraph', 'lineheight']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['view', ['fullscreen', 'codeview']]
+            ]
+            */
+            /*
+            --한글...
+            , toolbar: [
+                ['edit', ['실행 취소', '다시 실행']],
+                ['headline', ['스타일']],
+                ['style', ['굵게', '기울임꼴', '밑줄', '위 첨자', '아래 첨자', '취소선', '글자 효과 없애기']],
+                ['fontface', ['맑은고딕']],
+                ['textsize', ['글자 크기']],
+                ['fontclr', ['색상']],
+                ['alignment', ['글머리 기호', '번호 매기기', '문단 정렬', '줄간격']],
+                ['height', ['줄간격']],
+                ['table', ['테이블']],
+                ['view', ['전체 화면', '코드 보기']]
+            ]
+           */
+            ,popover: {
+                image: [],
+                link: [],
+                air: []
+                }
+        });
+        $('#summernote').summernote('code', this.complete_content);
+    
     }
 
     /**
@@ -113,6 +159,11 @@ export class IncidentCompleteComponent implements OnInit {
         form.value.incident.id = this.incidentDetail._id;
         form.value.incident.process_cd = this.process_cd;
         form.value.incident.process_nm = this.process_nm;
+
+        var text = $('#summernote').summernote('code');
+
+        //var ctext = text.replace(/<img src=/gi,'<img class="summernote-img" src=');
+        form.value.incident.complete_content = text;
 
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
