@@ -53,21 +53,17 @@
                               placeholder="회사명" style="ime-mode:active;" readonly>
                           </mat-form-field>
                         </div>
-
+                        <!--
                         <div class="input-wrap">
                           <mat-form-field class="mat-form-field1">
                             <span matPrefix style="width:10px">
                               <i class="prefix fa fa-institution">&nbsp;&nbsp;&nbsp;</i>
                             </span>
-                            <mat-select [ngModel]="selectedComIdx" name="company_select" (selectionChange)="setCompany($event.value)"
-                              placeholder="맵핑할 회사명">
-                              <mat-option *ngFor="let obj of companyObj; let idx = index" [value]="idx" required
-                                readonly>{{obj.company_nm}}
-                              </mat-option>
+                            <mat-select [ngModel]="selectedComIdx" name="company_select" placeholder="맵핑할 회사명" >
                             </mat-select>
                           </mat-form-field>
                         </div>
-
+                        -->
                         <div class="input-wrap">
                           <mat-form-field class="mat-form-field1">
                             <span matPrefix>
