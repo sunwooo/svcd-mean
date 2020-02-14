@@ -27,9 +27,14 @@ module.exports = {
         if(req.query.mm != null){
             condition.register_mm = req.query.mm;
         }
+        //if(req.query.title != null){
+        //   condition.title = req.query.title;
+        //}
 
         try{
             IncidentModel.find(condition, function (err, incident) {
+
+            
                 if (err) {
                     res.json(null);
                 }else{
@@ -41,7 +46,7 @@ module.exports = {
                     var rtnVal = [];
 
                     incident.forEach(function(incident, index, incidentArray){
-                        
+
                         var newIncident = {};
                         
                         newIncident.higher_cd             = incident.higher_cd               //상위업무 코드
@@ -52,7 +57,8 @@ module.exports = {
                         newIncident.status_nm             = incident.status_nm               //진행상태명            
                         newIncident.process_speed         = incident.process_speed           //긴급구분                                                                                                                                       
                         newIncident.title                 = incident.title                   //제목 
-                        newIncident.content               = incident.content                 //내용                                                                       
+                        newIncident.content               = incident.content                 //내용      
+                        //newIncident.content               = incident.content.replace(/<(\/img|img)([^>]*)>/gi,"")  //PSW 내용 img태그 제거->1건에 대해서만 처리                                                               
                         newIncident.request_company_cd    = incident.request_company_cd      //요청자 회사코드
                         newIncident.request_company_nm    = incident.request_company_nm      //요청자 회사명                                                              
                         newIncident.request_dept_cd       = incident.request_dept_cd         //요청자 부서코드
@@ -98,10 +104,9 @@ module.exports = {
                         }else{
                             newIncident.delete_flag       = "N"                           //삭제여부
                         }
-
                                                                                                                                                                                                                                          
                         //newIncident.created_at            = incident.created_at              //생성일
-                        
+
                         rtnVal.push(newIncident);
                 });
 
@@ -109,11 +114,29 @@ module.exports = {
                     //logger.debug("rtnVal : ", rtnVal);
                     //logger.debug("=====================");
 
+                    ////PSW <img>태그 제거 : Array multi처리 적용
+                    console.log("=====================");
+                    console.log("rtnVal : ", rtnVal.length);
+
+                    for(var tmp=0; tmp< rtnVal.length; tmp++){
+                            if(rtnVal[tmp].content == null){
+                            }else{
+                                if(rtnVal[tmp].content.includes('img')){
+                                    rtnVal[tmp].content = rtnVal[tmp].content.replace(/<(\/img|img)([^>]*)>/gi,"");
+                                }else{
+                                    rtnVal[tmp].content = rtnVal[tmp].content;
+                                }
+                            }
+                            
+                        }
+                    //console.log("rtnVal : ", rtnVal[0].content);
+                    //console.log("rtnVal : ", JSON.stringify(rtnVal));
+                    console.log("=====================");
+
                     res.json(rtnVal);
                 }
             }).sort('-register_date');
-        }catch(e){
-            
+        }catch(err){
         }finally{}
     },
 
