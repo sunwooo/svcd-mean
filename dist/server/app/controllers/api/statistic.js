@@ -24,6 +24,14 @@ module.exports = {
     //logger.debug("xxxxxxxxxxxxxxxxxxxxxxxxxxx  svc.aggregatorOpts : ", JSON.stringify(svc.aggregatorOpts));
     //logger.debug("==================================================================");
 
+    //console.log("comHigher ============================================================================");
+    //console.log("req : ", req);
+    //console.log("req.query : ", req.query);
+    //console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.params : ", req.params);
+    //console.log("req.body : ", req.body);
+    //console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  svc.aggregatorOpts : ", JSON.stringify(svc.aggregatorOpts));
+    //console.log("======================================================================================");
+
     Incident.aggregate(svc.aggregatorOpts).exec(function (err, incident) {
 
         if (err) {
@@ -325,19 +333,174 @@ module.exports = {
   },
 
   /**
-   * 부서별 업무 통계
+   * 회사별 상하위업무별 통계
    */
-  higherLowerDept: (req, res, next) => {
+  comHigherLower: (req, res, next) => {
 
-    var svc = service.higher_lower_dept(req);
+    var svc = service.com_higher_lower(req);
 
-    //logger.debug("higher_lower_dept ======================================================");
+    //logger.debug("higher_lower ======================================================");
     //logger.debug("req : ", req);
     //logger.debug("req.query : ", req.query);
     //logger.debug("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.params : ", req.params);
     //logger.debug("req.body : ", req.body);
     //logger.debug("xxxxxxxxxxxxxxxxxxxxxxxxxxx  svc.aggregatorOpts : ", JSON.stringify(svc.aggregatorOpts));
     //logger.debug("==================================================================");
+
+    Incident.aggregate(svc.aggregatorOpts).exec(function (err, incident) {
+
+        if (err) {
+
+          //logger.debug("==================================================");
+          //logger.debug(" Incident.aggregate error ", err);
+          //logger.debug("==================================================");
+
+          return res.json({
+            success: false,
+            message: err
+          });
+
+        } else {
+
+            incident.forEach(function (data, idx, incident) {
+  
+                //logger.debug("==================================================");
+                //logger.debug("data ", JSON.stringify(data));
+                //logger.debug("data.higher.length ", data.higher);
+                //logger.debug("==================================================");
+
+                var higherTotCnt = 0; //상위업무 전체 개수
+                var higherTotStCnt1 = 0; //상위업무 신청중 개수
+                var higherTotStCnt2 = 0; //상위업무 처리중 개수
+                var higherTotStCnt3 = 0; //상위업무 미평가
+                var higherTotStCnt4 = 0; //상위업무 완료
+                var higherTotStCnt5 = 0; //상위업무 협의필요  개수
+                var higherTotStCnt3_4 = 0; //상위업무 미평가+완료 개수
+                var higherTotValSum = 0; //상위업무 평가 총점
+                var higherTotAvg = 0; //상위업무 평균
+                
+                for(var x = 0; x < data.higher.length; x++) {
+                    
+                    var higher = {};
+
+                    var totalCnt = 0; //전체 개수
+                    var stCnt1 = 0; //신청중 개수
+                    var stCnt2 = 0; //처리중 개수
+                    var stCnt3 = 0; //미평가
+                    var stCnt4 = 0; //완료
+                    var stCnt5 = 0; //협의필요  개수
+                    var stCnt3_4 = 0; //미평가+완료 개수
+
+                    for (var i = 0; i < data.higher[x].status.length; i++) {
+
+                        //전체 개수
+                        totalCnt = totalCnt + data.higher[x].status[i].count;
+
+                        //신청중 개수
+                        if (data.higher[x].status[i].status_cd == '1') {
+                            stCnt1 = stCnt1 + data.higher[x].status[i].count;
+                        }
+
+                        //처리중 개수
+                        if (data.higher[x].status[i].status_cd == '2') {
+                            stCnt2 = stCnt2 + data.higher[x].status[i].count;
+                        }
+
+                        //미평가 개수
+                        if (data.higher[x].status[i].status_cd == '3') {
+                            stCnt3 = stCnt3 + data.higher[x].status[i].count;
+                        }
+
+                        //완료 개수
+                        if (data.higher[x].status[i].status_cd == '4') {
+                            stCnt4 = stCnt4 + data.higher[x].status[i].count;
+                        }
+
+                        //협의필요 
+                        if (data.higher[x].status[i].status_cd == '5') {
+                            stCnt5 = stCnt5 + data.higher[x].status[i].count;
+                        }
+
+                        //완료 또는 미평가
+                        if (data.higher[x].status[i].status_cd == '3' || data.higher[x].status[i].status_cd == '4') {
+                            stCnt3_4 = stCnt3_4 + data.higher[x].status[i].count;
+                        }
+
+                    }
+
+                    higher.lower_nm = data.higher[x].lower_nm;
+                    higher.totalCnt = totalCnt;
+                    higher.stCnt1 = stCnt1;
+                    higher.stCnt2 = stCnt2;
+                    higher.stCnt3 = stCnt3;
+                    higher.stCnt4 = stCnt4;
+                    higher.stCnt5 = stCnt5;
+                    higher.stCnt3_4 = stCnt3_4;
+                    higher.solRatio = ((stCnt3_4 * 100) / totalCnt).toFixed(2);
+                    higher.valuationSum = data.higher[x].valuationSum;
+                    //평점
+                    if (data.higher[x].valuationSum > 0) {
+                        higher.valAvg = (data.higher[x].valuationSum / stCnt4).toFixed(2);
+                    } else {
+                        higher.valAvg = 0;
+                    }
+            
+                    data.higher[x] = higher;
+
+                    higherTotCnt = higherTotCnt + higher.totalCnt; //상위업무 전체 개수
+                    higherTotStCnt1 = higherTotStCnt1 + higher.stCnt1; //상위업무 신청중 개수
+                    higherTotStCnt2 = higherTotStCnt2 + higher.stCnt2; //상위업무 처리중 개수
+                    higherTotStCnt3 = higherTotStCnt3 + higher.stCnt3; //상위업무 미평가
+                    higherTotStCnt4 = higherTotStCnt4 + higher.stCnt4; //상위업무 완료
+                    higherTotStCnt5 = higherTotStCnt5 + higher.stCnt5; //상위업무 협의필요  개수
+                    higherTotStCnt3_4 = higherTotStCnt3_4 + higher.stCnt3_4; //상위업무 미평가+완료 개수
+                    higherTotValSum = higherTotValSum + higher.valuationSum; //상위업무 평가총점
+    
+                    if (higherTotValSum > 0) { //상위업무 평균
+                        higherTotAvg = (higherTotValSum / higherTotStCnt4).toFixed(2);
+                    } else {
+                        higherTotAvg = 0;
+                    }
+
+                }
+
+                data.higherTotCnt = higherTotCnt;
+                data.higherTotStCnt1 = higherTotStCnt1;
+                data.higherTotStCnt2 = higherTotStCnt2;
+                data.higherTotStCnt3 = higherTotStCnt3;
+                data.higherTotStCnt4 = higherTotStCnt4;
+                data.higherTotStCnt5 = higherTotStCnt5;
+                data.higherTotStCnt3_4 = higherTotStCnt3_4;
+                data.higherTotValSum = higherTotValSum;
+                data.higherTotRatio = ((higherTotStCnt3_4 * 100) / higherTotCnt).toFixed(2);
+                data.higherTotAvg = higherTotAvg;
+                
+
+            });
+
+            //logger.debug("==================================================");
+            //logger.debug("incident ", JSON.stringify(incident));
+            //logger.debug("==================================================");
+
+            res.json(incident);
+      }
+    });
+  },
+
+  /**
+   * 부서별 업무 통계
+   */
+  higherLowerDept: (req, res, next) => {
+
+    var svc = service.higher_lower_dept(req);
+
+    console.log("higher_lower_dept ====================================================================");
+    console.log("req : ", req);
+    console.log("req.query : ", req.query);
+    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  req.params : ", req.params);
+    console.log("req.body : ", req.body);
+    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx  svc.aggregatorOpts : ", JSON.stringify(svc.aggregatorOpts));
+    console.log("======================================================================================");
 
     Incident.aggregate(svc.aggregatorOpts).exec(function (err, incident) {
 
@@ -488,8 +651,10 @@ module.exports = {
   /**
    * 진행상태별 건수
    */
+  
   statusCdCnt: (req, res, next) => {
     try {
+      
       async.waterfall([function (callback) {
 
         var today = new Date();
@@ -503,6 +668,9 @@ module.exports = {
 
           var condition2 = {};
           condition2.email = req.session.email;
+
+          
+
           MyProcess.find(condition2).distinct('higher_cd').exec(function (err, myHigherProcess) {
             if (condition.$and == null) {
               condition.$and = [{
@@ -541,6 +709,20 @@ module.exports = {
                 "register_yyyy": thisYear.toString()
               });
             }
+
+
+            //psw - 삭제된 incident 건수는 표기하지 않음 - 2020.02.14 "delete_flag":{"$ne":"Y"}
+            if (condition.$and == null) {
+              condition.$and = [{
+                "delete_flag": {"$ne":"Y"}
+              }];
+            } else {
+              condition.$and.push({
+                "delete_flag": {"$ne":"Y"}
+              });
+            }
+
+
             callback(condition);
           });
 
@@ -577,6 +759,18 @@ module.exports = {
               "register_yyyy": thisYear.toString()
             });
           }
+
+          //psw - 삭제된 incident 건수는 표기하지 않음 - 2020.02.14 "delete_flag":{"$ne":"Y"}
+            if (condition.$and == null) {
+              condition.$and = [{
+                "delete_flag": {"$ne":"Y"}
+              }];
+            } else {
+              condition.$and.push({
+                "delete_flag": {"$ne":"Y"}
+              });
+            }
+
           callback(condition);
         }
 
@@ -585,6 +779,10 @@ module.exports = {
         //logger.debug("========================================================");
         //logger.debug("=====================statusCdCnt condition : ", JSON.stringify(condition));
         //logger.debug("========================================================");
+
+        console.log("========================================================================");
+        console.log("=====================statusCdCnt condition : ", JSON.stringify(condition));
+        console.log("========================================================================");
 
         var aggregatorOpts = [{
             $match: condition
@@ -619,6 +817,7 @@ module.exports = {
         });
 
       });
+      
 
     } catch (e) {
 
@@ -628,6 +827,7 @@ module.exports = {
 
     } finally {}
   },
+  
 
   /**
    * 월별 문의 건수
@@ -945,6 +1145,8 @@ module.exports = {
    */
   higherCdCnt: (req, res, next) => {
 
+    console.log("higherCdCnt=======>");
+
     try {
       async.waterfall([function (callback) {
 
@@ -973,7 +1175,7 @@ module.exports = {
           }, {
             $group: { //그룹칼럼
               _id: {
-                higher_nm: "$higher_nm"
+                higher_cd: "$higher_nm"
               },
               name: {
                 $first: "$higher_nm"
@@ -989,7 +1191,7 @@ module.exports = {
             }
           }
         ];
-
+        console.log("aggregatorOpts : "+ JSON.stringify(aggregatorOpts));
 
         Incident.aggregate(aggregatorOpts).exec(function (err, incident) {
 
