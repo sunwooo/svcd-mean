@@ -119,16 +119,25 @@ module.exports = {
                     console.log("rtnVal : ", rtnVal.length);
 
                     for(var tmp=0; tmp< rtnVal.length; tmp++){
-                            if(rtnVal[tmp].content == null){
+                        if(rtnVal[tmp].content == null){
+                        }else{
+                            if(rtnVal[tmp].content.includes('img')){
+                                rtnVal[tmp].content = rtnVal[tmp].content.replace(/<(\/img|img)([^>]*)>/gi,"");
                             }else{
-                                if(rtnVal[tmp].content.includes('img')){
-                                    rtnVal[tmp].content = rtnVal[tmp].content.replace(/<(\/img|img)([^>]*)>/gi,"");
-                                }else{
-                                    rtnVal[tmp].content = rtnVal[tmp].content;
-                                }
+                                rtnVal[tmp].content = rtnVal[tmp].content;
                             }
-                            
                         }
+                        if(rtnVal[tmp].complete_content == null){
+                        }else{
+                            if(rtnVal[tmp].complete_content.includes('img')){
+                                rtnVal[tmp].complete_content = rtnVal[tmp].complete_content.replace(/<(\/img|img)([^>]*)>/gi,"");
+                            }else{
+                                rtnVal[tmp].complete_content = rtnVal[tmp].complete_content;
+                            }
+                        } 
+                    }
+                    
+                     
                     //console.log("rtnVal : ", rtnVal[0].content);
                     //console.log("rtnVal : ", JSON.stringify(rtnVal));
                     console.log("=====================");
@@ -193,53 +202,6 @@ module.exports = {
         condition.status_nm = "미평가";
         condition.status_cd = "3";
         condition.valuation = "0";
-
-        /*
-        if(req.query.higher_cd != null){
-            condition.higher_cd = req.query.higher_cd;
-        }
-        if(req.query.higher_nm != null){
-            condition.higher_nm = req.query.higher_nm;
-        }
-        if(req.query.lower_cd != null){
-            condition.lower_cd = req.query.lower_cd;
-        }
-        if(req.query.lower_nm != null){
-            condition.lower_nm = req.query.lower_nm;
-        }
-        if(req.query.yyyy != null){
-            condition.register_yyyy = req.query.yyyy;
-        }
-        if(req.query.mm != null){
-            condition.register_mm = req.query.mm;
-        }
-        if(req.query.dd != null){
-            condition.register_dd = req.query.dd;
-        }
-        if(req.query.register_date != null){
-            condition.register_date = req.query.register_date;
-            condition.request_complete_date = req.query.register_date;
-        }
-
-        if(req.query.title != null){
-            condition.title = req.query.title;
-        }
-        if(req.query.request_id != null){
-            condition.request_id = req.query.request_id;
-        }
-        if(req.query.request_nm != null){
-            condition.request_nm = req.query.request_nm;
-        }
-        if(req.query.request_company_cd != null){
-            condition.request_company_cd = req.query.request_company_cd;
-        }
-        if(req.query.request_company_nm != null){
-            condition.request_company_nm = req.query.request_company_nm;
-        }
-        if(req.query.request_dept_nm != null){
-            condition.request_dept_nm = req.query.request_dept_nm;
-        }
-        */
         
         try{
             IncidentModel.create(condition, function (err, incident) {
@@ -260,6 +222,42 @@ module.exports = {
         
         
     }
+
+    ,
+
+    goIncident: (req, res) => {
+
+        console.log("===============================================");
+        console.log("=============== api goIncident ================");
+        console.log("===============================================");
+        var aJson = req.query.objectid;
+        
+        console.log("aJson : ", aJson);
+        //var condition = {}; //req.query;
+        //if(req.query.objectid != null){
+        //    condition._id = ObjectId('"'+ req.query.objectid +'"');
+        //}
+        
+        //console.log("condition : ", condition);
+        
+        try{
+            IncidentModel.findOne({_id: aJson}).exec(function (err, incident) {
+            //IncidentModel.findOne({_id: '5e3cb11816eccb3ba0ade204'}).exec(function (err, incident) {
+   
+                if (err) {
+                    console.log("err : ", err);
+                    ///res.json(null);
+                }else{
+                    console.log("incident id: ", incident._id);
+                    console.log("incident: ", incident);
+                    
+                    
+                }
+            });
+        } catch(err){
+        }finally{}
+    }
+
 
 
 };
