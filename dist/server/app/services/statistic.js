@@ -160,6 +160,12 @@ module.exports = {
                 },]
         });
 
+        /*
+            200217_김선재 : 하위업무가 없으면 통계에 포함되지 않도록 처리 (접수대기, 협의필요 등)
+        */
+        condition.lower_cd = {"$exists":true};
+        condition.lower_nm = {"$exists":true};
+
         condition.$or = OrQueries;
 
         //logger.debug("==========================================statistic service=========================================");
