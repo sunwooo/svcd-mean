@@ -219,45 +219,5 @@ module.exports = {
         }catch(e){
             
         }finally{}
-        
-        
     }
-
-    ,
-
-    goIncident: (req, res) => {
-
-        console.log("===============================================");
-        console.log("=============== api goIncident ================");
-        console.log("===============================================");
-        var aJson = req.query.objectid;
-        
-        console.log("aJson : ", aJson);
-        //var condition = {}; //req.query;
-        //if(req.query.objectid != null){
-        //    condition._id = ObjectId('"'+ req.query.objectid +'"');
-        //}
-        
-        //console.log("condition : ", condition);
-        
-        try{
-            IncidentModel.findOne({_id: aJson}).exec(function (err, incident) {
-            //IncidentModel.findOne({_id: '5e3cb11816eccb3ba0ade204'}).exec(function (err, incident) {
-   
-                if (err) {
-                    console.log("err : ", err);
-                    ///res.json(null);
-                }else{
-                    console.log("incident id: ", incident._id);
-                    console.log("incident: ", incident);
-                    
-                    
-                }
-            });
-        } catch(err){
-        }finally{}
-    }
-
-
-
 };
