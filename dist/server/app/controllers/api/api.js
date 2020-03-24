@@ -30,18 +30,16 @@ module.exports = {
         //if(req.query.title != null){
         //   condition.title = req.query.title;
         //}
-
+        
+        //condition.allowDiskUse = true;
         try{
+            
             IncidentModel.find(condition, function (err, incident) {
 
             
                 if (err) {
                     res.json(null);
                 }else{
-
-                    //logger.debug=====================");
-                    //logger.debugnewIncident : ", JSON.stringify(incident));
-                    //logger.debug=====================");
 
                     var rtnVal = [];
 
@@ -58,7 +56,7 @@ module.exports = {
                         newIncident.process_speed         = incident.process_speed           //긴급구분                                                                                                                                       
                         newIncident.title                 = incident.title                   //제목 
                         newIncident.content               = incident.content                 //내용      
-                        //newIncident.content               = incident.content.replace(/<(\/img|img)([^>]*)>/gi,"")  //PSW 내용 img태그 제거->1건에 대해서만 처리                                                               
+                        //newIncident.content               = incident.content.replace(/<(\/img|img)([^>]*)>/gi,"")  //PSW 내용 img태그 제거->1건에 대해서만 처리                                                          
                         newIncident.request_company_cd    = incident.request_company_cd      //요청자 회사코드
                         newIncident.request_company_nm    = incident.request_company_nm      //요청자 회사명                                                              
                         newIncident.request_dept_cd       = incident.request_dept_cd         //요청자 부서코드
@@ -106,7 +104,7 @@ module.exports = {
                         }
                                                                                                                                                                                                                                          
                         //newIncident.created_at            = incident.created_at              //생성일
-
+                        
                         rtnVal.push(newIncident);
                 });
 
@@ -140,11 +138,14 @@ module.exports = {
                      
                     //console.log("rtnVal : ", rtnVal[0].content);
                     //console.log("rtnVal : ", JSON.stringify(rtnVal));
-                    console.log("=====================");
+                    //console.log("=====================");
 
                     res.json(rtnVal);
                 }
-            }).sort('-register_date');
+            //#psw - MongoError (Sort operation) 오류로 제거 2020-03-24
+            //메모리 부족
+            //}).sort('-register_date');
+            });
         }catch(err){
         }finally{}
     },
@@ -219,5 +220,45 @@ module.exports = {
         }catch(e){
             
         }finally{}
+        
+        
     }
+
+    ,
+
+    goIncident: (req, res) => {
+
+        console.log("===============================================");
+        console.log("=============== api goIncident ================");
+        console.log("===============================================");
+        var aJson = req.query.objectid;
+        
+        console.log("aJson : ", aJson);
+        //var condition = {}; //req.query;
+        //if(req.query.objectid != null){
+        //    condition._id = ObjectId('"'+ req.query.objectid +'"');
+        //}
+        
+        //console.log("condition : ", condition);
+        
+        try{
+            IncidentModel.findOne({_id: aJson}).exec(function (err, incident) {
+            //IncidentModel.findOne({_id: '5e3cb11816eccb3ba0ade204'}).exec(function (err, incident) {
+   
+                if (err) {
+                    console.log("err : ", err);
+                    ///res.json(null);
+                }else{
+                    console.log("incident id: ", incident._id);
+                    console.log("incident: ", incident);
+                    
+                    
+                }
+            });
+        } catch(err){
+        }finally{}
+    }
+
+
+
 };
