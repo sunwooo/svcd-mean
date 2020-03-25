@@ -39,6 +39,7 @@ module.exports = {
             
                 if (err) {
                     res.json(null);
+                    console.log("err >>>>" + err);
                 }else{
 
                     var rtnVal = [];
