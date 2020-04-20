@@ -256,6 +256,10 @@ module.exports = {
         if (upIncident.solution_flag) upIncident.solution_flag = "Y";
         else upIncident.solution_flag = "N";
 
+        // 200410_김선재 : 자체처리여부 체크 추가
+        if (typeof upIncident.self_solve_flag == "undefined" || upIncident.self_solve_flag) upIncident.self_solve_flag = "Y";
+        else upIncident.self_solve_flag = "N";
+
         callback(null, upIncident);
       }], function (err, upIncident) {
         if (err) {

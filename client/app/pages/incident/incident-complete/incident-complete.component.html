@@ -26,7 +26,8 @@
             <div class="card-box m-r-5">
                 <div class="row">
                     <div class="col-lg-4 m-t-20">
-                        <mat-checkbox [ngModel]="checked" name="solution_flag">해결여부</mat-checkbox>
+                        <mat-checkbox [ngModel]="checked" name="solution_flag">해결여부</mat-checkbox>&nbsp;&nbsp;&nbsp;
+                        <mat-checkbox *ngIf="incidentDetail?.higher_cd == 'H001' || incidentDetail?.higher_cd == 'H006'" [ngModel]="checked" name="self_solve_flag">자체처리</mat-checkbox>
                     </div>
                     <div class="col-lg-8">
                         <mat-form-field class="mat-form-field1">
