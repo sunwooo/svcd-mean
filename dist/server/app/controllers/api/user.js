@@ -18,16 +18,18 @@ module.exports = {
      */
     login: (req, res) => {
 
-      //logger.debug("========controller user.login()========");
-      //logger.debug("req.session : ", req.session);
-      //logger.debug("req.cookie : ", req.cookies);
-      //logger.debug("req.body : ", req.body);
-      //logger.debug("req.query : ", req.query);
-      //logger.debug("=======================================");
+      //console.log("========controller user.login()========");
+      //console.log("req.session : ", req.session);
+      //console.log("req.cookie : ", req.cookies);
+      //console.log("req.body : ", req.body);
+      //console.log("req.query : ", req.query);
+      //console.log("=======================================");
 
       var condition = {};
       if (req.body.email != null) {
-        condition.email = req.body.email;
+        /* 200518_김선재 : 메일주소 후행 공백 시 비정상 로그인 현상 처리 */
+        // condition.email = req.body.email;
+        condition.email = req.body.email.trim();
       } else {
         return res.sendStatus(403);
       }
@@ -107,7 +109,7 @@ module.exports = {
                 }
               });
             } catch (e) {
-              logger.debug("login createToken error ", e);
+              console.log("login createToken error ", e);
             }
           }
         ], function (err, userInfo) {
@@ -151,7 +153,7 @@ module.exports = {
         });
       } catch (e) {
         //logger.debug(e);
-        logger.debug("login error : ", e);
+        console.log("login error : ", e);
       }
     },
 
@@ -161,11 +163,11 @@ module.exports = {
     empInfo: (req, res) => {
       try {
 
-        //logger.debug("========controller empInfo========");
-        //logger.debug("req.body.email : ", req.body.email);
-        //logger.debug("req.params.email : ", req.params.email);
-        //logger.debug("req.query.email : ", req.query.email);
-        //logger.debug("=======================================");
+        //console.log("========controller empInfo========");
+        //console.log("req.body.email : ", req.body.email);
+        //console.log("req.params.email : ", req.params.email);
+        //console.log("req.query.email : ", req.query.email);
+        //console.log("=======================================");
 
         var condition = {};
         if (req.query.email != null) {
@@ -177,7 +179,7 @@ module.exports = {
         User.find(condition).exec(function (err, user) {
 
 
-          //logger.debug("===============>user : ", user);
+          //console.log("===============>user : ", user);
 
           if (!user) {
             return res.sendStatus(403);
@@ -193,11 +195,11 @@ module.exports = {
 
     insert: (req, res) => {
       try {
-        logger.debug('Login controller New debug >>> ', req.body.user);
+        console.log('Login controller New debug >>> ', req.body.user);
 
-        logger.debug("=================== insert = (req, res) ======================");
-        logger.debug("req.body.user : ", req.body);
-        logger.debug("==============================================================");
+        console.log("=================== insert = (req, res) ======================");
+        console.log("req.body.user : ", req.body);
+        console.log("==============================================================");
 
         var user = req.body;
 
@@ -210,9 +212,9 @@ module.exports = {
           }, function (err, userCnt) {
             if (err) {
 
-              logger.debug("=============================================");
-              logger.debug("login.js new user err : ", err);
-              logger.debug("=============================================");
+              console.log("=============================================");
+              console.log("login.js new user err : ", err);
+              console.log("=============================================");
 
               return res.json({
                 success: false,
@@ -220,9 +222,9 @@ module.exports = {
               });
             } else {
 
-              logger.debug("=============================================");
-              logger.debug("login new user userCnt : ", userCnt);
-              logger.debug("=============================================");
+              console.log("=============================================");
+              console.log("login new user userCnt : ", userCnt);
+              console.log("=============================================");
 
               callback(null, userCnt);
             }
@@ -238,9 +240,9 @@ module.exports = {
           } else {
             User.create(user, function (err, user) {
               if (err) {
-                logger.debug("===============================")
-                logger.debug("login.js new err : ", err);
-                logger.debug("===============================")
+                console.log("===============================")
+                console.log("login.js new err : ", err);
+                console.log("===============================")
 
                 return res.json({
                   success: false,
@@ -248,10 +250,10 @@ module.exports = {
                 });
               } else {
 
-                logger.debug("===============================")
-                logger.debug("user : ", user);
-                //logger.debug("this.rtnData : ", this.rtnData);
-                logger.debug("===============================")
+                console.log("===============================")
+                console.log("user : ", user);
+                //console.log("this.rtnData : ", this.rtnData);
+                console.log("===============================")
 
                 //rtnData.user = user;
                 res.json({
@@ -263,7 +265,7 @@ module.exports = {
           }
         });
       } catch (e) {
-        logger.debug('user controllers error ====================> ', e)
+        console.log('user controllers error ====================> ', e)
       }
     },
 
@@ -314,12 +316,12 @@ module.exports = {
       var page = 1;
       var perPage = 15;
 
-      //logger.debug("======= getuser =======");
-      //logger.debug("search : ", JSON.stringify(search));
-      //logger.debug("req.query.page : ", req.query.page);
-      //logger.debug("req.query.perPage : ", req.query.perPage);
-      //logger.debug("req.query.searchText : ", req.query.searchText);
-      //logger.debug("=======================");
+      //console.log("======= getuser =======");
+      //console.log("search : ", JSON.stringify(search));
+      //console.log("req.query.page : ", req.query.page);
+      //console.log("req.query.perPage : ", req.query.perPage);
+      //console.log("req.query.searchText : ", req.query.searchText);
+      //console.log("=======================");
 
       if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
       if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
@@ -327,7 +329,7 @@ module.exports = {
       async.waterfall([function (callback) {
         User.count(search.findUsermanage, function (err, totalCnt) {
           if (err) {
-            //logger.debug("user controller list : ", err);
+            //console.log("user controller list : ", err);
 
             return res.json({
               success: false,
@@ -335,16 +337,16 @@ module.exports = {
             });
           } else {
 
-            //logger.debug("=============================================");
-            //logger.debug("incidentCnt : ", totalCnt);
-            //logger.debug("=============================================");
+            //console.log("=============================================");
+            //console.log("incidentCnt : ", totalCnt);
+            //console.log("=============================================");
 
             callback(null, totalCnt);
           }
         });
       }], function (err, totalCnt) {
 
-        //logger.debug("user controller search.findUsermanage : ", search.findUsermanage);
+        //console.log("user controller search.findUsermanage : ", search.findUsermanage);
         User.find(search.findUsermanage, function (err, user) {
             if (err) {
 
@@ -382,12 +384,12 @@ module.exports = {
       var page = 1;
       var perPage = 15;
 
-      //logger.debug("======= getuser =======");
-      //logger.debug("search : ", JSON.stringify(search));
-      //logger.debug("req.query.page : ", req.query.page);
-      //logger.debug("req.query.perPage : ", req.query.perPage);
-      //logger.debug("req.query.searchText : ", req.query.searchText);
-      //logger.debug("=======================");
+      //console.log("======= getuser =======");
+      //console.log("search : ", JSON.stringify(search));
+      //console.log("req.query.page : ", req.query.page);
+      //console.log("req.query.perPage : ", req.query.perPage);
+      //console.log("req.query.searchText : ", req.query.searchText);
+      //console.log("=======================");
 
       if (req.query.page != null && req.query.page != '') page = Number(req.query.page);
       if (req.query.perPage != null && req.query.perPage != '') perPage = Number(req.query.perPage);
@@ -395,7 +397,7 @@ module.exports = {
       async.waterfall([function (callback) {
         User.count(search.findUsermanage, function (err, totalCnt) {
           if (err) {
-            //logger.debug("user controller list : ", err);
+            //console.log("user controller list : ", err);
 
             return res.json({
               success: false,
@@ -403,9 +405,9 @@ module.exports = {
             });
           } else {
 
-            //logger.debug("=============================================");
-            //logger.debug("incidentCnt : ", totalCnt);
-            //logger.debug("=============================================");
+            //console.log("=============================================");
+            //console.log("incidentCnt : ", totalCnt);
+            //console.log("=============================================");
 
             callback(null, totalCnt);
           }
@@ -449,9 +451,9 @@ module.exports = {
     update: (req, res, next) => {
       req.body.user.updatedAt = Date.now();
 
-      //logger.debug("===========User controllers Start!===========");
-      //logger.debug("req.body : ", req.body);
-      //logger.debug("=============================================");
+      //console.log("===========User controllers Start!===========");
+      //console.log("req.body : ", req.body);
+      //console.log("=============================================");
       try {
         User.findOneAndUpdate({
           _id: req.body.user.id
@@ -469,7 +471,7 @@ module.exports = {
           }
         });
       } catch (e) {
-        logger.debug("user controller update error > ", e);
+        console.log("user controller update error > ", e);
       }
     },
 
@@ -478,11 +480,11 @@ module.exports = {
      */
     initPassword: (req, res, next) => {
 
-        //logger.debug("===========User controllers initPassword()===========");
-        //logger.debug(" req.body.user.id : ",  req.body.user.id);
-        //logger.debug(" req.body.user.email.indexOf('@') : ",  req.body.user.email.indexOf('@'));
-        //logger.debug(" req.body.user.email.substring(0,req.body.user.email.indexOf('@')) : ",  req.body.user.email.substring(0,req.body.user.email.indexOf('@')));
-        //logger.debug("=============================================");
+        //console.log("===========User controllers initPassword()===========");
+        //console.log(" req.body.user.id : ",  req.body.user.id);
+        //console.log(" req.body.user.email.indexOf('@') : ",  req.body.user.email.indexOf('@'));
+        //console.log(" req.body.user.email.substring(0,req.body.user.email.indexOf('@')) : ",  req.body.user.email.substring(0,req.body.user.email.indexOf('@')));
+        //console.log("=============================================");
 
         var initPW = req.body.user.email.substring(0,req.body.user.email.indexOf("@"));
         
@@ -511,7 +513,7 @@ module.exports = {
             }
           });
         } catch (e) {
-          logger.debug("user controller initPassword error > ", e);
+          console.log("user controller initPassword error > ", e);
         }
       },
 
@@ -520,9 +522,9 @@ module.exports = {
      */
     accessConfirm: (req, res, next) => {
    
-        //logger.debug("===========User controllers accessConfirm()===========");
-        //logger.debug("req.body : ", req.body);
-        //logger.debug("=============================================");
+        //console.log("===========User controllers accessConfirm()===========");
+        //console.log("req.body : ", req.body);
+        //console.log("=============================================");
 
         var updateData = {'access_yn':'Y',
                           'using_yn':'Y',
@@ -548,7 +550,7 @@ module.exports = {
             }
           });
         } catch (e) {
-          logger.debug("user controller accessConfirm error > ", e);
+          console.log("user controller accessConfirm error > ", e);
         }
       },
 
@@ -557,8 +559,8 @@ module.exports = {
      */
 
     delete: (req, res, next) => {
-      //logger.debug("user delete start.....");
-      //logger.debug("req.body._id > ", req.body._id);
+      //console.log("user delete start.....");
+      //console.log("req.body._id > ", req.body._id);
 
       try {
         User.findOneAndRemove({
@@ -577,7 +579,7 @@ module.exports = {
           }
         });
       } catch (e) {
-        logger.debug("user controller delete error > ", e);
+        console.log("user controller delete error > ", e);
       }
     },
 
@@ -587,8 +589,8 @@ module.exports = {
     insertUser: (req, res, next) => {
       var user = req.body.user;
 
-      //logger.debug('insertUser debug Start >>> ', req.body.user);
-      //logger.debug('insertUser debug Start >>> ', user.email);
+      //console.log('insertUser debug Start >>> ', req.body.user);
+      //console.log('insertUser debug Start >>> ', user.email);
 
       async.waterfall([function (callback) {
         User.count({
@@ -596,9 +598,9 @@ module.exports = {
         }, function (err, userCnt) {
           if (err) {
 
-            //logger.debug("=============================================");
-            //logger.debug("insertUser err : ", err);
-            //logger.debug("=============================================");
+            //console.log("=============================================");
+            //console.log("insertUser err : ", err);
+            //console.log("=============================================");
 
             return res.json({
               success: false,
@@ -606,9 +608,9 @@ module.exports = {
             });
           } else {
 
-            //logger.debug("=============================================");
-            //logger.debug("login new user userCnt : ", userCnt);
-            //logger.debug("=============================================");
+            //console.log("=============================================");
+            //console.log("login new user userCnt : ", userCnt);
+            //console.log("=============================================");
 
             callback(null, userCnt);
           }
@@ -646,8 +648,8 @@ module.exports = {
      * 마이페이지 조회
      */
     myPage: (req, res, next) => {
-      //logger.debug("user controller myPage start!");
-      //logger.debug("req.session.email : ", req.session.email);
+      //console.log("user controller myPage start!");
+      //console.log("req.session.email : ", req.session.email);
 
       User.findOne({
         email: req.session.email
@@ -661,7 +663,7 @@ module.exports = {
 
           //var rtnData = {};
           //rtnData.user = user;
-          //logger.debug("user : ", user);
+          //console.log("user : ", user);
           res.json(user);
         }
       });
