@@ -97,6 +97,7 @@ module.exports = {
                         newIncident.valuation             = incident.valuation               //평가점수                                                                         
                         newIncident.valuation_content     = incident.valuation_content       //평가내용
 
+
                         /* 
                             200519_김선재 : 지혜과장님 요청, SSMS 인터페이스 항목 추가 
                             - "GW 결재필요", "Programe ID", "내부처리 공유"
