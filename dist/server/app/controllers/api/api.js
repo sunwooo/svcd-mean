@@ -48,6 +48,7 @@ module.exports = {
 
                         var newIncident = {};
                         
+                        newIncident.row_id                = incident._id                     //상위업무 코드
                         newIncident.higher_cd             = incident.higher_cd               //상위업무 코드
                         newIncident.higher_nm             = incident.higher_nm               //상위업무 이름                                             
                         newIncident.lower_cd              = incident.lower_cd                //하위업무 코드

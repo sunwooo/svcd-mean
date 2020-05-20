@@ -5,6 +5,7 @@ var moment = require('moment');
 var logger = require('log4js').getLogger('app');
 
 var IncidentSchema = new Schema({
+    _id                     : {type : String}, 
     register_num            : {type : Number},                                                                                                                      
     status_cd               : {type : String, default : '1'},  //진행상태(processStatus 모델)  
     status_nm               : {type : String, default : '접수대기'},  //진행상태명            
