@@ -65,8 +65,13 @@
               <td>
                 <span *ngIf="incidentDetail?.status_cd == '1'" class="label label-inverse">{{incidentDetail?.status_nm}}</span>
                 <span *ngIf="incidentDetail?.status_cd == '2'" class="label label-primary">{{incidentDetail?.status_nm}}</span>
-                <span *ngIf="incidentDetail?.status_cd == '3'" class="label label-success">{{incidentDetail?.status_nm}}</span>
-                <span *ngIf="incidentDetail?.status_cd == '4'" class="label label-purple">{{incidentDetail?.status_nm}}</span>
+                <!-- 200521_김선재 : 자체처리 표기 작업 (H001:그룹웨어, H006:건설ERP) -->
+                <span *ngIf="incidentDetail?.status_cd == '3' && !(incidentDetail?.higher_cd == 'H001' || incidentDetail?.higher_cd == 'H006')" class="label label-success">{{incidentDetail?.status_nm}}</span>
+                <span *ngIf="incidentDetail?.status_cd == '3' && (incidentDetail?.higher_cd == 'H001' || incidentDetail?.higher_cd == 'H006') && incidentDetail?.self_solve_flag == 'N'" class="label label-success">{{incidentDetail?.status_nm}} (외부지원)</span>
+                <span *ngIf="incidentDetail?.status_cd == '3' && (incidentDetail?.higher_cd == 'H001' || incidentDetail?.higher_cd == 'H006') && incidentDetail?.self_solve_flag != 'N'" class="label label-success">{{incidentDetail?.status_nm}} (자체처리)</span>
+                <span *ngIf="incidentDetail?.status_cd == '4' && !(incidentDetail?.higher_cd == 'H001' || incidentDetail?.higher_cd == 'H006')" class="label label-purple">{{incidentDetail?.status_nm}}</span>
+                <span *ngIf="incidentDetail?.status_cd == '4' && (incidentDetail?.higher_cd == 'H001' || incidentDetail?.higher_cd == 'H006') && incidentDetail?.self_solve_flag == 'N'" class="label label-purple">{{incidentDetail?.status_nm}} (외부지원)</span>
+                <span *ngIf="incidentDetail?.status_cd == '4' && (incidentDetail?.higher_cd == 'H001' || incidentDetail?.higher_cd == 'H006') && incidentDetail?.self_solve_flag != 'N'" class="label label-purple">{{incidentDetail?.status_nm}} (자체처리)</span>
                 <span *ngIf="incidentDetail?.status_cd == '5'" class="label label-info">{{incidentDetail?.status_nm}}</span>
                 <span *ngIf="incidentDetail?.status_cd == '9'" class="label label-info">{{incidentDetail?.status_nm}}</span>
               </td>
