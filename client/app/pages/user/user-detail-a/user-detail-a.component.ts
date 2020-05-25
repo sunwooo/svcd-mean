@@ -136,6 +136,8 @@ export class UserDetailAComponent implements OnInit {
         }
 
         form.value.user.id = this.userDetail._id;
+        /* 200525_김선재 : 서비스데스크 계정승인 시 비밀번호 변경 버그 */
+        form.value.password = this.userDetail.password;
         //console.log("================ form.value.user ==============", form.value.user);
         this.userService.putAccessConfirm(form.value).subscribe(
             (res) => {
