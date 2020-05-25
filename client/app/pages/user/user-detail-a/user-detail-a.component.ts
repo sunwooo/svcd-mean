@@ -136,7 +136,7 @@ export class UserDetailAComponent implements OnInit {
         }
 
         form.value.user.id = this.userDetail._id;
-        //console.log("================ form.value.user ==============", form.value.user);
+        // console.log("================ form.value.user ==============", form.value.user);
         this.userService.putAccessConfirm(form.value).subscribe(
             (res) => {
                 if (res.success) {
