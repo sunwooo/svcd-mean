@@ -372,7 +372,7 @@ export class IncidentListAllComponent implements OnInit {
 
                     console.log("===================================================");
                     console.log("res: ",JSON.stringify(this.formData));
-                    console.log("res: ",res);
+                    console.log("res: ",JSON.stringify(res));
                     console.log("===================================================");
 
                     //if(this.formData.higher_cd ='H008'){
@@ -387,16 +387,10 @@ export class IncidentListAllComponent implements OnInit {
 
                             res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<br>/ig, "\n");
                             res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/&nbsp;/ig, " ");
-                            res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
-                            //엑셀 다운로드 태그오류 수정 
-                            res.incident[i].처리내용 = res.incident[i].처리내용.replace(/<br>/ig, "\n");
-                            res.incident[i].처리내용 = res.incident[i].처리내용.replace(/&nbsp;/ig, " ");
-                            res.incident[i].처리내용 = res.incident[i].처리내용.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
-                            
+                            res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");       
                          
                         }
-                        
-                        
+
                         this.excelService.exportAsExcelFile(res.incident, '문의내용');
                     }else{
                         this.toast.open(JSON.stringify(res.message), 'danger');
