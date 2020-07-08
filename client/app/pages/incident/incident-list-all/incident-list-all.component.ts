@@ -52,6 +52,7 @@ export class IncidentListAllComponent implements OnInit {
 
     /** list of company */
     public company = []; //회사리스트
+    //public companyInit = "-1";
 
     /** list of company filtered by search keyword */
     public filteredCompany: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -87,13 +88,14 @@ export class IncidentListAllComponent implements OnInit {
     public empEmail: string = "";               //팝업 조회용 이메일
 
     public registerYyyyObj: any = [];           //문의년도 리스트
-    public lowerObj: any = [];                //하위업무리스트
+    public lowerObj: any = [];                  //하위업무리스트
     public searchTypeObj: { name: string; value: string; }[] = [
         { name: '제목+내용', value: 'title,content' },
         { name: '제목', value: 'title' },
         { name: '내용', value: 'content' },
         { name: '요청자', value: 'request_nm' },
-        { name: '담당자', value: 'manager_nm' }
+        { name: '담당자', value: 'manager_nm' },
+        { name: '인시던트', value: '_id' }
     ];
 
     public today = new Date();
@@ -370,6 +372,7 @@ export class IncidentListAllComponent implements OnInit {
 
                     console.log("===================================================");
                     console.log("res: ",JSON.stringify(this.formData));
+                    console.log("res: ",res);
                     console.log("===================================================");
 
                     //if(this.formData.higher_cd ='H008'){
@@ -385,6 +388,11 @@ export class IncidentListAllComponent implements OnInit {
                             res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<br>/ig, "\n");
                             res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/&nbsp;/ig, " ");
                             res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+                            //엑셀 다운로드 태그오류 수정 
+                            res.incident[i].처리내용 = res.incident[i].처리내용.replace(/<br>/ig, "\n");
+                            res.incident[i].처리내용 = res.incident[i].처리내용.replace(/&nbsp;/ig, " ");
+                            res.incident[i].처리내용 = res.incident[i].처리내용.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+                            
                          
                         }
                         
@@ -424,6 +432,9 @@ export class IncidentListAllComponent implements OnInit {
         if (this.reg_date_to != null)
             this.formData.reg_date_to = this.reg_date_to.format('YYYY-MM-DD');
         this.formData.searchType = this.searchType;
+
+        //this.toast.open(this.formData.searchType,'danger');
+        
         this.formData.searchText = this.searchText;
         
     }
