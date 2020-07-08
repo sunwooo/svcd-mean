@@ -26,11 +26,11 @@ var dashboard3Ctrl = require("../app/controllers/api/dashboard3");
 
 // Login route
 router.post('/login', userCtrl.login);    //로그인
+router.post('/user/addUser', userCtrl.insert);    //사용자 추가등록
 //router.post('/logout', userCtrl.logout);    //로그아웃
 
 //Users route
 router.post('/user/insertUser', ssc.sessionCheck, userCtrl.insertUser);    //사용자 신규등록
-router.post('/user/addUser', ssc.sessionCheck, userCtrl.insert);    //사용자 추가등록
 router.get('/user/empInfo', ssc.sessionCheck, userCtrl.empInfo);    //사용자 정보
 router.get('/user/findEmp', ssc.sessionCheck, userCtrl.findEmp);    //사용자 찾기
 router.get('/user/list', ssc.sessionCheck, userCtrl.list);          //사원정보관리

@@ -48,6 +48,7 @@ module.exports = {
 
                         var newIncident = {};
                         
+                        newIncident.row_id                = incident._id                     //Object ID
                         newIncident.higher_cd             = incident.higher_cd               //상위업무 코드
                         newIncident.higher_nm             = incident.higher_nm               //상위업무 이름                                             
                         newIncident.lower_cd              = incident.lower_cd                //하위업무 코드
@@ -96,6 +97,15 @@ module.exports = {
                         newIncident.process_nm            = incident.process_nm              //처리구분내용                                                                        
                         newIncident.valuation             = incident.valuation               //평가점수                                                                         
                         newIncident.valuation_content     = incident.valuation_content       //평가내용
+
+
+                        /* 
+                            200519_김선재 : 지혜과장님 요청, SSMS 인터페이스 항목 추가 
+                            - "GW 결재필요", "Programe ID", "내부처리 공유"
+                        */
+                        newIncident.gw_link               = (incident.gw_link != null) ? incident.gw_link : 'N'
+                        newIncident.program_id            = incident.program_id
+                        newIncident.sharing_content       = incident.sharing_content
                         
                         
                         if(incident.delete_flag =="Y"){

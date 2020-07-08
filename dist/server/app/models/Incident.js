@@ -5,6 +5,7 @@ var moment = require('moment');
 var logger = require('log4js').getLogger('app');
 
 var IncidentSchema = new Schema({
+
     register_num            : {type : Number},                                                                                                                      
     status_cd               : {type : String, default : '1'},  //진행상태(processStatus 모델)  
     status_nm               : {type : String, default : '접수대기'},  //진행상태명            
@@ -43,6 +44,7 @@ var IncidentSchema = new Schema({
     business_level          : {type : String},  //난이도
     complete_reserve_date   : {type : String, default : ''},  //완료예정일
     solution_flag           : {type : String, default : 'Y'},  //해결여부
+    self_solve_flag         : {type : String, default : 'Y'},  //자체처리여부
     complete_content        : {type : String},  //완료 코멘트
     add_complete_content    : {type : String},  //추가 완료 코멘트                                                                         
     program_id              : {type : String},                                                                           
