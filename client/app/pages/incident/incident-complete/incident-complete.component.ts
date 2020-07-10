@@ -40,6 +40,8 @@ export class IncidentCompleteComponent implements OnInit {
     public process_cd = "";
     public process_nm = "";
     public checked = true;  //체크박스 체크여부
+    /* 200710_김선재 : 상위업무 HR(H008)인 경우 기본 공개여부 비공개 */
+    public publicized = true; //공개여부
  
     constructor(private auth: AuthService,
         private incidentService: IncidentService,
@@ -49,6 +51,11 @@ export class IncidentCompleteComponent implements OnInit {
 
     ngOnInit() {
         this.getProcessGubun();
+
+        /* 200710_김선재 : 상위업무 HR(H008)인 경우 기본 공개여부 비공개 */
+        if(this.incidentDetail.higher_cd == 'H008'){
+            this.publicized = false;
+        }
 
         /**
          * 개별 파일업로드 완료 시 db저장용 object배열에 저장
