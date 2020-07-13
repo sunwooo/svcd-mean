@@ -61,7 +61,8 @@
 
                 <div class="row">
                     <div class="col-lg-4 m-t-20">
-                        <mat-checkbox ngModel name="complete_open_flag">공개여부</mat-checkbox>
+                        <!-- 200710_김선재 : 상위업무 HR(H008)인 경우 기본 공개여부 비공개 -->
+                        <mat-checkbox [ngModel]="publicized" name="complete_open_flag">공개여부</mat-checkbox>
                     </div>
                     <div class="col-lg-4" >
                         <mat-form-field>
