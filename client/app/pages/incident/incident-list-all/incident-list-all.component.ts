@@ -390,12 +390,10 @@ export class IncidentListAllComponent implements OnInit {
                                 res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/&nbsp;/ig, " ");
                                 res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
                             }
-
                             if(res.incident[i].처리내용 != null){
                                 res.incident[i].처리내용 = res.incident[i].처리내용.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
                                 res.incident[i].처리내용 = res.incident[i].처리내용.replace(/<br>/ig, "\n");
                                 res.incident[i].처리내용 = res.incident[i].처리내용.replace(/&nbsp;/ig, " ");
-                               
                             }
                         }
 
