@@ -384,11 +384,19 @@ export class IncidentListAllComponent implements OnInit {
                     if(res.incident){
                         
                         for(i=0; i<res.incident.length; i++){
+                            
+                            if(res.incident[i].고객요청내용 != null){
+                                res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<br>/ig, "\n");
+                                res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/&nbsp;/ig, " ");
+                                res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+                            }
 
-                            res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<br>/ig, "\n");
-                            res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/&nbsp;/ig, " ");
-                            res.incident[i].고객요청내용 = res.incident[i].고객요청내용.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");       
-                         
+                            if(res.incident[i].처리내용 != null){
+                                res.incident[i].처리내용 = res.incident[i].처리내용.replace(/<(\/)?([a-zA-Z]*)(\s[a-zA-Z]*=[^>]*)?(\s)*(\/)?>/ig, "");
+                                res.incident[i].처리내용 = res.incident[i].처리내용.replace(/<br>/ig, "\n");
+                                res.incident[i].처리내용 = res.incident[i].처리내용.replace(/&nbsp;/ig, " ");
+                               
+                            }
                         }
 
                         this.excelService.exportAsExcelFile(res.incident, '문의내용');
@@ -404,6 +412,15 @@ export class IncidentListAllComponent implements OnInit {
             this.toast.open(maxCnt+'건 이하로 다운로드하세요.', 'primary');
         }  
         
+    }
+
+    strip_tags (input, allowed) { 
+        // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+        allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); 
+        var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi ,
+            commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+        return input.replace(commentsAndPhpTags, '')
+                    .replace(tags, function ($0, $1) {return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';});
     }
 
     /**
