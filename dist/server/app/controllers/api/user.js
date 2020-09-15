@@ -56,7 +56,9 @@ module.exports = {
                   ||
                   req.query.key == "$2a$10$0bnBGRBBgiLTMPc8M8LZIuNjErIdMLGOI6SPjLxlIVIhi81HOA0U6" //제공된 키값으로 요청(링크)되면 - 고객사(stlc)
                 ) {
-                  if (user.access_yn == 'Y') {
+                  /* 200915_김선재 : 계정 승인여부(access_yn) 외 사용여부(using_yn)도 로그인 시 체크 */
+                  //if (user.access_yn == 'Y') {
+                  if (user.access_yn == 'Y' && user.using_yn == 'Y') {
                     user.status = 'OK';
                   } else {
                     user.status = 'FAIL';
