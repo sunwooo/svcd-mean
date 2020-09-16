@@ -267,9 +267,8 @@ export class IncidentListAllComponent implements OnInit {
         //this.toast.open(this.user_flag, 'danger'); 
         //this.auth.user_flag == "5"
         if(
-            this.incidentDetail.higher_cd =="H008" 
-         && this.incidentDetail.complete_open_flag == "N" 
-         && this.user_flag == "company"
+            this.incidentDetail.complete_open_flag == "N" // 공개여부 N
+         && this.user_flag == "company" // 고객사관리자
          /* 200622_김선재 : 본인이 등록한 요청건의 경우 공개여부와 상관없이 조회가능 */
          && this.auth.email != this.incidentDetail.request_id
         ){    
