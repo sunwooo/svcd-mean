@@ -30,5 +30,16 @@ export class SvcdNavComponent implements OnInit {
             return false;
         }
     }
+
+    reload(href : string){
+      //this.router.navigate(['/svcd/2200']);
+      this.router.navigateByUrl('/svcd/1400', {
+      skipLocationChange: true,
+      }).then(
+      () => {
+       this.router.navigateByUrl(href);
+     }
+     );
+    }
     
 }
