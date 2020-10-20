@@ -47,10 +47,9 @@
                     <a *ngIf="(user_flag == '9' || user_flag =='5')" [routerLink]="['/svcd/1200']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
                         처리진행현황
                     </a>
-                    <a *ngIf="(user_flag == '9' || user_flag =='5')"  class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
+                    <a *ngIf="(user_flag == '9' || user_flag =='5')" [routerLink]="['/svcd/1400']" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
                         처리된내용검색
                     </a>
-                    <!--[routerLink]="['/svcd/1400']"-->
                     <a *ngIf="(user_flag != '9' && user_flag !='5')" (click)="reload('/svcd/2200')" class="docs-component-viewer-section-tab mat-tab-link ng-star-inserted" mat-tab-link="" routerlinkactive="" aria-current="false" aria-disabled="false" tabindex="0">
                         나의 업무처리현황
                     </a>
