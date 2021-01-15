@@ -194,7 +194,9 @@ module.exports = {
                 message: err
               });
             } else {
-              //SD담당자가 GW결재필요 check 후 접수 시 결재프로세스 요청 메일 전송
+              /*
+               * SD담당자가 GW결재필요 check 후 접수 시 결재프로세스 요청 메일 전송
+              */ 
               if(upIncident.gw_link){
                 mailer.requestApproval(Incident, upIncident);
                 //console.log("qqq");
@@ -506,7 +508,8 @@ module.exports = {
             if (req.query.user != "managerall") {
               condition.email = req.session.email;
             }
-
+            
+            /*
              MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
               if (search.findIncident.$and == null) {
                 search.findIncident.$and = [{
@@ -523,6 +526,41 @@ module.exports = {
               }
               callback(null);
             });
+            */
+            MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
+              if (search.findIncident.$and == null) {
+                search.findIncident.$and = [{
+                  "higher_cd": {
+                    "$in": myHigherProcess
+                  }
+                }];
+              } else {
+                search.findIncident.$and.push({
+                  "higher_cd": {
+                    "$in": myHigherProcess
+                  }
+                });
+              }
+              //callback(null);
+            });
+
+            MyProcess.find(condition).distinct('lower_cd').exec(function (err, myLowerProcess) {
+              if (search.findIncident.$and == null) {
+                search.findIncident.$and = [{
+                  "lower_cd": {
+                    "$in": myLowerProcess
+                  }
+                }];
+              } else {
+                search.findIncident.$and.push({
+                  "lower_cd": {
+                    "$in": myLowerProcess
+                  }
+                });
+              }
+              callback(null);
+            });
+
           }
 
         },
@@ -547,9 +585,9 @@ module.exports = {
         }
       ], function (err, totalCnt) {
 
-        //logger.debug("=================================================");
-        //logger.debug("search.findIncident : ",JSON.stringify(search.findIncident));
-        //logger.debug("=================================================");
+        console.log("=================================================");
+        console.log("search.findIncident : ",JSON.stringify(search.findIncident));
+        console.log("=================================================");
 
         Incident.find(search.findIncident, function (err, incident) {
 
@@ -714,17 +752,35 @@ module.exports = {
           $match: search.findIncident
         }, {
           $project: project
-        }, {
+        },{
           $sort: {
             "등록일자": -1
           }
         }];
+       
+        /*, {
+          $sort: {
+            "등록일자": -1
+          }
+        }];*/
+        /**
+        *db.stocks.aggregate()
+            [
+              { $project : { cusip: 1, date: 1, price:1, _id: 0 } },
+              { $sort : { cusip : 1, date: 1 } }
+            ],
+            {
+              allowDiskUse: true
+            }
+          )
+        */
 
         console.log("==================================================");
         console.log("aggregatorOpts : " , JSON.stringify(aggregatorOpts));
         console.log("==================================================");
         
         Incident.aggregate(aggregatorOpts).allowDiskUse(true).exec(function (err, incident) {
+        //Incident.aggregate(aggregatorOpts).exec(function (err, incident) {
           if (err) {
             return res.json({
               success: false,
