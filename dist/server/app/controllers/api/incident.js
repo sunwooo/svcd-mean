@@ -509,7 +509,7 @@ module.exports = {
               condition.email = req.session.email;
             }
             
-            /*
+            
              MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
               if (search.findIncident.$and == null) {
                 search.findIncident.$and = [{
@@ -526,41 +526,7 @@ module.exports = {
               }
               callback(null);
             });
-            */
-            MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
-              if (search.findIncident.$and == null) {
-                search.findIncident.$and = [{
-                  "higher_cd": {
-                    "$in": myHigherProcess
-                  }
-                }];
-              } else {
-                search.findIncident.$and.push({
-                  "higher_cd": {
-                    "$in": myHigherProcess
-                  }
-                });
-              }
-              //callback(null);
-            });
-
-            MyProcess.find(condition).distinct('lower_cd').exec(function (err, myLowerProcess) {
-              if (search.findIncident.$and == null) {
-                search.findIncident.$and = [{
-                  "lower_cd": {
-                    "$in": myLowerProcess
-                  }
-                }];
-              } else {
-                search.findIncident.$and.push({
-                  "lower_cd": {
-                    "$in": myLowerProcess
-                  }
-                });
-              }
-              callback(null);
-            });
-
+            
           }
 
         },
