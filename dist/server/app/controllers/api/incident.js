@@ -508,8 +508,52 @@ module.exports = {
             if (req.query.user != "managerall") {
               condition.email = req.session.email;
             }
+
+            /*
+              PSW 2021-01-21 수정  
+              상위항목은 존재하나, 지정되지 않은 하위항목도 포함시키기 위해 처리 
+            */           
+            var condition2 = {};
+
+            if(req.query.email == null){ 
+                condition2.email = req.session.email;
+            }else{
+                condition2.email = req.query.email;
+            }
             
-            
+            MyProcess.find(condition2, function (err, mp) {
+              if (!err) {
+                  var rtnArr = [];
+
+                  //비교용 myProcessArr 생성
+                  var myProcessArr = getMyprocess(condition2.email, mp);
+
+                  //var lowerArr = [];
+                  var lower= [];
+                  lower = myProcessArr;
+
+                  if (search.findIncident.$and == null) {
+                    search.findIncident.$and = [{
+                      "lower_cd": {
+                        "$in": lower
+                      }
+                    }];
+                  } else {
+                    search.findIncident.$and.push({
+                      "lower_cd": {
+                        "$in": lower
+                      }
+                    });
+                  }
+                }
+                callback(null);
+            });
+            //수정 끝
+
+            //logger.debug("==========================================================");
+            //logger.debug("search.findIncident1 :",JSON.stringify(search.findIncident));
+            //logger.debug("==========================================================");
+
              MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
               if (search.findIncident.$and == null) {
                 search.findIncident.$and = [{
@@ -526,12 +570,9 @@ module.exports = {
               }
               callback(null);
             });
-            
           }
-
         },
         function (callback) {
-
           //logger.debug("================================================================");
           //logger.debug("===================> search.findIncident : ", search.findIncident);
           //logger.debug("================================================================");
@@ -550,10 +591,13 @@ module.exports = {
           });
         }
       ], function (err, totalCnt) {
+        console.log("==========================================================");
+        console.log("search.findIncident2 :",JSON.stringify(search.findIncident));
+        console.log("==========================================================");
 
-        console.log("=================================================");
-        console.log("search.findIncident : ",JSON.stringify(search.findIncident));
-        console.log("=================================================");
+        //logger.debug("==========================================================");
+        //logger.debug("search.findIncident2 :",JSON.stringify(search.findIncident));
+        //logger.debug("==========================================================");
 
         Incident.find(search.findIncident, function (err, incident) {
 
@@ -711,6 +755,8 @@ module.exports = {
                 담당자이름: '$manager_nm',
                 처리내용: '$complete_content',
                 처리소요시간: '$work_time'
+                //,programID : '$program_id',
+                //내부공유사항: '$sharing_content'
               };
         }
 
@@ -1075,5 +1121,34 @@ module.exports = {
     } finally {}
 
   },
+
+}
+
+/**
+ * 본인 하위 업무 조회
+ * @param {*} email 
+ * @param {*} userInfo 
+ */
+function getMyprocess(email, processInfo) {
+
+    var rtnArr = [];
+    var i=0;
+
+    processInfo.forEach((ps) => {
+        if (ps.email == email) {
+          i++;
+        rtnArr.push(ps.lower_cd);
+        }
+    });
+    /*
+      PSW 2021-01-21 수정  
+      상위항목은 존재하나, 지정되지 않은 하위항목도 포함시키기 위해 처리 
+    */
+    i =0;
+    if(i==0){
+      rtnArr.push(null);
+    }
+
+    return rtnArr;
 
 }
