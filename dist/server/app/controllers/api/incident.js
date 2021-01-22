@@ -1148,6 +1148,9 @@ function getMyprocess(email, processInfo) {
     if(i==0){
       rtnArr.push(null);
     }
+    if(i==0){
+      rtnArr.push("");
+    }
 
     return rtnArr;
 
