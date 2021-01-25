@@ -509,66 +509,67 @@ module.exports = {
               condition.email = req.session.email;
             }
 
-            /*
-              PSW 2021-01-21 수정  
-              상위항목은 존재하나, 지정되지 않은 하위항목도 포함시키기 위해 처리 
-            */           
-            var condition2 = {};
-
-            if(req.query.email == null){ 
-                condition2.email = req.session.email;
-            }else{
-                condition2.email = req.query.email;
-            }
-            
-            MyProcess.find(condition2, function (err, mp) {
-              if (!err) {
-                  var rtnArr = [];
-
-                  //비교용 myProcessArr 생성
-                  var myProcessArr = getMyprocess(condition2.email, mp);
-
-                  //var lowerArr = [];
-                  var lower= [];
-                  lower = myProcessArr;
-
-                  if (search.findIncident.$and == null) {
-                    search.findIncident.$and = [{
-                      "lower_cd": {
-                        "$in": lower
-                      }
-                    }];
-                  } else {
-                    search.findIncident.$and.push({
-                      "lower_cd": {
-                        "$in": lower
-                      }
-                    });
-                  }
-                }
-                callback(null);
-            });
-            //수정 끝
-
             //logger.debug("==========================================================");
             //logger.debug("search.findIncident1 :",JSON.stringify(search.findIncident));
             //logger.debug("==========================================================");
 
              MyProcess.find(condition).distinct('higher_cd').exec(function (err, myHigherProcess) {
-              if (search.findIncident.$and == null) {
-                search.findIncident.$and = [{
-                  "higher_cd": {
-                    "$in": myHigherProcess
-                  }
-                }];
-              } else {
-                search.findIncident.$and.push({
-                  "higher_cd": {
-                    "$in": myHigherProcess
-                  }
-                });
-              }
-              callback(null);
+	              if (search.findIncident.$and == null) {
+	                search.findIncident.$and = [{
+	                  "higher_cd": {
+	                    "$in": myHigherProcess
+	                  }
+	                }];
+	              } else {
+	                search.findIncident.$and.push({
+	                  "higher_cd": {
+	                    "$in": myHigherProcess
+	                  }
+	                });
+	              }
+
+	              /*
+	                PSW 2021-01-21 수정  
+	                상위항목은 존재하나, 지정되지 않은 하위항목도 포함시키기 위해 처리 
+	              */           
+	          	  /* 210125_김선재 : lower_cd 찾는 함수와 higher_cd 찾는 함수가 병렬로 돌아 서로 callback 을 호출하는 부분 수정 */
+	              var condition2 = {};
+
+	              if(req.query.email == null){ 
+	                  condition2.email = req.session.email;
+	              }else{
+	                  condition2.email = req.query.email;
+	              }
+	              
+	              MyProcess.find(condition2, function (err, mp) {
+	                if (!err) {
+	                    var rtnArr = [];
+
+	                    //비교용 myProcessArr 생성
+	                    var myProcessArr = getMyprocess(condition2.email, mp);
+
+	                    //var lowerArr = [];
+	                    var lower= [];
+	                    lower = myProcessArr;
+
+	                    if (search.findIncident.$and == null) {
+	                      search.findIncident.$and = [{
+	                        "lower_cd": {
+	                          "$in": lower
+	                        }
+	                      }];
+	                    } else {
+	                      search.findIncident.$and.push({
+	                        "lower_cd": {
+	                          "$in": lower
+	                        }
+	                      });
+	                    }
+	                  }
+	                  callback(null);
+	              });
+	              //수정 끝
+
             });
           }
         },
@@ -576,6 +577,7 @@ module.exports = {
           //logger.debug("================================================================");
           //logger.debug("===================> search.findIncident : ", search.findIncident);
           //logger.debug("================================================================");
+          console.log("sjswork", JSON.stringify(search.findIncident));
 
           Incident.count(search.findIncident, function (err, totalCnt) {
             if (err) {
