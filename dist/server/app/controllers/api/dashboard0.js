@@ -3,6 +3,7 @@
 var async = require('async');
 var Incident = require('../../models/Incident');
 var MyProcess = require('../../models/MyProcess');
+var incidentService = require('../../services/incident');
 var service = require('../../services/statistic');
 var CONFIG = require('../../../config/config.json');
 var logger = require('log4js').getLogger('app');
@@ -44,8 +45,12 @@ module.exports = {
             condition.manager_email = req.query.manager_email;
         }
 
+        /* 210126_김선재 : 일반사용자 화면 조회조건 수정 */
+        var search = incidentService.createSearch(req);
+
         var aggregatorOpts = [{
-            $match: condition
+            // $match: condition
+            $match: search.findIncident
             }, {
             $group: { //그룹칼럼
                 _id: {
@@ -119,8 +124,13 @@ module.exports = {
 
         condition.status_cd = "4";
 
+        /* 210126_김선재 : 일반사용자 화면 조회조건 수정 */
+        var search = incidentService.createSearch(req);
+        search.findIncident.$and.push({"status_cd":"4"});
+
         var aggregatorOpts = [{
-            $match: condition
+            // $match: condition
+            $match: search.findIncident
             }, {
             $group: { //그룹칼럼
                 _id: {
@@ -242,8 +252,13 @@ module.exports = {
         //처리완료만 처리
         condition.status_cd = '4';
 
+        /* 210126_김선재 : 일반사용자 화면 조회조건 수정 */
+        var search = incidentService.createSearch(req);
+        search.findIncident.$and.push({"status_cd":"4"});
+
         var aggregatorOpts = [{
-                $match: condition
+                // $match: condition
+                $match: search.findIncident
             }, {
             $group: { //그룹칼럼
                 _id: null,

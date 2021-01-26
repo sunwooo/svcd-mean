@@ -498,7 +498,7 @@ module.exports = {
 
           //callback을 이용한 higher_cd를 가져오기 때문에 service에서 생성 않음
           //전체담당자, 팀장, 업무담당자이고 구분값에 manager로 넘어왔을 시 
-          if (req.query.user == "general"){
+          if (req.session.user_flag == "9" || req.query.user == "general"){
               callback(null);
           }else if(req.query.user == "company"){
               callback(null);

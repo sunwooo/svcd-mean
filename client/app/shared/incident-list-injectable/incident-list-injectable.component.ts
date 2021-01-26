@@ -67,7 +67,9 @@ export class IncidentListInjectableComponent implements OnInit {
 
         this.setTransForm();
 
-        this.incidentService.getIncidentDashboard(this.formData).subscribe(
+        /* 210126_김선재 : 일반사용자 화면 조회조건 수정 */
+        // this.incidentService.getIncidentDashboard(this.formData).subscribe(
+        this.incidentService.getIncident(this.formData).subscribe(
             
             (res) => {
 
