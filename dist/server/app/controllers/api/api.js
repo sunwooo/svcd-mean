@@ -2,6 +2,10 @@
 
 var mongoose = require('mongoose');
 var async = require('async');
+var request = require("request");
+var CONFIG = require('../../../config/config.json');
+var alimi = require('../../util/alimi');
+
 var IncidentModel = require('../../models/Incident');
 var CompanyModel = require('../../models/Company');
 var logger = require('log4js').getLogger('app');
@@ -270,6 +274,145 @@ module.exports = {
         }finally{}
     }
 
+    /* 210226_김선재 */
+    ,
+    registerIncident: (req, res) => {
 
+        console.log("=====================================================");
+        console.log("=============== api registerIncident ================");
+        console.log("=====================================================");
+        console.log("req.body", req.body);
+
+        var requestType = req.body.type;
+        var condition = {};
+
+        var newincident = {};
+
+        try {
+
+            switch(requestType){
+                // 전자전표 결재문서 삭제 요청 문의글 동록
+                case "delSlipDoc":
+
+                    condition.requestPerson = req.body.requestPerson;
+                    condition.fiid = req.body.fiid;
+
+                    async.waterfall([
+                        function(callback) {
+
+                            // 기본정보 가져오기
+                            request({
+                                //210525_김선재 : 개발 세팅
+                                //uri : CONFIG.groupware.uri + "/COVIWeb/api/UserSimpleData.aspx?email=" + condition.requestPerson,
+                                uri : "http://gw.isudev.com" + "/COVIWeb/api/UserSimpleData.aspx?email=" + condition.requestPerson,
+                                method : "GET",
+                                headers : {
+                                    "Content-Type" : "application/json",
+                                    "Access-Control-Allow-Origin" : "*"
+                                }
+                            }, function(err, res, body) {
+                                callback(null, body);
+                            });
+
+                        },
+                        function(userData, callback) {
+
+                            // 삭제 요청내역 등록
+                            var urlString = "/COVIWeb/api/WithdrawDocSlip.aspx?type=register";
+                            urlString = urlString + "&fiid=" + condition.fiid;
+                            urlString = urlString + "&registerCode=" + condition.requestPerson;
+
+                            console.log("URL : "+ urlString);
+
+                            request({
+                                //210525_김선재 : 개발 세팅
+                                //uri : CONFIG.groupware.uri + urlString,
+                                uri : "http://gw.isudev.com" + urlString,
+                                method : "GET",
+                                headers : {
+                                    "Content-Type" : "application/json",
+                                    "Access-Control-Allow-Origin" : "*"
+                                }
+                            }, function(err, res, body) {
+                                callback(null, userData);
+                            });
+
+                        }
+                    ], function(err, body) {
+                        if(err) {
+                            console.log("request", "err", err);
+                            return res.json({
+                                code : "FAIL",
+                                message : "GW Api failed",
+                                err : err
+                            });
+                        }
+
+                        var requestPerson = JSON.parse(body);
+
+                        var content = "<p>전자전표 회수를 위한 결재 문서 삭제 요청입니다.</p><p>문의자 :&nbsp;<br>&nbsp;&nbsp;{회사}<br>&nbsp; {소속}<br>&nbsp; {성명} {직위}</p><p>문서 FIID : <b>{fiid}</b></p><p>문서 삭제 링크 : <a href='{링크}'>링크</a><br></p><p>문서정보 조회 쿼리 :&nbsp;<br>&nbsp; select * from COVI_FLOW_FORM_INST.DBO.WF_FORM_INSTANCE_WF_SLIP__V0 <br>&nbsp; where FORM_INST_ID = '{fiid}'<br></p>"
+                        content = content.replace(/{회사}/gi, requestPerson.company_nm);
+                        content = content.replace(/{소속}/gi, requestPerson.dept_nm);
+                        content = content.replace(/{성명}/gi, requestPerson.employee_nm);
+                        content = content.replace(/{직위}/gi, requestPerson.position_nm);
+                        content = content.replace(/{fiid}/gi, condition.fiid);
+                        //210525_김선재 : 개발 세팅
+                        //content = content.replace(/{링크}/gi, CONFIG.groupware.uri + "/COVIWeb/api/WithdrawDocSlip.aspx?fiid=" + condition.fiid);
+                        content = content.replace(/{링크}/gi, "http://gw.isudev.com" + "/COVIWeb/api/WithdrawDocSlip.aspx?fiid=" + condition.fiid);
+
+                        newincident.process_speed = "N";
+                        newincident.title = "[전자증빙] 전표 회수를 위한 문서 삭제 요청";
+                        newincident.request_complete_date = new Date();
+                        newincident.content = content;
+                        newincident.higher_cd = "H001";
+                        newincident.higher_nm = "그룹웨어";
+                        newincident.request_company_cd = "ISU_ST";
+                        newincident.request_company_nm = "주식회사 이수시스템";
+                        newincident.request_dept_nm = "";
+                        newincident.request_nm = "전자증빙";
+                        newincident.request_id = "eaccount@isu.co.kr";
+                        newincident.register_company_cd = "ISU_ST";
+                        newincident.register_company_nm = "주식회사 이수시스템";
+                        newincident.register_nm = "전자증빙";
+                        newincident.register_sabun = "eaccount@isu.co.kr";
+
+                        // Incident 등록
+                        IncidentModel.create(newincident, function (err, newincident) {
+                            if (err) {
+                                return res.json({
+                                    code : "FAIL",
+                                    message : "IncidentModel.create fail",
+                                    err : err
+                                });
+                            }
+
+                            // SD 업무담당자 사내메신저 호출
+                            //alimi.sendAlimi(req.body.incident.higher_cd);
+
+                        });
+
+                        return res.json({
+                            code : "SUCCESS",
+                            message : "문의글이 등록되었습니다."
+                        });
+                    });
+
+                    break;
+                default:
+                    return res.json({
+                        code : "FAIL",
+                        message : "type undefined"
+                    });
+                    break;
+            }
+
+        }catch(err) {
+            return res.json({
+                code : "FAIL",
+                message : "registerIncident api failed",
+                err : err
+            });
+        }
+    }
 
 };
