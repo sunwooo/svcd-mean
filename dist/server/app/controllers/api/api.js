@@ -281,6 +281,7 @@ module.exports = {
         logger.debug("=====================================================");
         logger.debug("=============== api registerIncident ================");
         logger.debug("=====================================================");
+        logger.debug("req.body", req.body);
         console.log("=====================================================");
         console.log("=============== api registerIncident ================");
         console.log("=====================================================");
@@ -305,9 +306,8 @@ module.exports = {
 
                             // 기본정보 가져오기
                             request({
-                                //210525_김선재 : 개발 세팅
-                                //uri : CONFIG.groupware.uri + "/COVIWeb/api/UserSimpleData.aspx?email=" + condition.requestPerson,
-                                uri : "http://gw.isudev.com" + "/COVIWeb/api/UserSimpleData.aspx?email=" + condition.requestPerson,
+                                uri : CONFIG.groupware.uri + "/COVIWeb/api/UserSimpleData.aspx?email=" + condition.requestPerson,
+                                //uri : "http://gw.isudev.com" + "/COVIWeb/api/UserSimpleData.aspx?email=" + condition.requestPerson, //210525_김선재 : 개발 세팅
                                 method : "GET",
                                 headers : {
                                     "Content-Type" : "application/json",
@@ -315,6 +315,7 @@ module.exports = {
                                 }
                             }, function(err, res, body) {
                                 callback(null, body);
+                                logger.debug("body : " + body);
                             });
 
                         },
@@ -326,11 +327,11 @@ module.exports = {
                             urlString = urlString + "&registerCode=" + condition.requestPerson;
 
                             console.log("URL : "+ urlString);
+                            logger.debug("URL : "+ urlString);
 
                             request({
-                                //210525_김선재 : 개발 세팅
-                                //uri : CONFIG.groupware.uri + urlString,
-                                uri : "http://gw.isudev.com" + urlString,
+                                uri : CONFIG.groupware.uri + urlString,
+                                //uri : "http://gw.isudev.com" + urlString, //210525_김선재 : 개발 세팅
                                 method : "GET",
                                 headers : {
                                     "Content-Type" : "application/json",
@@ -342,8 +343,9 @@ module.exports = {
 
                         }
                     ], function(err, body) {
-                        if(err) {
+                        if(err || body == null) {
                             console.log("request", "err", err);
+                            logger.debug("request", "err", err);
                             return res.json({
                                 code : "FAIL",
                                 message : "GW Api failed",
@@ -353,15 +355,15 @@ module.exports = {
 
                         var requestPerson = JSON.parse(body);
 
-                        var content = "<p>전자전표 회수를 위한 결재 문서 삭제 요청입니다.</p><p>문의자 :&nbsp;<br>&nbsp;&nbsp;{회사}<br>&nbsp; {소속}<br>&nbsp; {성명} {직위}</p><p>문서 FIID : <b>{fiid}</b></p><p>문서 삭제 링크 : <a href='{링크}'>링크</a><br></p><p>문서정보 조회 쿼리 :&nbsp;<br>&nbsp; select * from COVI_FLOW_FORM_INST.DBO.WF_FORM_INSTANCE_WF_SLIP__V0 <br>&nbsp; where FORM_INST_ID = '{fiid}'<br></p>"
+                        var content = "<p>전자전표 회수를 위한 결재 문서 삭제 요청입니다.</p><p>문의자 :&nbsp;<br>&nbsp;&nbsp;{회사}<br>&nbsp; {소속}<br>&nbsp; {성명} {직위} ({사번})</p><p>문서 FIID : <b>{fiid}</b></p><p>문서 삭제 링크 : <a href='{링크}'>링크</a><br></p><p>문서정보 조회 쿼리 :&nbsp;<br>&nbsp; select * from COVI_FLOW_FORM_INST.DBO.WF_FORM_INSTANCE_WF_SLIP__V0 <br>&nbsp; where FORM_INST_ID = '{fiid}'<br></p>"
                         content = content.replace(/{회사}/gi, requestPerson.company_nm);
                         content = content.replace(/{소속}/gi, requestPerson.dept_nm);
                         content = content.replace(/{성명}/gi, requestPerson.employee_nm);
                         content = content.replace(/{직위}/gi, requestPerson.position_nm);
+                        content = content.replace(/{사번}/gi, condition.requestPerson);
                         content = content.replace(/{fiid}/gi, condition.fiid);
-                        //210525_김선재 : 개발 세팅
-                        //content = content.replace(/{링크}/gi, CONFIG.groupware.uri + "/COVIWeb/api/WithdrawDocSlip.aspx?fiid=" + condition.fiid);
-                        content = content.replace(/{링크}/gi, "http://gw.isudev.com" + "/COVIWeb/api/WithdrawDocSlip.aspx?fiid=" + condition.fiid);
+                        content = content.replace(/{링크}/gi, CONFIG.groupware.uri + "/COVIWeb/api/WithdrawDocSlip.aspx?fiid=" + condition.fiid);
+                        //content = content.replace(/{링크}/gi, "http://gw.isudev.com" + "/COVIWeb/api/WithdrawDocSlip.aspx?fiid=" + condition.fiid); //210525_김선재 : 개발 세팅
 
                         newincident.process_speed = "N";
                         newincident.title = "[전자증빙] 전표 회수를 위한 문서 삭제 요청";
