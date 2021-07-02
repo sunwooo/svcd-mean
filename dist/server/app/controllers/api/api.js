@@ -362,7 +362,7 @@ module.exports = {
                         content = content.replace(/{직위}/gi, requestPerson.position_nm);
                         content = content.replace(/{사번}/gi, condition.requestPerson);
                         content = content.replace(/{fiid}/gi, condition.fiid);
-                        content = content.replace(/{링크}/gi, CONFIG.groupware.uri + "/COVIWeb/api/WithdrawDocSlip.aspx?fiid=" + condition.fiid);
+                        content = content.replace(/{링크}/gi, CONFIG.groupware.uri + "/COVIWeb/api/WithdrawDocSlip.aspx?type=delete&fiid=" + condition.fiid);
                         //content = content.replace(/{링크}/gi, "http://gw.isudev.com" + "/COVIWeb/api/WithdrawDocSlip.aspx?fiid=" + condition.fiid); //210525_김선재 : 개발 세팅
 
                         newincident.process_speed = "N";
