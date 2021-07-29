@@ -355,7 +355,7 @@ module.exports = {
 
                         var requestPerson = JSON.parse(body);
 
-                        var content = "<p>전자전표 회수를 위한 결재 문서 삭제 요청입니다.</p><p>문의자 :&nbsp;<br>&nbsp;&nbsp;{회사}<br>&nbsp; {소속}<br>&nbsp; {성명} {직위} ({사번})</p><p>문서 FIID : <b>{fiid}</b></p><p>문서 삭제 링크 : <a href='{링크}'>링크</a><br></p><p>문서정보 조회 쿼리 :&nbsp;<br>&nbsp; select * from COVI_FLOW_FORM_INST.DBO.WF_FORM_INSTANCE_WF_SLIP__V0 <br>&nbsp; where FORM_INST_ID = '{fiid}'<br></p>"
+                        var content = "<p>전자전표 회수를 위한 결재 문서 삭제 요청입니다.</p><p>문의자 :&nbsp;<br>&nbsp;&nbsp;{회사}<br>&nbsp; {소속}<br>&nbsp; {성명} {직위} ({사번})</p><p>문서 FIID : <b>{fiid}</b></p><p>문서 삭제 링크 : <a href='{링크}'>링크</a><br></p><p>문서정보 조회 쿼리 :&nbsp;<br>&nbsp; select b.STATE, a.* from COVI_FLOW_FORM_INST.dbo.WF_FORM_INSTANCE_WF_SLIP__V0 a <br>&nbsp; inner join COVI_FLOW_INST.dbo.WF_PROCESS b on b.PROCESS_ID = a.PROCESS_ID<br>&nbsp; where a.FORM_INST_ID = '{fiid}'<br></p>"
                         content = content.replace(/{회사}/gi, requestPerson.company_nm);
                         content = content.replace(/{소속}/gi, requestPerson.dept_nm);
                         content = content.replace(/{성명}/gi, requestPerson.employee_nm);
