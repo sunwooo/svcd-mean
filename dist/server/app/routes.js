@@ -160,6 +160,7 @@ router.get('/dashboard/chart3_5', ssc.sessionCheck, dashboard3Ctrl.chart3_5);  /
 
 
 //direct
+router.get('/incidents', apiCtrl.incidents);    //Saas팀 월별 데이타
 router.get('/hr', apiCtrl.hr);    //Saas팀 월별 데이타
 router.get('/company', apiCtrl.company);
 router.get('/gwLink', apiCtrl.gwLink);            //gwLink IF 
