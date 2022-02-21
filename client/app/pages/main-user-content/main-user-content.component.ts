@@ -76,8 +76,11 @@ export class MainUserContentComponent implements OnInit {
         this.title = this.title + "요청자"; 
         this.subTitle1 = "요청건수";
         this.subTitle2 = "만족도 평가";
-        this.email = this.cookieService.get('email');
-        this.company_cd = this.cookieService.get('company_cd');
+        /* 210126_김선재 : 일반사용자 화면 조회조건 수정 */
+        // this.email = this.cookieService.get('email');
+        // this.company_cd = this.cookieService.get('company_cd');
+        this.email = this.auth.email;
+        this.company_cd = this.auth.company_cd;
        
         //console.log("=======================================");
         //console.log("searchYyyy : ", this.searchYyyy);
