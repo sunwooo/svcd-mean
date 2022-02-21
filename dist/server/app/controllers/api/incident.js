@@ -1145,15 +1145,15 @@ function getMyprocess(email, processInfo) {
       상위항목은 존재하나, 지정되지 않은 하위항목도 포함시키기 위해 처리 
     */
     i =0;
-    /*
+    
     if(i==0){
       rtnArr.push(null);
     }
-    */
+    /*
     if(i==0){
       rtnArr.push(""); 
     }
-
+    */
     return rtnArr;
 
 }
