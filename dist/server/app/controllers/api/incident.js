@@ -1151,7 +1151,7 @@ function getMyprocess(email, processInfo) {
     }
     */
     if(i==0){
-      rtnArr.push("");
+      rtnArr.push(""); 
     }
 
     return rtnArr;
