@@ -223,9 +223,9 @@ export class IncidentNewComponent implements OnInit {
         //x.match(y) === null
         if(JSON.stringify(higher.higher_cd).match("H006")===null){
             //this.toast.open('상위업무 : '+ JSON.stringify(higher.higher_cd), 'success');
-            //$('#summernote').summernote('code', "test");
+            $('#summernote').summernote('code', "");
         }else{
-            $('#summernote').summernote('code', this.new_content);
+            $('#summernote').summernote('code', this.new_content); 
         }
         //추가 끝
     }
