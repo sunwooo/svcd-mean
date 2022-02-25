@@ -41,7 +41,7 @@ module.exports = {
          * user 테이블에 존재않을 시 그룹웨어 검색  
          */
         async.waterfall([function (callback) {
-            User.findOne(condition).exec(function (err, user) {
+            User.findOne(condition).exec(function (err, user) {console.log(1234);console.log(user);
 
               var gwUri = "";
               //if(req.body.sso){
@@ -52,17 +52,20 @@ module.exports = {
 
               if (user != null) {
 
-                if (user.authenticate(req.body.password) //비밀번호가 일치하면 - 고객사
-                  ||
-                  req.query.key == "$2a$10$0bnBGRBBgiLTMPc8M8LZIuNjErIdMLGOI6SPjLxlIVIhi81HOA0U6" //제공된 키값으로 요청(링크)되면 - 고객사(stlc)
+                if (
+                  (
+                    user.authenticate(req.body.password) || //비밀번호가 일치하면 - 고객사
+                    req.query.key == "$2a$10$0bnBGRBBgiLTMPc8M8LZIuNjErIdMLGOI6SPjLxlIVIhi81HOA0U6" //제공된 키값으로 요청(링크)되면 - 고객사(stlc)
+                    /* 220225_김선재 : 그룹사 계정 미승인 계정신청건 있으면 로그인 안되는 이슈 */
+                  ) && user.access_yn == 'Y' && user.using_yn == 'Y'
                 ) {
                   /* 200915_김선재 : 계정 승인여부(access_yn) 외 사용여부(using_yn)도 로그인 시 체크 */
                   //if (user.access_yn == 'Y') {
-                  if (user.access_yn == 'Y' && user.using_yn == 'Y') {
+                  //if (user.access_yn == 'Y' && user.using_yn == 'Y') {
                     user.status = 'OK';
-                  } else {
-                    user.status = 'FAIL';
-                  }
+                  // } else {
+                  //   user.status = 'FAIL';
+                  // }
                   callback(null, user);
                 } else { //비밀번호 일치하지 않으면 그룹사 권한별
                   request({
