@@ -53,7 +53,7 @@ module.exports = {
               var gwUri = "";
               //if(req.body.sso){
                   //2022-03-18 psw 수정중 
-                  //원본  
+                  //원본   
                   //gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
                   if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
                     gwUri = "https://gwt.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" + req.body.password;
