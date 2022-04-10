@@ -34,7 +34,11 @@ var userSchema = mongoose.Schema({
     user_flag        : { type : String , default : 9 },
     group_flag       : { type : String , default : 'out' },
     created_at       : { type : String , default : ''},
-    updated_at       : { type : String , default : ''}
+    updated_at       : { type : String , default : ''},
+
+    //2022-02-23 psw 추가
+    teams_yn         : { type : String , default : 'N'}
+    //추가 끝
 });
 
 userSchema.pre("save", hashPassword);
