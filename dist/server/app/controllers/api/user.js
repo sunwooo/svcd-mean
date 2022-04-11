@@ -35,7 +35,7 @@ module.exports = {
         condition.email = req.body.email.trim();
       } else {
         return res.sendStatus(403);
-      }wn
+      }
 
       try {
         /**
@@ -64,7 +64,9 @@ module.exports = {
                   //if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
                   //2차 - 이수시스템 오픈 
                   if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
-                    gwUri = "https://gwt.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" + req.body.password;
+                  //if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
+                    gwUri = "https://gwr.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" +encodeURIComponent(req.body.password);
+                    
                   }else{
                     gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
                   }
@@ -72,8 +74,8 @@ module.exports = {
               //}else{
               //  gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
               //}
-
-              if (user != null) {
+                
+                if (user != null) {
 
                 if (user.authenticate(req.body.password) //비밀번호가 일치하면 - 고객사
                   ||
@@ -103,6 +105,7 @@ module.exports = {
                     //if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
                     //2차 - 이수시스템 오픈
                     if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
+                    //if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){   
                       console.log("login test");
                       console.log("gwUser : "+ gwUser);
                       var userInfo = JSON.parse(gwUser);
@@ -129,7 +132,6 @@ module.exports = {
                         //console.log(obj2.user.displayName);
                         
                         userInfo.employee_nm = obj2.user.displayName;
-                        ㅎㅈㅅ
                         userInfo.email = obj2.user.email;
                         userInfo.company_cd = obj2.user.comCode;
                         userInfo.company_nm = obj2.company.comCode;
