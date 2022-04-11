@@ -35,7 +35,7 @@ module.exports = {
         condition.email = req.body.email.trim();
       } else {
         return res.sendStatus(403);
-      }
+      }wn
 
       try {
         /**
@@ -50,13 +50,21 @@ module.exports = {
         async.waterfall([function (callback) {
             User.findOne(condition).exec(function (err, user) {
 
+              console.log("1 : " + user.group_flag); //in : 그룹사
+              console.log("2 : " + user.company_cd); //회사코드 : ISU_ST
+              console.log("3 : " + user.dept_nm);    //부서코드 : 개발지원팀
+
               var gwUri = "";
               //if(req.body.sso){
                   //2022-03-18 psw 수정중 
                   //원본   
                   //gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-                  if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
-                    gwUri = "https://gwt.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" + req.body.password;
+                  
+                  //1차
+                  //if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
+                  //2차 - 이수시스템 오픈 
+                  if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
+                    gwUri = "https://gwt.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" + encodeURIComponent(req.body.password);
                   }else{
                     gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
                   }
@@ -90,7 +98,11 @@ module.exports = {
                     //2022-03-18 psw 수정중 
                     //원본 
                     //gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-                    if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
+                    //if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
+                    //1차
+                    //if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
+                    //2차 - 이수시스템 오픈
+                    if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
                       console.log("login test");
                       console.log("gwUser : "+ gwUser);
                       var userInfo = JSON.parse(gwUser);
@@ -117,7 +129,7 @@ module.exports = {
                         //console.log(obj2.user.displayName);
                         
                         userInfo.employee_nm = obj2.user.displayName;
-                        
+                        ㅎㅈㅅ
                         userInfo.email = obj2.user.email;
                         userInfo.company_cd = obj2.user.comCode;
                         userInfo.company_nm = obj2.company.comCode;
@@ -222,6 +234,7 @@ module.exports = {
                     //수정끝
                     
                     }else{
+
                       var userInfo = JSON.parse(gwUser);
                       userInfo.user_flag = user.user_flag;
                       userInfo.group_flag = 'in';
@@ -230,6 +243,7 @@ module.exports = {
                   });
                 }
               } else { //user테이블에 계정이 존재하지 않으면 그룹사 일반계정
+
                 request({
                     uri: gwUri,
                   headers: {
@@ -268,7 +282,6 @@ module.exports = {
         ], function (err, userInfo) {
           if (!err) {
             if (userInfo.status == 'OK') {
-
               console.log("30");
               //>>>>>==================================================
               //세션 설정
@@ -318,11 +331,11 @@ module.exports = {
     empInfo: (req, res) => {
       try {
 
-        //console.log("========controller empInfo========");
-        //console.log("req.body.email : ", req.body.email);
-        //console.log("req.params.email : ", req.params.email);
-        //console.log("req.query.email : ", req.query.email);
-        //console.log("=======================================");
+        console.log("========controller empInfo========");
+        console.log("req.body.email : ", req.body.email);
+        console.log("req.params.email : ", req.params.email);
+        console.log("req.query.email : ", req.query.email);
+        console.log("=======================================");
 
         var condition = {};
         if (req.query.email != null) {
@@ -337,6 +350,8 @@ module.exports = {
           //console.log("===============>user : ", user);
 
           if (!user) {
+
+
             return res.sendStatus(403);
           } else {
             res.json(user);
@@ -345,6 +360,7 @@ module.exports = {
         }); //empInfo.find End
       } catch (e) {
         logger.error("===control empInfo.js empInfo : ", e);
+        console.log("===control empInfo.js empInfo : ", e);
       }
     },
 
