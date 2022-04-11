@@ -64,7 +64,7 @@ module.exports = {
                   //if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
                   //2차 - 이수시스템 오픈 
                   if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
-                    gwUri = "https://gwt.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" + encodeURIComponent(req.body.password);
+                    gwUri = "https://gwt.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" + req.body.password;
                   }else{
                     gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
                   }
