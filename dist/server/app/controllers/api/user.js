@@ -50,33 +50,50 @@ module.exports = {
         async.waterfall([function (callback) {
             User.findOne(condition).exec(function (err, user) {
 
-              console.log("1 : " + user.group_flag); //in : 그룹사
-              console.log("2 : " + user.company_cd); //회사코드 : ISU_ST
-              console.log("3 : " + user.dept_nm);    //부서코드 : 개발지원팀
+              //console.log("1 : " + user.group_flag); //in : 그룹사
+              //console.log("2 : " + user.company_cd); //회사코드 : ISU_ST
+              //console.log("3 : " + user.dept_nm);    //부서코드 : 개발지원팀
 
               var gwUri = "";
               //if(req.body.sso){
                   //2022-03-18 psw 수정중 
                   //원본   
                   //gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-                  
+                  //console.log("111"+ user.group_flag);
+                  //console.log("222"+ user.user_flag);
+                  //if(!user.company_cd){
+                  //console.log("ttt");
+                  //user.group_flag ='in';
+                  //user.user_flag='9';
+                      
+                  if(user == null){ 
+                    gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
+                  }else{
+                    if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){
+                      gwUri = "https://gwr.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" +encodeURIComponent(req.body.password);
+                    }else{
+                      gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
+                    }
+                  }
+                  //}
                   //1차
                   //if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
                   //2차 - 이수시스템 오픈 
-                  if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
-                  //if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
-                    gwUri = "https://gwr.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" +encodeURIComponent(req.body.password);
-                    
+                  //if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
+                  //소스 구멍..
+                  /*
+                  if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
+                    gwUri = "https://gwr.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" +encodeURIComponent(req.body.password); 
                   }else{
                     gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-                  }
+                  }*/
                   //수정 끝
               //}else{
               //  gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
               //}
                 
                 if (user != null) {
-
+                  
                 if (user.authenticate(req.body.password) //비밀번호가 일치하면 - 고객사
                   ||
                   req.query.key == "$2a$10$0bnBGRBBgiLTMPc8M8LZIuNjErIdMLGOI6SPjLxlIVIhi81HOA0U6" //제공된 키값으로 요청(링크)되면 - 고객사(stlc)
@@ -104,8 +121,9 @@ module.exports = {
                     //1차
                     //if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
                     //2차 - 이수시스템 오픈
-                    if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
-                    //if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){   
+                    //if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
+
+                    if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){   
                       console.log("login test");
                       console.log("gwUser : "+ gwUser);
                       var userInfo = JSON.parse(gwUser);
@@ -117,9 +135,9 @@ module.exports = {
                         userInfo.group_flag = 'in';
                         userInfo.status = 'OK';
                         
-                        console.log("1 user_flag : " + user.user_flag);
-                        console.log("2 group_flag : " + userInfo.group_flag);
-                        console.log("3 status : " + userInfo.status);
+                        //console.log("1 user_flag : " + user.user_flag);
+                        //console.log("2 group_flag : " + userInfo.group_flag);
+                        //console.log("3 status : " + userInfo.status);
 
                         //console.log("userInfo All!! : " + JSON.stringify(userInfo.value));
                         //console.log("[] 제거 : " + JSON.stringify(userInfo.value).replace("[","").replace("]",""));
@@ -236,8 +254,8 @@ module.exports = {
                     //수정끝
                     
                     }else{
-
                       var userInfo = JSON.parse(gwUser);
+                      //console.log( "userInfo 1" + userInfo);
                       userInfo.user_flag = user.user_flag;
                       userInfo.group_flag = 'in';
                       callback(null, userInfo);
@@ -254,6 +272,7 @@ module.exports = {
                   method: "GET",
                 }, function (err, response, gwUser) {
                   var userInfo = JSON.parse(gwUser);
+                  //console.log( "userInfo 2" + userInfo);
                   //운영 시 9로 수정
                   userInfo.user_flag = '9';
                   //userInfo.user_flag = '5';
