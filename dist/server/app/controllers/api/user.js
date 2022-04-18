@@ -68,7 +68,7 @@ module.exports = {
                       
                   if(user == null){ 
                     gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-                  }else{
+                  }else{//2차 - 이수시스템 오픈 
                     if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){
                       gwUri = "https://gwr.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" +encodeURIComponent(req.body.password);
                     }else{
@@ -76,17 +76,9 @@ module.exports = {
                     }
                   }
                   //}
-                  //1차
-                  //if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
-                  //2차 - 이수시스템 오픈 
-                  //if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
-                  //소스 구멍..
-                  /*
-                  if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
-                    gwUri = "https://gwr.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" +encodeURIComponent(req.body.password); 
-                  }else{
-                    gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-                  }*/
+                  //수정 검토 
+                  //1차 : if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr")
+                  //2차 : if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){
                   //수정 끝
               //}else{
               //  gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
