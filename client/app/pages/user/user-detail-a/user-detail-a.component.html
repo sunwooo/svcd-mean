@@ -310,6 +310,20 @@
                                                 </mat-select>
                                             </mat-form-field>
                                           </div>
+                                          <!--2022 02-23 psw 추가-->
+                                          <div class="input-wrap">
+                                            <mat-form-field class="mat-form-field2">
+                                                <span matPrefix style ="width:10px">
+                                                    <i class="prefix fa fa-group">&nbsp;&nbsp;&nbsp;</i>
+                                                </span>
+                                                <mat-select [ngModel]="userDetail?.teams_yn"
+                                                    name="teams_yn" 
+                                                    placeholder="팀즈 알림 사용여부">
+                                                <mat-option *ngFor="let obj of usingYnObj" [value]="obj.value">{{obj.name}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                          </div>
+                                          <!--추가끝-->
                                       </div>
                                   </div>
                               </div>

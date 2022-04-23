@@ -193,6 +193,10 @@ export class UserDetailAComponent implements OnInit {
                     this.userDetail.access_yn = form.value.access_yn;
                     this.userDetail.using_yn = form.value.using_yn;
 
+                    //2022-02-23 psw 추가
+                    this.userDetail.teams_yn = form.value.teams_yn;
+                    //추가 끝
+
                     this.toast.open('수정되었습니다.', 'success');
                     this.openerReload.emit();
 
