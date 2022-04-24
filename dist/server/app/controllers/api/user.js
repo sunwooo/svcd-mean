@@ -55,37 +55,24 @@ module.exports = {
               //console.log("3 : " + user.dept_nm);    //부서코드 : 개발지원팀
 
               var gwUri = "";
-              //if(req.body.sso){
-                  //2022-03-18 psw 수정중 
-                  //원본   
-                  //gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-                  //console.log("111"+ user.group_flag);
-                  //console.log("222"+ user.user_flag);
-                  //if(!user.company_cd){
-                  //console.log("ttt");
-                  //user.group_flag ='in';
-                  //user.user_flag='9';
-                      
-                  if(user == null){ 
-                    gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-                  }else{//2차 - 이수시스템 오픈 
-                    if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){
-                      gwUri = "https://gwr.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" +encodeURIComponent(req.body.password);
-                    }else{
-                      gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-                    }
-                  }
-                  //}
-                  //수정 검토 
-                  //1차 : if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr")
-                  //2차 : if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){
-                  //수정 끝
-              //}else{
-              //  gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
-              //}
-                
-                if (user != null) {
+
+              if(user == null){ 
+                //gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
+                gwUri = "https://gw.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" +encodeURIComponent(req.body.password);
+              }else{
+                //2차 - 이수시스템 오픈
+                /*
+                if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){
+                  gwUri = "https://gwr.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" +encodeURIComponent(req.body.password);
+                }else{
+                  gwUri = CONFIG.groupware.uri + "/CoviWeb/api/UserInfo.aspx?type=sso&email=" + req.body.email + "&password=" + encodeURIComponent(req.body.password);
+                }
+                */
+                //3차 오픈 (전사)
+                gwUri = "https://gw.isu.co.kr/cm/api/ISU_OutInterface/api/login?userId="+ req.body.email + "&password=" +encodeURIComponent(req.body.password);
+              }
                   
+              if (user != null) { 
                 if (user.authenticate(req.body.password) //비밀번호가 일치하면 - 고객사
                   ||
                   req.query.key == "$2a$10$0bnBGRBBgiLTMPc8M8LZIuNjErIdMLGOI6SPjLxlIVIhi81HOA0U6" //제공된 키값으로 요청(링크)되면 - 고객사(stlc)
@@ -114,8 +101,8 @@ module.exports = {
                     //if(req.body.email =="psw@isu.co.kr" || req.body.email == "sjkim1013@isu.co.kr"){
                     //2차 - 이수시스템 오픈
                     //if(user.group_flag =="in" && user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){  
-
-                    if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){   
+                    //3차 - 전체 오픈 
+                    //if(user.company_cd == "ISU_ST" && user.dept_nm !="개발지원팀"){   
                       console.log("login test");
                       console.log("gwUser : "+ gwUser);
                       var userInfo = JSON.parse(gwUser);
@@ -136,8 +123,8 @@ module.exports = {
                         var obj1 = JSON.stringify(userInfo.value).replace("[","").replace("]","");
                         var obj2 = JSON.parse(obj1);
 
-                        //console.log(obj2.user);
-                        //console.log(obj2.company);
+                        console.log(obj2.user.id);
+                        console.log(obj2.company.displayName);
                         //console.log(obj2.user.id);
                         //console.log(obj2.user.displayName);
                         
@@ -149,7 +136,7 @@ module.exports = {
                         userInfo.dept_cd = obj2.user.deptCode;
                         userInfo.dept_nm = obj2.user.deptName;
                         userInfo.position_nm = obj2.user.titleName;
-                        userInfo.office_tel_no = obj2.user.officeTel;
+                        //userInfo.office_tel_no = obj2.user.officeTel;
                         userInfo.hp_telno = obj2.user.mobileTel;
 
                         console.log("employee_nm : " + userInfo.employee_nm);
@@ -166,85 +153,7 @@ module.exports = {
                         callback(null, userInfo);
                       }
 
-                      /*json샘플 형태 (필라넷 제공1차) 
-                      {
-                        "value": [
-                            {
-                                "user": {
-                                    "id": "ISU_ST12001",
-                                    "deptCode": "ISU_STISU_ST051",
-                                    "parentDeptCode": "ISU_STISU_ST060",
-                                    "deptName": "전략사업팀",
-                                    "deptNameEn": "Strategy Business Team",
-                                    "personCode": "ISU_ST12001",
-                                    "personId": "psw",
-                                    "employeeNumber": "12001",
-                                    "comCode": "ISU_ST",
-                                    "firstName": null,
-                                    "lastName": null,
-                                    "displayName": "박선우",
-                                    "displayNameEng": "Park Sun-woo",
-                                    "birthDate": "1987-05-27 오전 12:00:00",
-                                    "enterDate": "2012-01-01T00:00:00",
-                                    "mobileTel": "010-7147-1902",
-                                    "officeTel": "02-5906-891",
-                                    "officeFax": null,
-                                    "titleCode": "ISU_STA125",
-                                    "titleName": "과장",
-                                    "titleNameEn": "Manager",
-                                    "gradeCode": "ISU_STA320",
-                                    "gradeName": null,
-                                    "gradeNameEn": null,
-                                    "jobGroupCode": null,
-                                    "email": "psw@isu.co.kr",
-                                    "photoPath": null,
-                                    "homeAddress": null,
-                                    "homeZipCode": null,
-                                    "positionCode": null,
-                                    "roleCode": null,
-                                    "displayDept": null,
-                                    "type": null,
-                                    "createdId": null,
-                                    "createdDate": "2022-03-18T05:54:56.4760289Z",
-                                    "updatedId": null,
-                                    "updatedDate": "2022-03-18T05:54:56.4760289Z",
-                                    "officeZipCode": null,
-                                    "officeAddress": null,
-                                    "displayOrder": null,
-                                    "folderPathName": null,
-                                    "hpOpen": null,
-                                    "isMailUse": null,
-                                    "chnG_DT": null,
-                                    "roleName": null,
-                                    "jobRole": null,
-                                    "officeExtTel": null,
-                                    "hpMasking": null,
-                                    "manager": null,
-                                    "ormM_PTL_TPCD": null,
-                                    "password": "jXWgcx+aa2nOwaGkaPVAHg==",
-                                    "concurrentUsers": null,
-                                    "isPrimary": true,
-                                    "o365Guid": "00000000-0000-0000-0000-000000000000",
-                                    "m365License": null,
-                                    "positionName": null,
-                                    "positionNameEn": null,
-                                    "isRead": true,
-                                    "isCreate": false,
-                                    "isUpdate": false,
-                                    "isDelete": false,
-                                    "rowNum": 0,
-                                    "actionType": "Read"
-                                },
-                                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwc3dAaXN1LmNvLmtyIiwianRpIjoiSVNVX1NUMTIwMDFfNjM3ODMxNzk2OTY0NzY5OTA4IiwiZW1haWwiOiJwc3dAaXN1LmNvLmtyIiwibmFtZWlkIjoicHN3IiwidW5pcXVlX25hbWUiOiJJU1VfU1QxMjAwMSIsIlVzZXJJRCI6IklTVV9TVDEyMDAxIiwiVXNlckNvZGUiOiJJU1VfU1QxMjAwMSIsIlVzZXJFbWFpbCI6InBzd0Bpc3UuY28ua3IiLCJVc2VyTmFtZSI6IuuwleyEoOyasCIsIkVtcGxveWVlTnVtYmVyIjoiMTIwMDEiLCJDb21Db2RlIjoiSVNVX1NUIiwiRGVwdENvZGUiOiJJU1VfU1RJU1VfU1QwNTEiLCJEZXB0TmFtZSI6IuyghOueteyCrOyXhe2MgCIsIlRpdGxlQ29kZSI6IklTVV9TVEExMjUiLCJUaXRsZU5hbWUiOiLqs7zsnqUiLCJ0c3AiOiIvIiwibmJmIjoxNjQ3NTgyODk2LCJleHAiOjE2NDc2MjYwOTYsImlhdCI6MTY0NzU4Mjg5NiwiaXNzIjoibXktaXNzdWVyIiwiYXVkIjoibXktYXVkaWVuY2UifQ.TtAWCH3Wv8kNdVKzTooIDswBkjmlVIYahq0zZKujvIQ"
-                            }
-                        ],
-                        "code": "200",
-                        "status": "success",
-                        "message": "로그인 성공 하였습니다."
-                    }
-                    */
-                    //수정끝
-                    
+                    /*
                     }else{
                       var userInfo = JSON.parse(gwUser);
                       //console.log( "userInfo 1" + userInfo);
@@ -252,9 +161,11 @@ module.exports = {
                       userInfo.group_flag = 'in';
                       callback(null, userInfo);
                     }
+                    */
                   });
                 }
               } else { //user테이블에 계정이 존재하지 않으면 그룹사 일반계정
+                console.log("22222" + gwUri);
 
                 request({
                     uri: gwUri,
@@ -263,6 +174,7 @@ module.exports = {
                   },
                   method: "GET",
                 }, function (err, response, gwUser) {
+                  /*
                   var userInfo = JSON.parse(gwUser);
                   //console.log( "userInfo 2" + userInfo);
                   //운영 시 9로 수정
@@ -270,6 +182,42 @@ module.exports = {
                   //userInfo.user_flag = '5';
                   userInfo.group_flag = 'in';
                   callback(null, userInfo);
+                  */
+                  console.log("login test2");
+                  console.log("gwUser2 : "+ gwUser);
+                  var userInfo = JSON.parse(gwUser);
+
+                  console.log("test success2!! " + userInfo.code);
+                  
+                  if(userInfo.code =="200"){ //리턴 성공시,
+                    //user_flag랑 group_flag 강제 고정 처리 : 9, in
+                    userInfo.user_flag = '9';
+                    userInfo.group_flag = 'in';
+                    userInfo.status = 'OK';
+                    
+                    //console.log("userInfo All!! : " + JSON.stringify(userInfo.value));
+                    //console.log("[] 제거 : " + JSON.stringify(userInfo.value).replace("[","").replace("]",""));
+                    var obj1 = JSON.stringify(userInfo.value).replace("[","").replace("]","");
+                    var obj2 = JSON.parse(obj1);
+
+                    console.log(obj2.user.id);
+                    console.log(obj2.company.displayName);
+                    //console.log(obj2.user.id);
+                    //console.log(obj2.user.displayName);
+                    
+                    userInfo.employee_nm = obj2.user.displayName;
+                    userInfo.email = obj2.user.email;
+                    userInfo.company_cd = obj2.user.comCode;
+                    userInfo.company_nm = obj2.company.comCode;
+                    userInfo.company_nm = obj2.company.companyName;
+                    userInfo.dept_cd = obj2.user.deptCode;
+                    userInfo.dept_nm = obj2.user.deptName;
+                    userInfo.position_nm = obj2.user.titleName;
+                    //userInfo.office_tel_no = obj2.user.officeTel;
+                    userInfo.hp_telno = obj2.user.mobileTel;
+                    
+                    callback(null, userInfo);
+                  }
                 });
               }
             });
