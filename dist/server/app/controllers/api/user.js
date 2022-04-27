@@ -128,6 +128,7 @@ module.exports = {
                         //console.log(obj2.user.id);
                         //console.log(obj2.user.displayName);
                         
+                        console.log("token1>>>>> " + obj2.token);
                         userInfo.employee_nm = obj2.user.displayName;
                         userInfo.email = obj2.user.email;
                         userInfo.company_cd = obj2.user.comCode;
@@ -138,6 +139,7 @@ module.exports = {
                         userInfo.position_nm = obj2.user.titleName;
                         //userInfo.office_tel_no = obj2.user.officeTel;
                         userInfo.hp_telno = obj2.user.mobileTel;
+                        userInfo.token2 = obj2.token;
 
                         console.log("employee_nm : " + userInfo.employee_nm);
                         console.log("email : " + userInfo.email);
@@ -148,8 +150,10 @@ module.exports = {
                         console.log("position_nm : " + userInfo.position_nm);
                         console.log("office_tel_no : " + userInfo.office_tel_no);
                         console.log("hp_telno : " + userInfo.hp_telno);
-
+                        console.log("token2 : " + userInfo.token2);
                         
+                        setUser(req, res, userInfo);
+
                         callback(null, userInfo);
                       }
 
@@ -204,7 +208,7 @@ module.exports = {
                     console.log(obj2.company.displayName);
                     //console.log(obj2.user.id);
                     //console.log(obj2.user.displayName);
-                    
+                    console.log("token2>>>>> " + obj2.token);
                     userInfo.employee_nm = obj2.user.displayName;
                     userInfo.email = obj2.user.email;
                     userInfo.company_cd = obj2.user.comCode;
@@ -215,7 +219,7 @@ module.exports = {
                     userInfo.position_nm = obj2.user.titleName;
                     //userInfo.office_tel_no = obj2.user.officeTel;
                     userInfo.hp_telno = obj2.user.mobileTel;
-                    
+                    userInfo.token2 = obj2.token;
                     callback(null, userInfo);
                   }
                 });
@@ -248,6 +252,7 @@ module.exports = {
               //세션 설정
               setUser(req, res, userInfo);
               console.log("31"+ JSON.stringify(userInfo));
+              
               //<<<<<==================================================
 
               var token = jwt.sign({
@@ -258,6 +263,9 @@ module.exports = {
               res.status(200).json({
                 token: token
               });
+
+              console.log("userInfo token : " +userInfo.token);
+              console.log("userInfo token2 : " +userInfo.token2);
 
             } else {
               if (userInfo.group_flag != 'in') {
@@ -291,11 +299,11 @@ module.exports = {
      */
     empInfo: (req, res) => {
       try {
-
         console.log("========controller empInfo========");
         console.log("req.body.email : ", req.body.email);
         console.log("req.params.email : ", req.params.email);
         console.log("req.query.email : ", req.query.email);
+        console.log("req.session : ", req.session);
         console.log("=======================================");
 
         var condition = {};
@@ -308,15 +316,53 @@ module.exports = {
         User.find(condition).exec(function (err, user) {
 
 
-          //console.log("===============>user : ", user);
-
+          console.log("===============>user : ", user);
+          /*
           if (!user) {
-
-
             return res.sendStatus(403);
           } else {
             res.json(user);
           }
+          */
+
+          //2022-04-27 psw 수정 (사용자 검색 기능)
+          request({
+            uri: "https://gw.isu.co.kr/cm/api/ISU_OutInterface/api/searchs?searchText="+req.query.email,
+            headers: {
+              'Content-type': 'application/json'
+            },
+            method: "GET",
+          }, function (err, response, gwUser) {
+            
+              console.log("find empInfo");
+              console.log("login test");
+
+              var userInfo = JSON.parse(gwUser);
+
+              console.log("code : " + userInfo.code);
+
+              if(userInfo.code =="200"){ //리턴 성공시,
+                var obj1 = JSON.stringify(userInfo.value).replace("[","").replace("]","");
+                var obj2 = JSON.parse(obj1);
+                
+                var emp_nm = obj2.User.DisplayName;
+                var company_cd =obj2.User.ComCode;
+                var company_nm = obj2.User.CompanyName;
+                var dept_cd = obj2.User.DeptCode;
+                var dept_nm = obj2.User.DeptName;
+                var position_nm = obj2.User.TitleName;
+                var office_num = obj2.User.OfficeTel;
+                var hp_num = obj2.User.MobileTel;
+                var email = obj2.User.Email;
+              }
+
+              if (!user) {
+                return res.sendStatus(403);
+              } else {
+                res.json([{"employee_nm": emp_nm,"company_cd":company_cd,"company_nm":company_nm,"dept_cd":dept_cd,"dept_nm":dept_nm,"position_nm":position_nm,"office_tel_no":office_num,"hp_telno":hp_num,"email":email}]);
+              }
+          });
+          //수정 끝
 
         }); //empInfo.find End
       } catch (e) {
@@ -408,8 +454,10 @@ module.exports = {
       try {
 
         var searchText = req.query.empName;
+        //2022-04-27 psw 수정 (자동완성 기능)
         request({
-          uri: CONFIG.groupware.uri + "/CoviWeb/api/UserList.aspx?searchName=" + encodeURIComponent(searchText),
+          //uri: CONFIG.groupware.uri + "/CoviWeb/api/UserList.aspx?searchName=" + encodeURIComponent(searchText),
+          uri: "https://gw.isu.co.kr/cm/api/ISU_OutInterface/api/searchs?searchText=" + encodeURIComponent(searchText),
           headers: {
             'Content-type': 'application/json'
           },
@@ -430,12 +478,37 @@ module.exports = {
                   message: err
                 });
               } else {
+                /*
                 if (user != null) {
                   user = JSON.parse(user);
+
                 }
+                */
+                var userInfo = JSON.parse(user);
+
+                if(userInfo.code =="200"){ 
+                  var obj1 = JSON.stringify(userInfo.value).replace("[","").replace("]","");
+                  var obj2 = JSON.parse(obj1);
+                
+                  var emp_nm = obj2.User.DisplayName;
+                  var company_cd =obj2.User.ComCode;
+                  var company_nm = obj2.User.CompanyName;
+                  var dept_cd = obj2.User.DeptCode;
+                  var dept_nm = obj2.User.DeptName;
+                  var position_nm = obj2.User.TitleName;
+                  var office_num = obj2.User.OfficeTel;
+                  var hp_num = obj2.User.MobileTel;
+                  var email = obj2.User.Email;
+                }
+                user = [{"employee_nm": emp_nm,"company_cd":company_cd,"company_nm":company_nm,"dept_cd":dept_cd,"dept_nm":dept_nm,"position_nm":position_nm,"office_tel_no":office_num,"hp_telno":hp_num,"email":email}];
+              
                 res.json(mergeUser(user, userData));
+
+                
               }
-            }); //user.find End
+            }); 
+            //수정 끝 
+            //user.find End
         }); //request End
       } catch (e) {
         logger.debug("===control userr.js userJSON : ", e);
@@ -873,4 +946,8 @@ function setUser(req, res, userInfo) {
     req.session.jikchk_nm = userInfo.jikchk_nm;
     req.session.office_tel_no = userInfo.office_tel_no;
     req.session.hp_telno = userInfo.hp_telno;
+    
+    //2022-04-27 psw 추가 (로그인 api에서 token값 가져오기)
+    req.session.token2 = userInfo.token2;
+
 }
