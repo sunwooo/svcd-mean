@@ -66,7 +66,9 @@ export class IncidentNewMngComponent implements OnInit {
         private router: Router) 
     {       
         this.userControl.valueChanges
-        .debounceTime(200) 
+        //2022-04-28 psw 자동완성 속도 이슈로 수정 
+        //.debounceTime(200) 
+        .debounceTime(300) 
         .subscribe((searchName) => {
             if(searchName){
                 this.userService.findEmp(searchName).subscribe(
@@ -75,7 +77,6 @@ export class IncidentNewMngComponent implements OnInit {
                     }
                 )
             }
-            
         });
     }
 
