@@ -6,6 +6,10 @@ var logger = require('log4js').getLogger('app');
 var MyProcess = require('../models/MyProcess');
 var request = require("request");
 var CONFIG = require('../../config/config.json');
+//PSW 추가
+var nodemailer = require('nodemailer');
+var smtpPool = require('nodemailer-smtp-pool');
+
 
 module.exports = {
 
@@ -46,7 +50,8 @@ module.exports = {
                     "manager.using_yn" : 1,
                     //psw 추가
                     "manager.teams_yn" : 1,
-                    "manager.email": 1
+                    "manager.email": 1,
+                    "manager.email_send_yn" : 1
                     //추가 끝
                 }
             }]
@@ -143,12 +148,64 @@ module.exports = {
                                                 //console.log("response.statusText: " + response.statusText);
                                             }
                                         });
-                                        
-                                    //메일알림
-                                    }else{
-
                                     }
-                                    //추가 끝
+
+                                    //2022-05-25 PSW 메일 알림 추가
+                                    if(targetUser[i].manager[0].email_send_yn == "Y"){
+                                        console.log("###########alimi 1 ############");
+                                        
+                                        console.log("==targetUser email============"+targetUser[i].manager[0].email); //targerUser 일 경우 메일알림 
+                                        
+                                        var sender = '서비스데스크 관리자 <servicedeskadmin@isu.co.kr>';
+
+                                        var coment = "";
+                                        coment += "<br><br>";
+                                        coment += "더 자세한 내용은 서비스 데스크 게시판에서 확인 하세요.<br>";
+                                        coment += "서비스 데스크 ( http://sd.isusystem.co.kr )<br>";
+                                        coment += "<br>";
+                                        coment += "※ 이 메일은 발신 전용입니다. 회신은 처리되지 않습니다.";
+
+                                        var receiver = targetUser[i].manager[0].employee_nm + " <" + targetUser[i].manager[0].email + ">";
+                                        var mailTitle = "[ 서비스데스크 등록 알림 ]";
+                                        var html = "";
+                                        html += "접수 : " + "1건" + "<br>";
+                                        html += "서비스데스크에 신규 등록되었습니다. " + "<br>";
+                                        html += coment;
+
+                                        
+                                        var transporter = nodemailer.createTransport({
+                                            host: CONFIG.mailer.host,
+                                            port: CONFIG.mailer.port,
+                                            auth: false,
+                                            mock: false,
+                                            });
+
+                                        transporter.verify(function (error, success) {
+                                        if (error) {
+                                            console.log(error);
+                                        } else {
+                                            console.log("Server is ready to take our messages");
+                                        }
+                                        });
+
+                                        transporter.sendMail({
+                                            from: CONFIG.mailer.user,
+                                            to: receiver,
+                                            subject: mailTitle,
+                                            html: html
+                                        },function(err,res){
+                                            if (err) {
+                                                console.log("mailSend mail err : ", + err);
+                                                console.log("mailSend mail res : ", + res);
+                                                
+                                            }
+                                            transporter.close();
+                                        });
+                                        
+                                    }else{
+                                        console.log("###########alimi 2 ############");
+                                    }
+                                    
                                 }else{
                                     //logger.debug("=============================================");
                                     //logger.debug("util/alimi/sendAlimi aggregate!!! targetUser[i]  ", JSON.stringify(targetUser[i]));
@@ -159,8 +216,6 @@ module.exports = {
                             
                         }
                     }
-                
-
                 }
             });
             //<<<<< 상위업무에 매핑되는 사원찾기   
