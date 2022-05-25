@@ -755,8 +755,10 @@ module.exports = {
                 고객요청내용: '$content',
                 담당자이름: '$manager_nm',
                 처리내용: '$complete_content',
-                처리소요시간: '$work_time'
-                //,programID : '$program_id',
+                처리소요시간: '$work_time',
+                //2022-05-25 psw 추가 : 페타시스 내부회계 요청
+                처리구분 : '$process_nm',
+                programID : '$program_id',
                 //내부공유사항: '$sharing_content'
               };
         }
