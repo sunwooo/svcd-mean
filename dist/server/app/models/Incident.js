@@ -92,7 +92,9 @@ var IncidentSchema = new Schema({
     created_at        : {type : String},
     updated_at        : {type : Date},
     deleted_at        : {type : Date},
-    gw_link           : {type : String, default : 'N'}  //gw결재연동여부
+    gw_link           : {type : String, default : 'N'},  //gw결재연동여부
+    doc_info           : {type : String},                 //gw문서연결 결재제목
+    doc_link           : {type : String}                  //gw문서연결 결재링크
 });
 
 IncidentSchema.pre("save", setCreateAt);
@@ -134,5 +136,6 @@ function setCreateAt(next){
 }
 
 autoIncrement.initialize(mongoose.connection);
-/* IncidentSchema.plugin( autoIncrement.plugin , { model : "incident", field : "register_num" , startAt : 61100 } ); */
+//2022-06-07 PSW 수정 : 기능 다시 활용하도록 
+IncidentSchema.plugin( autoIncrement.plugin , { model : "incident", field : "register_num" , startAt : 1 } );
 module.exports = mongoose.model('incident' , IncidentSchema);

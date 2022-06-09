@@ -8,6 +8,8 @@ import { IncidentService } from '../../../services/incident.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload'
 import { Router } from '@angular/router';
+import { ClickOutsideDirective } from 'angular2-multiselect-dropdown';
+
 
 const URL = '/api/upload-file';
 
@@ -25,7 +27,10 @@ declare var $: any;
     ],
 })
 export class IncidentNewComponent implements OnInit {
-
+    //2022-06-03 PSW 추가
+    public docTitle:  string ="";
+    public docUrl: string = "";
+    //추가끝
     public higher: any = {};    
     public initPrcSpd: string = "N";
     public request_info: string = this.auth.employee_nm;
@@ -56,6 +61,7 @@ export class IncidentNewComponent implements OnInit {
         public toast: ToastComponent,
         private incidentService: IncidentService,
         private router: Router) {
+
     }
 
     ngOnInit() {
@@ -155,6 +161,11 @@ export class IncidentNewComponent implements OnInit {
 
         form.value.incident.higher_cd = this.higher.higher_cd;
         form.value.incident.higher_nm = this.higher.higher_nm;
+        
+        //2022-06-03 psw 문서연결 제목, 링크 처리
+        form.value.incident.doc_info = this.docTitle;
+        form.value.incident.doc_link = this.docUrl;
+        //처리끝
 
         //Template form을 전송용 formData에 저장 
         this.formData = form.value;
@@ -183,6 +194,8 @@ export class IncidentNewComponent implements OnInit {
      * mongodb 저장용 서비스 호출
      */
     addIncident() {
+        console.log("this.docTitle : " + this.docTitle);
+        console.log("this.formData : " + JSON.stringify(this.formData));
         this.incidentService.addIncident(this.formData).subscribe(
             (res) => {
 
@@ -242,7 +255,73 @@ export class IncidentNewComponent implements OnInit {
         //console.log("================================");
         this.dateChange = true;
     }
+
+    //2022-06-02 PSW : GW문서연결 작업 
+    docLink(){
+        console.log("docLink() start");
+        
+        //popup open
+        //1.개발
+        //window.open('https://gwt.isu.co.kr/workflow/page/documentlink?pop=1&servicedesk=http%3A%2F%2Fsd.isusystem.co.kr', '_blank');
+        //2.운영
+        window.open('https://gw.isu.co.kr/workflow/page/documentlink?pop=1&servicedesk=http%3A%2F%2Fsd.isusystem.co.kr', '_blank');
+        
+        //callback - data 체크    
+        if(window.addEventListener){
+            //window.addEventListener('message',function(e) { debugger;},false);
+            window.addEventListener("message", this.handleMessage.bind(this), false);
+        }else{
+            (<any>window).attachEvent("onmessage", this.handleMessage.bind(this));
+        }       
+    }
+
+    handleMessage(event: Event){
+        const message = event as MessageEvent;
+        
+        //console.log("message : " + message);
+        //console.log("message.data : " + message.data); //object
+        //JSON Data
+        /*
+            [{"apmId":1960766,"connectApmId":null,"applicationId":83,"applicationName":"기안용지","applicationNameEn":"A drafting paper","versionId":83,"subject":"기안자 전결 테스트","reqPersonCode":"ISU_ST12001","reqName":"박선우","reqNameEn":"Park Sun-woo","reqTitleName":"과장","reqTitleNameEn":"Manager","reqDeptName":"전략사업팀","reqDeptNameEn":"Strategy Business Team","apmStatus":"M1","draftDate":"2022-05-30T11:11:29.25","lastApprovedDate":"2022-05-30T11:11:29.25","outDocNumber":null,"docNumber":"ISU_ST_WF_10_1960766","currentPage":1,"totalCount":78,"link":"/cm/workflow/common/api/cryptredirect?type=0&param=lMI3DarRpSEHaUvENqdAJdjFmvYdCOTCKJJh09TcQoGkC5kmLBKxuSO8n%2bq797uylTja6yy3GNRVqrBHs6AAsVu47FF5yU%2fVMlX31BuuJhbKJ56PBG6xUtYw41kI7OtV1ZU9h5jg4DirkElE%2bcCbT%2bsReDXhGpsM%2bUGVlXGu%2beDFmJbZGsdaasril6XOAHXYcDuyY%2fw6KbHHkdYROOtCcm5IfmJGlUH5f61eu5ips3gBt%2fSxlx1Y%2bWPiOv5uszYFYZLlGb2iwMyqE%2fu7K7HY7Nkg3jpAJZRWBpXyyrCj1O2FzQ%2bdDSJffD0RHWljPhSWvZuTTO5g%2bNejL3xHDH8BPX5x4YRgDDJUa5O%2fM5i%2frSMy1a4IGm6pAbnc2FVnYMUl","createdId":"ISU_ST12001","createdDate":"2022-05-30T02:06:19.923","updatedId":"ISU_ST12001","updatedDate":"2022-06-02T04:56:46.7330887Z","isRead":true,"isCreate":false,"isUpdate":false,"isDelete":false,"rowNum":0,"actionType":"Read","selected":false}]
+        */
+
+        var docInfo = message.data;
+
+        
+        var obj1 = (docInfo).replace("[","");
+        obj1 = obj1.slice(0,-1);
+        //console.log("obj1  : " + obj1);
+
+        var obj2 = JSON.parse(obj1);
+        var docTitle = obj2.subject;
+        var docReqName = obj2.reqName;
+        //1.개발
+        //var docUrl = "https://gwt.isu.co.kr"+obj2.link;
+        //2.운영
+        var docUrl = "https://gw.isu.co.kr"+obj2.link;
+        
+
+        //console.log("obj2  : " + obj2);
+        //console.log("obj2.subject  : " + docTitle);
+        //console.log("obj2.reqName  : " + docReqName);
+        //console.log("obj2.link  : " + docUrl);
+
+        $('input[name=doc_info]').attr('value',docTitle);
+        $('a').attr('href',docUrl);
+
+        $('input[name=docCnt]').attr('value',"1건");
+        $('input[name=doc_link]').attr('value',docUrl);
+        
+        this.docTitle = docTitle;
+        this.docUrl = docUrl;
+
+    }
+    //2022-06-02 PSW 작업 끝
     
+    /*selectedCom(company){
+        console.log("test");
+    }
+    */
     /*
     onAreaListControlChanged(list) {
     }

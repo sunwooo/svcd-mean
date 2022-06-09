@@ -21,10 +21,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card-box">
-                                
                                 <div class="form-group row">
                                     <div class="col-lg-3 col-sm-12">
-
                                         <app-higher-cd 
                                                     [scope]="'company'"
                                                     [required]="true"
@@ -122,7 +120,58 @@
                                     </div>
                                 </div>
 
-                                <!-- 첨부파일 Start-->
+                                <!-- 2022-06-02 PSW 문서연결 Start -->
+                                <!--<div class="form-group row">-->
+                                <div class="form-group row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <div role="toolbar" class="btn-toolbar m-t-10  float-left">
+                                            <div>
+                                                <button align="right" class="btn btn-success" type="button" id="buttonSearch" (click)="docLink()">
+                                                    문서연결
+                                                </button>
+                                            </div>
+                                        </div>&nbsp;&nbsp;
+                                        <div role="toolbar" class="btn-toolbar m-t-10  float-right">
+                                            <div>
+                                                <a target='_blank'>
+                                                    <mat-form-field class="mat-form-field4">
+                                                        <input matInput
+                                                            type="input" 
+                                                            name="doc_info" 
+                                                            value=""
+                                                            placeholder="문서연결을 클릭하세요."
+                                                        >
+                                                    </mat-form-field>
+                                                    <mat-form-field>
+                                                        <input matInput 
+                                                            type="text" 
+                                                            name="docCnt" 
+                                                            value=""
+                                                        >
+                                                    </mat-form-field>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row" style="display:none">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <div role="toolbar" class="btn-toolbar m-t-10  float-left">
+                                            <div>
+                                                <mat-form-field class="mat-form-field4">
+                                                    <input matInput 
+                                                        type="text" 
+                                                        name="doc_link" 
+                                                        value=""
+                                                    >
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 문서연결 End -->
+
+                                <!-- 첨부파일 Start -->
                                 <div class="card-box m-r-5">
                                     <div class="form-group row">
                                         <div class="col-lg-9 col-sm-12">
@@ -212,7 +261,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- 첨부파일 End-->
+                                <!-- 첨부파일 End -->
                             </div>
                         </div>
                     </div>

@@ -109,6 +109,14 @@
                 <p [innerHTML]=incidentDetail?.content></p>
               </td>
             </tr>
+            <!--2022-06-03 PSW 추가-->
+            <tr>
+              <th class="bg-muted">문서연결</th>
+              <td colspan="3" (click)="getDocInfo()">
+                <a style="color:blue"><p [innerHTML]=incidentDetail?.doc_info></p></a>
+              </td>
+            </tr>
+            <!--추가끝-->
             <tr  *ngIf="incidentDetail?.attach_file.length > 0">
               <th class="bg-muted">첨부파일</th>
               <td colspan="3">

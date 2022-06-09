@@ -25,7 +25,6 @@ declare var $: any;
   ],
 })
 export class IncidentModifyComponent implements OnInit {
-
     @Input() incidentDetail: any; //조회 incident
     @Input() cValues;  //모달창 닫기용
     @Input() dValues;  //모달창 무시용
@@ -54,7 +53,6 @@ export class IncidentModifyComponent implements OnInit {
     }
 
     ngOnInit() {
-     
         //$('#summernote').summernote();
         $('#summernote').summernote({
             height: 350, // set editor height;
@@ -78,6 +76,7 @@ export class IncidentModifyComponent implements OnInit {
                 link: [],
                 air: []
                 }
+
         });
 
         $('#summernote').summernote('code', this.incidentDetail.content);
@@ -145,7 +144,6 @@ export class IncidentModifyComponent implements OnInit {
             tmpDate.setDate(tmpDate.getDate() + 1);
             this.formData.incident.request_complete_date = tmpDate;
         }
-
         
         //Template form을 전송용 formData에 저장 
         this.incidentService.fileUpdate(this.formData).subscribe(
@@ -260,5 +258,17 @@ export class IncidentModifyComponent implements OnInit {
     ngAfterViewInit(){
     }
     */
+
+    //2022-06-07 psw 추가
+    getDocInfo(){
+        window.open(this.incidentDetail.doc_link, '_blank');  
+    }
+
+    //2022-06-07 PSW : GW문서연결 수정 불가 처리 
+    docLink(){
+        console.log("docLink() start");
+
+        this.toast.open('연결된 문서는 수정 불가합니다. 삭제 후 문의하기로 신규 등록해주시기 바랍니다.', 'error');
+    }
 
 }

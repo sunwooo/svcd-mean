@@ -43,6 +43,7 @@ export class IncidentDetailMComponent implements OnInit {
         if(this.buttonHidden){
             this.btnDisplay = !this.buttonHidden;
         }
+
     }
 
     /**
@@ -113,6 +114,8 @@ export class IncidentDetailMComponent implements OnInit {
         this.incidentDetail.status_cd = status_cd;
     }
 
+
+
     /**
      * 리스트 reload
      * @param reload
@@ -153,6 +156,11 @@ export class IncidentDetailMComponent implements OnInit {
     */
     closeModal($event){
         this.cValues('Close click');
+    }
+
+    getDocInfo(){
+        window.open(this.incidentDetail.doc_link, '_blank');
+        
     }
 
 }
