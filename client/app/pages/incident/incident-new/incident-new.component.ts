@@ -162,9 +162,14 @@ export class IncidentNewComponent implements OnInit {
         form.value.incident.higher_cd = this.higher.higher_cd;
         form.value.incident.higher_nm = this.higher.higher_nm;
         
-        //2022-06-03 psw 문서연결 제목, 링크 처리
-        form.value.incident.doc_info = this.docTitle;
-        form.value.incident.doc_link = this.docUrl;
+        //2022-06-03 psw 문서연결 제목, 링크 처리 + 초기화를 위한 처리 
+        if($('input[name=doc_info]').val()){
+            form.value.incident.doc_info = this.docTitle;
+            form.value.incident.doc_link = this.docUrl;
+        }else{
+            form.value.incident.doc_info = "";
+            form.value.incident.doc_link = "";
+        }
         //처리끝
 
         //Template form을 전송용 formData에 저장 
@@ -316,6 +321,18 @@ export class IncidentNewComponent implements OnInit {
         this.docUrl = docUrl;
 
     }
+    
+    //문서연결 삭제 기능
+    removeDoc(){
+        console.log($('input[name=doc_info]').val());
+        if($('input[name=doc_info]').val()){
+            $('input[name=doc_info]').attr('value',"");
+            $('input[name=docCnt]').attr('value',"");
+        }else{
+            this.toast.open('연결된 문서가 없습니다. ', 'danger');
+        }
+    }
+
     //2022-06-02 PSW 작업 끝
     
     /*selectedCom(company){
