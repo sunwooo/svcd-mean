@@ -64,6 +64,20 @@
           <!-- start 접수내용-->
           <p [innerHTML]=incidentDetail?.content ></p>
         </div>
+
+        <!-- 2022-06-10 PSW 문서연결 있을때만 표시-->
+        <br><br>
+        <div class="row" *ngIf="incidentDetail?.doc_info.length > 0" style="text-align:left">
+          <div class="col-lg-12">
+            <div>
+              <h6>* 문서연결</h6>
+                <a (click)="getDoc()" style="cursor: pointer">
+                  <span class="text-pink">&nbsp;{{incidentDetail?.doc_info}}</span>
+                </a>
+            </div>
+          </div>
+        </div>
+
         <!-- 첨부파일 1개 이상일때만 표시-->
         <br><br>
         <div class="row" *ngIf="incidentDetail?.attach_file.length > 0" style="text-align:left">

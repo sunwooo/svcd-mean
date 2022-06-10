@@ -20,6 +20,8 @@ export class IncidentDetailAComponent implements OnInit {
     @Output() reload = new EventEmitter<any>(); //재등록 후 조회를 위한 이벤트
 
     public empEmail: string = "";               //팝업 조회용 이메일
+    //2022-06-10 psw 추가
+    public doclink: string ="";
 
     constructor(private auth: AuthService,
         private modalService: NgbModal,
@@ -38,6 +40,7 @@ export class IncidentDetailAComponent implements OnInit {
     counter(i: number) {
         return new Array(i);
     }
+
 
     /**
      * 만족도 평가창 팝업
@@ -133,6 +136,13 @@ export class IncidentDetailAComponent implements OnInit {
     */
     closeModal($event) {
         this.cValues('Close click');
+    }
+
+    //2022-06-10 psw 추가
+    getDoc(){
+        this.doclink = this.incidentDetail.doc_link;
+        window.open(this.doclink, '_blank');
+        
     }
 
 }

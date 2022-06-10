@@ -100,6 +100,10 @@
               <td style="cursor: pointer" (click)="getEmpInfo(empInfoModal, incidentDetail?.register_sabun);">{{incidentDetail?.register_nm}} / {{incidentDetail?.register_date}}</td>
             </tr>
             <tr>
+              <th class="bg-muted">등록번호</th>
+              <td colspan="3">{{incidentDetail?.register_num}}</td>
+            </tr>
+            <tr>
               <th class="bg-muted">제목</th>
               <td colspan="3">{{incidentDetail?.title}}</td>
             </tr>
