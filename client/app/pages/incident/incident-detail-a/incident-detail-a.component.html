@@ -41,9 +41,15 @@
                 <b *ngIf="incidentDetail?.status_cd == 4" class="label label-purple">{{incidentDetail?.status_nm}}</b>
                 <b *ngIf="incidentDetail?.status_cd == 5" class="label label-info">{{incidentDetail?.status_nm}}</b>
                 <b *ngIf="incidentDetail?.status_cd == 9" class="label label-info">{{incidentDetail?.status_nm}}</b>
+            </span>   
+          </div>
+          <div class="col-lg-12">
+            <span class="float-right">
+              <b>등록번호 : {{incidentDetail?.register_num}}</b>
             </span>
           </div>
         </div>
+        <br/>
         <div class="row">
           <div class="col-lg-3">
             <h5 class="m-t-30 text-primary-svc">
