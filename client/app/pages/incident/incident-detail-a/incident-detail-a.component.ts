@@ -31,6 +31,13 @@ export class IncidentDetailAComponent implements OnInit {
     ngOnInit() {
         //console.log("incidentDetail",JSON.stringify(this.incidentDetail));
         //console.log("incidentDetail",this.incidentDetail.attach_file.length);
+        /*
+            220622_김선재 : this.incidentDetail.doc_info undefined error 처리
+            - undefined 일 경우 초기화
+        */
+        if(typeof this.incidentDetail.doc_info == "undefined") {
+            this.incidentDetail.doc_info = {};
+        }
     }
 
     /**
