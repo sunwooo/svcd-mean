@@ -486,7 +486,12 @@ module.exports = {
                 */
                 var userInfo = JSON.parse(user);
 
-                if(userInfo.code =="200"){ 
+                /*
+                  220622_김선재 : 그룹웨어 API 결과값이 없는 경우 JSON.parse 오류
+                  - Line 496: var obj2 = JSON.parse(obj1); //오류
+                  - 그룹웨어 API 결과값 존재여부에 대한 조건 변경
+                */
+                if(userInfo.message != "검색된 사용자가 없습니다."){
                   var obj1 = JSON.stringify(userInfo.value).replace("[","").replace("]","");
                   var obj2 = JSON.parse(obj1);
                 
@@ -499,9 +504,12 @@ module.exports = {
                   var office_num = obj2.User.OfficeTel;
                   var hp_num = obj2.User.MobileTel;
                   var email = obj2.User.Email;
+
+                  user = [{"employee_nm": emp_nm,"company_cd":company_cd,"company_nm":company_nm,"dept_cd":dept_cd,"dept_nm":dept_nm,"position_nm":position_nm,"office_tel_no":office_num,"hp_telno":hp_num,"email":email}];
+                }else {
+                  user = null;
                 }
-                user = [{"employee_nm": emp_nm,"company_cd":company_cd,"company_nm":company_nm,"dept_cd":dept_cd,"dept_nm":dept_nm,"position_nm":position_nm,"office_tel_no":office_num,"hp_telno":hp_num,"email":email}];
-              
+                
                 res.json(mergeUser(user, userData));
 
                 
