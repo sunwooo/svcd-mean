@@ -49,28 +49,36 @@ function createOrCondition(req){
         if (searchTypes.indexOf("title") > -1) {
             OrQueries.push({
                 title: {
-                    $regex: new RegExp(req.query.searchText, "i")
+                    /* 220622_김선재 : 정규표현식 Like 검색 미작동 건 수정 */
+                    // $regex: new RegExp(req.query.searchText, "i")
+                    $regex: req.query.searchText
                 }
             });
         }
         if (searchTypes.indexOf("content") > -1) {
             OrQueries.push({
                 content: {
-                    $regex: new RegExp(req.query.searchText, "i")
+                    /* 220622_김선재 : 정규표현식 Like 검색 미작동 건 수정 */
+                    // $regex: new RegExp(req.query.searchText, "i")
+                    $regex: req.query.searchText
                 }
             });
         }
         if (searchTypes.indexOf("request_nm") > -1) {
             OrQueries.push({
                 request_nm: {
-                    $regex: new RegExp(req.query.searchText, "i")
+                    /* 220622_김선재 : 정규표현식 Like 검색 미작동 건 수정 */
+                    // $regex: new RegExp(req.query.searchText, "i")
+                    $regex: req.query.searchText
                 }
             });
         }
         if (searchTypes.indexOf("manager_nm") > -1) {
             OrQueries.push({
                 manager_nm: {
-                    $regex: new RegExp(req.query.searchText, "i")
+                    /* 220622_김선재 : 정규표현식 Like 검색 미작동 건 수정 */
+                    // $regex: new RegExp(req.query.searchText, "i")
+                    $regex: req.query.searchText
                 }
             });
         }
