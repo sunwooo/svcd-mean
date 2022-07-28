@@ -112,13 +112,13 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-lg-7 col-sm-12">
-                                <mat-form-field class="mat-form-field3">
+                            <div class="col-lg-6 col-sm-12">
+                                <mat-form-field class="mat-form-field2">
                                     <input matInput
-                                        [(ngModel)]="searchText"
-                                        name="searchText"
-                                        type="input" 
-                                        placeholder="검색어"
+                                    [(ngModel)]="searchText"
+                                    name="searchText"
+                                    type="input" 
+                                    placeholder="검색어"
                                     >
                                 </mat-form-field>
                             </div>
@@ -127,6 +127,10 @@
                                     <span>조회</span>
                                     <i class="fa fa-search m-r-5"></i>
                                 </button>
+                            </div>
+                            <!-- 220728_김선재 : "긴급" 조회조건 추가 -->
+                            <div class="col-lg-1 col-sm-12 pl-0 pt-2 d-flex justify-content-start">
+                                <mat-checkbox [(ngModel)]="urgent" name="urgent" (change)="onUrgentChecked()">긴급</mat-checkbox>
                             </div>
                         </div>
 
