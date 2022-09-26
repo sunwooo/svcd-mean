@@ -31,8 +31,8 @@ module.exports = {
 
         var condition = {};
         // condition.higher_cd = 'H008'; //OPTI-HR 코드
-        
-        if(req.query.higher_cd == 'H008' || req.query.higher_cd == 'H028' || req.query.higher_cd == 'H030'){
+        // 2022-09-26 PSW SAP ERP 상위업무 추가
+        if(req.query.higher_cd == 'H008' || req.query.higher_cd == 'H028' || req.query.higher_cd == 'H030' || req.query.higher_cd == 'H010'){
             condition.higher_cd = req.query.higher_cd;
         }else {
             condition.higher_cd = ''
