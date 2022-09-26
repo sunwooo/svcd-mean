@@ -571,6 +571,24 @@ module.exports = {
                 //수정 끝
 
             });
+
+            /*
+              220728_김선재 : "긴급" 조회조건 추가
+            */
+            var urgentYn;
+            if(req.query.urgent != null && req.query.urgent == "true") {
+
+              if (search.findIncident.$and == null) {
+                search.findIncident.$and = [{
+                  "process_speed": "Y"
+                }];
+              }else {
+                search.findIncident.$and.push({
+                  "process_speed": "Y"
+                });
+              }
+            }
+
           }
         },
         function (callback) {

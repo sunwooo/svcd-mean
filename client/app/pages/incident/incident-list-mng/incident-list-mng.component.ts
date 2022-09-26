@@ -88,6 +88,11 @@ export class IncidentListMngComponent implements OnInit, AfterViewInit, OnDestro
     //public searchType = ['title','content'];//검색구분
     public searchType = 'title,content';//검색구분
 
+    /*
+        220728_김선재 : "긴급" 조회조건 추가
+    */
+    public urgent: boolean = false;
+
     public searchTypeObj = [
         { name: '제목', id: 'title' },
         { name: '내용', id: 'content' },
@@ -201,6 +206,14 @@ export class IncidentListMngComponent implements OnInit, AfterViewInit, OnDestro
         );
     }
 
+    /* 
+        220728_김선재 : "긴급" 조회조건 추가 
+        - 체크박스 체크시 목록 조회
+    */
+    onUrgentChecked() {
+        this.getIncident();
+    }
+
     /**
      * incident 조회
      */
@@ -222,6 +235,8 @@ export class IncidentListMngComponent implements OnInit, AfterViewInit, OnDestro
             this.formData.reg_date_to = this.reg_date_to.format('YYYY-MM-DD');
         this.formData.searchType = this.searchType;
         this.formData.searchText = this.searchText;
+        /* 220728_김선재 : "긴급" 조회조건 추가 */
+        this.formData.urgent = this.urgent;
 
         this.isLoading = true;
         this.incidentService.getIncident(this.formData).subscribe(
