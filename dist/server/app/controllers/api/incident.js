@@ -666,10 +666,7 @@ module.exports = {
    */
   excelData: (req, res, next) => {
 
-    console.log("aaabbbCCC");
     var search = service.createSearch(req);
-
-    console.log("111 : " + JSON.stringify(search.findIncident));
 
     var page = 1;
     var perPage = 10000;
@@ -781,8 +778,7 @@ module.exports = {
                 처리구분 : '$process_nm',
                 programID : '$program_id',
                 //내부공유사항: '$sharing_content'
-                등록번호: '$register_num',
-                만족도 : '$valuation' 
+                등록번호: '$register_num'
                 
               };
         }
