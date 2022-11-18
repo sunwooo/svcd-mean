@@ -779,7 +779,6 @@ module.exports = {
                 programID : '$program_id',
                 //내부공유사항: '$sharing_content'
                 등록번호: '$register_num'
-                
               };
         }
 
