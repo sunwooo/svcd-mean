@@ -778,7 +778,7 @@ module.exports = {
                 처리구분 : '$process_nm',
                 programID : '$program_id',
                 //내부공유사항: '$sharing_content'
-                등록번호: '$register_num'
+                등록번호: '$register_num' 
                 
               };
         }
