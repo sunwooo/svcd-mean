@@ -1,6 +1,6 @@
 {
     "port": 443,
-    "port_80": 3000,
+    "port_80": 80,
     "companyName": "ISU SYSTEM, Inc.",
     "projectName": "SERVICE DESK",
     "systemEmail": "hilee.em@gmail.com",
@@ -38,12 +38,12 @@
         "directory":"upload-file-summernote"
     },
     "groupware":{
-        "uri":"http://gw.isu.co.kr"
+        "uri":"http://gwa.isu.co.kr"
     },
     "msgAlimi":{
         "uri":"http://175.119.100.144:8089"
     },
     "corsOrigin":[
-        "http://localhost:4200"
+        "http://sd.isusystem.co.kr:80"
     ]
 }
