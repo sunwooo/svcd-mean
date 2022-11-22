@@ -68,12 +68,12 @@ module.exports = {
         html: html
     },function(err,res){
         if (err) {
-            /*
+            
             console.log("config.mailer.user : ", + config.mailer.user);
             console.log("receiver : ", + receiver);
             console.log("mailTitle : ", + mailTitle);
             console.log("html: ", + html);
-            */
+            
             console.log("receiveSend mail err : ", + err);
             console.log("receiveSend mail res : ", + res);
             
@@ -164,12 +164,12 @@ module.exports = {
             html: html
         },function(err,res){
             if (err) {
-                /*
+                
                 console.log("config.mailer.user : ", + config.mailer.user);
                 console.log("receiver : ", + receiver);
                 console.log("mailTitle : ", + mailTitle);
                 console.log("html: ", + html);
-                */
+                
                 console.log("finishSend mail err : ", + err);
                 console.log("finishSend mail res : ", + res);
                 
