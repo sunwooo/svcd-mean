@@ -149,7 +149,7 @@ module.exports = {
                                             }
                                         });
                                     }
-
+                                    
                                     //2022-05-25 PSW 메일 알림 추가
                                     if(targetUser[i].manager[0].email_send_yn == "Y"){
                                         console.log("###########alimi 1 ############");
@@ -187,7 +187,7 @@ module.exports = {
                                             console.log("Server is ready to take our messages");
                                         }
                                         });
-
+                                        
                                         transporter.sendMail({
                                             from: CONFIG.mailer.user,
                                             to: receiver,
@@ -205,6 +205,7 @@ module.exports = {
                                     }else{
                                         console.log("###########alimi 2 ############");
                                     }
+                                    
                                     
                                 }else{
                                     //logger.debug("=============================================");
