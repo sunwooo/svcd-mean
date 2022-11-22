@@ -61,7 +61,6 @@ module.exports = {
     }
     });
 
-    //오류 발생 부분 수정중 
     transporter.sendMail({
         from: config.mailer.user,
         to: receiver,
@@ -69,10 +68,12 @@ module.exports = {
         html: html
     },function(err,res){
         if (err) {
+            /*
             console.log("config.mailer.user : ", + config.mailer.user);
             console.log("receiver : ", + receiver);
             console.log("mailTitle : ", + mailTitle);
             console.log("html: ", + html);
+            */
             console.log("receiveSend mail err : ", + err);
             console.log("receiveSend mail res : ", + res);
             
@@ -119,6 +120,9 @@ module.exports = {
 
     //완료메일
     finishSend: (req, req2, res, next) => {
+
+        console.log("finishSend mail : ");
+
         
         var receiver = req.request_nm + " <" + req.request_id + ">";
         var mailTitle = "[서비스데스크 완료 처리] " + req.title;
@@ -145,25 +149,54 @@ module.exports = {
     
         transporter.verify(function (error, success) {
         if (error) {
-            console.log(error);
+            console.log("error >>>>>>>>" + error);
         } else {
             console.log("Server is ready to take our messages");
         }
         });
     
         transporter.sendMail({
-            from: receiver,
-            to: req.request_id,
+            //from: receiver,
+            //to: req.request_id,
+            from: config.mailer.user,
+            to: receiver,
             subject: mailTitle,
             html: html
         },function(err,res){
             if (err) {
+                /*
+                console.log("config.mailer.user : ", + config.mailer.user);
+                console.log("receiver : ", + receiver);
+                console.log("mailTitle : ", + mailTitle);
+                console.log("html: ", + html);
+                */
                 console.log("finishSend mail err : ", + err);
                 console.log("finishSend mail res : ", + res);
+                
                 
             }
             transporter.close();
         });
+        /*
+        transporter.sendMail({
+            from: config.mailer.user,
+            to: receiver,
+            subject: mailTitle,
+            html: html
+        },function(err,res){
+            if (err) {
+                console.log("config.mailer.user : ", + config.mailer.user);
+                console.log("receiver : ", + receiver);
+                console.log("mailTitle : ", + mailTitle);
+                console.log("html: ", + html);
+                console.log("receiveSend mail err : ", + err);
+                console.log("receiveSend mail res : ", + res);
+                
+            }
+            transporter.close();
+        });
+        */
+
         //수정 끝
     },
 
@@ -211,8 +244,11 @@ module.exports = {
         });
     
         transporter.sendMail({
-            from: receiver,
-            to: req.request_id,
+            //PSW 2022-11-22 from-to 추가수정 
+            //from: receiver,
+            //to: req.request_id,
+            from: req.request_id,
+            to: receiver,
             subject: mailTitle,
             html: html
         },function(err,res){
